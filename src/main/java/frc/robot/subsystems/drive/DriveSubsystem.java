@@ -15,7 +15,6 @@ import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -42,25 +41,27 @@ public class DriveSubsystem extends SubsystemBase {
         m_odometry = new SwerveDriveOdometry(Constants.DriveConstants.swerveKinematics, getYaw(), getModulePositions());
     }
 
-    public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
+    public void drive(double vx, double vy, double rotation, boolean fieldRelative, boolean isOpenLoop) {
         SwerveModuleState[] swerveModuleStates =
             Constants.DriveConstants.swerveKinematics.toSwerveModuleStates(
-                fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
-                                    translation.getX(), 
-                                    translation.getY(), 
-                                    rotation, 
-                                    getYaw()
-                                )
-                                : new ChassisSpeeds(
-                                    translation.getX(), 
-                                    translation.getY(), 
-                                    rotation)
-                                );
+                //fieldRelative ? 
+                ChassisSpeeds.fromFieldRelativeSpeeds(
+                                    vx * Constants.DriveConstants.maxSpeed, 
+                                    vy * Constants.DriveConstants.maxSpeed, 
+                                    rotation * Constants.DriveConstants.maxAngularVelocity, 
+                                    getYaw()));
+                                //)
+                                //: new ChassisSpeeds(
+                                //     vx * Constants.DriveConstants.maxSpeed, 
+                                //     vy * Constants.DriveConstants.maxSpeed, 
+                                //     rotation * Constants.DriveConstants.maxAngularVelocity)
+                                // );
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.DriveConstants.maxSpeed);
 
-        for(SwerveModule mod : mSwerveMods){
-            mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
-        }
+        setModuleStates(swerveModuleStates);
+        // for(SwerveModule mod : mSwerveMods){
+        //     mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
+        // }
     }    
     public void stopDrive(){
         SwerveModuleState[] swerveModuleStates =

@@ -22,17 +22,18 @@ public class RobotContainer {
   private final CommandXboxController m_driverController =
       new CommandXboxController(0);
 
-  private final CommandXboxController m_operatorController =
-      new CommandXboxController(1);
+  // private final CommandXboxController m_operatorController =
+  //     new CommandXboxController(1);
 
   private final DriveSubsystem m_drive = new DriveSubsystem();
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
     m_drive.setDefaultCommand(new TeleopSwerve(m_drive, 
-                                              () -> m_driverController.getLeftY(), 
                                               () -> m_driverController.getLeftX(), 
+                                              () -> m_driverController.getLeftY(), 
                                               () -> m_driverController.getRightX(), 
                                               false));
   }

@@ -10,6 +10,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import frc.robot.util.COTSFalconSwerveConstants;
+import frc.robot.util.Conversions;
 import frc.robot.util.Gains;
 import frc.robot.util.SwerveModuleConstants;
 /**
@@ -40,7 +41,8 @@ public final class Constants {
     public static final int BACK_LEFT_MODULE_STEER_ENCODER = 11; 
     public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 12; 
 
-    public static final int PIGEON2 = 13;
+    //change to 13 later
+    public static final int PIGEON2 = 20;
 
     public static final int LOWER_JOINT_MOTOR = 14;
     public static final int UPPER_JOINT_MOTOR = 15;
@@ -48,38 +50,38 @@ public final class Constants {
   }
   
   public static final class DriveConstants{
+
     public static final double kDeadBand = 0.2;
-    public static final boolean PRACTICE = true;
 
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 105.7;
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 289.2;
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 140.1; 
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 98.3;
 
-    // Limelight auto aim X-axis target tolerance. This is the number of degrees
-    // from perfect center that the robot will consider the BasicLimelightAim
-    // command "finished".
-    public static final double LIMELIGHT_X_TOLERANCE = 1.0;
+    //Mod 0
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 282.66;
+    //Mod 1
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 111.80;
+    //Mod 2
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 320.63; 
+    //Mod 3
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 277.99;
 
-    // Maximum Limelight auto-aim rotation velocity in radians per second.
-    public static final double LIMELIGHT_X_VELOCITY_LIMIT = 0.5;
 
-    // Limelight auto-aim X-axis P-gain.
-    public static final double LIMELIGHT_X_P = 10.0;
-
-        
-    public static final double precisionSpeed = 0.25;
-
-    //meters per second
-    public static final double SimpleAutoVelocity = 1.0;
     public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
 
+    //Tailgate (For Testing)
     public static final COTSFalconSwerveConstants chosenModule =  
         COTSFalconSwerveConstants.SDSMK4(COTSFalconSwerveConstants.driveGearRatios.SDSMK4_L2);
 
+    //2023 Robot
+    // public static final COTSFalconSwerveConstants chosenModule =  
+    // COTSFalconSwerveConstants.SDSMK4i(COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L2);
+
     /* Drivetrain Constants */
-    public static final double trackWidth = 0.5334; 
-    public static final double wheelBase = 0.5334; 
+    //Tailgate (For testing)
+    public static final double trackWidth = Conversions.inchesToMeters(28.0); 
+    public static final double wheelBase = Conversions.inchesToMeters(28.0); 
+    //2023 Robot
+    // public static final double trackWidth = Conversions.inchesToMeters(26.0); 
+    // public static final double wheelBase = Conversions.inchesToMeters(26.0); 
+
     public static final double wheelCircumference = chosenModule.wheelCircumference;
 
     
@@ -171,7 +173,7 @@ public final class Constants {
     public static final class Mod2 { 
         public static final int driveMotorID = CanConstants.BACK_LEFT_MODULE_DRIVE_MOTOR;
         public static final int angleMotorID = CanConstants.BACK_LEFT_MODULE_STEER_MOTOR;
-        public static final int canCoderID = CanConstants.BACK_RIGHT_MODULE_STEER_ENCODER;
+        public static final int canCoderID = CanConstants.BACK_LEFT_MODULE_STEER_ENCODER;
         public static final Rotation2d angleOffset = Rotation2d.fromDegrees(BACK_RIGHT_MODULE_STEER_OFFSET);
         public static final SwerveModuleConstants constants = 
             new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
@@ -179,9 +181,9 @@ public final class Constants {
 
     /* Back Right Module - Module 3 */
     public static final class Mod3 { 
-        public static final int driveMotorID = CanConstants.BACK_LEFT_MODULE_DRIVE_MOTOR;
-        public static final int angleMotorID = CanConstants.BACK_LEFT_MODULE_STEER_MOTOR;
-        public static final int canCoderID = CanConstants.BACK_LEFT_MODULE_STEER_ENCODER;
+        public static final int driveMotorID = CanConstants.BACK_RIGHT_MODULE_DRIVE_MOTOR;
+        public static final int angleMotorID = CanConstants.BACK_RIGHT_MODULE_STEER_MOTOR;
+        public static final int canCoderID = CanConstants.BACK_RIGHT_MODULE_STEER_ENCODER;
         public static final Rotation2d angleOffset = Rotation2d.fromDegrees(BACK_LEFT_MODULE_STEER_OFFSET);
         public static final SwerveModuleConstants constants = 
             new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);

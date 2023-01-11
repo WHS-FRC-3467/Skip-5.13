@@ -1,13 +1,11 @@
 package frc.robot.subsystems.drive;
 
-import frc.robot.Constants;
-import frc.robot.Constants.DriveConstants;
 
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.DriveConstants;
 
 
 public class TeleopSwerve extends CommandBase {    
@@ -35,8 +33,9 @@ public class TeleopSwerve extends CommandBase {
 
         /* Drive */
         m_drive.drive(
-            new Translation2d(xVal, yVal).times(Constants.DriveConstants.maxSpeed), 
-            rotationVal * Constants.DriveConstants.maxAngularVelocity, 
+            xVal, 
+            yVal, 
+            rotationVal, 
             m_robotCentric, 
             true
         );
