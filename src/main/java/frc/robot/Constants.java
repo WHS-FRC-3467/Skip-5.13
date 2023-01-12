@@ -48,7 +48,16 @@ public final class Constants {
     public static final int UPPER_JOINT_MOTOR = 15;
 
   }
-  
+  public static final class DIOConstants{
+    public static final int UPPER_ENCODER_A = 0;
+    public static final int UPPER_ENCODER_B = 1;
+    public static final int UPPER_ENCODER_ABS =2;
+
+    public static final int LOWER_ENCODER_A = 3;
+    public static final int LOWER_ENCODER_B = 4;
+    public static final int LOWER_ENCODER_ABS = 5;
+
+  }
   public static final class DriveConstants{
 
     public static final double kDeadBand = 0.2;
@@ -223,6 +232,9 @@ public final class Constants {
     public static final int kCurveSmoothingUpper = 0;  /* Valid values: 0 -> 8 */
     public static final int kToleranceUpper = 500;
 
-
+    public static final double kDutyCycleMin = 1.0/1025.0;
+    public static final double kDutyCycleMax = 1.0/1025.0;
+    public static final int kFrequency = 976;
+    public static final double kPeriod = 1025;
   }
 }
