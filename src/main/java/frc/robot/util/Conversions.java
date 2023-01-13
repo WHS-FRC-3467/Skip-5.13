@@ -103,21 +103,4 @@ public class Conversions {
     public static double MetersToFalcon(double meters, double circumference, double gearRatio){
         return meters / (circumference / (gearRatio * 2048.0));
     }
-    /**
-     * 
-     * @param inches inches
-     * @return Meters
-     */
-    public static double inchesToMeters(double inches){
-        return inches * 0.0254;
-    }
-
-    /**
-     * 
-     * @param meters meters
-     * @return inches
-     */
-    public static double metersToInches(double meters){
-        return meters * 39.37;
-    }
 }

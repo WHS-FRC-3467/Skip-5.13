@@ -9,8 +9,8 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.util.Units;
 import frc.robot.util.COTSFalconSwerveConstants;
-import frc.robot.util.Conversions;
 import frc.robot.util.Gains;
 import frc.robot.util.SwerveModuleConstants;
 /**
@@ -58,20 +58,19 @@ public final class Constants {
     public static final int LOWER_ENCODER_ABS = 5;
 
   }
-  public static final class DriveConstants{
+  public static final class Swerve{
 
     public static final double kDeadBand = 0.2;
 
 
     //Mod 0
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 282.66;
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 105.7;
     //Mod 1
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 111.80;
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 289.2;
     //Mod 2
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 320.63; 
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 140.1; 
     //Mod 3
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 277.99;
-
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 98.3;
 
     public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
 
@@ -85,8 +84,8 @@ public final class Constants {
 
     /* Drivetrain Constants */
     //Tailgate (For testing)
-    public static final double trackWidth = Conversions.inchesToMeters(28.0); 
-    public static final double wheelBase = Conversions.inchesToMeters(28.0); 
+    public static final double trackWidth = Units.inchesToMeters(21.0); 
+    public static final double wheelBase = Units.inchesToMeters(21.0); 
     //2023 Robot
     // public static final double trackWidth = Conversions.inchesToMeters(26.0); 
     // public static final double wheelBase = Conversions.inchesToMeters(26.0); 

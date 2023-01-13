@@ -28,7 +28,7 @@ public class RobotContainer {
 
   private final DriveSubsystem m_drive = new DriveSubsystem();
 
-  private final ArmSubsystem m_arm = new ArmSubsystem();
+  // private final ArmSubsystem m_arm = new ArmSubsystem();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -38,7 +38,7 @@ public class RobotContainer {
                                               () -> m_driverController.getLeftX(), 
                                               () -> m_driverController.getLeftY(), 
                                               () -> m_driverController.getRightX(), 
-                                              false));
+                                              m_driverController.leftStick()));
   }
 
   /**
