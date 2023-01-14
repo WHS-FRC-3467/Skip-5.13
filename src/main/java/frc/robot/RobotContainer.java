@@ -4,10 +4,13 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.arm.ArmSubsystem;
+import frc.robot.subsystems.arm.RunArmFromDashboard;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.TeleopSwerve;
 
@@ -28,8 +31,9 @@ public class RobotContainer {
 
   private final DriveSubsystem m_drive = new DriveSubsystem();
 
-  // private final ArmSubsystem m_arm = new ArmSubsystem();
+  private final ArmSubsystem m_arm = new ArmSubsystem();
 
+  private final SendableChooser<String> m_armModeChooser = new SendableChooser<>();
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
@@ -39,6 +43,15 @@ public class RobotContainer {
                                               () -> m_driverController.getLeftY(), 
                                               () -> m_driverController.getRightX(), 
                                               m_driverController.leftStick()));
+    //"LowerPID", "LowerMM", "UpperPID", "UpperMM"
+    if(Constants.tuningMode){
+      m_armModeChooser.addOption("Lower Joint PID", "LowerPID");
+      m_armModeChooser.addOption("Upper Joint PID", "UpperPID");
+      m_armModeChooser.addOption("Lower Joint Motion Magic", "LowerMM");
+      m_armModeChooser.addOption("Upper Joint Motion Magic", "UpperMM");
+      m_armModeChooser.setDefaultOption("Lower Joint PID", "LowerPID");
+      SmartDashboard.putData("Set Lower Joint PID", new RunArmFromDashboard(m_armModeChooser.getSelected(), m_arm));
+    }                                  
   }
 
   /**

@@ -199,8 +199,8 @@ public final class Constants {
   }
 
   public static final class ArmConstants{
-    public static final  Gains kGainsUpperJoint = new Gains( 0.5, 0.0, 0.01, .05, 100, 1.00 );
-    public static final  Gains kGainsLowerJoint  = new Gains( 0.2, 0.0, 0.0, 0.0, 200, 1.00 );
+    public static final  Gains kGainsUpperJoint = new Gains( 0.0, 0.0, 0.0, 0.0, 50, 1.00 );
+    public static final  Gains kGainsLowerJoint  = new Gains( 0.0, 0.0, 0.0, 0.0, 50, 1.00 );
 
     /* Motor neutral dead-band : Range 0.001 -> 0.25 */
 	  public static final double kNeutralDeadband = 0.001;
@@ -235,5 +235,9 @@ public final class Constants {
     public static final double kDutyCycleMax = 1.0/1025.0;
     public static final int kFrequency = 976;
     public static final double kPeriod = 1025;
+
+    public static final double kEncoderDistancePerPulse =  (2.0 * Math.PI / 8192);
+    public static final double kMotionAcclerationLower = 0;
+
   }
 }

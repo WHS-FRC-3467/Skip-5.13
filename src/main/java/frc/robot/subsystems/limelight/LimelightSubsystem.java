@@ -5,38 +5,90 @@
 package frc.robot.subsystems.limelight;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.shuffleboard.SendableCameraWrapper;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.HttpCamera;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class LimelightSubsystem extends SubsystemBase {
-  /** Creates a new LimelightSubsystem. */
+  /** Creates a new LimelightSubsystem. */  
   NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
   NetworkTableEntry tx = table.getEntry("tx");
   NetworkTableEntry ty = table.getEntry("ty");
   NetworkTableEntry ta = table.getEntry("ta");
+  NetworkTableEntry tv = table.getEntry("tv");
 
-  HttpCamera limelight = new HttpCamera("limelight", "http://limelight.local:5809/stream.mjpg");
+  public static HttpCamera m_limelight;
+
   public LimelightSubsystem() {
-    limelight.setResolution(320, 240);
-    limelight.setFPS(90);
-    CameraServer.addCamera(limelight);
-    CameraServer.putVideo("limelight", 320, 240);
+    m_limelight = new HttpCamera("limelight", "http://limelight.local:5809/stream.mjpg");
+    m_limelight.setResolution(320, 240);
+    m_limelight.setFPS(90);
+    CameraServer.addCamera(m_limelight);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     //read values periodically
-    double x = tx.getDouble(0.0);
-    double y = ty.getDouble(0.0);
-    double area = ta.getDouble(0.0);
+    SmartDashboard.putData(SendableCameraWrapper.wrap(m_limelight));
+  }
+  
+  public double getX(){
+    return table.getEntry("tx").getDouble(0.0);
+  }
+  public double getY(){
+    return table.getEntry("ty").getDouble(0.0);
+  }
 
-    SmartDashboard.putNumber("LimelightX", x);
-    SmartDashboard.putNumber("LimelightY", y);
-    SmartDashboard.putNumber("LimelightArea", area);
+  public double getArea(){
+    return table.getEntry("ta").getDouble(0.0);
+  }
+
+  public double getSkew(){
+    return table.getEntry("ts").getDouble(0.0);
+  }
+
+  public double getShortLength(){
+    return table.getEntry("tshort").getDouble(0.0);
+  }
+
+  public double getLongLength(){
+    return table.getEntry("tlong").getDouble(0.0);
+  }
+
+  public double getHorizantalLength(){
+    return table.getEntry("thor").getDouble(0.0);
+  }
+
+  public double getVerticalLength(){
+    return table.getEntry("tvert").getDouble(0.0);
+  }
+
+  public Pose2d getCamTran(){
+    double[] camtran = table.getEntry("camtran").getDoubleArray(new double[]{});
+    double x = camtran[0];
+    double y = camtran[1];
+    double yaw = camtran[4];
+    return new Pose2d(new Translation2d(x,y), new Rotation2d(yaw));
+  }
+
+  public boolean hasTarget(){
+    return table.getEntry("tv").getDouble(0.0) == 1;
+  }
+
+  /**
+   * @param piplineNumber driver = 0, aprilTags = 1, retrorRflective = 2
+   */
+  public void setPipeline(int pipelineNumber){
+    Number numObj = (Number)pipelineNumber;
+    table.getEntry("pipeline").setNumber(numObj);
   }
 }
+
