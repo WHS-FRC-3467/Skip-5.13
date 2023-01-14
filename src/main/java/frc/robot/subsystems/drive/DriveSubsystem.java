@@ -67,10 +67,11 @@ public class DriveSubsystem extends SubsystemBase {
     public void stopDrive(){
         drive(new Translation2d(0, 0), 0, false, true);
     }
+
+
     /* Used by SwerveControllerCommand in Auto */
     public void setModuleStates(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.Swerve.maxSpeed);
-        
         for(SwerveModule mod : mSwerveMods){
             mod.setDesiredState(desiredStates[mod.moduleNumber], false);
         }

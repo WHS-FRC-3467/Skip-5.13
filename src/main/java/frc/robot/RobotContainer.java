@@ -30,8 +30,8 @@ public class RobotContainer {
       new CommandXboxController(1);
 
   private final DriveSubsystem m_drive = new DriveSubsystem();
-
   private final ArmSubsystem m_arm = new ArmSubsystem();
+  private final Pneumatics m_pneumatics =  new Pneumatics();
 
   private final SendableChooser<String> m_armModeChooser = new SendableChooser<>();
   /** The container for the robot. Contains subsystems, OI devices, and commands. */

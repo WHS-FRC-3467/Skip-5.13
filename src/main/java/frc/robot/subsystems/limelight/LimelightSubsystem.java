@@ -5,6 +5,7 @@
 package frc.robot.subsystems.limelight;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.LimelightConstants;
 import edu.wpi.first.wpilibj.shuffleboard.SendableCameraWrapper;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.cameraserver.CameraServer;
@@ -77,6 +78,13 @@ public class LimelightSubsystem extends SubsystemBase {
     double y = camtran[1];
     double yaw = camtran[4];
     return new Pose2d(new Translation2d(x,y), new Rotation2d(yaw));
+  }
+
+  public double getDistanceFromTarget(double targetHeightInches){
+    double angleToGoalDegrees = LimelightConstants.kLimelightMountAngleDegrees + getY();
+    double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
+    //calculate distance
+    return (targetHeightInches - LimelightConstants.kLimelightLensHeightInches)/Math.tan(angleToGoalRadians);
   }
 
   public boolean hasTarget(){

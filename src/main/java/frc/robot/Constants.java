@@ -41,12 +41,16 @@ public final class Constants {
     public static final int BACK_LEFT_MODULE_STEER_ENCODER = 11; 
     public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 12; 
 
-    //change to 13 later
-    public static final int PIGEON2 = 20;
+    public static final int PIGEON2 = 13;
 
     public static final int LOWER_JOINT_MOTOR = 14;
     public static final int UPPER_JOINT_MOTOR = 15;
 
+    public static final int CLAW_MOTOR = 16;
+
+    public static final int LED_CANDLE = 17;
+
+    
   }
   public static final class DIOConstants{
     public static final int UPPER_ENCODER_A = 0;
@@ -56,8 +60,14 @@ public final class Constants {
     public static final int LOWER_ENCODER_A = 3;
     public static final int LOWER_ENCODER_B = 4;
     public static final int LOWER_ENCODER_ABS = 5;
+  }
+  public static final class PHConstants{
+    public static final int CLAW_JOINT_CHANNEL = 0;
+
 
   }
+
+
   public static final class Swerve{
 
     public static final double kDeadBand = 0.2;
@@ -75,20 +85,20 @@ public final class Constants {
     public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
 
     //Tailgate (For Testing)
-    public static final COTSFalconSwerveConstants chosenModule =  
-        COTSFalconSwerveConstants.SDSMK4(COTSFalconSwerveConstants.driveGearRatios.SDSMK4_L2);
+    // public static final COTSFalconSwerveConstants chosenModule =  
+    //     COTSFalconSwerveConstants.SDSMK4(COTSFalconSwerveConstants.driveGearRatios.SDSMK4_L2);
 
     //2023 Robot
-    // public static final COTSFalconSwerveConstants chosenModule =  
-    // COTSFalconSwerveConstants.SDSMK4i(COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L2);
+    public static final COTSFalconSwerveConstants chosenModule =  
+    COTSFalconSwerveConstants.SDSMK4i(COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L2);
 
     /* Drivetrain Constants */
     //Tailgate (For testing)
-    public static final double trackWidth = Units.inchesToMeters(21.0); 
-    public static final double wheelBase = Units.inchesToMeters(21.0); 
+    // public static final double trackWidth = Units.inchesToMeters(21.0); 
+    // public static final double wheelBase = Units.inchesToMeters(21.0); 
     //2023 Robot
-    // public static final double trackWidth = Conversions.inchesToMeters(26.0); 
-    // public static final double wheelBase = Conversions.inchesToMeters(26.0); 
+    public static final double trackWidth = Units.inchesToMeters(18.75); 
+    public static final double wheelBase = Units.inchesToMeters(18.75); 
 
     public static final double wheelCircumference = chosenModule.wheelCircumference;
 
@@ -238,6 +248,36 @@ public final class Constants {
 
     public static final double kEncoderDistancePerPulse =  (2.0 * Math.PI / 8192);
     public static final double kMotionAcclerationLower = 0;
+  }
+
+  public static final class LimelightConstants{
+    //TODO: Tune all
+    public static final Gains kVisionGainsX = new Gains(0.0, 0.0, 0.0, 0.0, 50, 1.0);
+    public static final Gains kVisionGainsY = new Gains(0.0, 0.0, 0.0, 0.0, 50, 1.0);
+
+    public static final double kVisionVelTollerance = 0.5;
+    public static final double kVisionPosTollerance = 0.5;
+
+    // how many degrees back is your limelight rotated from perfectly vertical?
+    public static final double kLimelightMountAngleDegrees = 25.0;
+
+    // distance from the center of the Limelight lens to the floor
+    public static final double kLimelightLensHeightInches = 20.0;
+
+    public static final double kDistanceFromVisionTapeMidConeNodeSetpointIn = 24;
+    public static final double kDistanceFromVisionTapeTopConeNodeSetpointIn = 40;
+    public static final double kDistanceFromGridAprilTag = 14.062222;
+    public static final double kDistanceFromSubstationAprilTag = 5;
+    public static final double kAlignedConeNodeX = 0.0;
+    public static final double kAlignedGridAprilTagX = 0.0;
+    public static final double kAlignedSubstationAprilTagX = 0.0;
+
+
+    // height of vision tape center in inches
+    public static final double kHeightMidConeNodeVisionTape = 24.125;
+    public static final double kHeightOfAprilTagGrid = 18.25;
+    public static final double kHeightOfAprilTagSubstation = 27.375;
+
 
   }
 }
