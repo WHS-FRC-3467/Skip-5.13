@@ -49,8 +49,6 @@ public final class Constants {
     public static final int CLAW_MOTOR = 16;
 
     public static final int LED_CANDLE = 17;
-
-    
   }
   public static final class DIOConstants{
     public static final int UPPER_ENCODER_A = 0;
@@ -206,6 +204,13 @@ public final class Constants {
         public static final SwerveModuleConstants constants = 
             new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
     }
+
+    public static final Gains kSnapGains = new Gains(0.0,0.0,0.0,0.0, 50, 0.0);
+    public static final Gains kBalanceGains = new Gains(0.0,0.0,0.0,0.0, 50, 0.0);
+
+    public static final double kSnapTollerance = 2.0;
+    public static final double kBalanceTollerance = 0.5;
+
   }
 
   public static final class ArmConstants{

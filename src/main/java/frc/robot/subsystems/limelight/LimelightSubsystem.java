@@ -92,7 +92,7 @@ public class LimelightSubsystem extends SubsystemBase {
   }
 
   /**
-   * @param piplineNumber driver = 0, aprilTags = 1, retrorRflective = 2
+   * @param piplineNumber driver = 0, aprilTags = 1, retroreflective = 2
    */
   public void setPipeline(int pipelineNumber){
     Number numObj = (Number)pipelineNumber;

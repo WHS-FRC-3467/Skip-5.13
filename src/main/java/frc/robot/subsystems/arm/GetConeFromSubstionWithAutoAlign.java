@@ -19,7 +19,7 @@ public class GetConeFromSubstionWithAutoAlign extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new SnapToAngle(drive, 0),
+      new SnapToAngle(drive, 180),
       new AlignWithSubstationApril(limelight, drive)
       //Place Cone on Node
     );

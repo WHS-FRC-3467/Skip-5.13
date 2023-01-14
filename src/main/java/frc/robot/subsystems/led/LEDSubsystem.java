@@ -27,6 +27,4 @@ public class LEDSubsystem extends SubsystemBase {
   public void setColor(int r, int g, int b){
     m_candle.setLEDs(r, g, b);
   }
-  
-  
 }

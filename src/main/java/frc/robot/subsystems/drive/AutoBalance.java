@@ -9,31 +9,38 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.Swerve;
 
-public class SnapToAngle extends CommandBase {
-  /** Creates a new SnapToAngle. */
-  double m_angle = 0d;
+public class AutoBalance extends CommandBase {
+  /** Creates a new AutoBalance. */
   DriveSubsystem m_drive;
-  private PIDController m_thetaController;
-  private final double kP = 0.1;
-  private final double kI = 0.0;
-  private final double kD = 0.0;
-
-  public SnapToAngle(DriveSubsystem drive, double angle) {
-    m_angle = angle;
+  PIDController m_thetaController;
+  PIDController m_balanceController;
+  boolean m_angled, m_balanced, m_end;
+  double m_angle;
+  public AutoBalance(DriveSubsystem drive) {
     m_drive = drive;
     addRequirements(m_drive);
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_balanceController = new PIDController(Swerve.kBalanceGains.kP, Swerve.kBalanceGains.kI, Swerve.kBalanceGains.kD);
+    m_balanceController.setTolerance(Swerve.kBalanceTollerance);
+
     m_thetaController = new PIDController(Swerve.kSnapGains.kP, Swerve.kSnapGains.kI, Swerve.kSnapGains.kD);
-    
-    if (m_angle > 180) m_angle -= 360;
+    m_thetaController.setTolerance(Swerve.kSnapTollerance);
+
     double gyroAngle = m_drive.getYaw().getDegrees() % 360;
     gyroAngle +=  (gyroAngle > 180) ? -360 : 360;
 
+    if(gyroAngle>=270 || gyroAngle<=90){
+      m_angle = 0;
+    }
+    else{
+      m_angle = 180;
+    }
+
+    if (m_angle > 180) m_angle -= 360;
     // Math to find shortest path
     double angleDiff = m_angle - gyroAngle;
 
@@ -43,15 +50,29 @@ public class SnapToAngle extends CommandBase {
       } 
       m_angle += 360;
     }
+    m_end = false;
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double gyroAngle = m_drive.getYaw().getDegrees() % 360;
-    if (gyroAngle > 180) gyroAngle = 360 - gyroAngle;
+    if(m_thetaController.atSetpoint() == false){
+      double gyroAngle = m_drive.getYaw().getDegrees() % 360;
+      if (gyroAngle > 180) gyroAngle = 360 - gyroAngle;
+  
+      m_drive.drive(new Translation2d(0,0), m_thetaController.calculate(gyroAngle, -m_angle), true, true);  
 
-    m_drive.drive(new Translation2d(0,0), m_thetaController.calculate(gyroAngle, -m_angle), true, true);
+      m_end = false;
+    }
+    else if(m_thetaController.atSetpoint() ==true && m_balanceController.atSetpoint() == false){
+
+      m_end = false;
+    }
+    else if(m_thetaController.atSetpoint() ==true && m_balanceController.atSetpoint() == true){
+      m_end = true;
+    }
+
 
   }
 
@@ -64,6 +85,6 @@ public class SnapToAngle extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_thetaController.atSetpoint();
+    return m_end;
   }
 }

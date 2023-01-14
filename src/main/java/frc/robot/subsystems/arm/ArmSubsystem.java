@@ -195,6 +195,7 @@ public class ArmSubsystem extends SubsystemBase {
   public double getUpperJointRPM(){
     return m_upperEncoderRel.getRate();
   }
+  
   public double getlowerJointRPM(){
     return m_lowerEncoderRel.getRate();
   }
