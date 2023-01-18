@@ -7,7 +7,7 @@ package frc.robot.subsystems.drive;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.Swerve;
+import frc.robot.Constants.SwerveConstants;
 
 public class AutoBalance extends CommandBase {
   /** Creates a new AutoBalance. */
@@ -24,11 +24,11 @@ public class AutoBalance extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_balanceController = new PIDController(Swerve.kBalanceGains.kP, Swerve.kBalanceGains.kI, Swerve.kBalanceGains.kD);
-    m_balanceController.setTolerance(Swerve.kBalanceTollerance);
+    m_balanceController = new PIDController(SwerveConstants.GAINS_BALANCE.kP, SwerveConstants.GAINS_BALANCE.kI, SwerveConstants.GAINS_BALANCE.kD);
+    m_balanceController.setTolerance(SwerveConstants.BALANCE_TOLLERANCE);
 
-    m_thetaController = new PIDController(Swerve.kSnapGains.kP, Swerve.kSnapGains.kI, Swerve.kSnapGains.kD);
-    m_thetaController.setTolerance(Swerve.kSnapTollerance);
+    m_thetaController = new PIDController(SwerveConstants.GAINS_BALANCE.kP, SwerveConstants.GAINS_BALANCE.kI, SwerveConstants.GAINS_BALANCE.kD);
+    m_thetaController.setTolerance(SwerveConstants.SNAP_TOLLERANCE);
 
     double gyroAngle = m_drive.getYaw().getDegrees() % 360;
     gyroAngle +=  (gyroAngle > 180) ? -360 : 360;

@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 // import frc.robot.Control.XBoxControllerEE;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class Pneumatics extends SubsystemBase{
   /** Creates a new Pneumactics. */
@@ -20,7 +19,9 @@ public class Pneumatics extends SubsystemBase{
 
   double current = phCompressor.getPressure();
 
-  public Pneumatics() {}
+  public Pneumatics() {
+    
+  }
   
   @Override
   public void periodic() {

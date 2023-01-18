@@ -81,10 +81,10 @@ public class LimelightSubsystem extends SubsystemBase {
   }
 
   public double getDistanceFromTarget(double targetHeightInches){
-    double angleToGoalDegrees = LimelightConstants.kLimelightMountAngleDegrees + getY();
+    double angleToGoalDegrees = LimelightConstants.LIMELIGHT_MOUNT_ANGLE_DEGREES + getY();
     double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
     //calculate distance
-    return (targetHeightInches - LimelightConstants.kLimelightLensHeightInches)/Math.tan(angleToGoalRadians);
+    return (targetHeightInches - LimelightConstants.LIMELIGHT_LENS_HEIGHT_INCHES)/Math.tan(angleToGoalRadians);
   }
 
   public boolean hasTarget(){

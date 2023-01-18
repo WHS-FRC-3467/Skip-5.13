@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems.led;
 
-import com.ctre.phoenix.led.Animation;
 import com.ctre.phoenix.led.CANdle;
 import com.ctre.phoenix.led.CANdle.LEDStripType;
 

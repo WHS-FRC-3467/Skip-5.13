@@ -26,23 +26,26 @@ public class RobotContainer {
   private final CommandXboxController m_driverController =
       new CommandXboxController(0);
 
-  private final CommandXboxController m_operatorController =
-      new CommandXboxController(1);
+  // private final CommandXboxController m_operatorController =
+  //     new CommandXboxController(1);
 
   private final DriveSubsystem m_drive = new DriveSubsystem();
   private final ArmSubsystem m_arm = new ArmSubsystem();
-  private final Pneumatics m_pneumatics =  new Pneumatics();
 
   private final SendableChooser<String> m_armModeChooser = new SendableChooser<>();
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
+
+    new Pneumatics();
     configureBindings();
     m_drive.setDefaultCommand(new TeleopSwerve(m_drive, 
                                               () -> m_driverController.getLeftX(), 
                                               () -> m_driverController.getLeftY(), 
                                               () -> m_driverController.getRightX(), 
-                                              m_driverController.leftStick()));
+                                              m_driverController.leftStick(),
+                                              m_driverController.leftBumper(),
+                                              m_driverController.rightBumper()));
     //"LowerPID", "LowerMM", "UpperPID", "UpperMM"
     if(Constants.tuningMode){
       m_armModeChooser.addOption("Lower Joint PID", "LowerPID");

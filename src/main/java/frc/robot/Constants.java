@@ -51,13 +51,9 @@ public final class Constants {
     public static final int LED_CANDLE = 17;
   }
   public static final class DIOConstants{
-    public static final int UPPER_ENCODER_A = 0;
-    public static final int UPPER_ENCODER_B = 1;
-    public static final int UPPER_ENCODER_ABS =2;
+    public static final int LOWER_ENCODER_ARM = 0;
+    public static final int UPPER_ENCODER_ARM = 0;
 
-    public static final int LOWER_ENCODER_A = 3;
-    public static final int LOWER_ENCODER_B = 4;
-    public static final int LOWER_ENCODER_ABS = 5;
   }
   public static final class PHConstants{
     public static final int CLAW_JOINT_CHANNEL = 0;
@@ -66,9 +62,9 @@ public final class Constants {
   }
 
 
-  public static final class Swerve{
+  public static final class SwerveConstants{
 
-    public static final double kDeadBand = 0.2;
+    public static final double DRIVE_DEADBAND = 0.2;
 
 
     //Mod 0
@@ -80,14 +76,14 @@ public final class Constants {
     //Mod 3
     public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 98.3;
 
-    public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
+    public static final boolean INVERT_GYRO = false; // Always ensure Gyro is CCW+ CW-
 
     //Tailgate (For Testing)
     // public static final COTSFalconSwerveConstants chosenModule =  
     //     COTSFalconSwerveConstants.SDSMK4(COTSFalconSwerveConstants.driveGearRatios.SDSMK4_L2);
 
     //2023 Robot
-    public static final COTSFalconSwerveConstants chosenModule =  
+    public static final COTSFalconSwerveConstants CHOSEN_MODULE =  
     COTSFalconSwerveConstants.SDSMK4i(COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L2);
 
     /* Drivetrain Constants */
@@ -95,74 +91,70 @@ public final class Constants {
     // public static final double trackWidth = Units.inchesToMeters(21.0); 
     // public static final double wheelBase = Units.inchesToMeters(21.0); 
     //2023 Robot
-    public static final double trackWidth = Units.inchesToMeters(18.75); 
-    public static final double wheelBase = Units.inchesToMeters(18.75); 
+    public static final double TRACK_WIDTH = Units.inchesToMeters(18.75); 
+    public static final double WHEEL_BASE = Units.inchesToMeters(18.75); 
 
-    public static final double wheelCircumference = chosenModule.wheelCircumference;
+    public static final double WHEEL_CIRCUMFRENCE = CHOSEN_MODULE.wheelCircumference;
 
     
     /* Swerve Kinematics 
      * No need to ever change this unless you are not doing a traditional rectangular/square 4 module swerve */
-     public static final SwerveDriveKinematics swerveKinematics = new SwerveDriveKinematics(
-        new Translation2d(wheelBase / 2.0, trackWidth / 2.0),
-        new Translation2d(wheelBase / 2.0, -trackWidth / 2.0),
-        new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
-        new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
+     public static final SwerveDriveKinematics SWERVE_DRIVE_KINEMATICS = new SwerveDriveKinematics(
+        new Translation2d(WHEEL_BASE / 2.0, TRACK_WIDTH / 2.0),
+        new Translation2d(WHEEL_BASE / 2.0, -TRACK_WIDTH / 2.0),
+        new Translation2d(-WHEEL_BASE / 2.0, TRACK_WIDTH / 2.0),
+        new Translation2d(-WHEEL_BASE / 2.0, -TRACK_WIDTH / 2.0));
 
     /* Module Gear Ratios */
-    public static final double driveGearRatio = chosenModule.driveGearRatio;
-    public static final double angleGearRatio = chosenModule.angleGearRatio;
+    public static final double DRIVE_GEAR_RATIO = CHOSEN_MODULE.driveGearRatio;
+    public static final double ANGLE_GEAR_RATIO = CHOSEN_MODULE.angleGearRatio;
 
     /* Motor Inverts */
-    public static final boolean angleMotorInvert = chosenModule.angleMotorInvert;
-    public static final boolean driveMotorInvert = chosenModule.driveMotorInvert;
+    public static final boolean ANGLE_MOTOR_INVERT = CHOSEN_MODULE.angleMotorInvert;
+    public static final boolean DRIVE_MOTOR_INVERT = CHOSEN_MODULE.driveMotorInvert;
 
     /* Angle Encoder Invert */
-    public static final boolean canCoderInvert = chosenModule.canCoderInvert;
+    public static final boolean CANCODER_INVERT = CHOSEN_MODULE.canCoderInvert;
 
     /* Swerve Current Limiting */
-    public static final int angleContinuousCurrentLimit = 25;
-    public static final int anglePeakCurrentLimit = 40;
-    public static final double anglePeakCurrentDuration = 0.1;
-    public static final boolean angleEnableCurrentLimit = true;
+    public static final int ANGLE_CONTINUOUS_CURRENT_LIMIT = 25;
+    public static final int ANGLE_PEAK_CURRENT_LIMIT = 40;
+    public static final double ANGLE_PEAK_CURRENT_DURATION = 0.1;
+    public static final boolean ANGLE_ENABLE_CURRENT_LIMIT = true;
 
-    public static final int driveContinuousCurrentLimit = 35;
-    public static final int drivePeakCurrentLimit = 60;
-    public static final double drivePeakCurrentDuration = 0.1;
-    public static final boolean driveEnableCurrentLimit = true;
+    public static final int DRIVE_CONTINUOUS_CURRENT_LIMIT = 35;
+    public static final int DRIVE_PEAK_CURRENT_LIMIT = 60;
+    public static final double DRIVE_PEAK_CURRENT_DURATION = 0.1;
+    public static final boolean DRIVE_ENABLE_CURRENT_LIMIT = true;
 
     /* These values are used by the drive falcon to ramp in open loop and closed loop driving.
      * We found a small open loop ramp (0.25) helps with tread wear, tipping, etc */
-    public static final double openLoopRamp = 0.25;
-    public static final double closedLoopRamp = 0.0;
+    public static final double OPEN_LOOP_RAMP = 0.25;
+    public static final double CLOSED_LOOP_RAMP = 0.0;
 
     /* Angle Motor PID Values */
-    public static final double angleKP = chosenModule.angleKP;
-    public static final double angleKI = chosenModule.angleKI;
-    public static final double angleKD = chosenModule.angleKD;
-    public static final double angleKF = chosenModule.angleKF;
-
+    public static final Gains GAINS_ANGLE_MOTOR =new Gains(CHOSEN_MODULE.angleKP, CHOSEN_MODULE.angleKI, CHOSEN_MODULE.angleKD, CHOSEN_MODULE.angleKF, 0.0, 0.0);
+    
     /* Drive Motor PID Values */
-    public static final double driveKP = 0.05; //TODO: This must be tuned to specific robot
-    public static final double driveKI = 0.0;
-    public static final double driveKD = 0.0;
-    public static final double driveKF = 0.0;
+    public static final Gains GAINS_DRIVE_MOTOR = new Gains(0.05, 0.0, 0.0, 0.0, 0, 0);
+    //TODO: This must be tuned to specific robot
 
     /* Drive Motor Characterization Values 
      * Divide SYSID values by 12 to convert from volts to percent output for CTRE */
-    public static final double driveKS = (0.32 / 12); //TODO: This must be tuned to specific robot
-    public static final double driveKV = (1.51 / 12);
-    public static final double driveKA = (0.27 / 12);
+    public static final double DRIVE_KS = (0.32 / 12); //TODO: This must be tuned to specific robot
+    public static final double DRIVE_KV = (1.51 / 12);
+    public static final double DRIVE_KA = (0.27 / 12);
 
     /* Swerve Profiling Values */
     /** Meters per Second */
-    public static final double maxSpeed = 3.0;
+    public static final double MAX_SPEED = 3.0;
+
     /** Radians per Second */
-    public static final double maxAngularVelocity = 10.0;
+    public static final double MAX_ANGULAR_VELOCITY = 10.0;
 
     /* Neutral Modes */
-    public static final NeutralMode angleNeutralMode = NeutralMode.Coast;
-    public static final NeutralMode driveNeutralMode = NeutralMode.Brake;
+    public static final NeutralMode ANGLE_NEUTRAL_MODE = NeutralMode.Coast;
+    public static final NeutralMode DRIVE_NEUTRAL_MODE = NeutralMode.Brake;
 
     /* Module Specific Constants */
     /* Front Left Module - Module 0 */
@@ -205,84 +197,78 @@ public final class Constants {
             new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
     }
 
-    public static final Gains kSnapGains = new Gains(0.0,0.0,0.0,0.0, 50, 0.0);
-    public static final Gains kBalanceGains = new Gains(0.0,0.0,0.0,0.0, 50, 0.0);
+    public static final Gains GAINS_ANGLE_SNAP = new Gains(0.0,0.0,0.0,0.0, 50, 0.0);
+    public static final Gains GAINS_BALANCE = new Gains(0.0,0.0,0.0,0.0, 50, 0.0);
 
-    public static final double kSnapTollerance = 2.0;
-    public static final double kBalanceTollerance = 0.5;
-
+    public static final double SNAP_TOLLERANCE = 2.0;
+    public static final double BALANCE_TOLLERANCE = 0.5;
   }
 
   public static final class ArmConstants{
-    public static final  Gains kGainsUpperJoint = new Gains( 0.0, 0.0, 0.0, 0.0, 50, 1.00 );
-    public static final  Gains kGainsLowerJoint  = new Gains( 0.0, 0.0, 0.0, 0.0, 50, 1.00 );
+    public static final  Gains GAINS_UPPER_JOINT = new Gains( 0.0, 0.0, 0.0, 0.0, 50, 1.00 );
+    public static final  Gains GAINS_LOWER_JOINT  = new Gains( 0.0, 0.0, 0.0, 0.0, 50, 1.00 );
 
     /* Motor neutral dead-band : Range 0.001 -> 0.25 */
-	  public static final double kNeutralDeadband = 0.001;
+	  public static final double NEUTRAL_DEADBAND = 0.01;
 
-    public static final double kNominalOutputForward = 1.0;
-    public static final double kNominalOutputReverse = -1.0;
-    public static final double kPeakOutputForward = 1.0;
-    public static final double kPeakOutputReverse = -1.0;
-
-	  /* Current Limit for arm calibration */
-    public static final double kCalibCurrentLimit = 10.0;
-
+    public static final double NOMINAL_OUTPUT_FORWARD = 0.25;
+    public static final double NOMINAL_OUTPUT_REVERSE = -0.25;
+    public static final double PEAK_OUTPUT_FORWARD = 0.25;
+    public static final double PEAK_OUTPUT_REVERSE = -0.25;
 
     /**
      * Set to zero to skip waiting for confirmation.
      * Set to nonzero to wait and report to DS if action fails.
     */
-	  public final static int kTimeoutMs = 20;
+	  public final static int TIMEOUT = 10;
 
     // Motion Magic constants
-    public static final int kMotionCruiseVelocityLower = 25000;
-    public static final int kMotionAccelerationLower = 35000;
-    public static final int kCurveSmoothingLower = 0;  /* Valid values: 0 -> 8 */
-    public static final int kToleranceLower = 500;
+    public static final int MOTION_CRUISE_VELOCITY_LOWER = 25000;
+    public static final int MOTION_ACCELERATION_LOWER = 35000;
+    public static final int CURVE_SMOOTHING_LOWER = 0;  /* Valid values: 0 -> 8 */
+    public static final int TOLERANCE_LOWER = 500;
 
-    public static final int kMotionCruiseVelocityUpper = 25000;
-    public static final int kMotionAccelerationUpper = 35000;
-    public static final int kCurveSmoothingUpper = 0;  /* Valid values: 0 -> 8 */
-    public static final int kToleranceUpper = 500;
+    public static final int MOTION_CRUISE_VELOCITY_UPPER = 25000;
+    public static final int MOTION_ACCELERATION_UPPER = 35000;
+    public static final int CURVE_SMOOTHING_UPPER = 0;  /* Valid values: 0 -> 8 */
+    public static final int TOLERANCE_UPPER = 500;
 
-    public static final double kDutyCycleMin = 1.0/1025.0;
-    public static final double kDutyCycleMax = 1.0/1025.0;
-    public static final int kFrequency = 976;
-    public static final double kPeriod = 1025;
+    public static final double DUTY_CYCLE_MIN = 1.0/1025.0;
+    public static final double DUTY_CYCLE_MAX = 1024.0/1025.0;
+    public static final int FREQUENCY = 976;
+    public static final double PERIOD = 1025;
 
-    public static final double kEncoderDistancePerPulse =  (2.0 * Math.PI / 8192);
-    public static final double kMotionAcclerationLower = 0;
+    public static final double ENCODER_DISTANCE_PER_PULSE =  (2.0 * Math.PI / 8192);
   }
 
   public static final class LimelightConstants{
     //TODO: Tune all
-    public static final Gains kVisionGainsX = new Gains(0.0, 0.0, 0.0, 0.0, 50, 1.0);
-    public static final Gains kVisionGainsY = new Gains(0.0, 0.0, 0.0, 0.0, 50, 1.0);
+    public static final Gains GAINS_VISION_X = new Gains(0.0, 0.0, 0.0, 0.0, 50, 1.0);
+    public static final Gains GAINS_VISION_Y = new Gains(0.0, 0.0, 0.0, 0.0, 50, 1.0);
 
-    public static final double kVisionVelTollerance = 0.5;
-    public static final double kVisionPosTollerance = 0.5;
+    public static final double VISION_VEL_TOLLERANCE = 0.5;
+    public static final double VISION_POS_TOLLERANCE = 0.5;
 
     // how many degrees back is your limelight rotated from perfectly vertical?
-    public static final double kLimelightMountAngleDegrees = 25.0;
+    public static final double LIMELIGHT_MOUNT_ANGLE_DEGREES = 25.0;
 
     // distance from the center of the Limelight lens to the floor
-    public static final double kLimelightLensHeightInches = 20.0;
+    public static final double LIMELIGHT_LENS_HEIGHT_INCHES = 20.0;
 
-    public static final double kDistanceFromVisionTapeMidConeNodeSetpointIn = 24;
-    public static final double kDistanceFromVisionTapeTopConeNodeSetpointIn = 40;
-    public static final double kDistanceFromGridAprilTag = 14.062222;
-    public static final double kDistanceFromSubstationAprilTag = 5;
-    public static final double kAlignedConeNodeX = 0.0;
-    public static final double kAlignedGridAprilTagX = 0.0;
-    public static final double kAlignedSubstationAprilTagX = 0.0;
+    public static final double SETPOINT_DIS_FROM_MID_CONE = 24;
+    public static final double SETPOINT_DIS_FROM_TOP_CONE = 40;
+
+    public static final double SETPOINT_DIS_FROM_GRID_APRIL = 14.062222;
+    public static final double SETPOINT_DIS_FROM_SUBSTATION_APRIL = 5;
+
+    public static final double ALIGNED_CONE_X = 0.0;
+    public static final double ALIGNED_GRID_APRIL_X = 0.0;
+    public static final double ALIGNED_SUBSTATION_APRIL_X = 0.0;
 
 
     // height of vision tape center in inches
-    public static final double kHeightMidConeNodeVisionTape = 24.125;
-    public static final double kHeightOfAprilTagGrid = 18.25;
-    public static final double kHeightOfAprilTagSubstation = 27.375;
-
-
+    public static final double HEIGHT_CONE_NODE_TAP = 24.125;
+    public static final double HEIGHT_GRID_APRIL = 18.25;
+    public static final double HEIGHT_SUBSTATION_APRIL = 27.375;
   }
 }

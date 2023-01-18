@@ -7,16 +7,13 @@ package frc.robot.subsystems.drive;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.Swerve;
+import frc.robot.Constants.SwerveConstants;
 
 public class SnapToAngle extends CommandBase {
   /** Creates a new SnapToAngle. */
   double m_angle = 0d;
   DriveSubsystem m_drive;
   private PIDController m_thetaController;
-  private final double kP = 0.1;
-  private final double kI = 0.0;
-  private final double kD = 0.0;
 
   public SnapToAngle(DriveSubsystem drive, double angle) {
     m_angle = angle;
@@ -28,7 +25,7 @@ public class SnapToAngle extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_thetaController = new PIDController(Swerve.kSnapGains.kP, Swerve.kSnapGains.kI, Swerve.kSnapGains.kD);
+    m_thetaController = new PIDController(SwerveConstants.GAINS_ANGLE_SNAP.kP, SwerveConstants.GAINS_ANGLE_SNAP.kI, SwerveConstants.GAINS_ANGLE_SNAP.kD);
     
     if (m_angle > 180) m_angle -= 360;
     double gyroAngle = m_drive.getYaw().getDegrees() % 360;

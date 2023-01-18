@@ -28,13 +28,13 @@ public class AlignWithSubstationApril extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_pidControllerY = new PIDController(LimelightConstants.kVisionGainsY.kP, LimelightConstants.kVisionGainsY.kI, LimelightConstants.kVisionGainsY.kD);
-    m_pidControllerY.setIntegratorRange(0.0, LimelightConstants.kVisionGainsY.kIzone);
-    m_pidControllerY.setTolerance(LimelightConstants.kVisionPosTollerance, LimelightConstants.kVisionVelTollerance);
+    m_pidControllerY = new PIDController(LimelightConstants.GAINS_VISION_Y.kP, LimelightConstants.GAINS_VISION_Y.kI, LimelightConstants.GAINS_VISION_Y.kD);
+    m_pidControllerY.setIntegratorRange(0.0, LimelightConstants.GAINS_VISION_Y.kIzone);
+    m_pidControllerY.setTolerance(LimelightConstants.VISION_POS_TOLLERANCE, LimelightConstants.VISION_VEL_TOLLERANCE);
 
-    m_pidControllerX = new PIDController(LimelightConstants.kVisionGainsX.kP, LimelightConstants.kVisionGainsX.kI, LimelightConstants.kVisionGainsX.kD);
-    m_pidControllerX.setIntegratorRange(0.0, LimelightConstants.kVisionGainsX.kIzone);
-    m_pidControllerX.setTolerance(LimelightConstants.kVisionPosTollerance, LimelightConstants.kVisionVelTollerance);
+    m_pidControllerX = new PIDController(LimelightConstants.GAINS_VISION_X.kP, LimelightConstants.GAINS_VISION_X.kI, LimelightConstants.GAINS_VISION_X.kD);
+    m_pidControllerX.setIntegratorRange(0.0, LimelightConstants.GAINS_VISION_X.kIzone);
+    m_pidControllerX.setTolerance(LimelightConstants.VISION_POS_TOLLERANCE, LimelightConstants.VISION_VEL_TOLLERANCE);
 
     m_end = false;
     m_limelight.setPipeline(1);
@@ -49,13 +49,13 @@ public class AlignWithSubstationApril extends CommandBase {
       System.out.println("no target");
     }
 
-    m_pidControllerY.setSetpoint(LimelightConstants.kDistanceFromSubstationAprilTag);
-    m_pidControllerX.setSetpoint(LimelightConstants.kAlignedSubstationAprilTagX);
+    m_pidControllerY.setSetpoint(LimelightConstants.SETPOINT_DIS_FROM_SUBSTATION_APRIL);
+    m_pidControllerX.setSetpoint(LimelightConstants.ALIGNED_SUBSTATION_APRIL_X);
     xTrans = m_pidControllerX.calculate(m_limelight.getX());
     xTrans = Math.max(xTrans, 1.0);
     xTrans = Math.min(xTrans, -1.0);
 
-    yTrans = m_pidControllerY.calculate(m_limelight.getDistanceFromTarget(LimelightConstants.kDistanceFromSubstationAprilTag));
+    yTrans = m_pidControllerY.calculate(m_limelight.getDistanceFromTarget(LimelightConstants.SETPOINT_DIS_FROM_SUBSTATION_APRIL));
     yTrans = Math.max(yTrans, 1.0);
     yTrans = Math.min(yTrans, -1.0);
     m_drive.drive(new Translation2d(xTrans, yTrans), 0.0, true, true);

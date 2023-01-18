@@ -12,9 +12,9 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.CanConstants;
 import frc.robot.Constants.DIOConstants;
@@ -25,96 +25,101 @@ public class ArmSubsystem extends SubsystemBase {
   private TalonFX m_lowerJoint = new TalonFX(CanConstants.LOWER_JOINT_MOTOR);
   private TalonFX m_upperJoint = new TalonFX(CanConstants.UPPER_JOINT_MOTOR);
 
-  private DutyCycleEncoder m_upperEncoderAbs = new DutyCycleEncoder(DIOConstants.UPPER_ENCODER_ABS);
-  private DutyCycleEncoder m_lowerEncoderAbs = new DutyCycleEncoder(DIOConstants.LOWER_ENCODER_ABS);
+  private DutyCycleEncoder m_upperEncoder = new DutyCycleEncoder(DIOConstants.UPPER_ENCODER_ARM);
+  private DutyCycleEncoder m_lowerEncoder = new DutyCycleEncoder(DIOConstants.LOWER_ENCODER_ARM);
 
-  private final Encoder m_upperEncoderRel = new Encoder(DIOConstants.UPPER_ENCODER_A, DIOConstants.UPPER_ENCODER_B);
-  private final Encoder m_lowerEncoderRel = new Encoder(DIOConstants.LOWER_ENCODER_A, DIOConstants.LOWER_ENCODER_B);
   
   TunableNumber m_upperJointP, m_upperJointI, m_upperJointD, m_lowerJointP, m_lowerJointI, m_lowerJointD;
   TunableNumber m_upperJointSetpoint, m_lowerJointSetpoint;
   TunableNumber m_nominalFwd, m_nominalRev, m_peakFwd, m_peakRev;
   TunableNumber m_cruiseVelocityUpper, m_accelUpper, m_cruiseVelocityLower, m_accelLower;
-  public ArmSubsystem() {
-    m_lowerJoint.configFactoryDefault();
+  public ArmSubsystem() {    
+    //Config Duty Cycle Range for the encoders
+    m_lowerEncoder.setDutyCycleRange(ArmConstants.DUTY_CYCLE_MIN, ArmConstants.DUTY_CYCLE_MAX);
+    m_upperEncoder.setDutyCycleRange(ArmConstants.DUTY_CYCLE_MIN, ArmConstants.DUTY_CYCLE_MAX);
 
+    //Default Motors
+    m_lowerJoint.configFactoryDefault(ArmConstants.TIMEOUT);
+    m_upperJoint.configFactoryDefault(ArmConstants.TIMEOUT);
+
+    //Set Neutral Mode to Brake and NeutralDeadBand to prevent need for intentional stalling
     m_lowerJoint.setNeutralMode(NeutralMode.Brake);
-    m_lowerJoint.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition);
-    m_lowerJoint.configNeutralDeadband(ArmConstants.kNeutralDeadband);
-    m_lowerJoint.configNominalOutputForward(ArmConstants.kNominalOutputForward);
-    m_lowerJoint.configNominalOutputReverse(ArmConstants.kNominalOutputReverse);
-    m_lowerJoint.configPeakOutputForward(ArmConstants.kPeakOutputForward);
-    m_lowerJoint.configPeakOutputReverse(ArmConstants.kPeakOutputReverse);
-
-    m_lowerJoint.config_kP(0, ArmConstants.kGainsLowerJoint.kP);
-    m_lowerJoint.config_kI(0, ArmConstants.kGainsLowerJoint.kI);
-    m_lowerJoint.config_kD(0, ArmConstants.kGainsLowerJoint.kD);
-    m_lowerJoint.config_kF(0, ArmConstants.kGainsLowerJoint.kF);
-
-
-    m_lowerJoint.setNeutralMode(NeutralMode.Brake);
-    m_lowerJoint.configMotionCruiseVelocity(ArmConstants.kMotionCruiseVelocityLower);
-    m_lowerJoint.configMotionAcceleration(ArmConstants.kMotionAccelerationLower);
-    m_lowerJoint.configMotionAcceleration(ArmConstants.kCurveSmoothingLower);
-
-    m_upperJoint.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition);
-    m_upperJoint.configNeutralDeadband(ArmConstants.kNeutralDeadband);
-    m_upperJoint.configNominalOutputForward(ArmConstants.kNominalOutputForward);
-    m_upperJoint.configNominalOutputReverse(ArmConstants.kNominalOutputReverse);
-    m_upperJoint.configPeakOutputForward(ArmConstants.kPeakOutputForward);
-    m_upperJoint.configPeakOutputReverse(ArmConstants.kPeakOutputReverse);
-
-    m_upperJoint.config_kP(0, ArmConstants.kGainsUpperJoint.kP);
-    m_upperJoint.config_kI(0, ArmConstants.kGainsUpperJoint.kP);
-    m_upperJoint.config_kD(0, ArmConstants.kGainsUpperJoint.kP);
-    m_upperJoint.config_kF(0, ArmConstants.kGainsUpperJoint.kP);
-
-    m_upperJoint.configMotionCruiseVelocity(ArmConstants.kMotionCruiseVelocityUpper);
-    m_upperJoint.configMotionAcceleration(ArmConstants.kMotionAccelerationUpper);
-    m_upperJoint.configMotionSCurveStrength(ArmConstants.kCurveSmoothingUpper);
     m_upperJoint.setNeutralMode(NeutralMode.Brake);
 
-    m_lowerEncoderAbs.setConnectedFrequencyThreshold(ArmConstants.kFrequency);
-    m_lowerEncoderAbs.setDutyCycleRange(ArmConstants.kDutyCycleMin, ArmConstants.kDutyCycleMax);
+    m_lowerJoint.configNeutralDeadband(ArmConstants.NEUTRAL_DEADBAND);
+    m_upperJoint.configNeutralDeadband(ArmConstants.NEUTRAL_DEADBAND);
 
-    m_upperEncoderAbs.setConnectedFrequencyThreshold(ArmConstants.kFrequency);
-    m_upperEncoderAbs.setDutyCycleRange(ArmConstants.kDutyCycleMin, ArmConstants.kDutyCycleMax);
 
-    m_upperEncoderRel.setDistancePerPulse(ArmConstants.kEncoderDistancePerPulse);
-    m_lowerEncoderRel.setDistancePerPulse(ArmConstants.kEncoderDistancePerPulse);
+    m_lowerJoint.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition, 0, ArmConstants.TIMEOUT);
+    m_upperJoint.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition, 0, ArmConstants.TIMEOUT);
 
+    m_lowerJoint.configNominalOutputForward(ArmConstants.NOMINAL_OUTPUT_FORWARD, ArmConstants.TIMEOUT);
+    m_lowerJoint.configNominalOutputReverse(ArmConstants.NOMINAL_OUTPUT_REVERSE, ArmConstants.TIMEOUT);
+    m_lowerJoint.configPeakOutputForward(ArmConstants.PEAK_OUTPUT_FORWARD, ArmConstants.TIMEOUT);
+    m_lowerJoint.configPeakOutputReverse(ArmConstants.PEAK_OUTPUT_REVERSE, ArmConstants.TIMEOUT);
+
+    m_upperJoint.configNominalOutputForward(ArmConstants.NOMINAL_OUTPUT_FORWARD, ArmConstants.TIMEOUT);
+    m_upperJoint.configNominalOutputReverse(ArmConstants.NOMINAL_OUTPUT_REVERSE, ArmConstants.TIMEOUT);
+    m_upperJoint.configPeakOutputForward(ArmConstants.PEAK_OUTPUT_FORWARD, ArmConstants.TIMEOUT);
+    m_upperJoint.configPeakOutputReverse(ArmConstants.PEAK_OUTPUT_REVERSE, ArmConstants.TIMEOUT);
+
+
+    //PID configs
+    m_upperJoint.config_kP(0, ArmConstants.GAINS_UPPER_JOINT.kP, ArmConstants.TIMEOUT);
+    m_upperJoint.config_kI(0, ArmConstants.GAINS_UPPER_JOINT.kP, ArmConstants.TIMEOUT);
+    m_upperJoint.config_kD(0, ArmConstants.GAINS_UPPER_JOINT.kP, ArmConstants.TIMEOUT);
+    m_upperJoint.config_kF(0, ArmConstants.GAINS_UPPER_JOINT.kP, ArmConstants.TIMEOUT);
+    m_upperJoint.config_IntegralZone(0, ArmConstants.GAINS_UPPER_JOINT.kIzone, ArmConstants.TIMEOUT);
+
+    m_lowerJoint.config_kP(0, ArmConstants.GAINS_LOWER_JOINT.kP, ArmConstants.TIMEOUT);
+    m_lowerJoint.config_kI(0, ArmConstants.GAINS_LOWER_JOINT.kI, ArmConstants.TIMEOUT);
+    m_lowerJoint.config_kD(0, ArmConstants.GAINS_LOWER_JOINT.kD, ArmConstants.TIMEOUT);
+    m_lowerJoint.config_kF(0, ArmConstants.GAINS_LOWER_JOINT.kF, ArmConstants.TIMEOUT);
+    m_lowerJoint.config_IntegralZone(0, ArmConstants.GAINS_LOWER_JOINT.kIzone, ArmConstants.TIMEOUT);
+
+    //Motion Magic Configs
+    m_lowerJoint.configMotionCruiseVelocity(ArmConstants.MOTION_CRUISE_VELOCITY_LOWER, ArmConstants.TIMEOUT);
+    m_lowerJoint.configMotionAcceleration(ArmConstants.MOTION_ACCELERATION_LOWER, ArmConstants.TIMEOUT);
+    m_lowerJoint.configMotionSCurveStrength(ArmConstants.CURVE_SMOOTHING_LOWER, ArmConstants.TIMEOUT);
+
+    m_upperJoint.configMotionCruiseVelocity(ArmConstants.MOTION_CRUISE_VELOCITY_UPPER, ArmConstants.TIMEOUT);
+    m_upperJoint.configMotionAcceleration(ArmConstants.MOTION_ACCELERATION_UPPER, ArmConstants.TIMEOUT);
+    m_upperJoint.configMotionSCurveStrength(ArmConstants.CURVE_SMOOTHING_UPPER, ArmConstants.TIMEOUT);
+
+
+
+    //Tunable Number Initializations
     m_upperJointP = new TunableNumber("Upper Joint P");
     m_upperJointI = new TunableNumber("Upper Joint I");
     m_upperJointD = new TunableNumber("Upper Joint D");
 
-    m_upperJointP.setDefault(ArmConstants.kGainsUpperJoint.kP);
-    m_upperJointI.setDefault(ArmConstants.kGainsUpperJoint.kI);
-    m_upperJointD.setDefault(ArmConstants.kGainsUpperJoint.kD);
+    m_upperJointP.setDefault(ArmConstants.GAINS_UPPER_JOINT.kP);
+    m_upperJointI.setDefault(ArmConstants.GAINS_UPPER_JOINT.kI);
+    m_upperJointD.setDefault(ArmConstants.GAINS_UPPER_JOINT.kD);
 
     m_lowerJointP = new TunableNumber("Lower Joint P");
     m_lowerJointI = new TunableNumber("Lower Joint I");
     m_lowerJointD = new TunableNumber("Lower Joint D");
 
-    m_lowerJointP.setDefault(ArmConstants.kGainsLowerJoint.kP);
-    m_lowerJointP.setDefault(ArmConstants.kGainsLowerJoint.kP);
-    m_lowerJointP.setDefault(ArmConstants.kGainsLowerJoint.kP);
+    m_lowerJointP.setDefault(ArmConstants.GAINS_LOWER_JOINT.kP);
+    m_lowerJointP.setDefault(ArmConstants.GAINS_LOWER_JOINT.kP);
+    m_lowerJointP.setDefault(ArmConstants.GAINS_LOWER_JOINT.kP);
 
     m_lowerJointSetpoint = new TunableNumber("Lower Joint SetPoint");
     m_upperJointSetpoint = new TunableNumber("Upper Joint SetPoint");
     m_lowerJointSetpoint.setDefault(0);
     m_upperJointSetpoint.setDefault(0);
-
     m_nominalFwd = new TunableNumber("Nominal Output Forward");
     m_nominalRev = new TunableNumber("Nominal Output Reverse");
 
-    m_nominalFwd.setDefault(ArmConstants.kNominalOutputForward);
-    m_nominalRev.setDefault(ArmConstants.kNominalOutputReverse);
+    m_nominalFwd.setDefault(ArmConstants.NOMINAL_OUTPUT_FORWARD);
+    m_nominalRev.setDefault(ArmConstants.NOMINAL_OUTPUT_REVERSE);
 
     m_peakFwd = new TunableNumber("Peak Output Forward");
     m_peakRev = new TunableNumber("Peak Output Reverse");
 
-    m_peakFwd.setDefault(ArmConstants.kPeakOutputForward);
-    m_peakRev.setDefault(ArmConstants.kPeakOutputReverse);
+    m_peakFwd.setDefault(ArmConstants.PEAK_OUTPUT_FORWARD);
+    m_peakRev.setDefault(ArmConstants.PEAK_OUTPUT_REVERSE);
 
 
     m_cruiseVelocityLower = new TunableNumber("Motion Cruise Lower");
@@ -122,27 +127,50 @@ public class ArmSubsystem extends SubsystemBase {
     m_accelLower = new TunableNumber("Motion Accel Lower");
     m_accelUpper = new TunableNumber("Motion Accel Upper");
 
-    m_cruiseVelocityLower.setDefault(ArmConstants.kMotionCruiseVelocityLower);
-    m_cruiseVelocityUpper.setDefault(ArmConstants.kMotionCruiseVelocityUpper);
+    m_cruiseVelocityLower.setDefault(ArmConstants.MOTION_CRUISE_VELOCITY_LOWER);
+    m_cruiseVelocityUpper.setDefault(ArmConstants.MOTION_CRUISE_VELOCITY_UPPER);
 
-    m_accelLower.setDefault(ArmConstants.kMotionAcclerationLower);
-    m_accelUpper.setDefault(ArmConstants.kMotionAccelerationUpper);
-
-
+    m_accelLower.setDefault(ArmConstants.MOTION_ACCELERATION_LOWER);
+    m_accelUpper.setDefault(ArmConstants.MOTION_ACCELERATION_UPPER);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    m_upperJoint.setSelectedSensorPosition(getUpperJointPositionAbs(), 0, 10);
-    m_lowerJoint.setSelectedSensorPosition(getLowerJointPositionAbs(), 0, 10);
+    m_upperJoint.setSelectedSensorPosition(dutyCycleToCTREUnits(getUpperJointPos()), 0, ArmConstants.TIMEOUT);
+    m_lowerJoint.setSelectedSensorPosition(dutyCycleToCTREUnits(getLowerJointPos()), 0, ArmConstants.TIMEOUT);
 
-    SmartDashboard.putNumber("Lower Joint Abs", getLowerJointPositionAbs());
-    SmartDashboard.putNumber("Upper Joint Abs", getUpperJointPositionAbs());
-    SmartDashboard.putNumber("Lower Joint Rel", getLowerJointPositionRel());
-    SmartDashboard.putNumber("Upper Joint Rel", getUpperJointPositionRel());
-    SmartDashboard.putNumber("Upper Joint Velocity", getUpperJointRPM());
-    SmartDashboard.putNumber("Lower Joint Velocity", getlowerJointRPM());
+    if(Constants.tuningMode){
+      SmartDashboard.putNumber("Lower Joint Abs", getLowerJointPos());
+      SmartDashboard.putNumber("Upper Joint Abs", getUpperJointPos());
+      SmartDashboard.putNumber("Lower Joint CTRE Units", dutyCycleToCTREUnits(getLowerJointPos()));
+      SmartDashboard.putNumber("Upper Joint CTRE Units", dutyCycleToCTREUnits(getUpperJointPos()));
+      SmartDashboard.putNumber("Lower Joint Absolute Angle", dutyCycleToDegrees(getLowerJointPos()));
+      SmartDashboard.putNumber("Upper Joint Absolute Angle", dutyCycleToDegrees(getUpperJointPos()));
+
+      SmartDashboard.putNumber("Upper Joint Talon Sensor Get", m_upperJoint.getSelectedSensorPosition());
+      SmartDashboard.putNumber("Lower Joint Talon Sensor Get", m_lowerJoint.getSelectedSensorPosition());
+      SmartDashboard.putNumber("Upper Joint Talon Target", m_upperJoint.getClosedLoopTarget());
+      SmartDashboard.putNumber("Lower Joint Talon Target", m_lowerJoint.getClosedLoopTarget());
+      SmartDashboard.putNumber("Upper Joint Talon Error", m_upperJoint.getClosedLoopError());
+      SmartDashboard.putNumber("Lower Joint Talon Error", m_lowerJoint.getClosedLoopError()); 
+    }
+    else{
+      SmartDashboard.clearPersistent("Lower Joint Abs");
+      SmartDashboard.clearPersistent("Upper Joint Abs");
+      SmartDashboard.clearPersistent("Lower Joint CTRE Units");
+      SmartDashboard.clearPersistent("Upper Joint CTRE Units");
+      SmartDashboard.clearPersistent("Lower Joint Absolute Angle");
+      SmartDashboard.clearPersistent("Upper Joint Absolute Angle");
+
+      SmartDashboard.clearPersistent("Upper Joint Talon Sensor Get");
+      SmartDashboard.clearPersistent("Lower Joint Talon Sensor Get");
+      SmartDashboard.clearPersistent("Upper Joint Talon Target");
+      SmartDashboard.clearPersistent("Lower Joint Talon Target");
+      SmartDashboard.clearPersistent("Upper Joint Talon Error");
+      SmartDashboard.clearPersistent("Lower Joint Talon Error");
+    }
+
   }
 
   public void setPercentOutputUpper(double speed){
@@ -154,7 +182,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void setMotionMagicUpper(double position){
-    m_upperJoint.set(ControlMode.MotionMagic, position, DemandType.ArbitraryFeedForward, ArmConstants.kGainsUpperJoint.kF);
+    m_upperJoint.set(ControlMode.MotionMagic, position, DemandType.ArbitraryFeedForward, ArmConstants.GAINS_UPPER_JOINT.kF);
   }
 
   public void setPercentOutputLower(double speed){
@@ -166,7 +194,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void setMotionMagicLower(double position){
-    m_lowerJoint.set(ControlMode.MotionMagic, position, DemandType.ArbitraryFeedForward, ArmConstants.kGainsLowerJoint.kF);
+    m_lowerJoint.set(ControlMode.MotionMagic, position, DemandType.ArbitraryFeedForward, ArmConstants.GAINS_LOWER_JOINT.kF);
   }
 
   public void holdPositionUpper(){
@@ -176,35 +204,28 @@ public class ArmSubsystem extends SubsystemBase {
     m_lowerJoint.set(ControlMode.Disabled, 0);
   }
 
-  public double getLowerJointPositionAbs(){
-    return m_lowerEncoderAbs.getAbsolutePosition();
+  public double getLowerJointPos(){
+    return m_lowerEncoder.getAbsolutePosition();
   }
 
-  public double getUpperJointPositionAbs(){
-    return m_upperEncoderAbs.getAbsolutePosition();
+  public double getUpperJointPos(){
+    return m_upperEncoder.getAbsolutePosition();
+  }
+    
+  public double dutyCycleToCTREUnits(double dutyCyclePos){
+    //4096 units per rotation = raw sensor units for Pulse width encoder
+    return dutyCyclePos * 4096;
   }
 
-  public double getLowerJointPositionRel(){
-    return m_lowerEncoderAbs.getDistance();
-  }
-
-  public double getUpperJointPositionRel(){
-    return m_upperEncoderAbs.getDistance();
-  }
-
-  public double getUpperJointRPM(){
-    return m_upperEncoderRel.getRate();
-  }
-  
-  public double getlowerJointRPM(){
-    return m_lowerEncoderRel.getRate();
+  public double dutyCycleToDegrees(double dutyCyclePos) {
+    return dutyCyclePos * 360;
   }
 
   public boolean onTargetLower(){
-    return m_lowerJoint.getClosedLoopError() < ArmConstants.kToleranceLower;
+    return m_lowerJoint.getClosedLoopError() < ArmConstants.TOLERANCE_LOWER;
   }
   public boolean onTargetUpper(){
-    return m_lowerJoint.getClosedLoopError() < ArmConstants.kToleranceUpper;
+    return m_upperJoint.getClosedLoopError() < ArmConstants.TOLERANCE_UPPER;
   }
 
 
