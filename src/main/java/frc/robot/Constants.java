@@ -23,7 +23,7 @@ import frc.robot.util.SwerveModuleConstants;
  */
 public final class Constants {
 
-  public static final boolean tuningMode = false;
+  public static final boolean tuningMode = true;
 
   public static final class CanConstants{
     //drivebase CAN IDs 
@@ -50,15 +50,14 @@ public final class Constants {
 
     public static final int LED_CANDLE = 17;
   }
+  
   public static final class DIOConstants{
-    public static final int LOWER_ENCODER_ARM = 0;
+    public static final int LOWER_ENCODER_ARM = 1;
     public static final int UPPER_ENCODER_ARM = 0;
 
   }
   public static final class PHConstants{
     public static final int CLAW_JOINT_CHANNEL = 0;
-
-
   }
 
 

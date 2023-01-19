@@ -7,6 +7,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.arm.ArmSubsystem;
@@ -53,7 +55,9 @@ public class RobotContainer {
       m_armModeChooser.addOption("Lower Joint Motion Magic", "LowerMM");
       m_armModeChooser.addOption("Upper Joint Motion Magic", "UpperMM");
       m_armModeChooser.setDefaultOption("Lower Joint PID", "LowerPID");
-      SmartDashboard.putData("Set Lower Joint PID", new RunArmFromDashboard(m_armModeChooser.getSelected(), m_arm));
+      SmartDashboard.putData("Arm Mode Choose", m_armModeChooser);
+      SmartDashboard.putData("Arm PID Testing", new RunArmFromDashboard(m_armModeChooser.getSelected(), m_arm));
+      SmartDashboard.putData("Run Upper Arm PID", new RunCommand(m_arm::setUpperJointFromDashboardPos, m_arm));
     }                                  
   }
 

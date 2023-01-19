@@ -27,16 +27,16 @@ public class RunArmFromDashboard extends CommandBase {
   @Override
   public void initialize() {
 
-    if(m_type == "LowerPID"){
+    if(m_type.equals("LowerPID")){
       m_typeInt =0;
     }
-    if(m_type == "UpperPID"){
+    if(m_type.equals("UpperPID")){
       m_typeInt =1;
     }
-    if(m_type == "LowerMM"){
+    if(m_type.equals("LowerMM")){
       m_typeInt =2;
     }
-    if(m_type == "UpperMM"){
+    if(m_type.equals("UpperMM")){
       m_typeInt =3;
     }
 

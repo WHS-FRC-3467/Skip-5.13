@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Pneumatics extends SubsystemBase{
   /** Creates a new Pneumactics. */
   Compressor phCompressor = new Compressor(PneumaticsModuleType.REVPH);
-  PowerDistribution pdh = new PowerDistribution(0, ModuleType.kRev);
+  PowerDistribution pdh = new PowerDistribution(1, ModuleType.kRev);
 
   double current = phCompressor.getPressure();
 
