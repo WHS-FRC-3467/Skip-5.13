@@ -214,8 +214,8 @@ public final class Constants {
     /* Motor neutral dead-band : Range 0.001 -> 0.25 */
 	  public static final double NEUTRAL_DEADBAND = 0.01;
 
-    public static final double NOMINAL_OUTPUT_FORWARD = 0.25;
-    public static final double NOMINAL_OUTPUT_REVERSE = -0.25;
+    public static final double NOMINAL_OUTPUT_FORWARD = 0;
+    public static final double NOMINAL_OUTPUT_REVERSE = 0;
     public static final double PEAK_OUTPUT_FORWARD = 0.25;
     public static final double PEAK_OUTPUT_REVERSE = -0.25;
 

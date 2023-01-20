@@ -45,8 +45,8 @@ public class ArmSubsystem extends SubsystemBase {
     m_upperJoint.configFactoryDefault(ArmConstants.TIMEOUT);
 
     //Set Neutral Mode to Brake and NeutralDeadBand to prevent need for intentional stalling
-    m_lowerJoint.setNeutralMode(NeutralMode.Coast);
-    m_upperJoint.setNeutralMode(NeutralMode.Coast);
+    m_lowerJoint.setNeutralMode(NeutralMode.Brake);
+    m_upperJoint.setNeutralMode(NeutralMode.Brake);
 
     m_lowerJoint.configNeutralDeadband(ArmConstants.NEUTRAL_DEADBAND);
     m_upperJoint.configNeutralDeadband(ArmConstants.NEUTRAL_DEADBAND);
@@ -57,7 +57,7 @@ public class ArmSubsystem extends SubsystemBase {
     m_upperJoint.setInverted(TalonFXInvertType.Clockwise);
     m_lowerJoint.setInverted(TalonFXInvertType.Clockwise);
     m_upperJoint.setSensorPhase(false);
-    
+
     m_upperJoint.configForwardSoftLimitThreshold(ArmConstants.FORWARD_SOFT_LIMIT_UPPER);
     m_upperJoint.configReverseSoftLimitThreshold(ArmConstants.REVERSE_SOFT_LIMIT_UPPER);
 
@@ -70,13 +70,13 @@ public class ArmSubsystem extends SubsystemBase {
     m_lowerJoint.configReverseSoftLimitEnable(true, ArmConstants.TIMEOUT);
 
 
-    m_lowerJoint.configNominalOutputForward(ArmConstants.NOMINAL_OUTPUT_FORWARD, ArmConstants.TIMEOUT);
-    m_lowerJoint.configNominalOutputReverse(ArmConstants.NOMINAL_OUTPUT_REVERSE, ArmConstants.TIMEOUT);
+    // m_lowerJoint.configNominalOutputForward(ArmConstants.NOMINAL_OUTPUT_FORWARD, ArmConstants.TIMEOUT);
+    // m_lowerJoint.configNominalOutputReverse(ArmConstants.NOMINAL_OUTPUT_REVERSE, ArmConstants.TIMEOUT);
     m_lowerJoint.configPeakOutputForward(ArmConstants.PEAK_OUTPUT_FORWARD, ArmConstants.TIMEOUT);
     m_lowerJoint.configPeakOutputReverse(ArmConstants.PEAK_OUTPUT_REVERSE, ArmConstants.TIMEOUT);
 
-    m_upperJoint.configNominalOutputForward(ArmConstants.NOMINAL_OUTPUT_FORWARD, ArmConstants.TIMEOUT);
-    m_upperJoint.configNominalOutputReverse(ArmConstants.NOMINAL_OUTPUT_REVERSE, ArmConstants.TIMEOUT);
+    // m_upperJoint.configNominalOutputForward(ArmConstants.NOMINAL_OUTPUT_FORWARD, ArmConstants.TIMEOUT);
+    // m_upperJoint.configNominalOutputReverse(ArmConstants.NOMINAL_OUTPUT_REVERSE, ArmConstants.TIMEOUT);
     m_upperJoint.configPeakOutputForward(ArmConstants.PEAK_OUTPUT_FORWARD, ArmConstants.TIMEOUT);
     m_upperJoint.configPeakOutputReverse(ArmConstants.PEAK_OUTPUT_REVERSE, ArmConstants.TIMEOUT);
 
