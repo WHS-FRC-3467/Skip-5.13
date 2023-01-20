@@ -15,7 +15,7 @@ public class TeleopSwerve extends CommandBase {
     private DoubleSupplier translationSup;
     private DoubleSupplier strafeSup;
     private DoubleSupplier rotationSup;
-    private BooleanSupplier robotCentricSup;
+    // private BooleanSupplier robotCentricSup;
     private BooleanSupplier m_halfSpeed;
     private BooleanSupplier m_quarterSpeed;
     public TeleopSwerve(DriveSubsystem s_Swerve, DoubleSupplier translationSup, DoubleSupplier strafeSup, DoubleSupplier rotationSup, BooleanSupplier robotCentricSup, BooleanSupplier halfSpeed, BooleanSupplier quarterSpeed) {
@@ -25,7 +25,7 @@ public class TeleopSwerve extends CommandBase {
         this.translationSup = translationSup;
         this.strafeSup = strafeSup;
         this.rotationSup = rotationSup;
-        this.robotCentricSup = robotCentricSup;
+        // this.robotCentricSup = robotCentricSup;
         m_halfSpeed = halfSpeed;
         m_quarterSpeed = quarterSpeed;
     }
@@ -44,7 +44,8 @@ public class TeleopSwerve extends CommandBase {
             s_Swerve.drive(
                 new Translation2d(translationVal, strafeVal).times(SwerveConstants.MAX_SPEED), 
                 rotationVal * SwerveConstants.MAX_ANGULAR_VELOCITY, 
-                !robotCentricSup.getAsBoolean(), 
+                false,
+                // !robotCentricSup.getAsBoolean(), 
                 true);
         }
         else if(m_halfSpeed.getAsBoolean()){
@@ -54,14 +55,16 @@ public class TeleopSwerve extends CommandBase {
             s_Swerve.drive(
                 new Translation2d(translationVal, strafeVal).times(SwerveConstants.MAX_SPEED), 
                 rotationVal * SwerveConstants.MAX_ANGULAR_VELOCITY, 
-                !robotCentricSup.getAsBoolean(), 
+                // !robotCentricSup.getAsBoolean(), 
+                false,
                 true);
         }
         else{
             s_Swerve.drive(
             new Translation2d(translationVal, strafeVal).times(SwerveConstants.MAX_SPEED), 
             rotationVal * SwerveConstants.MAX_ANGULAR_VELOCITY, 
-            !robotCentricSup.getAsBoolean(), 
+            // !robotCentricSup.getAsBoolean(), 
+            false,
             true);
         }
     }

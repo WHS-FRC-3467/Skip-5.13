@@ -67,13 +67,13 @@ public final class Constants {
 
 
     //Mod 0
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 105.7;
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 41.83;
     //Mod 1
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 289.2;
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 8.88;
     //Mod 2
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 140.1; 
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 257.69; 
     //Mod 3
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 98.3;
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 358.07;
 
     public static final boolean INVERT_GYRO = false; // Always ensure Gyro is CCW+ CW-
 
@@ -146,7 +146,7 @@ public final class Constants {
 
     /* Swerve Profiling Values */
     /** Meters per Second */
-    public static final double MAX_SPEED = 3.0;
+    public static final double MAX_SPEED = 2.0;
 
     /** Radians per Second */
     public static final double MAX_ANGULAR_VELOCITY = 10.0;
@@ -181,7 +181,7 @@ public final class Constants {
         public static final int driveMotorID = CanConstants.BACK_LEFT_MODULE_DRIVE_MOTOR;
         public static final int angleMotorID = CanConstants.BACK_LEFT_MODULE_STEER_MOTOR;
         public static final int canCoderID = CanConstants.BACK_LEFT_MODULE_STEER_ENCODER;
-        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(BACK_RIGHT_MODULE_STEER_OFFSET);
+        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(BACK_LEFT_MODULE_STEER_OFFSET);
         public static final SwerveModuleConstants constants = 
             new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
     }
@@ -191,7 +191,7 @@ public final class Constants {
         public static final int driveMotorID = CanConstants.BACK_RIGHT_MODULE_DRIVE_MOTOR;
         public static final int angleMotorID = CanConstants.BACK_RIGHT_MODULE_STEER_MOTOR;
         public static final int canCoderID = CanConstants.BACK_RIGHT_MODULE_STEER_ENCODER;
-        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(BACK_LEFT_MODULE_STEER_OFFSET);
+        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(BACK_RIGHT_MODULE_STEER_OFFSET);
         public static final SwerveModuleConstants constants = 
             new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
     }
@@ -204,9 +204,13 @@ public final class Constants {
   }
 
   public static final class ArmConstants{
-    public static final  Gains GAINS_UPPER_JOINT = new Gains( 0.0, 0.0, 0.0, 0.0, 50, 1.00 );
-    public static final  Gains GAINS_LOWER_JOINT  = new Gains( 0.0, 0.0, 0.0, 0.0, 50, 1.00 );
+    public static final  Gains GAINS_UPPER_JOINT = new Gains(0.01, 0.0, 0.0, 0.0, 50, 1.00 );
+    public static final  Gains GAINS_LOWER_JOINT  = new Gains(0.005, 0.0, 0.0, 0.0, 50, 1.00 );
 
+    public static final int REVERSE_SOFT_LIMIT_UPPER = 50;
+    public static final int FORWARD_SOFT_LIMIT_UPPER = 4000;
+    public static final int REVERSE_SOFT_LIMIT_LOWER = 650;
+    public static final int FORWARD_SOFT_LIMIT_LOWER = 3500;
     /* Motor neutral dead-band : Range 0.001 -> 0.25 */
 	  public static final double NEUTRAL_DEADBAND = 0.01;
 

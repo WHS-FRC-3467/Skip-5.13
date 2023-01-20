@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -53,8 +54,21 @@ public class ArmSubsystem extends SubsystemBase {
     m_lowerJoint.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition, 0, ArmConstants.TIMEOUT);
     m_upperJoint.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition, 0, ArmConstants.TIMEOUT);
 
-    m_lowerJoint.setSensorPhase(true);
-    m_upperJoint.setSensorPhase(true);
+    m_upperJoint.setInverted(TalonFXInvertType.Clockwise);
+    m_lowerJoint.setInverted(TalonFXInvertType.Clockwise);
+    m_upperJoint.setSensorPhase(false);
+    
+    m_upperJoint.configForwardSoftLimitThreshold(ArmConstants.FORWARD_SOFT_LIMIT_UPPER);
+    m_upperJoint.configReverseSoftLimitThreshold(ArmConstants.REVERSE_SOFT_LIMIT_UPPER);
+
+    m_lowerJoint.configForwardSoftLimitThreshold(ArmConstants.FORWARD_SOFT_LIMIT_LOWER);
+    m_lowerJoint.configReverseSoftLimitThreshold(ArmConstants.REVERSE_SOFT_LIMIT_LOWER);
+
+    m_upperJoint.configForwardSoftLimitEnable(false, ArmConstants.TIMEOUT);
+    m_upperJoint.configReverseSoftLimitEnable(false, ArmConstants.TIMEOUT);
+    m_lowerJoint.configForwardSoftLimitEnable(true, ArmConstants.TIMEOUT);
+    m_lowerJoint.configReverseSoftLimitEnable(true, ArmConstants.TIMEOUT);
+
 
     m_lowerJoint.configNominalOutputForward(ArmConstants.NOMINAL_OUTPUT_FORWARD, ArmConstants.TIMEOUT);
     m_lowerJoint.configNominalOutputReverse(ArmConstants.NOMINAL_OUTPUT_REVERSE, ArmConstants.TIMEOUT);
@@ -108,12 +122,12 @@ public class ArmSubsystem extends SubsystemBase {
     // m_lowerJointP.setDefault(ArmConstants.GAINS_LOWER_JOINT.kP);
     // m_lowerJointP.setDefault(ArmConstants.GAINS_LOWER_JOINT.kP);
 
-    SmartDashboard.putNumber("Upper P", 0.0);
-    SmartDashboard.putNumber("Upper I", 0.0);
-    SmartDashboard.putNumber("Upper D", 0.0);
-    SmartDashboard.putNumber("Lower P", 0.0);
-    SmartDashboard.putNumber("Lower I", 0.0);
-    SmartDashboard.putNumber("Lower D", 0.0);
+    SmartDashboard.putNumber("Upper P", ArmConstants.GAINS_UPPER_JOINT.kP);
+    SmartDashboard.putNumber("Upper I", ArmConstants.GAINS_UPPER_JOINT.kI);
+    SmartDashboard.putNumber("Upper D", ArmConstants.GAINS_UPPER_JOINT.kD);
+    SmartDashboard.putNumber("Lower P", ArmConstants.GAINS_LOWER_JOINT.kP);
+    SmartDashboard.putNumber("Lower I", ArmConstants.GAINS_LOWER_JOINT.kI);
+    SmartDashboard.putNumber("Lower D", ArmConstants.GAINS_LOWER_JOINT.kD);
     SmartDashboard.putNumber("Upper Setpoint", 0.0);
     SmartDashboard.putNumber("Lower Setpoint", 0.0);
 
@@ -155,15 +169,15 @@ public class ArmSubsystem extends SubsystemBase {
     m_lowerJoint.setSelectedSensorPosition(dutyCycleToCTREUnits(getLowerJointPos()), 0, ArmConstants.TIMEOUT);
 
     if(Constants.tuningMode){
-      SmartDashboard.putNumber("Lower Joint Abs", getLowerJointPos());
-      SmartDashboard.putNumber("Upper Joint Abs", getUpperJointPos());
+      // SmartDashboard.putNumber("Lower Joint Abs", getLowerJointPos());
+      // SmartDashboard.putNumber("Upper Joint Abs", getUpperJointPos());
       SmartDashboard.putNumber("Lower Joint CTRE Units", dutyCycleToCTREUnits(getLowerJointPos()));
       SmartDashboard.putNumber("Upper Joint CTRE Units", dutyCycleToCTREUnits(getUpperJointPos()));
       SmartDashboard.putNumber("Lower Joint Absolute Angle", dutyCycleToDegrees(getLowerJointPos()));
       SmartDashboard.putNumber("Upper Joint Absolute Angle", dutyCycleToDegrees(getUpperJointPos()));
 
-      SmartDashboard.putNumber("Upper Joint Talon Sensor Get", m_upperJoint.getSelectedSensorPosition());
-      SmartDashboard.putNumber("Lower Joint Talon Sensor Get", m_lowerJoint.getSelectedSensorPosition());
+      // SmartDashboard.putNumber("Upper Joint Talon Sensor Get", m_upperJoint.getSelectedSensorPosition());
+      // SmartDashboard.putNumber("Lower Joint Talon Sensor Get", m_lowerJoint.getSelectedSensorPosition());
       SmartDashboard.putNumber("Upper Joint Talon Target", m_upperJoint.getClosedLoopTarget());
       SmartDashboard.putNumber("Lower Joint Talon Target", m_lowerJoint.getClosedLoopTarget());
       SmartDashboard.putNumber("Upper Joint Talon Error", m_upperJoint.getClosedLoopError());
