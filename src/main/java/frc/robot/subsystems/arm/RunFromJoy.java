@@ -27,13 +27,13 @@ public class RunFromJoy extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_arm.setPercentOutputUpper(m_val.getAsDouble());
+    m_arm.setPercentOutputLower(m_val.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_arm.holdPositionUpper();
+    m_arm.holdPositionLower();
   }
 
   // Returns true when the command should end.

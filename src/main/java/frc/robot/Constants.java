@@ -205,37 +205,43 @@ public final class Constants {
 
   public static final class ArmConstants{
     /**
-     * kF = (1.0 * 1023)/87,110
-     * kF = (peak output * 1023)/ theoreical max velocity of motor in native sensor units/100 ms
-     * kF = 1023 is peak output for 
+     * kF = minimum percent output to break friction
      */
-    public static final  Gains GAINS_UPPER_JOINT = new Gains(0.01, 0.0, 0.0, 1023.0/87110.0, 50, 1.00 );
-    public static final  Gains GAINS_LOWER_JOINT  = new Gains(0.005, 0.0, 0.0, 1023.0/87110.0, 50, 1.00 );
+    public static final  Gains GAINS_UPPER_JOINT = new Gains(4.0, 0.001, 0.003, 0.02, 50, 1.00);
+    public static final  Gains GAINS_LOWER_JOINT  = new Gains(4.0, 0.001, 0.0, 0.02, 50, 1.00);
 
     /* Motor neutral dead-band : Range 0.001 -> 0.25 */
 	  public static final double NEUTRAL_DEADBAND = 0.05;
 
     public static final double NOMINAL_OUTPUT_FORWARD = 0;
     public static final double NOMINAL_OUTPUT_REVERSE = 0;
-    public static final double PEAK_OUTPUT_FORWARD = 0.25;
-    public static final double PEAK_OUTPUT_REVERSE = -0.25;
+    public static final double PEAK_OUTPUT_FORWARD = 1.0;
+    public static final double PEAK_OUTPUT_REVERSE = -1.0;
 
+    public static final int REVERSE_SOFT_LIMIT_UPPER = 150;
+    public static final int FORWARD_SOFT_LIMIT_UPPER = 3800;
+    public static final int REVERSE_SOFT_LIMIT_LOWER = 1400;
+    public static final int FORWARD_SOFT_LIMIT_LOWER = 3400;
     /**
      * Set to zero to skip waiting for confirmation.
      * Set to nonzero to wait and report to DS if action fails.
     */
 	  public final static int TIMEOUT = 10;
 
+    public static final int TOLERANCE_UPPER = 15;
+    public static final int TOLERANCE_LOWER = 15;
+
+    public static final double CLOSED_LOOP_RAMP_UPPER = 0.0;
+    public static final double CLOSED_LOOP_RAMP_LOWER = 0.0;
+
     // Motion Magic constants
     public static final int MOTION_CRUISE_VELOCITY_LOWER = 25000;
     public static final int MOTION_ACCELERATION_LOWER = 35000;
     public static final int CURVE_SMOOTHING_LOWER = 0;  /* Valid values: 0 -> 8 */
-    public static final int TOLERANCE_LOWER = 500;
 
     public static final int MOTION_CRUISE_VELOCITY_UPPER = 25000;
     public static final int MOTION_ACCELERATION_UPPER = 35000;
     public static final int CURVE_SMOOTHING_UPPER = 0;  /* Valid values: 0 -> 8 */
-    public static final int TOLERANCE_UPPER = 500;
 
     public static final double DUTY_CYCLE_MIN = 1.0/1025.0;
     public static final double DUTY_CYCLE_MAX = 1024.0/1025.0;

@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.arm.ArmSubsystem;
+import frc.robot.subsystems.arm.RunFromJoy;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.TeleopSwerve;
 
@@ -25,8 +26,8 @@ public class RobotContainer {
   private final CommandXboxController m_driverController =
       new CommandXboxController(0);
 
-  // private final CommandXboxController m_operatorController =
-  //     new CommandXboxController(1);
+  private final CommandXboxController m_operatorController =
+      new CommandXboxController(1);
 
   private final DriveSubsystem m_drive = new DriveSubsystem();
   private final ArmSubsystem m_arm = new ArmSubsystem();
@@ -48,8 +49,14 @@ public class RobotContainer {
     if(Constants.tuningMode){
       SmartDashboard.putData("Run Upper Arm PID", new RunCommand(m_arm::setUpperJointFromDashboardPos, m_arm));
       SmartDashboard.putData("Run Lower Arm PID", new RunCommand(m_arm::setLowerJointFromDashboardPos, m_arm));
+      SmartDashboard.putData("Run Upper Arm MM", new RunCommand(m_arm::setUpperJointFromDashboardMotion, m_arm));
+      SmartDashboard.putData("Run Lower Arm MM", new RunCommand(m_arm::setLowerJointFromDashboardMotion, m_arm));
 
     }  
+    else{
+      SmartDashboard.clearPersistent("Run Upper Arm PID");
+      SmartDashboard.clearPersistent("Run Lower Arm PID");
+    }
     // m_arm.setDefaultCommand(new RunFromJoy(m_arm, ()-> m_operatorController.getLeftY()));   
   }
 
