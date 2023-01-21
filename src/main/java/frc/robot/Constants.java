@@ -204,15 +204,16 @@ public final class Constants {
   }
 
   public static final class ArmConstants{
-    public static final  Gains GAINS_UPPER_JOINT = new Gains(0.01, 0.0, 0.0, 0.0, 50, 1.00 );
-    public static final  Gains GAINS_LOWER_JOINT  = new Gains(0.005, 0.0, 0.0, 0.0, 50, 1.00 );
+    /**
+     * kF = (1.0 * 1023)/87,110
+     * kF = (peak output * 1023)/ theoreical max velocity of motor in native sensor units/100 ms
+     * kF = 1023 is peak output for 
+     */
+    public static final  Gains GAINS_UPPER_JOINT = new Gains(0.01, 0.0, 0.0, 1023.0/87110.0, 50, 1.00 );
+    public static final  Gains GAINS_LOWER_JOINT  = new Gains(0.005, 0.0, 0.0, 1023.0/87110.0, 50, 1.00 );
 
-    public static final int REVERSE_SOFT_LIMIT_UPPER = 50;
-    public static final int FORWARD_SOFT_LIMIT_UPPER = 4000;
-    public static final int REVERSE_SOFT_LIMIT_LOWER = 650;
-    public static final int FORWARD_SOFT_LIMIT_LOWER = 3500;
     /* Motor neutral dead-band : Range 0.001 -> 0.25 */
-	  public static final double NEUTRAL_DEADBAND = 0.01;
+	  public static final double NEUTRAL_DEADBAND = 0.05;
 
     public static final double NOMINAL_OUTPUT_FORWARD = 0;
     public static final double NOMINAL_OUTPUT_REVERSE = 0;

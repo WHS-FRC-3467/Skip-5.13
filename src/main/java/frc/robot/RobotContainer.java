@@ -49,7 +49,8 @@ public class RobotContainer {
       SmartDashboard.putData("Run Upper Arm PID", new RunCommand(m_arm::setUpperJointFromDashboardPos, m_arm));
       SmartDashboard.putData("Run Lower Arm PID", new RunCommand(m_arm::setLowerJointFromDashboardPos, m_arm));
 
-    }                                  
+    }  
+    // m_arm.setDefaultCommand(new RunFromJoy(m_arm, ()-> m_operatorController.getLeftY()));   
   }
 
   /**
