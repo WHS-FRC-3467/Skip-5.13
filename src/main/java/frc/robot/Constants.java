@@ -207,8 +207,13 @@ public final class Constants {
     /**
      * kF = minimum percent output to break friction
      */
-    public static final  Gains GAINS_UPPER_JOINT = new Gains(4.0, 0.001, 0.003, 0.02, 50, 1.00);
-    public static final  Gains GAINS_LOWER_JOINT  = new Gains(4.0, 0.001, 0.0, 0.02, 50, 1.00);
+    // public static final  Gains GAINS_UPPER_JOINT = new Gains(4.0, 0.0, 0.00, 0.02, 50, 1.00);
+    public static final Gains GAINS_UPPER_JOINT = new Gains(7.86731, 0, 0, -0.012241, 50, 1.00);
+    public static final  Gains GAINS_LOWER_JOINT  = new Gains(4.0, 0.0, 0.0, 0.02, 50, 1.00);
+
+    //Max sensor velocity per 100 ms
+    //Max RPM 6380 * 2:1 gearing * 4096 ticks *1min/60000ms * 100ms
+    public static final int MAX_SENSOR_VEL = 86398;
 
     /* Motor neutral dead-band : Range 0.001 -> 0.25 */
 	  public static final double NEUTRAL_DEADBAND = 0.05;
@@ -235,12 +240,12 @@ public final class Constants {
     public static final double CLOSED_LOOP_RAMP_LOWER = 0.0;
 
     // Motion Magic constants
-    public static final int MOTION_CRUISE_VELOCITY_LOWER = 25000;
-    public static final int MOTION_ACCELERATION_LOWER = 35000;
+    public static final int MOTION_CRUISE_VELOCITY_LOWER = 80000;
+    public static final int MOTION_ACCELERATION_LOWER = 30000;
     public static final int CURVE_SMOOTHING_LOWER = 0;  /* Valid values: 0 -> 8 */
 
-    public static final int MOTION_CRUISE_VELOCITY_UPPER = 25000;
-    public static final int MOTION_ACCELERATION_UPPER = 35000;
+    public static final int MOTION_CRUISE_VELOCITY_UPPER = 50000;
+    public static final int MOTION_ACCELERATION_UPPER = 80000;
     public static final int CURVE_SMOOTHING_UPPER = 0;  /* Valid values: 0 -> 8 */
 
     public static final double DUTY_CYCLE_MIN = 1.0/1025.0;

@@ -12,20 +12,30 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class TeleopSwerve extends CommandBase {    
     private DriveSubsystem s_Swerve;    
-    private DoubleSupplier translationSup;
-    private DoubleSupplier strafeSup;
+    private DoubleSupplier xSup;
+    private DoubleSupplier ySup;
     private DoubleSupplier rotationSup;
-    // private BooleanSupplier robotCentricSup;
+    private BooleanSupplier robotCentricSup;
     private BooleanSupplier m_halfSpeed;
     private BooleanSupplier m_quarterSpeed;
-    public TeleopSwerve(DriveSubsystem s_Swerve, DoubleSupplier translationSup, DoubleSupplier strafeSup, DoubleSupplier rotationSup, BooleanSupplier robotCentricSup, BooleanSupplier halfSpeed, BooleanSupplier quarterSpeed) {
+    /**
+     * 
+     * @param s_Swerve
+     * @param xSup
+     * @param ySup
+     * @param rotationSup
+     * @param robotCentricSup
+     * @param halfSpeed
+     * @param quarterSpeed
+     */
+    public TeleopSwerve(DriveSubsystem s_Swerve, DoubleSupplier xSup, DoubleSupplier ySup, DoubleSupplier rotationSup, BooleanSupplier robotCentricSup, BooleanSupplier halfSpeed, BooleanSupplier quarterSpeed) {
         this.s_Swerve = s_Swerve;
         addRequirements(s_Swerve);
 
-        this.translationSup = translationSup;
-        this.strafeSup = strafeSup;
+        this.ySup = ySup;
+        this.xSup = xSup;
         this.rotationSup = rotationSup;
-        // this.robotCentricSup = robotCentricSup;
+        this.robotCentricSup = robotCentricSup;
         m_halfSpeed = halfSpeed;
         m_quarterSpeed = quarterSpeed;
     }
@@ -33,39 +43,41 @@ public class TeleopSwerve extends CommandBase {
     @Override
     public void execute() {
         /* Get Values, Deadband*/
-        double translationVal = MathUtil.applyDeadband(translationSup.getAsDouble(), SwerveConstants.DRIVE_DEADBAND);
-        double strafeVal = MathUtil.applyDeadband(strafeSup.getAsDouble(), SwerveConstants.DRIVE_DEADBAND);
+        double xVal = MathUtil.applyDeadband(xSup.getAsDouble(), SwerveConstants.DRIVE_DEADBAND);
+        double yVal = MathUtil.applyDeadband(ySup.getAsDouble(), SwerveConstants.DRIVE_DEADBAND);
         double rotationVal = MathUtil.applyDeadband(rotationSup.getAsDouble(), SwerveConstants.DRIVE_DEADBAND);
 
         if(m_quarterSpeed.getAsBoolean()){
-            translationVal = translationVal*0.25;
-            strafeVal =strafeVal*0.25;
+            xVal = xVal*0.25;
+            yVal =yVal*0.25;
             rotationVal = rotationVal*0.25;
             s_Swerve.drive(
-                new Translation2d(translationVal, strafeVal).times(SwerveConstants.MAX_SPEED), 
+                new Translation2d(xVal, yVal).times(SwerveConstants.MAX_SPEED), 
                 rotationVal * SwerveConstants.MAX_ANGULAR_VELOCITY, 
-                false,
+                true,
                 // !robotCentricSup.getAsBoolean(), 
                 true);
         }
         else if(m_halfSpeed.getAsBoolean()){
-            translationVal = translationVal*0.5;
-            strafeVal =strafeVal*0.5;
+            xVal = xVal*0.5;
+            yVal =yVal*0.5;
             rotationVal = rotationVal*0.5;
             s_Swerve.drive(
-                new Translation2d(translationVal, strafeVal).times(SwerveConstants.MAX_SPEED), 
+                new Translation2d(xVal, yVal).times(SwerveConstants.MAX_SPEED), 
                 rotationVal * SwerveConstants.MAX_ANGULAR_VELOCITY, 
+                true,
                 // !robotCentricSup.getAsBoolean(), 
-                false,
                 true);
+
         }
         else{
             s_Swerve.drive(
-            new Translation2d(translationVal, strafeVal).times(SwerveConstants.MAX_SPEED), 
-            rotationVal * SwerveConstants.MAX_ANGULAR_VELOCITY, 
-            // !robotCentricSup.getAsBoolean(), 
-            false,
-            true);
-        }
+                    new Translation2d(xVal, yVal).times(SwerveConstants.MAX_SPEED), 
+                    rotationVal * SwerveConstants.MAX_ANGULAR_VELOCITY, 
+                    true,
+                    // !robotCentricSup.getAsBoolean(), 
+                    true
+                );
+            }
     }
 }

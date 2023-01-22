@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -51,7 +52,6 @@ public class RobotContainer {
       SmartDashboard.putData("Run Lower Arm PID", new RunCommand(m_arm::setLowerJointFromDashboardPos, m_arm));
       SmartDashboard.putData("Run Upper Arm MM", new RunCommand(m_arm::setUpperJointFromDashboardMotion, m_arm));
       SmartDashboard.putData("Run Lower Arm MM", new RunCommand(m_arm::setLowerJointFromDashboardMotion, m_arm));
-
     }  
     else{
       SmartDashboard.clearPersistent("Run Upper Arm PID");
@@ -73,6 +73,7 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
+    m_driverController.start().whileTrue(new InstantCommand(m_drive::zeroGyro, m_drive));
   }
 
   /**

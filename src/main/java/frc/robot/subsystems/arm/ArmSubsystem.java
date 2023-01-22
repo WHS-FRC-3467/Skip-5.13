@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
@@ -38,6 +39,11 @@ public class ArmSubsystem extends SubsystemBase {
     m_lowerJoint.configFactoryDefault(ArmConstants.TIMEOUT);
     m_upperJoint.configFactoryDefault(ArmConstants.TIMEOUT);
 
+    // m_lowerJoint.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, ArmConstants.TIMEOUT, ArmConstants.TIMEOUT);
+		// m_lowerJoint.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, ArmConstants.TIMEOUT, ArmConstants.TIMEOUT);
+    // m_upperJoint.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, ArmConstants.TIMEOUT, ArmConstants.TIMEOUT);
+		// m_upperJoint.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, ArmConstants.TIMEOUT, ArmConstants.TIMEOUT);
+
     //Set Neutral Mode to Brake and NeutralDeadBand to prevent need for intentional stalling
     m_lowerJoint.setNeutralMode(NeutralMode.Brake);
     m_upperJoint.setNeutralMode(NeutralMode.Brake);
@@ -65,6 +71,7 @@ public class ArmSubsystem extends SubsystemBase {
     m_upperJoint.config_kP(0, ArmConstants.GAINS_UPPER_JOINT.kP, ArmConstants.TIMEOUT);
     m_upperJoint.config_kI(0, ArmConstants.GAINS_UPPER_JOINT.kI, ArmConstants.TIMEOUT);
     m_upperJoint.config_kD(0, ArmConstants.GAINS_UPPER_JOINT.kD, ArmConstants.TIMEOUT);
+    m_upperJoint.config_kF(0, ArmConstants.GAINS_UPPER_JOINT.kF, ArmConstants.TIMEOUT);
     m_upperJoint.config_IntegralZone(0, ArmConstants.GAINS_UPPER_JOINT.kIzone, ArmConstants.TIMEOUT);
     m_upperJoint.configAllowableClosedloopError(0, ArmConstants.TOLERANCE_UPPER, ArmConstants.TIMEOUT);
 
@@ -73,6 +80,15 @@ public class ArmSubsystem extends SubsystemBase {
     m_lowerJoint.config_kD(0, ArmConstants.GAINS_LOWER_JOINT.kD, ArmConstants.TIMEOUT);
     m_lowerJoint.config_IntegralZone(0, ArmConstants.GAINS_LOWER_JOINT.kIzone, ArmConstants.TIMEOUT);
     m_lowerJoint.configAllowableClosedloopError(0, ArmConstants.TOLERANCE_LOWER, ArmConstants.TIMEOUT);
+
+    //Motion Magic configs
+    m_lowerJoint.configMotionAcceleration(ArmConstants.MOTION_ACCELERATION_LOWER, ArmConstants.TIMEOUT);
+    m_lowerJoint.configMotionCruiseVelocity(ArmConstants.MOTION_CRUISE_VELOCITY_LOWER, ArmConstants.TIMEOUT);
+    m_lowerJoint.configMotionSCurveStrength(ArmConstants.CURVE_SMOOTHING_LOWER, ArmConstants.TIMEOUT);
+
+    m_upperJoint.configMotionAcceleration(ArmConstants.MOTION_ACCELERATION_UPPER, ArmConstants.TIMEOUT);
+    m_upperJoint.configMotionCruiseVelocity(ArmConstants.MOTION_CRUISE_VELOCITY_UPPER, ArmConstants.TIMEOUT);
+    m_upperJoint.configMotionSCurveStrength(ArmConstants.CURVE_SMOOTHING_UPPER, ArmConstants.TIMEOUT);
 
     m_lowerJoint.configClosedloopRamp(ArmConstants.CLOSED_LOOP_RAMP_LOWER, ArmConstants.TIMEOUT);
     m_upperJoint.configClosedloopRamp(ArmConstants.CLOSED_LOOP_RAMP_UPPER, ArmConstants.TIMEOUT);
@@ -98,8 +114,8 @@ public class ArmSubsystem extends SubsystemBase {
       SmartDashboard.putNumber("Lower D", ArmConstants.GAINS_LOWER_JOINT.kD);
       SmartDashboard.putNumber("Upper Setpoint", 0.0);
       SmartDashboard.putNumber("Lower Setpoint", 0.0); 
-      SmartDashboard.putNumber("Upper CLR", ArmConstants.CLOSED_LOOP_RAMP_UPPER);
-      SmartDashboard.putNumber("Lower CLR", ArmConstants.CLOSED_LOOP_RAMP_LOWER);
+      // SmartDashboard.putNumber("Upper CLR", ArmConstants.CLOSED_LOOP_RAMP_UPPER);
+      // SmartDashboard.putNumber("Lower CLR", ArmConstants.CLOSED_LOOP_RAMP_LOWER);
       SmartDashboard.putNumber("Upper Accel", ArmConstants.MOTION_ACCELERATION_UPPER);
       SmartDashboard.putNumber("Upper Vel", ArmConstants.MOTION_CRUISE_VELOCITY_UPPER);
       SmartDashboard.putNumber("Upper Curve", ArmConstants.CURVE_SMOOTHING_UPPER);
@@ -124,7 +140,6 @@ public class ArmSubsystem extends SubsystemBase {
       SmartDashboard.clearPersistent("Upper Curve");
       SmartDashboard.clearPersistent("Upper CLR");
       SmartDashboard.clearPersistent("Lower CLR");
-
     }
 
   }
@@ -136,10 +151,10 @@ public class ArmSubsystem extends SubsystemBase {
     m_lowerJoint.setSelectedSensorPosition(dutyCycleToCTREUnits(getLowerJointPos()), 0, ArmConstants.TIMEOUT);
 
     if(Constants.tuningMode){
-      SmartDashboard.putNumber("Lower CTRE", dutyCycleToCTREUnits(getLowerJointPos()));
-      SmartDashboard.putNumber("Upper CTRE", dutyCycleToCTREUnits(getUpperJointPos()));
-      SmartDashboard.putNumber("Lower Angle", dutyCycleToDegrees(getLowerJointPos()));
-      SmartDashboard.putNumber("Upper Angle", dutyCycleToDegrees(getUpperJointPos()));
+      // SmartDashboard.putNumber("Lower CTRE", dutyCycleToCTREUnits(getLowerJointPos()));
+      // SmartDashboard.putNumber("Upper CTRE", dutyCycleToCTREUnits(getUpperJointPos()));
+      // SmartDashboard.putNumber("Lower Angle", dutyCycleToDegrees(getLowerJointPos()));
+      // SmartDashboard.putNumber("Upper Angle", dutyCycleToDegrees(getUpperJointPos()));
 
       SmartDashboard.putNumber("Upper Sensor", m_upperJoint.getSelectedSensorPosition());
       SmartDashboard.putNumber("Lower Sensor", m_lowerJoint.getSelectedSensorPosition());
@@ -147,9 +162,13 @@ public class ArmSubsystem extends SubsystemBase {
       SmartDashboard.putNumber("Lower Target", m_lowerJoint.getClosedLoopTarget());
       SmartDashboard.putNumber("Upper Error", m_upperJoint.getClosedLoopError());
       SmartDashboard.putNumber("Lower Error", m_lowerJoint.getClosedLoopError());   
-
       SmartDashboard.putNumber("Upper Percent", m_upperJoint.getMotorOutputPercent());
       SmartDashboard.putNumber("Lower Percent", m_lowerJoint.getMotorOutputPercent());
+      SmartDashboard.putNumber("Upper Abs", getUpperJointPos());
+      SmartDashboard.putNumber("Lower Abs", getLowerJointPos());
+      SmartDashboard.putNumber("Upper Sensor Vel", m_upperJoint.getSelectedSensorVelocity());
+
+
     }
     else{
       SmartDashboard.clearPersistent("Lower CTRE");
@@ -163,7 +182,6 @@ public class ArmSubsystem extends SubsystemBase {
       SmartDashboard.clearPersistent("Lower Target");
       SmartDashboard.clearPersistent("Upper Error");
       SmartDashboard.clearPersistent("Lower Error");   
-
     }
 
   }
@@ -178,7 +196,8 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void setMotionMagicUpper(double position){
-    m_upperJoint.set(ControlMode.MotionMagic, position, DemandType.ArbitraryFeedForward, ArmConstants.GAINS_UPPER_JOINT.kF);
+
+    m_upperJoint.set(ControlMode.MotionMagic, position, DemandType.ArbitraryFeedForward, 0.02);
   }
 
   public void setPercentOutputLower(double speed){
@@ -228,7 +247,7 @@ public class ArmSubsystem extends SubsystemBase {
     m_lowerJoint.config_kP(0, SmartDashboard.getNumber("Lower P", ArmConstants.GAINS_UPPER_JOINT.kP));
     m_lowerJoint.config_kI(0, SmartDashboard.getNumber("Lower I", ArmConstants.GAINS_UPPER_JOINT.kI));
     m_lowerJoint.config_kD(0, SmartDashboard.getNumber("Lower D", ArmConstants.GAINS_UPPER_JOINT.kD));
-    m_lowerJoint.configClosedloopRamp(SmartDashboard.getNumber("Lower CLR", ArmConstants.CLOSED_LOOP_RAMP_LOWER));
+    //m_lowerJoint.configClosedloopRamp(SmartDashboard.getNumber("Lower CLR", ArmConstants.CLOSED_LOOP_RAMP_LOWER));
     setSimplePIDLower(SmartDashboard.getNumber("Lower Setpoint", 0.0));
   }
 
@@ -236,7 +255,7 @@ public class ArmSubsystem extends SubsystemBase {
     m_upperJoint.config_kP(0, SmartDashboard.getNumber("Upper P", ArmConstants.GAINS_LOWER_JOINT.kP));
     m_upperJoint.config_kI(0, SmartDashboard.getNumber("Upper I", ArmConstants.GAINS_LOWER_JOINT.kI));
     m_upperJoint.config_kD(0, SmartDashboard.getNumber("Upper D", ArmConstants.GAINS_LOWER_JOINT.kD));
-    m_upperJoint.configClosedloopRamp(SmartDashboard.getNumber("Upper CLR", ArmConstants.CLOSED_LOOP_RAMP_UPPER));
+    //m_upperJoint.configClosedloopRamp(SmartDashboard.getNumber("Upper CLR", ArmConstants.CLOSED_LOOP_RAMP_UPPER));
     setSimplePIDUpper(SmartDashboard.getNumber("Upper Setpoint", 0.0));
   }
   
