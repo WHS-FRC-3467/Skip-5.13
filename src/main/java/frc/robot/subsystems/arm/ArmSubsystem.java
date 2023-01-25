@@ -10,8 +10,10 @@ import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,7 +25,7 @@ import frc.robot.Constants.DIOConstants;
 
 public class ArmSubsystem extends SubsystemBase {
   /** Creates a new ArmSubsystem. */
-  private TalonFX m_lowerJoint = new TalonFX(CanConstants.LOWER_JOINT_MOTOR);
+  private TalonFX m_lowerJoint = new WPI_TalonFX(CanConstants.LOWER_JOINT_MOTOR);
   private TalonFX m_upperJoint = new TalonFX(CanConstants.UPPER_JOINT_MOTOR);
 
   private DutyCycleEncoder m_upperEncoder = new DutyCycleEncoder(DIOConstants.UPPER_ENCODER_ARM);
@@ -71,7 +73,6 @@ public class ArmSubsystem extends SubsystemBase {
     m_upperJoint.config_kP(0, ArmConstants.GAINS_UPPER_JOINT.kP, ArmConstants.TIMEOUT);
     m_upperJoint.config_kI(0, ArmConstants.GAINS_UPPER_JOINT.kI, ArmConstants.TIMEOUT);
     m_upperJoint.config_kD(0, ArmConstants.GAINS_UPPER_JOINT.kD, ArmConstants.TIMEOUT);
-    m_upperJoint.config_kF(0, ArmConstants.GAINS_UPPER_JOINT.kF, ArmConstants.TIMEOUT);
     m_upperJoint.config_IntegralZone(0, ArmConstants.GAINS_UPPER_JOINT.kIzone, ArmConstants.TIMEOUT);
     m_upperJoint.configAllowableClosedloopError(0, ArmConstants.TOLERANCE_UPPER, ArmConstants.TIMEOUT);
 
@@ -106,22 +107,20 @@ public class ArmSubsystem extends SubsystemBase {
     m_lowerJoint.configReverseSoftLimitThreshold(ArmConstants.REVERSE_SOFT_LIMIT_LOWER, ArmConstants.TIMEOUT);
 
     if(Constants.tuningMode){
-      SmartDashboard.putNumber("Upper P", ArmConstants.GAINS_UPPER_JOINT.kP);
-      SmartDashboard.putNumber("Upper I", ArmConstants.GAINS_UPPER_JOINT.kI);
-      SmartDashboard.putNumber("Upper D", ArmConstants.GAINS_UPPER_JOINT.kD);
-      SmartDashboard.putNumber("Lower P", ArmConstants.GAINS_LOWER_JOINT.kP);
-      SmartDashboard.putNumber("Lower I", ArmConstants.GAINS_LOWER_JOINT.kI);
-      SmartDashboard.putNumber("Lower D", ArmConstants.GAINS_LOWER_JOINT.kD);
-      SmartDashboard.putNumber("Upper Setpoint", 0.0);
-      SmartDashboard.putNumber("Lower Setpoint", 0.0); 
-      // SmartDashboard.putNumber("Upper CLR", ArmConstants.CLOSED_LOOP_RAMP_UPPER);
-      // SmartDashboard.putNumber("Lower CLR", ArmConstants.CLOSED_LOOP_RAMP_LOWER);
-      SmartDashboard.putNumber("Upper Accel", ArmConstants.MOTION_ACCELERATION_UPPER);
-      SmartDashboard.putNumber("Upper Vel", ArmConstants.MOTION_CRUISE_VELOCITY_UPPER);
-      SmartDashboard.putNumber("Upper Curve", ArmConstants.CURVE_SMOOTHING_UPPER);
-      SmartDashboard.putNumber("Lower Accel", ArmConstants.MOTION_ACCELERATION_LOWER);
-      SmartDashboard.putNumber("Lower Vel", ArmConstants.MOTION_CRUISE_VELOCITY_LOWER);
-      SmartDashboard.putNumber("Lower Curve", ArmConstants.CURVE_SMOOTHING_LOWER);
+      // SmartDashboard.putNumber("Upper P", ArmConstants.GAINS_UPPER_JOINT.kP);
+      // SmartDashboard.putNumber("Upper I", ArmConstants.GAINS_UPPER_JOINT.kI);
+      // SmartDashboard.putNumber("Upper D", ArmConstants.GAINS_UPPER_JOINT.kD);
+      // SmartDashboard.putNumber("Lower P", ArmConstants.GAINS_LOWER_JOINT.kP);
+      // SmartDashboard.putNumber("Lower I", ArmConstants.GAINS_LOWER_JOINT.kI);
+      // SmartDashboard.putNumber("Lower D", ArmConstants.GAINS_LOWER_JOINT.kD);
+      // SmartDashboard.putNumber("Upper Setpoint", 0.0);
+      // SmartDashboard.putNumber("Lower Setpoint", 0.0); 
+      // SmartDashboard.putNumber("Upper Accel", ArmConstants.MOTION_ACCELERATION_UPPER);
+      // SmartDashboard.putNumber("Upper Vel", ArmConstants.MOTION_CRUISE_VELOCITY_UPPER);
+      // SmartDashboard.putNumber("Upper Curve", ArmConstants.CURVE_SMOOTHING_UPPER);
+      // SmartDashboard.putNumber("Lower Accel", ArmConstants.MOTION_ACCELERATION_LOWER);
+      // SmartDashboard.putNumber("Lower Vel", ArmConstants.MOTION_CRUISE_VELOCITY_LOWER);
+      // SmartDashboard.putNumber("Lower Curve", ArmConstants.CURVE_SMOOTHING_LOWER);
     }
     else{
       SmartDashboard.clearPersistent("Upper P");
@@ -153,22 +152,20 @@ public class ArmSubsystem extends SubsystemBase {
     if(Constants.tuningMode){
       // SmartDashboard.putNumber("Lower CTRE", dutyCycleToCTREUnits(getLowerJointPos()));
       // SmartDashboard.putNumber("Upper CTRE", dutyCycleToCTREUnits(getUpperJointPos()));
-      // SmartDashboard.putNumber("Lower Angle", dutyCycleToDegrees(getLowerJointPos()));
-      // SmartDashboard.putNumber("Upper Angle", dutyCycleToDegrees(getUpperJointPos()));
+      SmartDashboard.putNumber("Lower Angle", dutyCycleToDegrees(getLowerJointPos()));
+      SmartDashboard.putNumber("Upper Angle", dutyCycleToDegrees(getUpperJointPos()));
 
-      SmartDashboard.putNumber("Upper Sensor", m_upperJoint.getSelectedSensorPosition());
-      SmartDashboard.putNumber("Lower Sensor", m_lowerJoint.getSelectedSensorPosition());
-      SmartDashboard.putNumber("Upper Target", m_upperJoint.getClosedLoopTarget());
-      SmartDashboard.putNumber("Lower Target", m_lowerJoint.getClosedLoopTarget());
+      // SmartDashboard.putNumber("Upper Sensor", m_upperJoint.getSelectedSensorPosition());
+      // SmartDashboard.putNumber("Lower Sensor", m_lowerJoint.getSelectedSensorPosition());
+      // SmartDashboard.putNumber("Upper Target", m_upperJoint.getClosedLoopTarget());
+      // SmartDashboard.putNumber("Lower Target", m_lowerJoint.getClosedLoopTarget());
       SmartDashboard.putNumber("Upper Error", m_upperJoint.getClosedLoopError());
       SmartDashboard.putNumber("Lower Error", m_lowerJoint.getClosedLoopError());   
       SmartDashboard.putNumber("Upper Percent", m_upperJoint.getMotorOutputPercent());
       SmartDashboard.putNumber("Lower Percent", m_lowerJoint.getMotorOutputPercent());
       SmartDashboard.putNumber("Upper Abs", getUpperJointPos());
       SmartDashboard.putNumber("Lower Abs", getLowerJointPos());
-      SmartDashboard.putNumber("Upper Sensor Vel", m_upperJoint.getSelectedSensorVelocity());
-
-
+      // SmartDashboard.putNumber("Upper Sensor Vel", m_upperJoint.getSe());
     }
     else{
       SmartDashboard.clearPersistent("Lower CTRE");
@@ -183,21 +180,19 @@ public class ArmSubsystem extends SubsystemBase {
       SmartDashboard.clearPersistent("Upper Error");
       SmartDashboard.clearPersistent("Lower Error");   
     }
-
   }
 
   public void setPercentOutputUpper(double speed){
-    m_upperJoint.set(ControlMode.PercentOutput, speed);
+    m_upperJoint.set(TalonFXControlMode.PercentOutput, speed);
   }
 
   public void setSimplePIDUpper(double position){
     System.out.println("running SimplePIDUpper");
-    m_upperJoint.set(ControlMode.Position, position, DemandType.ArbitraryFeedForward, ArmConstants.GAINS_UPPER_JOINT.kF);
+    m_upperJoint.set(TalonFXControlMode.Position, position, DemandType.ArbitraryFeedForward, ArmConstants.GAINS_UPPER_JOINT.kF);
   }
 
   public void setMotionMagicUpper(double position){
-
-    m_upperJoint.set(ControlMode.MotionMagic, position, DemandType.ArbitraryFeedForward, 0.02);
+    m_upperJoint.set(TalonFXControlMode.MotionMagic, position, DemandType.ArbitraryFeedForward, ArmConstants.GAINS_UPPER_JOINT.kF);
   }
 
   public void setPercentOutputLower(double speed){

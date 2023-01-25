@@ -10,8 +10,10 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.subsystems.arm.ArmRioPID;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.arm.RunFromJoy;
+import frc.robot.subsystems.arm.RunUpperArmFromButton;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.TeleopSwerve;
 
@@ -30,7 +32,7 @@ public class RobotContainer {
   private final CommandXboxController m_operatorController =
       new CommandXboxController(1);
 
-  private final DriveSubsystem m_drive = new DriveSubsystem();
+  // private final DriveSubsystem m_drive = new DriveSubsystem();
   private final ArmSubsystem m_arm = new ArmSubsystem();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -39,19 +41,19 @@ public class RobotContainer {
 
     new Pneumatics();
     configureBindings();
-    m_drive.setDefaultCommand(new TeleopSwerve(m_drive, 
-                                              () -> m_driverController.getLeftY(), 
-                                              () -> m_driverController.getLeftX(), 
-                                              () -> m_driverController.getRightX(), 
-                                              m_driverController.leftStick(),
-                                              m_driverController.leftBumper(),
-                                              m_driverController.rightBumper()));
+    // m_drive.setDefaultCommand(new TeleopSwerve(m_drive, 
+    //                                           () -> m_driverController.getLeftY(), 
+    //                                           () -> m_driverController.getLeftX(), 
+    //                                           () -> m_driverController.getRightX(), 
+    //                                           m_driverController.leftStick(),
+    //                                           m_driverController.leftBumper(),
+    //                                           m_driverController.rightBumper()));
     //"LowerPID", "LowerMM", "UpperPID", "UpperMM"
     if(Constants.tuningMode){
-      SmartDashboard.putData("Run Upper Arm PID", new RunCommand(m_arm::setUpperJointFromDashboardPos, m_arm));
-      SmartDashboard.putData("Run Lower Arm PID", new RunCommand(m_arm::setLowerJointFromDashboardPos, m_arm));
-      SmartDashboard.putData("Run Upper Arm MM", new RunCommand(m_arm::setUpperJointFromDashboardMotion, m_arm));
-      SmartDashboard.putData("Run Lower Arm MM", new RunCommand(m_arm::setLowerJointFromDashboardMotion, m_arm));
+      // SmartDashboard.putData("Run Upper Arm PID", new RunCommand(m_arm::setUpperJointFromDashboardPos, m_arm));
+      // SmartDashboard.putData("Run Lower Arm PID", new RunCommand(m_arm::setLowerJointFromDashboardPos, m_arm));
+      // SmartDashboard.putData("Run Upper Arm MM", new RunCommand(m_arm::setUpperJointFromDashboardMotion, m_arm));
+      // SmartDashboard.putData("Run Lower Arm MM", new RunCommand(m_arm::setLowerJointFromDashboardMotion, m_arm));
     }  
     else{
       SmartDashboard.clearPersistent("Run Upper Arm PID");
@@ -73,7 +75,10 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    m_driverController.start().whileTrue(new InstantCommand(m_drive::zeroGyro, m_drive));
+    // m_driverController.start().whileTrue(new InstantCommand(m_drive::zeroGyro, m_drive));
+
+    m_operatorController.a().whileTrue(new ArmRioPID(m_arm, 90));
+    m_operatorController.b().whileTrue(new ArmRioPID(m_arm, 270));
   }
 
   /**

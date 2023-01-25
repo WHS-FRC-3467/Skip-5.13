@@ -15,7 +15,7 @@ public class TeleopSwerve extends CommandBase {
     private DoubleSupplier xSup;
     private DoubleSupplier ySup;
     private DoubleSupplier rotationSup;
-    private BooleanSupplier robotCentricSup;
+    //private BooleanSupplier robotCentricSup;
     private BooleanSupplier m_halfSpeed;
     private BooleanSupplier m_quarterSpeed;
     /**
@@ -35,7 +35,7 @@ public class TeleopSwerve extends CommandBase {
         this.ySup = ySup;
         this.xSup = xSup;
         this.rotationSup = rotationSup;
-        this.robotCentricSup = robotCentricSup;
+        //this.robotCentricSup = robotCentricSup;
         m_halfSpeed = halfSpeed;
         m_quarterSpeed = quarterSpeed;
     }
