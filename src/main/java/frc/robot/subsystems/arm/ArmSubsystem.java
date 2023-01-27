@@ -106,7 +106,7 @@ public class ArmSubsystem extends SubsystemBase {
     m_lowerJoint.configForwardSoftLimitThreshold(ArmConstants.FORWARD_SOFT_LIMIT_LOWER, ArmConstants.TIMEOUT);
     m_lowerJoint.configReverseSoftLimitThreshold(ArmConstants.REVERSE_SOFT_LIMIT_LOWER, ArmConstants.TIMEOUT);
 
-    if(Constants.tuningMode){
+    //if(Constants.tuningMode){
       // SmartDashboard.putNumber("Upper P", ArmConstants.GAINS_UPPER_JOINT.kP);
       // SmartDashboard.putNumber("Upper I", ArmConstants.GAINS_UPPER_JOINT.kI);
       // SmartDashboard.putNumber("Upper D", ArmConstants.GAINS_UPPER_JOINT.kD);
@@ -115,25 +115,25 @@ public class ArmSubsystem extends SubsystemBase {
       // SmartDashboard.putNumber("Lower D", ArmConstants.GAINS_LOWER_JOINT.kD);
       // SmartDashboard.putNumber("Upper Setpoint", 0.0);
       // SmartDashboard.putNumber("Lower Setpoint", 0.0); 
-    }
-    else{
-      SmartDashboard.clearPersistent("Upper P");
-      SmartDashboard.clearPersistent("Upper I");
-      SmartDashboard.clearPersistent("Upper D");
-      SmartDashboard.clearPersistent("Lower P");
-      SmartDashboard.clearPersistent("Lower I");
-      SmartDashboard.clearPersistent("Lower D");
-      SmartDashboard.clearPersistent("Upper Setpoint");
-      SmartDashboard.clearPersistent("Lower Setpoint");
-      SmartDashboard.clearPersistent("Lower Cruise");
-      SmartDashboard.clearPersistent("Lower Accel");
-      SmartDashboard.clearPersistent("Lower Curve");
-      SmartDashboard.clearPersistent("Upper Cruise");
-      SmartDashboard.clearPersistent("Upper Accel");
-      SmartDashboard.clearPersistent("Upper Curve");
-      SmartDashboard.clearPersistent("Upper CLR");
-      SmartDashboard.clearPersistent("Lower CLR");
-    }
+    // }
+    // else{
+    //   SmartDashboard.clearPersistent("Upper P");
+    //   SmartDashboard.clearPersistent("Upper I");
+    //   SmartDashboard.clearPersistent("Upper D");
+    //   SmartDashboard.clearPersistent("Lower P");
+    //   SmartDashboard.clearPersistent("Lower I");
+    //   SmartDashboard.clearPersistent("Lower D");
+    //   SmartDashboard.clearPersistent("Upper Setpoint");
+    //   SmartDashboard.clearPersistent("Lower Setpoint");
+    //   SmartDashboard.clearPersistent("Lower Cruise");
+    //   SmartDashboard.clearPersistent("Lower Accel");
+    //   SmartDashboard.clearPersistent("Lower Curve");
+    //   SmartDashboard.clearPersistent("Upper Cruise");
+    //   SmartDashboard.clearPersistent("Upper Accel");
+    //   SmartDashboard.clearPersistent("Upper Curve");
+    //   SmartDashboard.clearPersistent("Upper CLR");
+    //   SmartDashboard.clearPersistent("Lower CLR");
+    // }
 
   }
 
@@ -144,35 +144,20 @@ public class ArmSubsystem extends SubsystemBase {
     m_lowerJoint.setSelectedSensorPosition(dutyCycleToCTREUnits(getLowerJointPos()), 0, ArmConstants.TIMEOUT);
 
     if(Constants.tuningMode){
-      // SmartDashboard.putNumber("Lower CTRE", dutyCycleToCTREUnits(getLowerJointPos()));
-      // SmartDashboard.putNumber("Upper CTRE", dutyCycleToCTREUnits(getUpperJointPos()));
       SmartDashboard.putNumber("Lower Angle", dutyCycleToDegrees(getLowerJointPos()));
       SmartDashboard.putNumber("Upper Angle", dutyCycleToDegrees(getUpperJointPos()));
-
-      // SmartDashboard.putNumber("Upper Sensor", m_upperJoint.getSelectedSensorPosition());
-      // SmartDashboard.putNumber("Lower Sensor", m_lowerJoint.getSelectedSensorPosition());
-      // SmartDashboard.putNumber("Upper Target", m_upperJoint.getClosedLoopTarget());
-      // SmartDashboard.putNumber("Lower Target", m_lowerJoint.getClosedLoopTarget());
-      // SmartDashboard.putNumber("Upper Error", m_upperJoint.getClosedLoopError());
-      // SmartDashboard.putNumber("Lower Error", m_lowerJoint.getClosedLoopError());   
       SmartDashboard.putNumber("Upper Percent", m_upperJoint.getMotorOutputPercent());
       SmartDashboard.putNumber("Lower Percent", m_lowerJoint.getMotorOutputPercent());
       SmartDashboard.putNumber("Upper Abs", getUpperJointPos());
       SmartDashboard.putNumber("Lower Abs", getLowerJointPos());
-      // SmartDashboard.putNumber("Upper Sensor Vel", m_upperJoint.getSe());
     }
     else{
-      SmartDashboard.clearPersistent("Lower CTRE");
-      SmartDashboard.clearPersistent("Upper CTRE");
       SmartDashboard.clearPersistent("Lower Angle");
       SmartDashboard.clearPersistent("Upper Angle");
-
-      SmartDashboard.clearPersistent("Upper Sensor");
-      SmartDashboard.clearPersistent("Lower Sensor");
-      SmartDashboard.clearPersistent("Upper Target");
-      SmartDashboard.clearPersistent("Lower Target");
-      SmartDashboard.clearPersistent("Upper Error");
-      SmartDashboard.clearPersistent("Lower Error");   
+      SmartDashboard.clearPersistent("Upper Percent");
+      SmartDashboard.clearPersistent("Lower Percent");
+      SmartDashboard.clearPersistent("Upper Abs");
+      SmartDashboard.clearPersistent("Lower Abs");
     }
   }
 

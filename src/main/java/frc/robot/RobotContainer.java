@@ -48,18 +48,7 @@ public class RobotContainer {
     //                                           m_driverController.leftStick(),
     //                                           m_driverController.leftBumper(),
     //                                           m_driverController.rightBumper()));
-    //"LowerPID", "LowerMM", "UpperPID", "UpperMM"
-    if(Constants.tuningMode){
-      // SmartDashboard.putData("Run Upper Arm PID", new RunCommand(m_arm::setUpperJointFromDashboardPos, m_arm));
-      // SmartDashboard.putData("Run Lower Arm PID", new RunCommand(m_arm::setLowerJointFromDashboardPos, m_arm));
-      // SmartDashboard.putData("Run Upper Arm MM", new RunCommand(m_arm::setUpperJointFromDashboardMotion, m_arm));
-      // SmartDashboard.putData("Run Lower Arm MM", new RunCommand(m_arm::setLowerJointFromDashboardMotion, m_arm));
-    }  
-    else{
-      SmartDashboard.clearPersistent("Run Upper Arm PID");
-      SmartDashboard.clearPersistent("Run Lower Arm PID");
-    }
-    // m_arm.setDefaultCommand(new RunFromJoy(m_arm, ()-> m_operatorController.getLeftY()));   
+
   }
 
   /**

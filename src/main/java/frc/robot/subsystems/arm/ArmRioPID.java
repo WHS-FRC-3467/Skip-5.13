@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems.arm;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -33,7 +32,6 @@ public class ArmRioPID extends CommandBase {
     m_controller.setGoal(m_position);
     m_controller.disableContinuousInput();
     m_controller.setTolerance(ArmConstants.TOLERANCE_UPPER);
-    //m_controller.reset(m_arm.dutyCycleToDegrees(m_arm.getLowerJointPos()));
     m_end = false;
   }
 
@@ -43,11 +41,12 @@ public class ArmRioPID extends CommandBase {
     double encoderVal = m_arm.dutyCycleToDegrees(m_arm.getUpperJointPos());
     double outPut = m_controller.calculate(encoderVal);
     double error = m_controller.getPositionError();
-    m_arm.setPercentOutputUpper(m_controller.calculate(m_arm.dutyCycleToDegrees(m_arm.getUpperJointPos())));
+    m_arm.setPercentOutputUpper(outPut);
     
-    System.out.println("Encoder Value Degrees " + m_arm.dutyCycleToDegrees(m_arm.getUpperJointPos()));
+    System.out.println("Encoder Value Degrees " + encoderVal);
     System.out.println("PID Output " + outPut);
     System.out.println("Arm error " + error);
+
     m_end = m_controller.atGoal();
   }
 
