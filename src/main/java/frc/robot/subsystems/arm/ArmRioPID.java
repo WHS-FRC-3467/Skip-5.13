@@ -43,7 +43,7 @@ public class ArmRioPID extends CommandBase {
     double encoderVal = m_arm.dutyCycleToDegrees(m_arm.getUpperJointPos());
     double outPut = m_controller.calculate(encoderVal);
     double error = m_controller.getPositionError();
-    m_arm.setPercentOutputUpper(m_controller.calculate(-m_arm.dutyCycleToDegrees(m_arm.getUpperJointPos())));
+    m_arm.setPercentOutputUpper(m_controller.calculate(m_arm.dutyCycleToDegrees(m_arm.getUpperJointPos())));
     
     System.out.println("Encoder Value Degrees " + m_arm.dutyCycleToDegrees(m_arm.getUpperJointPos()));
     System.out.println("PID Output " + outPut);
