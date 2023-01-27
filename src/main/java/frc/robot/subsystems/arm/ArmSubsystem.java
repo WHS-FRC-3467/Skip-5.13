@@ -9,7 +9,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
+//import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
@@ -115,12 +115,6 @@ public class ArmSubsystem extends SubsystemBase {
       // SmartDashboard.putNumber("Lower D", ArmConstants.GAINS_LOWER_JOINT.kD);
       // SmartDashboard.putNumber("Upper Setpoint", 0.0);
       // SmartDashboard.putNumber("Lower Setpoint", 0.0); 
-      // SmartDashboard.putNumber("Upper Accel", ArmConstants.MOTION_ACCELERATION_UPPER);
-      // SmartDashboard.putNumber("Upper Vel", ArmConstants.MOTION_CRUISE_VELOCITY_UPPER);
-      // SmartDashboard.putNumber("Upper Curve", ArmConstants.CURVE_SMOOTHING_UPPER);
-      // SmartDashboard.putNumber("Lower Accel", ArmConstants.MOTION_ACCELERATION_LOWER);
-      // SmartDashboard.putNumber("Lower Vel", ArmConstants.MOTION_CRUISE_VELOCITY_LOWER);
-      // SmartDashboard.putNumber("Lower Curve", ArmConstants.CURVE_SMOOTHING_LOWER);
     }
     else{
       SmartDashboard.clearPersistent("Upper P");
@@ -159,8 +153,8 @@ public class ArmSubsystem extends SubsystemBase {
       // SmartDashboard.putNumber("Lower Sensor", m_lowerJoint.getSelectedSensorPosition());
       // SmartDashboard.putNumber("Upper Target", m_upperJoint.getClosedLoopTarget());
       // SmartDashboard.putNumber("Lower Target", m_lowerJoint.getClosedLoopTarget());
-      SmartDashboard.putNumber("Upper Error", m_upperJoint.getClosedLoopError());
-      SmartDashboard.putNumber("Lower Error", m_lowerJoint.getClosedLoopError());   
+      // SmartDashboard.putNumber("Upper Error", m_upperJoint.getClosedLoopError());
+      // SmartDashboard.putNumber("Lower Error", m_lowerJoint.getClosedLoopError());   
       SmartDashboard.putNumber("Upper Percent", m_upperJoint.getMotorOutputPercent());
       SmartDashboard.putNumber("Lower Percent", m_lowerJoint.getMotorOutputPercent());
       SmartDashboard.putNumber("Upper Abs", getUpperJointPos());

@@ -77,8 +77,12 @@ public class RobotContainer {
     // cancelling on release.
     // m_driverController.start().whileTrue(new InstantCommand(m_drive::zeroGyro, m_drive));
 
-    m_operatorController.a().whileTrue(new ArmRioPID(m_arm, 90));
-    m_operatorController.b().whileTrue(new ArmRioPID(m_arm, 270));
+    //Arm towards Battery
+    m_operatorController.x().onTrue((new ArmRioPID(m_arm, 115)));
+    //Arm straight up
+    m_operatorController.y().onTrue(new ArmRioPID(m_arm, 176));
+    //Arm towards PDH
+    m_operatorController.b().onTrue(new ArmRioPID(m_arm, 291));
   }
 
   /**

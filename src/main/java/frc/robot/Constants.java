@@ -208,6 +208,10 @@ public final class Constants {
      * kF = minimum percent output to break friction
      */
     public static final  Gains GAINS_UPPER_JOINT = new Gains(0.001, 0.0, 0.00, 0.02, 50, 1.00);
+    public static final double UPPER_P = 1.0;
+    public static final double UPPER_I = 0.0; 
+    public static final double UPPER_D = 0.0; 
+
     public static final  Gains GAINS_LOWER_JOINT  = new Gains(4.0, 0.0, 0.0, 0.02, 50, 1.00);
 
     //Max sensor velocity per 100 ms
@@ -232,8 +236,8 @@ public final class Constants {
     */
 	  public final static int TIMEOUT = 10;
 
-    public static final int TOLERANCE_UPPER = 15;
-    public static final int TOLERANCE_LOWER = 15;
+    public static final double TOLERANCE_UPPER = 0.01;
+    public static final double TOLERANCE_LOWER = 15;
 
     public static final double CLOSED_LOOP_RAMP_UPPER = 0.0;
     public static final double CLOSED_LOOP_RAMP_LOWER = 0.0;
@@ -243,8 +247,8 @@ public final class Constants {
     public static final double MOTION_ACCELERATION_LOWER = 30000;
     public static final int CURVE_SMOOTHING_LOWER = 0;  /* Valid values: 0 -> 8 */
 
-    public static final double MOTION_CRUISE_VELOCITY_UPPER = 100;
-    public static final double MOTION_ACCELERATION_UPPER = 10;
+    public static final double MOTION_CRUISE_VELOCITY_UPPER = 0.2;
+    public static final double MOTION_ACCELERATION_UPPER = 0.2;
     public static final int CURVE_SMOOTHING_UPPER = 0;  /* Valid values: 0 -> 8 */
 
     public static final double DUTY_CYCLE_MIN = 1.0/1025.0;
