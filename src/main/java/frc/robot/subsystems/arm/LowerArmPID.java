@@ -9,7 +9,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmConstants;
 
-public class LowerArmRioPID extends CommandBase {
+public class LowerArmPID extends CommandBase {
   /** Creates a new ArmRioPID. */
   ArmSubsystem m_arm;
   double m_position;
@@ -18,9 +18,9 @@ public class LowerArmRioPID extends CommandBase {
   TrapezoidProfile.Constraints m_trapProfile = new TrapezoidProfile.Constraints(ArmConstants.MOTION_CRUISE_VELOCITY_UPPER, ArmConstants.MOTION_ACCELERATION_UPPER);
 
   // private ProfiledPIDController m_controller = new ProfiledPIDController(ArmConstants.UPPER_P, ArmConstants.UPPER_I, ArmConstants.UPPER_D, m_trapProfile);
-  private PIDController m_controller = new PIDController(ArmConstants.UPPER_P, ArmConstants.UPPER_I, ArmConstants.UPPER_D);
+  private PIDController m_controller = new PIDController(ArmConstants.GAINS_LOWER_JOINT.kP, ArmConstants.GAINS_LOWER_JOINT.kI, ArmConstants.GAINS_LOWER_JOINT.kD);
   
-  public LowerArmRioPID(ArmSubsystem arm, double position) {
+  public LowerArmPID(ArmSubsystem arm, double position) {
     m_arm = arm;
     m_position = position;
     addRequirements(m_arm);
@@ -32,7 +32,7 @@ public class LowerArmRioPID extends CommandBase {
   public void initialize() {
     m_controller.setSetpoint(m_position);
     m_controller.disableContinuousInput();
-    m_controller.setTolerance(ArmConstants.TOLERANCE_LOWER);
+    //m_controller.setTolerance(ArmConstants.TOLERANCE_LOWER);
     m_end = false;
   }
 
@@ -40,7 +40,7 @@ public class LowerArmRioPID extends CommandBase {
   @Override
   public void execute() {
     // m_controller.setGoal(m_position);
-    double encoderVal = m_arm.dutyCycleToDegrees(m_arm.getLowerJointPos());
+    double encoderVal = m_arm.getLowerJointDegrees();
     double outPut = m_controller.calculate(encoderVal, m_position);
     double error = m_controller.getPositionError();
     
@@ -51,7 +51,7 @@ public class LowerArmRioPID extends CommandBase {
     System.out.println("Arm error " + error);
     System.out.println("Position " + m_controller.getSetpoint());
 
-    m_end = m_controller.atSetpoint();
+    //m_end = m_controller.atSetpoint();
   }
 
   // Called once the command ends or is interrupted.

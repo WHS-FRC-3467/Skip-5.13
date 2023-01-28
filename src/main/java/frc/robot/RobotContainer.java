@@ -10,10 +10,11 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.subsystems.arm.UpperArmRioPID;
+import frc.robot.subsystems.arm.UpperArmPID;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.arm.ArmSubsystem;
+import frc.robot.subsystems.arm.LowerArmPID;
 import frc.robot.subsystems.arm.RunFromJoy;
-import frc.robot.subsystems.arm.RunUpperArmFromButton;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.TeleopSwerve;
 
@@ -48,7 +49,8 @@ public class RobotContainer {
     //                                           m_driverController.leftStick(),
     //                                           m_driverController.leftBumper(),
     //                                           m_driverController.rightBumper()));
-
+    
+    m_arm.setDefaultCommand(new RunFromJoy(m_arm, ()-> m_operatorController.getLeftY(), ()-> m_operatorController.getRightY()));
   }
 
   /**
@@ -67,11 +69,17 @@ public class RobotContainer {
     // m_driverController.start().whileTrue(new InstantCommand(m_drive::zeroGyro, m_drive));
 
     //Arm towards Battery
-    m_operatorController.x().onTrue((new UpperArmRioPID(m_arm, 115)));
+    m_operatorController.x().onTrue((new LowerArmPID(m_arm, ArmConstants.LOWER_HORIZANTAL_FORWARD)));
     //Arm straight up
-    m_operatorController.y().onTrue(new UpperArmRioPID(m_arm, 176));
+    m_operatorController.y().onTrue(new LowerArmPID(m_arm, ArmConstants.LOWER_VERTICAL));
     //Arm towards PDH
-    m_operatorController.b().onTrue(new UpperArmRioPID(m_arm, 291));
+    m_operatorController.b().onTrue(new LowerArmPID(m_arm, ArmConstants.LOWER_HORIZANTAL_BACKWARD));
+    //Arm towards Battery
+    // m_operatorController.x().onTrue((new UpperArmRioPID(m_arm, ArmConstants.UPPER_HORIZANTAL_FORWARD)));
+    // //Arm straight up
+    // m_operatorController.y().onTrue(new UpperArmRioPID(m_arm, ArmConstants.UPPER_VERTICAL));
+    // //Arm towards PDH
+    // m_operatorController.b().onTrue(new UpperArmRioPID(m_arm, ArmConstants.UPPER_HORIZANTAL_BACKWARD));
   }
 
   /**

@@ -5,12 +5,11 @@
 package frc.robot.subsystems.arm;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmConstants;
 
-public class UpperArmRioPID extends CommandBase {
+public class UpperArmPID extends CommandBase {
   /** Creates a new ArmRioPID. */
   ArmSubsystem m_arm;
   double m_position;
@@ -19,9 +18,9 @@ public class UpperArmRioPID extends CommandBase {
   TrapezoidProfile.Constraints m_trapProfile = new TrapezoidProfile.Constraints(ArmConstants.MOTION_CRUISE_VELOCITY_UPPER, ArmConstants.MOTION_ACCELERATION_UPPER);
 
   // private ProfiledPIDController m_controller = new ProfiledPIDController(ArmConstants.UPPER_P, ArmConstants.UPPER_I, ArmConstants.UPPER_D, m_trapProfile);
-  private PIDController m_controller = new PIDController(ArmConstants.UPPER_P, ArmConstants.UPPER_I, ArmConstants.UPPER_D);
+  private PIDController m_controller = new PIDController(ArmConstants.GAINS_UPPER_JOINT.kP, ArmConstants.GAINS_UPPER_JOINT.kI, ArmConstants.GAINS_UPPER_JOINT.kD);
   
-  public UpperArmRioPID(ArmSubsystem arm, double position) {
+  public UpperArmPID(ArmSubsystem arm, double position) {
     m_arm = arm;
     m_position = position;
     addRequirements(m_arm);
@@ -41,7 +40,7 @@ public class UpperArmRioPID extends CommandBase {
   @Override
   public void execute() {
     // m_controller.setGoal(m_position);
-    double encoderVal = m_arm.dutyCycleToDegrees(m_arm.getUpperJointPos());
+    double encoderVal = m_arm.getUpperJointDegrees();
     double outPut = m_controller.calculate(encoderVal, m_position);
     double error = m_controller.getPositionError();
     

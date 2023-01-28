@@ -207,15 +207,9 @@ public final class Constants {
     /**
      * kF = minimum percent output to break friction
      */
-    public static final  Gains GAINS_UPPER_JOINT = new Gains(0.001, 0.0, 0.00, 0.02, 50, 1.00);
-    public static final double UPPER_P = 0.05;
-    public static final double UPPER_I = 0.0; 
-    public static final double UPPER_D = 0.0; 
-    public static final double LOWER_P = 0.05;
-    public static final double LOWER_I = 0.0; 
-    public static final double LOWER_D = 0.0; 
+    public static final  Gains GAINS_UPPER_JOINT = new Gains(0.05, 0.0, 0.00, 0.0, 50, 1.00);
 
-    public static final  Gains GAINS_LOWER_JOINT  = new Gains(4.0, 0.0, 0.0, 0.02, 50, 1.00);
+    public static final  Gains GAINS_LOWER_JOINT  = new Gains(0.04, 0.0, 0.0, 0.00, 50, 1.00);
 
     //Max sensor velocity per 100 ms
     //Max RPM 6380 * 2:1 gearing * 4096 ticks *1min/60000ms * 100ms
@@ -226,13 +220,13 @@ public final class Constants {
 
     public static final double NOMINAL_OUTPUT_FORWARD = 0;
     public static final double NOMINAL_OUTPUT_REVERSE = 0;
-    public static final double PEAK_OUTPUT_FORWARD = 0.25;
-    public static final double PEAK_OUTPUT_REVERSE = -0.25;
+    public static final double PEAK_OUTPUT_FORWARD = 0.3;
+    public static final double PEAK_OUTPUT_REVERSE = -0.3;
 
-    public static final int REVERSE_SOFT_LIMIT_UPPER = 150;
+    public static final int REVERSE_SOFT_LIMIT_UPPER = 500;
     public static final int FORWARD_SOFT_LIMIT_UPPER = 3800;
-    public static final int REVERSE_SOFT_LIMIT_LOWER = 1400;
-    public static final int FORWARD_SOFT_LIMIT_LOWER = 3400;
+    public static final int REVERSE_SOFT_LIMIT_LOWER = 800;
+    public static final int FORWARD_SOFT_LIMIT_LOWER = 3200;
     /**
      * Set to zero to skip waiting for confirmation.
      * Set to nonzero to wait and report to DS if action fails.
@@ -260,6 +254,19 @@ public final class Constants {
     public static final double PERIOD = 1025;
 
     public static final double ENCODER_DISTANCE_PER_PULSE =  (2.0 * Math.PI / 8192);
+
+    //Setpoints
+    public static final double UPPER_HORIZANTAL_FORWARD = 115;
+    public static final double UPPER_VERTICAL = 176;
+    public static final double UPPER_HORIZANTAL_BACKWARD = 291;
+
+    public static final double LOWER_HORIZANTAL_FORWARD = 264;
+    public static final double LOWER_VERTICAL = 175;
+    public static final double LOWER_HORIZANTAL_BACKWARD = 82;
+
+    public static final double TEST_SETPOINT_UPPER = 260;
+    public static final double TEST_SETPOINT_LOWER = 150;
+
   }
 
   public static final class LimelightConstants{

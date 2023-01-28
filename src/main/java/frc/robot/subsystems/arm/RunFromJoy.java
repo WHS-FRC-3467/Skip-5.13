@@ -10,11 +10,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class RunFromJoy extends CommandBase {
   /** Creates a new RunFromJoy. */
-  DoubleSupplier m_val;
+  DoubleSupplier m_lowerVal, m_upperVal;
   ArmSubsystem m_arm;
-  public RunFromJoy(ArmSubsystem arm, DoubleSupplier val) {
+  public RunFromJoy(ArmSubsystem arm, DoubleSupplier lowerVal, DoubleSupplier upperVal) {
     m_arm = arm;
-    m_val = val;
+    m_lowerVal = lowerVal;
+    m_upperVal = upperVal;
     addRequirements(m_arm);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -27,13 +28,15 @@ public class RunFromJoy extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_arm.setPercentOutputLower(m_val.getAsDouble());
+    m_arm.setPercentOutputUpper(m_upperVal.getAsDouble() * 0.5);    
+    m_arm.setPercentOutputLower(m_lowerVal.getAsDouble() * 0.5);
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_arm.holdPositionLower();
+    m_arm.holdPositionUpper();
   }
 
   // Returns true when the command should end.
