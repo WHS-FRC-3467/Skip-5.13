@@ -98,13 +98,13 @@ public class ArmSubsystem extends SubsystemBase {
     m_lowerJoint.configFeedbackNotContinuous(true, ArmConstants.TIMEOUT);
     m_upperJoint.configFeedbackNotContinuous(true, ArmConstants.TIMEOUT);
 
-    m_lowerJoint.configForwardSoftLimitEnable(true, ArmConstants.TIMEOUT);
-    m_upperJoint.configForwardSoftLimitEnable(true, ArmConstants.TIMEOUT);
+    // m_lowerJoint.configForwardSoftLimitEnable(true, ArmConstants.TIMEOUT);
+    // m_upperJoint.configForwardSoftLimitEnable(true, ArmConstants.TIMEOUT);
 
-    m_upperJoint.configForwardSoftLimitThreshold(ArmConstants.FORWARD_SOFT_LIMIT_UPPER, ArmConstants.TIMEOUT);
-    m_upperJoint.configReverseSoftLimitThreshold(ArmConstants.REVERSE_SOFT_LIMIT_UPPER, ArmConstants.TIMEOUT);
-    m_lowerJoint.configForwardSoftLimitThreshold(ArmConstants.FORWARD_SOFT_LIMIT_LOWER, ArmConstants.TIMEOUT);
-    m_lowerJoint.configReverseSoftLimitThreshold(ArmConstants.REVERSE_SOFT_LIMIT_LOWER, ArmConstants.TIMEOUT);
+    // m_upperJoint.configForwardSoftLimitThreshold(ArmConstants.FORWARD_SOFT_LIMIT_UPPER, ArmConstants.TIMEOUT);
+    // m_upperJoint.configReverseSoftLimitThreshold(ArmConstants.REVERSE_SOFT_LIMIT_UPPER, ArmConstants.TIMEOUT);
+    // m_lowerJoint.configForwardSoftLimitThreshold(ArmConstants.FORWARD_SOFT_LIMIT_LOWER, ArmConstants.TIMEOUT);
+    // m_lowerJoint.configReverseSoftLimitThreshold(ArmConstants.REVERSE_SOFT_LIMIT_LOWER, ArmConstants.TIMEOUT);
 
     //if(Constants.tuningMode){
       // SmartDashboard.putNumber("Upper P", ArmConstants.GAINS_UPPER_JOINT.kP);

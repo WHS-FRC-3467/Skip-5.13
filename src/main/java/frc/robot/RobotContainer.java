@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.subsystems.arm.ArmRioPID;
+import frc.robot.subsystems.arm.UpperArmRioPID;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.arm.RunFromJoy;
 import frc.robot.subsystems.arm.RunUpperArmFromButton;
@@ -67,11 +67,11 @@ public class RobotContainer {
     // m_driverController.start().whileTrue(new InstantCommand(m_drive::zeroGyro, m_drive));
 
     //Arm towards Battery
-    m_operatorController.x().onTrue((new ArmRioPID(m_arm, 115)));
+    m_operatorController.x().onTrue((new UpperArmRioPID(m_arm, 115)));
     //Arm straight up
-    m_operatorController.y().onTrue(new ArmRioPID(m_arm, 176));
+    m_operatorController.y().onTrue(new UpperArmRioPID(m_arm, 176));
     //Arm towards PDH
-    m_operatorController.b().onTrue(new ArmRioPID(m_arm, 291));
+    m_operatorController.b().onTrue(new UpperArmRioPID(m_arm, 291));
   }
 
   /**
