@@ -15,7 +15,7 @@ public class UpperArmPID extends CommandBase {
   double m_position;
 
   boolean m_end;
-  TrapezoidProfile.Constraints m_trapProfile = new TrapezoidProfile.Constraints(ArmConstants.MOTION_CRUISE_VELOCITY_UPPER, ArmConstants.MOTION_ACCELERATION_UPPER);
+  TrapezoidProfile.Constraints m_trapProfile = new TrapezoidProfile.Constraints(ArmConstants.UPPER_CRUISE, ArmConstants.UPPER_ACCELERATION);
 
   // private ProfiledPIDController m_controller = new ProfiledPIDController(ArmConstants.UPPER_P, ArmConstants.UPPER_I, ArmConstants.UPPER_D, m_trapProfile);
   private PIDController m_controller = new PIDController(ArmConstants.GAINS_UPPER_JOINT.kP, ArmConstants.GAINS_UPPER_JOINT.kI, ArmConstants.GAINS_UPPER_JOINT.kD);
@@ -63,6 +63,6 @@ public class UpperArmPID extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_end;
   }
 }

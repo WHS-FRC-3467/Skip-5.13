@@ -233,20 +233,15 @@ public final class Constants {
     */
 	  public final static int TIMEOUT = 10;
 
-    public static final double TOLERANCE_UPPER = 0.001;
-    public static final double TOLERANCE_LOWER = 0.001;
-
-    public static final double CLOSED_LOOP_RAMP_UPPER = 0.0;
-    public static final double CLOSED_LOOP_RAMP_LOWER = 0.0;
+    public static final double TOLERANCE_UPPER = 1.5;
+    public static final double TOLERANCE_LOWER = 0.5;
 
     // Motion Magic constants
-    public static final double MOTION_CRUISE_VELOCITY_LOWER = 80000;
-    public static final double MOTION_ACCELERATION_LOWER = 30000;
-    public static final int CURVE_SMOOTHING_LOWER = 0;  /* Valid values: 0 -> 8 */
+    public static final double LOWER_CRUISE = 0.5;
+    public static final double LOWER_ACCELERATION = 0.5;
 
-    public static final double MOTION_CRUISE_VELOCITY_UPPER = 0.001;
-    public static final double MOTION_ACCELERATION_UPPER = 0.001;
-    public static final int CURVE_SMOOTHING_UPPER = 0;  /* Valid values: 0 -> 8 */
+    public static final double UPPER_CRUISE = 0.5;
+    public static final double UPPER_ACCELERATION = 0.5;
 
     public static final double DUTY_CYCLE_MIN = 1.0/1025.0;
     public static final double DUTY_CYCLE_MAX = 1024.0/1025.0;

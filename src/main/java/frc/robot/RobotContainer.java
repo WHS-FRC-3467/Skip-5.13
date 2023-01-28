@@ -15,6 +15,7 @@ import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.arm.LowerArmPID;
 import frc.robot.subsystems.arm.RunFromJoy;
+import frc.robot.subsystems.arm.SetBothArms;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.TeleopSwerve;
 
@@ -74,6 +75,9 @@ public class RobotContainer {
     m_operatorController.y().onTrue(new LowerArmPID(m_arm, ArmConstants.LOWER_VERTICAL));
     //Arm towards PDH
     m_operatorController.b().onTrue(new LowerArmPID(m_arm, ArmConstants.LOWER_HORIZANTAL_BACKWARD));
+
+    m_operatorController.a().onTrue(new SetBothArms(m_arm, ArmConstants.TEST_SETPOINT_LOWER, ArmConstants.TEST_SETPOINT_UPPER));
+
     //Arm towards Battery
     // m_operatorController.x().onTrue((new UpperArmRioPID(m_arm, ArmConstants.UPPER_HORIZANTAL_FORWARD)));
     // //Arm straight up

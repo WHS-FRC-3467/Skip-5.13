@@ -15,7 +15,7 @@ public class LowerArmPID extends CommandBase {
   double m_position;
 
   boolean m_end;
-  TrapezoidProfile.Constraints m_trapProfile = new TrapezoidProfile.Constraints(ArmConstants.MOTION_CRUISE_VELOCITY_UPPER, ArmConstants.MOTION_ACCELERATION_UPPER);
+  TrapezoidProfile.Constraints m_trapProfile = new TrapezoidProfile.Constraints(ArmConstants.LOWER_CRUISE, ArmConstants.LOWER_ACCELERATION);
 
   // private ProfiledPIDController m_controller = new ProfiledPIDController(ArmConstants.UPPER_P, ArmConstants.UPPER_I, ArmConstants.UPPER_D, m_trapProfile);
   private PIDController m_controller = new PIDController(ArmConstants.GAINS_LOWER_JOINT.kP, ArmConstants.GAINS_LOWER_JOINT.kI, ArmConstants.GAINS_LOWER_JOINT.kD);
@@ -32,7 +32,7 @@ public class LowerArmPID extends CommandBase {
   public void initialize() {
     m_controller.setSetpoint(m_position);
     m_controller.disableContinuousInput();
-    //m_controller.setTolerance(ArmConstants.TOLERANCE_LOWER);
+    m_controller.setTolerance(ArmConstants.TOLERANCE_LOWER);
     m_end = false;
   }
 
@@ -51,7 +51,7 @@ public class LowerArmPID extends CommandBase {
     System.out.println("Arm error " + error);
     System.out.println("Position " + m_controller.getSetpoint());
 
-    //m_end = m_controller.atSetpoint();
+    m_end = m_controller.atSetpoint();
   }
 
   // Called once the command ends or is interrupted.
@@ -63,6 +63,6 @@ public class LowerArmPID extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_end;
   }
 }

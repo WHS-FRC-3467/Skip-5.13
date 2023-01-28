@@ -40,8 +40,8 @@ public class ArmSubsystem extends SubsystemBase {
     m_upperJoint.configFactoryDefault(ArmConstants.TIMEOUT);
 
     //Set Neutral Mode to Brake and NeutralDeadBand to prevent need for intentional stalling
-    m_lowerJoint.setNeutralMode(NeutralMode.Coast);
-    m_upperJoint.setNeutralMode(NeutralMode.Coast);
+    m_lowerJoint.setNeutralMode(NeutralMode.Brake);
+    m_upperJoint.setNeutralMode(NeutralMode.Brake);
 
     m_lowerJoint.configNeutralDeadband(ArmConstants.NEUTRAL_DEADBAND);
     m_upperJoint.configNeutralDeadband(ArmConstants.NEUTRAL_DEADBAND);
@@ -61,10 +61,6 @@ public class ArmSubsystem extends SubsystemBase {
     m_upperJoint.configNominalOutputReverse(ArmConstants.NOMINAL_OUTPUT_REVERSE, ArmConstants.TIMEOUT);
     m_upperJoint.configPeakOutputForward(ArmConstants.PEAK_OUTPUT_FORWARD, ArmConstants.TIMEOUT);
     m_upperJoint.configPeakOutputReverse(ArmConstants.PEAK_OUTPUT_REVERSE, ArmConstants.TIMEOUT);
-
-
-    m_lowerJoint.configClosedloopRamp(ArmConstants.CLOSED_LOOP_RAMP_LOWER, ArmConstants.TIMEOUT);
-    m_upperJoint.configClosedloopRamp(ArmConstants.CLOSED_LOOP_RAMP_UPPER, ArmConstants.TIMEOUT);
 
     m_lowerJoint.configVoltageCompSaturation(12.9, ArmConstants.TIMEOUT);
     m_upperJoint.configVoltageCompSaturation(12.9, ArmConstants.TIMEOUT);
