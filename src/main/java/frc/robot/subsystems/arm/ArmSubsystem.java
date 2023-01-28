@@ -5,7 +5,6 @@
 package frc.robot.subsystems.arm;
 
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
@@ -102,7 +101,6 @@ public class ArmSubsystem extends SubsystemBase {
       SmartDashboard.clearPersistent("Lower Abs");
       SmartDashboard.clearPersistent("Upper Current");
       SmartDashboard.clearPersistent("Lower Current");
-
     }
   }
 
@@ -111,13 +109,13 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void setPercentOutputLower(double speed){
-    m_lowerJoint.set(ControlMode.PercentOutput, speed);
+    m_lowerJoint.set(TalonFXControlMode.PercentOutput, speed);
   }
-
 
   public void holdPositionUpper(){
-    m_lowerJoint.neutralOutput();;
+    m_lowerJoint.neutralOutput();
   }
+
   public void holdPositionLower(){
     m_lowerJoint.neutralOutput();
   }
@@ -137,7 +135,6 @@ public class ArmSubsystem extends SubsystemBase {
     return dutyCycleToDegrees(getUpperJointPos());
   }
 
-    
   public double dutyCycleToCTREUnits(double dutyCyclePos){
     //4096 units per rotation = raw sensor units for Pulse width encoder
     return dutyCyclePos * 4096;
@@ -146,6 +143,4 @@ public class ArmSubsystem extends SubsystemBase {
   public double dutyCycleToDegrees(double dutyCyclePos) {
     return dutyCyclePos * 360;
   }
-
-  
 }

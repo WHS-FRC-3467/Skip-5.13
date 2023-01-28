@@ -4,7 +4,8 @@
 
 package frc.robot.subsystems.claw;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -16,8 +17,11 @@ import frc.robot.Constants.PHConstants;
 public class ClawSubsytem extends SubsystemBase {
   /** Creates a new ClawSubsytem. */
   private TalonSRX m_clawMotor = new TalonSRX(CanConstants.CLAW_MOTOR);
-  private Solenoid m_clawJoint = new Solenoid(PneumaticsModuleType.REVPH, PHConstants.CLAW_JOINT_CHANNEL);
-  public ClawSubsytem() {}
+  // private Solenoid m_clawJoint = new Solenoid(PneumaticsModuleType.REVPH, PHConstants.CLAW_JOINT_CHANNEL);
+  public ClawSubsytem() {
+    m_clawMotor.configFactoryDefault();
+    m_clawMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 20, 30, 0.2));
+  }
 
   
   @Override
@@ -25,15 +29,15 @@ public class ClawSubsytem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
   public void driveClaw(double speed){
-    m_clawMotor.set(ControlMode.PercentOutput, speed);
+    m_clawMotor.set(TalonSRXControlMode.PercentOutput, speed);
   }
-  public void actuateClawUp(){
-    m_clawJoint.set(true);
-  }
-  public void actuateClawDown(){
-    m_clawJoint.set(false);
-  }
-  public void toggleClaw(){
-    m_clawJoint.toggle();
-  }
+  // public void actuateClawUp(){
+  //   m_clawJoint.set(true);
+  // }
+  // public void actuateClawDown(){
+  //   m_clawJoint.set(false);
+  // }
+  // public void toggleClaw(){
+  //   m_clawJoint.toggle();
+  // }
 }

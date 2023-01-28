@@ -8,18 +8,16 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmConstants;
 
-public class SetBothArms extends CommandBase {
-  /** Creates a new SetBothArms. */
+public class HoldPosition extends CommandBase {
+
+  /** Creates a new HoldPosition. */
   ArmSubsystem m_arm;
-  double m_lowerSepoint, m_upperSetpoint;
-  boolean m_end;
+  double m_lowerStart, m_upperStart;
 
   PIDController m_controllerLower = new PIDController(ArmConstants.GAINS_LOWER_JOINT.kP, ArmConstants.GAINS_LOWER_JOINT.kI, ArmConstants.GAINS_LOWER_JOINT.kD);
   PIDController m_controllerUpper = new PIDController(ArmConstants.GAINS_UPPER_JOINT.kP, ArmConstants.GAINS_UPPER_JOINT.kI, ArmConstants.GAINS_UPPER_JOINT.kD);
 
-  public SetBothArms(ArmSubsystem arm, double lowerSetpoint, double upperSetpoint) {
-    m_lowerSepoint = lowerSetpoint;
-    m_upperSetpoint = upperSetpoint;
+  public HoldPosition(ArmSubsystem arm) {
     m_arm = arm;
     addRequirements(m_arm);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -28,52 +26,39 @@ public class SetBothArms extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_controllerUpper.setSetpoint(m_upperSetpoint);
+    m_lowerStart = m_arm.getLowerJointDegrees();
+    m_upperStart = m_arm.getUpperJointDegrees();
+
+    m_controllerUpper.setSetpoint(m_upperStart);
     m_controllerUpper.disableContinuousInput();
-    m_controllerUpper.setTolerance(ArmConstants.TOLERANCE_UPPER);
+    m_controllerUpper.setTolerance(0.0);
 
-    m_controllerLower.setSetpoint(m_lowerSepoint);
+    m_controllerLower.setSetpoint(m_lowerStart);
     m_controllerLower.disableContinuousInput();
-    m_controllerLower.setTolerance(ArmConstants.TOLERANCE_LOWER);
-
-    m_end = false;
+    m_controllerLower.setTolerance(0.0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     double upperEncoderVal = m_arm.getUpperJointDegrees();
-    double upperOutput = m_controllerUpper.calculate(upperEncoderVal, m_upperSetpoint);
+    double upperOutput = m_controllerUpper.calculate(upperEncoderVal, m_upperStart);
     m_arm.setPercentOutputUpper(upperOutput);
 
     double lowerEncoderVal = m_arm.getLowerJointDegrees();
-    double lowerOutput = m_controllerLower.calculate(lowerEncoderVal, m_lowerSepoint);
+    double lowerOutput = m_controllerLower.calculate(lowerEncoderVal, m_lowerStart);
     m_arm.setPercentOutputLower(lowerOutput);
-
-    if(m_controllerUpper.atSetpoint() && m_controllerLower.atSetpoint()){
-      m_end = true;
-    }
-    else{
-      m_end = false;
-    }
-
-    System.out.println("Upper Error " + m_controllerUpper.getPositionError());
-    System.out.println("Lower Error " + m_controllerLower.getPositionError());
-    System.out.println("Upper at setpoint" + m_controllerUpper.atSetpoint());
-    System.out.println("Lower at setpoint" + m_controllerLower.atSetpoint());
-    System.out.println("m_end " + m_end);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_arm.holdPositionLower();
-    m_arm.holdPositionUpper();
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_end;
+    return false;
   }
 }

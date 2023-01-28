@@ -136,11 +136,10 @@ public final class Constants {
     
     /* Drive Motor PID Values */
     public static final Gains GAINS_DRIVE_MOTOR = new Gains(0.05, 0.0, 0.0, 0.0, 0, 0);
-    //TODO: This must be tuned to specific robot
 
     /* Drive Motor Characterization Values 
      * Divide SYSID values by 12 to convert from volts to percent output for CTRE */
-    public static final double DRIVE_KS = (0.32 / 12); //TODO: This must be tuned to specific robot
+    public static final double DRIVE_KS = (0.32 / 12); 
     public static final double DRIVE_KV = (1.51 / 12);
     public static final double DRIVE_KA = (0.27 / 12);
 
@@ -223,18 +222,19 @@ public final class Constants {
     public static final double PEAK_OUTPUT_FORWARD = 0.3;
     public static final double PEAK_OUTPUT_REVERSE = -0.3;
 
-    public static final int REVERSE_SOFT_LIMIT_UPPER = 500;
-    public static final int FORWARD_SOFT_LIMIT_UPPER = 3800;
-    public static final int REVERSE_SOFT_LIMIT_LOWER = 800;
-    public static final int FORWARD_SOFT_LIMIT_LOWER = 3200;
+    public static final int REVERSE_SOFT_LIMIT_UPPER = 100;
+    public static final int FORWARD_SOFT_LIMIT_UPPER = 3500;
+
+    public static final int REVERSE_SOFT_LIMIT_LOWER = 1800;
+    public static final int FORWARD_SOFT_LIMIT_LOWER = 2800;
     /**
      * Set to zero to skip waiting for confirmation.
      * Set to nonzero to wait and report to DS if action fails.
     */
 	  public final static int TIMEOUT = 10;
 
-    public static final double TOLERANCE_UPPER = 1.5;
-    public static final double TOLERANCE_LOWER = 0.5;
+    public static final double TOLERANCE_UPPER = 2.0;
+    public static final double TOLERANCE_LOWER = 2.0;
 
     // Motion Magic constants
     public static final double LOWER_CRUISE = 0.5;
@@ -250,7 +250,7 @@ public final class Constants {
 
     public static final double ENCODER_DISTANCE_PER_PULSE =  (2.0 * Math.PI / 8192);
 
-    //Setpoints
+    //set points
     public static final double UPPER_HORIZANTAL_FORWARD = 115;
     public static final double UPPER_VERTICAL = 176;
     public static final double UPPER_HORIZANTAL_BACKWARD = 291;
@@ -258,14 +258,48 @@ public final class Constants {
     public static final double LOWER_HORIZANTAL_FORWARD = 264;
     public static final double LOWER_VERTICAL = 175;
     public static final double LOWER_HORIZANTAL_BACKWARD = 82;
+  }
 
+  public static final class ArmSetpoints{
+    //Setpoints
     public static final double TEST_SETPOINT_UPPER = 260;
     public static final double TEST_SETPOINT_LOWER = 150;
 
+    public static final double STOWED_UPPER = 260;
+    public static final double STOWED_LOWER = 150;
+
+    public static final double CONENODE_TOP_UPPER = 0;
+    public static final double CONENODE_TOP_LOWER = 0;
+
+    public static final double CONENODE_MID_UPPER = 0;
+    public static final double CONENODE_MID_LOWER = 0;
+
+    public static final double CUBENODE_TOP_UPPER = 0;
+    public static final double CUBENODE_TOP_LOWER = 0;
+
+    public static final double CUBENODE_MID_UPPER = 0;
+    public static final double CUBENODE_MID_LOWER = 0;
+
+    public static final double HYBRID_CONE_UPPER = 0;
+    public static final double HYBRID_CONE_LOWER = 0;
+
+    public static final double HYBRID_CUBE_UPPER = 0;
+    public static final double HYBRID_CUBE_LOWER = 0;
+
+    public static final double DOUBLE_SUBSTATION_CONE_UPPER = 0;
+    public static final double DOUBLE_SUBSTATION_CONE_LOWER = 0;
+
+    public static final double DOUBLE_SUBSTATION_CUBE_UPPER = 0;
+    public static final double DOUBLE_SUBSTATION_CUBE_LOWER = 0;
+
+    public static final double FLOOR_CONE_UPPER = 0;
+    public static final double FLOOR_CONE_LOWER= 0;
+
+    public static final double FLOOR_CUBE_UPPER = 0;
+    public static final double FLOOR_CUBE_LOWER= 0;
   }
 
   public static final class LimelightConstants{
-    //TODO: Tune all
     public static final Gains GAINS_VISION_X = new Gains(0.0, 0.0, 0.0, 0.0, 50, 1.0);
     public static final Gains GAINS_VISION_Y = new Gains(0.0, 0.0, 0.0, 0.0, 50, 1.0);
 
