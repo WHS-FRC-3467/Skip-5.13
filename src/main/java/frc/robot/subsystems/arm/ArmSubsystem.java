@@ -35,6 +35,9 @@ public class ArmSubsystem extends SubsystemBase {
   private PIDController m_controllerLower = new PIDController(ArmConstants.GAINS_LOWER_JOINT.kP, ArmConstants.GAINS_LOWER_JOINT.kI, ArmConstants.GAINS_LOWER_JOINT.kD);
   private PIDController m_controllerUpper = new PIDController(ArmConstants.GAINS_UPPER_JOINT.kP, ArmConstants.GAINS_UPPER_JOINT.kI, ArmConstants.GAINS_UPPER_JOINT.kD);
 
+  private TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(ArmConstants.UPPER_CRUISE, ArmConstants.UPPER_ACCELERATION);
+  private ProfiledPIDController m_controller = new ProfiledPIDController(0.0001, 0.0, 0.0, constraints);
+
   private double m_upperSetpoint;
   private double m_lowerSetpoint;
 
@@ -103,7 +106,7 @@ public class ArmSubsystem extends SubsystemBase {
     m_lowerJoint.setSelectedSensorPosition(dutyCycleToCTREUnits(getLowerJointPos()), 0, ArmConstants.TIMEOUT);
 
     if(m_runFromStick == false){
-      runUpperPID();
+      runUpperProfiled();
       runLowerPID();  
     }
 
@@ -111,6 +114,14 @@ public class ArmSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Lower Setpoint", m_lowerSetpoint);
     SmartDashboard.putBoolean("Run from Stick", m_runFromStick);
 
+    System.out.println("upper position error" + m_controller.getPositionError());
+    System.out.println("upper velocity error" + m_controller.getVelocityError());
+    System.out.println("upper goal position" + m_controller.getGoal().position);
+    System.out.println("upper goal velocity" + m_controller.getGoal().velocity);
+    System.out.println("upper setpoint velocity" + m_controller.getSetpoint().velocity);
+    System.out.println("upper setpoint position" + m_controller.getSetpoint().position);
+    
+    
     if(Constants.tuningMode){
       SmartDashboard.putNumber("Lower Angle", dutyCycleToDegrees(getLowerJointPos()));
       SmartDashboard.putNumber("Upper Angle", dutyCycleToDegrees(getUpperJointPos()));
@@ -157,6 +168,11 @@ public class ArmSubsystem extends SubsystemBase {
   public void runLowerPID(){
     double pidOutput = m_controllerLower.calculate(getLowerJointDegrees(), m_lowerSetpoint);
     setPercentOutputLower(pidOutput);
+  }
+
+  public void runUpperProfiled(){
+    double pidOutput = m_controller.calculate(getUpperJointDegrees(), m_upperSetpoint);
+    setPercentOutputUpper(pidOutput);
   }
 
   public void setToCurrent(){

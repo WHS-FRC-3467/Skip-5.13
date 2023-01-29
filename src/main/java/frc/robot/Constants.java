@@ -244,8 +244,8 @@ public final class Constants {
     public static final double LOWER_CRUISE = 0.5;
     public static final double LOWER_ACCELERATION = 0.5;
 
-    public static final double UPPER_CRUISE = 0.5;
-    public static final double UPPER_ACCELERATION = 0.5;
+    public static final double UPPER_CRUISE = 0.1;
+    public static final double UPPER_ACCELERATION = 0.1;
 
     public static final double DUTY_CYCLE_MIN = 1.0/1025.0;
     public static final double DUTY_CYCLE_MAX = 1024.0/1025.0;
