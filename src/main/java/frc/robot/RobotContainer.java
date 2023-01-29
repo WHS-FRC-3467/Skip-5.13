@@ -6,23 +6,17 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.subsystems.arm.UpperArmPID;
 import frc.robot.subsystems.claw.ClawDefault;
 import frc.robot.subsystems.claw.ClawSubsytem;
-import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.ArmSetpoints;
 import frc.robot.subsystems.arm.ArmSubsystem;
-import frc.robot.subsystems.arm.HoldPosition;
-import frc.robot.subsystems.arm.LowerArmPID;
 import frc.robot.subsystems.arm.RunFromJoy;
-import frc.robot.subsystems.arm.SetBothArms;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.TeleopSwerve;
-import frc.robot.subsystems.limelight.LimelightSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -39,7 +33,7 @@ public class RobotContainer {
   private final CommandXboxController m_operatorController =
       new CommandXboxController(1);
 
-  // private final DriveSubsystem m_drive = new DriveSubsystem();
+  private final DriveSubsystem m_drive = new DriveSubsystem();
   private final ArmSubsystem m_arm = new ArmSubsystem();
   private final ClawSubsytem m_claw = new ClawSubsytem();
   // private final LimelightSubsystem m_limelight = new LimelightSubsystem();
@@ -55,15 +49,14 @@ public class RobotContainer {
 
     //new Pneumatics();
     configureBindings();
-    // m_drive.setDefaultCommand(new TeleopSwerve(m_drive, 
-    //                                           () -> m_driverController.getLeftY(), 
-    //                                           () -> m_driverController.getLeftX(), 
-    //                                           () -> m_driverController.getRightX(), 
-    //                                           m_driverController.leftStick(),
-    //                                           m_driverController.leftBumper(),
-    //                                           m_driverController.rightBumper()));
-    
-    m_arm.setDefaultCommand(new RunFromJoy(m_arm, ()-> m_operatorController.getLeftY(), ()-> m_operatorController.getRightY()));
+    m_drive.setDefaultCommand(new TeleopSwerve(m_drive, 
+                                              () -> m_driverController.getLeftY(), 
+                                              () -> m_driverController.getLeftX(), 
+                                              () -> m_driverController.getRightX(), 
+                                              m_driverController.leftStick(),
+                                              m_driverController.leftBumper(),
+                                              m_driverController.rightBumper()));
+    //m_arm.setDefaultCommand(new InstantCommand(m_arm::setToCurrent, m_arm));
     m_claw.setDefaultCommand(new ClawDefault(m_claw, ()-> m_operatorController.getRightTriggerAxis(), () -> m_operatorController.getLeftTriggerAxis()));
   }
 
@@ -80,23 +73,24 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    // m_driverController.start().whileTrue(new InstantCommand(m_drive::zeroGyro, m_drive));
+    m_driverController.start().onTrue(new InstantCommand(m_drive::zeroGyro, m_drive));
 
-    //Arm towards Battery
-    // m_operatorController.x().onTrue((new LowerArmPID(m_arm, ArmConstants.LOWER_HORIZANTAL_FORWARD)));
-    // //Arm straight up
-    // m_operatorController.y().onTrue(new LowerArmPID(m_arm, ArmConstants.LOWER_VERTICAL));
-    // //Arm towards PDH
-    // m_operatorController.b().onTrue(new LowerArmPID(m_arm, ArmConstants.LOWER_HORIZANTAL_BACKWARD));
+    m_operatorController.rightBumper().onTrue(Commands.runOnce( () -> m_arm.updateUpperSetpoint(ArmSetpoints.STOWED_UPPER), m_arm));
+    m_operatorController.rightBumper().onTrue(Commands.runOnce( () -> m_arm.updateLowerSetpoint(ArmSetpoints.STOWED_LOWER), m_arm));
 
-    // m_operatorController.a().onTrue(new SetBothArms(m_arm, ArmSetpoints.TEST_SETPOINT_LOWER, ArmSetpoints.TEST_SETPOINT_UPPER));
-    m_operatorController.a().onTrue(new HoldPosition(m_arm));
-    //Arm towards Battery
-    // m_operatorController.x().onTrue((new UpperArmRioPID(m_arm, ArmConstants.UPPER_HORIZANTAL_FORWARD)));
-    // //Arm straight up
-    // m_operatorController.y().onTrue(new UpperArmRioPID(m_arm, ArmConstants.UPPER_VERTICAL));
-    // //Arm towards PDH
-    // m_operatorController.b().onTrue(new UpperArmRioPID(m_arm, ArmConstants.UPPER_HORIZANTAL_BACKWARD));
+    m_operatorController.b().onTrue(Commands.runOnce( () -> m_arm.updateUpperSetpoint(ArmSetpoints.CUBENODE_MID_UPPER), m_arm));
+    m_operatorController.b().onTrue(Commands.runOnce( () -> m_arm.updateLowerSetpoint(ArmSetpoints.CUBENODE_MID_LOWER), m_arm));
+
+    m_operatorController.a().onTrue(Commands.runOnce( () -> m_arm.updateUpperSetpoint(ArmSetpoints.CUBENODE_TOP_UPPER), m_arm));
+    m_operatorController.a().onTrue(Commands.runOnce( () -> m_arm.updateLowerSetpoint(ArmSetpoints.CUBENODE_TOP_LOWER), m_arm));
+
+    m_operatorController.y().onTrue(Commands.runOnce( () -> m_arm.updateUpperSetpoint(ArmSetpoints.FLOOR_CUBE_UPPER), m_arm));
+    m_operatorController.y().onTrue(Commands.runOnce( () -> m_arm.updateLowerSetpoint(ArmSetpoints.FLOOR_CUBE_LOWER), m_arm));
+
+    m_operatorController.x().onTrue(Commands.runOnce( () -> m_arm.updateUpperSetpoint(ArmSetpoints.DOUBLE_SUBSTATION_CUBE_UPPER), m_arm));
+    m_operatorController.x().onTrue(Commands.runOnce( () -> m_arm.updateLowerSetpoint(ArmSetpoints.DOUBLE_SUBSTATION_CUBE_LOWER), m_arm));
+
+    m_operatorController.leftBumper().whileTrue(new RunFromJoy(m_arm, ()-> m_operatorController.getLeftY(), ()-> m_operatorController.getRightY()));
   }
 
   /**

@@ -67,13 +67,13 @@ public final class Constants {
 
 
     //Mod 0
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 41.83;
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 43.9;
     //Mod 1
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 8.88;
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 17.75;
     //Mod 2
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 257.69; 
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 263.1; 
     //Mod 3
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 358.07;
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 358.7;
 
     public static final boolean INVERT_GYRO = false; // Always ensure Gyro is CCW+ CW-
 
@@ -145,10 +145,10 @@ public final class Constants {
 
     /* Swerve Profiling Values */
     /** Meters per Second */
-    public static final double MAX_SPEED = 2.0;
+    public static final double MAX_SPEED = 0.25;
 
     /** Radians per Second */
-    public static final double MAX_ANGULAR_VELOCITY = 10.0;
+    public static final double MAX_ANGULAR_VELOCITY = 0.5;
 
     /* Neutral Modes */
     public static final NeutralMode ANGLE_NEUTRAL_MODE = NeutralMode.Coast;
@@ -206,9 +206,13 @@ public final class Constants {
     /**
      * kF = minimum percent output to break friction
      */
-    public static final  Gains GAINS_UPPER_JOINT = new Gains(0.05, 0.0, 0.00, 0.0, 50, 1.00);
+    public static final  Gains GAINS_UPPER_JOINT = new Gains(0.03, 0.004, 0.00, 0.0, 50, 1.00);
 
-    public static final  Gains GAINS_LOWER_JOINT  = new Gains(0.04, 0.0, 0.0, 0.00, 50, 1.00);
+    public static final  Gains GAINS_LOWER_JOINT  = new Gains(0.04, 0.004, 0.00, 0.00, 50, 1.00);
+
+    public static final double kGUpper = 0.38;
+    public static final double kVUpper = 0.06;
+    public static final double kAUpper = 0.0;
 
     //Max sensor velocity per 100 ms
     //Max RPM 6380 * 2:1 gearing * 4096 ticks *1min/60000ms * 100ms
@@ -262,11 +266,9 @@ public final class Constants {
 
   public static final class ArmSetpoints{
     //Setpoints
-    public static final double TEST_SETPOINT_UPPER = 260;
-    public static final double TEST_SETPOINT_LOWER = 150;
 
-    public static final double STOWED_UPPER = 260;
-    public static final double STOWED_LOWER = 150;
+    public static final double STOWED_UPPER = 308;
+    public static final double STOWED_LOWER = 186;
 
     public static final double CONENODE_TOP_UPPER = 0;
     public static final double CONENODE_TOP_LOWER = 0;
@@ -274,29 +276,23 @@ public final class Constants {
     public static final double CONENODE_MID_UPPER = 0;
     public static final double CONENODE_MID_LOWER = 0;
 
-    public static final double CUBENODE_TOP_UPPER = 0;
-    public static final double CUBENODE_TOP_LOWER = 0;
+    public static final double CUBENODE_TOP_UPPER = 207;
+    public static final double CUBENODE_TOP_LOWER = 153;
 
-    public static final double CUBENODE_MID_UPPER = 0;
-    public static final double CUBENODE_MID_LOWER = 0;
+    public static final double CUBENODE_MID_UPPER = 250;
+    public static final double CUBENODE_MID_LOWER = 179;
 
-    public static final double HYBRID_CONE_UPPER = 0;
-    public static final double HYBRID_CONE_LOWER = 0;
+    public static final double DOUBLE_SUBSTATION_CONE_UPPER = 251;
+    public static final double DOUBLE_SUBSTATION_CONE_LOWER = 194;
 
-    public static final double HYBRID_CUBE_UPPER = 0;
-    public static final double HYBRID_CUBE_LOWER = 0;
-
-    public static final double DOUBLE_SUBSTATION_CONE_UPPER = 0;
-    public static final double DOUBLE_SUBSTATION_CONE_LOWER = 0;
-
-    public static final double DOUBLE_SUBSTATION_CUBE_UPPER = 0;
-    public static final double DOUBLE_SUBSTATION_CUBE_LOWER = 0;
+    public static final double DOUBLE_SUBSTATION_CUBE_UPPER = 265;
+    public static final double DOUBLE_SUBSTATION_CUBE_LOWER = 223;
 
     public static final double FLOOR_CONE_UPPER = 0;
     public static final double FLOOR_CONE_LOWER= 0;
 
-    public static final double FLOOR_CUBE_UPPER = 0;
-    public static final double FLOOR_CUBE_LOWER= 0;
+    public static final double FLOOR_CUBE_UPPER = 279;
+    public static final double FLOOR_CUBE_LOWER= 163;
   }
 
   public static final class LimelightConstants{

@@ -12,6 +12,10 @@ import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -27,7 +31,14 @@ public class ArmSubsystem extends SubsystemBase {
 
   private DutyCycleEncoder m_upperEncoder = new DutyCycleEncoder(DIOConstants.UPPER_ENCODER_ARM);
   private DutyCycleEncoder m_lowerEncoder = new DutyCycleEncoder(DIOConstants.LOWER_ENCODER_ARM);
+  
+  private PIDController m_controllerLower = new PIDController(ArmConstants.GAINS_LOWER_JOINT.kP, ArmConstants.GAINS_LOWER_JOINT.kI, ArmConstants.GAINS_LOWER_JOINT.kD);
+  private PIDController m_controllerUpper = new PIDController(ArmConstants.GAINS_UPPER_JOINT.kP, ArmConstants.GAINS_UPPER_JOINT.kI, ArmConstants.GAINS_UPPER_JOINT.kD);
 
+  private double m_upperSetpoint;
+  private double m_lowerSetpoint;
+
+  private boolean m_runFromStick;
   
   public ArmSubsystem() {    
     //Config Duty Cycle Range for the encoders
@@ -74,13 +85,31 @@ public class ArmSubsystem extends SubsystemBase {
     m_upperJoint.configReverseSoftLimitThreshold(ArmConstants.REVERSE_SOFT_LIMIT_UPPER, ArmConstants.TIMEOUT);
     m_lowerJoint.configForwardSoftLimitThreshold(ArmConstants.FORWARD_SOFT_LIMIT_LOWER, ArmConstants.TIMEOUT);
     m_lowerJoint.configReverseSoftLimitThreshold(ArmConstants.REVERSE_SOFT_LIMIT_LOWER, ArmConstants.TIMEOUT);
+
+    m_upperSetpoint = getUpperJointDegrees();
+    m_lowerSetpoint = getLowerJointDegrees();
+
+    m_controllerUpper.setTolerance(ArmConstants.TOLERANCE_UPPER);
+    m_controllerLower.setTolerance(ArmConstants.TOLERANCE_LOWER);
+
+    m_runFromStick = false;
   }
+
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     m_upperJoint.setSelectedSensorPosition(dutyCycleToCTREUnits(getUpperJointPos()), 0, ArmConstants.TIMEOUT);
     m_lowerJoint.setSelectedSensorPosition(dutyCycleToCTREUnits(getLowerJointPos()), 0, ArmConstants.TIMEOUT);
+
+    if(m_runFromStick == false){
+      runUpperPID();
+      runLowerPID();  
+    }
+
+    SmartDashboard.putNumber("Upper Setpoint", m_upperSetpoint);
+    SmartDashboard.putNumber("Lower Setpoint", m_lowerSetpoint);
+    SmartDashboard.putBoolean("Run from Stick", m_runFromStick);
 
     if(Constants.tuningMode){
       SmartDashboard.putNumber("Lower Angle", dutyCycleToDegrees(getLowerJointPos()));
@@ -104,6 +133,48 @@ public class ArmSubsystem extends SubsystemBase {
     }
   }
 
+  public void updateUpperSetpoint(double setpoint){
+    if(m_upperSetpoint != setpoint){
+      if(setpoint<360 && setpoint>0){
+        m_upperSetpoint = setpoint;
+      }
+    }
+  }
+
+  public void updateLowerSetpoint(double setpoint){
+    if(m_lowerSetpoint != setpoint){
+      if(setpoint<360 && setpoint>0){
+        m_lowerSetpoint = setpoint;
+      }
+    }
+  }
+
+  public void runUpperPID(){
+    double pidOutput = m_controllerUpper.calculate(getUpperJointDegrees(), m_upperSetpoint);
+    setPercentOutputUpper(pidOutput);
+  }
+
+  public void runLowerPID(){
+    double pidOutput = m_controllerLower.calculate(getLowerJointDegrees(), m_lowerSetpoint);
+    setPercentOutputLower(pidOutput);
+  }
+
+  public void setToCurrent(){
+    m_lowerSetpoint = getLowerJointDegrees();
+    m_upperSetpoint = getUpperJointDegrees();
+  }
+  public boolean upperAtSetpoint(){
+    return m_controllerUpper.atSetpoint();
+  }
+
+  public boolean lowerAtSetpoint(){
+    return m_controllerLower.atSetpoint();
+  }
+
+  public void setRunFromSticks(boolean runFromStick){
+    m_runFromStick = runFromStick;
+  }
+
   public void setPercentOutputUpper(double speed){
     m_upperJoint.set(TalonFXControlMode.PercentOutput, speed);
   }
@@ -112,11 +183,11 @@ public class ArmSubsystem extends SubsystemBase {
     m_lowerJoint.set(TalonFXControlMode.PercentOutput, speed);
   }
 
-  public void holdPositionUpper(){
+  public void neutralUpper(){
     m_lowerJoint.neutralOutput();
   }
 
-  public void holdPositionLower(){
+  public void neutralLower(){
     m_lowerJoint.neutralOutput();
   }
 
