@@ -223,8 +223,8 @@ public final class Constants {
 
     public static final double NOMINAL_OUTPUT_FORWARD = 0;
     public static final double NOMINAL_OUTPUT_REVERSE = 0;
-    public static final double PEAK_OUTPUT_FORWARD = 0.3;
-    public static final double PEAK_OUTPUT_REVERSE = -0.3;
+    public static final double PEAK_OUTPUT_FORWARD = 0.2;
+    public static final double PEAK_OUTPUT_REVERSE = -0.2;
 
     public static final int REVERSE_SOFT_LIMIT_UPPER = 100;
     public static final int FORWARD_SOFT_LIMIT_UPPER = 3500;

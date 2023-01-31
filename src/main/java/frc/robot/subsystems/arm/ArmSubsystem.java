@@ -36,7 +36,7 @@ public class ArmSubsystem extends SubsystemBase {
   private PIDController m_controllerUpper = new PIDController(ArmConstants.GAINS_UPPER_JOINT.kP, ArmConstants.GAINS_UPPER_JOINT.kI, ArmConstants.GAINS_UPPER_JOINT.kD);
 
   private TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(ArmConstants.UPPER_CRUISE, ArmConstants.UPPER_ACCELERATION);
-  private ProfiledPIDController m_controller = new ProfiledPIDController(0.0001, 0.0, 0.0, constraints);
+  private ProfiledPIDController m_controller = new ProfiledPIDController(0.01, 0.0, 0.0, constraints);
 
   private double m_upperSetpoint;
   private double m_lowerSetpoint;
@@ -95,6 +95,8 @@ public class ArmSubsystem extends SubsystemBase {
     m_controllerUpper.setTolerance(ArmConstants.TOLERANCE_UPPER);
     m_controllerLower.setTolerance(ArmConstants.TOLERANCE_LOWER);
 
+    m_controller.reset(getUpperJointDegrees());
+    
     m_runFromStick = false;
   }
 
@@ -171,7 +173,8 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void runUpperProfiled(){
-    double pidOutput = m_controller.calculate(getUpperJointDegrees(), m_upperSetpoint);
+    m_controller.setGoal(m_upperSetpoint);
+    double pidOutput = m_controller.calculate(getUpperJointDegrees());
     setPercentOutputUpper(pidOutput);
   }
 
