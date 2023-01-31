@@ -210,6 +210,7 @@ public final class Constants {
 
     public static final  Gains GAINS_LOWER_JOINT  = new Gains(0.04, 0.004, 0.00, 0.00, 50, 1.00);
 
+    public static final double kSUpper = 0.04;
     public static final double kGUpper = 0.38;
     public static final double kVUpper = 0.06;
     public static final double kAUpper = 0.0;
@@ -223,8 +224,8 @@ public final class Constants {
 
     public static final double NOMINAL_OUTPUT_FORWARD = 0;
     public static final double NOMINAL_OUTPUT_REVERSE = 0;
-    public static final double PEAK_OUTPUT_FORWARD = 0.2;
-    public static final double PEAK_OUTPUT_REVERSE = -0.2;
+    public static final double PEAK_OUTPUT_FORWARD = 0.3;
+    public static final double PEAK_OUTPUT_REVERSE = -0.3;
 
     public static final int REVERSE_SOFT_LIMIT_UPPER = 100;
     public static final int FORWARD_SOFT_LIMIT_UPPER = 3500;
@@ -244,8 +245,8 @@ public final class Constants {
     public static final double LOWER_CRUISE = 0.5;
     public static final double LOWER_ACCELERATION = 0.5;
 
-    public static final double UPPER_CRUISE = 0.1;
-    public static final double UPPER_ACCELERATION = 0.1;
+    public static final double UPPER_CRUISE = 10.0;
+    public static final double UPPER_ACCELERATION = 10.0;
 
     public static final double DUTY_CYCLE_MIN = 1.0/1025.0;
     public static final double DUTY_CYCLE_MAX = 1024.0/1025.0;
