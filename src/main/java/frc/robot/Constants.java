@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import frc.robot.util.COTSFalconSwerveConstants;
 import frc.robot.util.Gains;
@@ -219,6 +220,20 @@ public final class Constants {
     public static final double kGLower = 0.25;
     public static final double kVLower = 0.06;
     public static final double kALower = 0.0;
+
+    //JointConfig for DJArmFeedForwards
+    public static final double UPPER_LENGTH = 30.0;
+    public static final double UPPER_MOI = 30.0;
+    public static final double UPPER_CGRADIUS = 30.0;
+    public static final double UPPER_MASS = 10.0;
+    public static final DCMotor UPPER_MOTOR = DCMotor.getFalcon500(1).withReduction(200);
+
+    public static final double LOWER_LENGTH = 25.0;
+    public static final double LOWER_MOI = 30.0;
+    public static final double LOWER_CGRADIUS = 30.0;
+    public static final double LOWER_MASS = 10.0;
+    public static final DCMotor LOWER_MOTOR = DCMotor.getFalcon500(1).withReduction(200);
+
 
     //Max sensor velocity per 100 ms
     //Max RPM 6380 * 2:1 gearing * 4096 ticks *1min/60000ms * 100ms

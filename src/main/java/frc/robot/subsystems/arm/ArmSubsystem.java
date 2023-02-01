@@ -22,6 +22,8 @@ import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.CanConstants;
 import frc.robot.Constants.DIOConstants;
+import frc.robot.subsystems.arm.DJArmFeedforward;
+import frc.robot.subsystems.arm.DJArmFeedforward.JointConfig;
 
 public class ArmSubsystem extends SubsystemBase {
   /** Creates a new ArmSubsystem. */
@@ -40,6 +42,11 @@ public class ArmSubsystem extends SubsystemBase {
 
   private ArmFeedforward m_upperFeedforward = new ArmFeedforward(ArmConstants.kSUpper, ArmConstants.kGUpper, ArmConstants.kVUpper) ;
   private ArmFeedforward m_lowerFeedforward = new ArmFeedforward(ArmConstants.kSLower, ArmConstants.kGLower, ArmConstants.kVLower) ;
+
+  private JointConfig joint_1 = new JointConfig(ArmConstants.UPPER_MASS, ArmConstants.UPPER_LENGTH, ArmConstants.UPPER_MOI, ArmConstants.UPPER_CGRADIUS, ArmConstants.UPPER_MOTOR);
+  private JointConfig joint_2 = new JointConfig(ArmConstants.LOWER_MASS, ArmConstants.LOWER_LENGTH, ArmConstants.LOWER_MOI, ArmConstants.LOWER_CGRADIUS, ArmConstants.LOWER_MOTOR);
+
+  private DJArmFeedforward m_doubleJointedFeedForwards = new DJArmFeedforward(joint_2, joint_1);
 
   private double m_upperSetpoint;
   private double m_lowerSetpoint;
