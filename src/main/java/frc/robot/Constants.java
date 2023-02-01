@@ -205,15 +205,20 @@ public final class Constants {
   public static final class ArmConstants{
     /**
      * kF = minimum percent output to break friction
-     */
-    public static final  Gains GAINS_UPPER_JOINT = new Gains(0.03, 0.004, 0.00, 0.0, 50, 1.00);
+    */
+    public static final  Gains GAINS_UPPER_JOINT = new Gains(0.02, 0.01, 0.00, 0.0, 50, 1.00);
 
-    public static final  Gains GAINS_LOWER_JOINT  = new Gains(0.04, 0.004, 0.00, 0.00, 50, 1.00);
+    public static final  Gains GAINS_LOWER_JOINT  = new Gains(0.015, 0.01, 0.00, 0.00, 50, 1.00);
+
 
     public static final double kSUpper = 0.04;
-    public static final double kGUpper = 0.38;
+    public static final double kGUpper = 0.25;
     public static final double kVUpper = 0.06;
     public static final double kAUpper = 0.0;
+    public static final double kSLower = 0.04;
+    public static final double kGLower = 0.25;
+    public static final double kVLower = 0.06;
+    public static final double kALower = 0.0;
 
     //Max sensor velocity per 100 ms
     //Max RPM 6380 * 2:1 gearing * 4096 ticks *1min/60000ms * 100ms
@@ -224,8 +229,8 @@ public final class Constants {
 
     public static final double NOMINAL_OUTPUT_FORWARD = 0;
     public static final double NOMINAL_OUTPUT_REVERSE = 0;
-    public static final double PEAK_OUTPUT_FORWARD = 0.3;
-    public static final double PEAK_OUTPUT_REVERSE = -0.3;
+    public static final double PEAK_OUTPUT_FORWARD = 0.5;
+    public static final double PEAK_OUTPUT_REVERSE = -0.5;
 
     public static final int REVERSE_SOFT_LIMIT_UPPER = 100;
     public static final int FORWARD_SOFT_LIMIT_UPPER = 3500;
@@ -242,11 +247,11 @@ public final class Constants {
     public static final double TOLERANCE_LOWER = 2.0;
 
     // Motion Magic constants
-    public static final double LOWER_CRUISE = 0.5;
-    public static final double LOWER_ACCELERATION = 0.5;
+    public static final double LOWER_CRUISE = 80.0;
+    public static final double LOWER_ACCELERATION = 50.0;
 
-    public static final double UPPER_CRUISE = 10.0;
-    public static final double UPPER_ACCELERATION = 10.0;
+    public static final double UPPER_CRUISE = 80.0;
+    public static final double UPPER_ACCELERATION = 50.0;
 
     public static final double DUTY_CYCLE_MIN = 1.0/1025.0;
     public static final double DUTY_CYCLE_MAX = 1024.0/1025.0;
