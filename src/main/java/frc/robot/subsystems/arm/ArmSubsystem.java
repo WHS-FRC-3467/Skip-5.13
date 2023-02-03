@@ -160,8 +160,8 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public Vector<N2> calculateFeedforwards(){
-    Vector<N2> positionVector = VecBuilder.fill(Math.toRadians(m_lowerSetpoint-225), Math.toRadians(m_upperSetpoint-90));
-    Vector<N2> velocityVector = VecBuilder.fill(Math.toRadians(m_controllerLower.getSetpoint().velocity), Math.toRadians(m_controllerUpper.getSetpoint().velocity));
+    Vector<N2> positionVector = VecBuilder.fill(Math.toRadians(m_lowerSetpoint-90), Math.toRadians(m_upperSetpoint-225));
+    Vector<N2> velocityVector = VecBuilder.fill(0.0, 0.0);
     Vector<N2> accelVector = VecBuilder.fill(0.0, 0.0);
     Vector<N2> vectorFF = m_doubleJointedFeedForwards.calculate(positionVector, velocityVector, accelVector);
     return vectorFF;
