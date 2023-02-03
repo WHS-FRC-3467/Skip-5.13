@@ -222,16 +222,16 @@ public final class Constants {
     public static final double kALower = 0.0;
 
     //JointConfig for DJArmFeedForwards
-    public static final double UPPER_LENGTH = 30.0;
-    public static final double UPPER_MOI = 30.0;
-    public static final double UPPER_CGRADIUS = 30.0;
-    public static final double UPPER_MASS = 10.0;
+    public static final double UPPER_LENGTH = 0.8;
+    public static final double UPPER_MOI = 0.4;
+    public static final double UPPER_CGRADIUS = 1.0;
+    public static final double UPPER_MASS = 5.0;
     public static final DCMotor UPPER_MOTOR = DCMotor.getFalcon500(1).withReduction(200);
 
-    public static final double LOWER_LENGTH = 25.0;
-    public static final double LOWER_MOI = 30.0;
-    public static final double LOWER_CGRADIUS = 30.0;
-    public static final double LOWER_MASS = 10.0;
+    public static final double LOWER_LENGTH = 0.8;
+    public static final double LOWER_MOI = 0.4;
+    public static final double LOWER_CGRADIUS = 1.0;
+    public static final double LOWER_MASS = 5.0;
     public static final DCMotor LOWER_MOTOR = DCMotor.getFalcon500(1).withReduction(200);
 
 
@@ -244,8 +244,8 @@ public final class Constants {
 
     public static final double NOMINAL_OUTPUT_FORWARD = 0;
     public static final double NOMINAL_OUTPUT_REVERSE = 0;
-    public static final double PEAK_OUTPUT_FORWARD = 0.5;
-    public static final double PEAK_OUTPUT_REVERSE = -0.5;
+    public static final double PEAK_OUTPUT_FORWARD = 0.4;
+    public static final double PEAK_OUTPUT_REVERSE = -0.4;
 
     public static final int REVERSE_SOFT_LIMIT_UPPER = 100;
     public static final int FORWARD_SOFT_LIMIT_UPPER = 3500;

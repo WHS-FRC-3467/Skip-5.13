@@ -12,8 +12,10 @@ import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.numbers.N2;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -22,8 +24,6 @@ import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.CanConstants;
 import frc.robot.Constants.DIOConstants;
-import frc.robot.subsystems.arm.DJArmFeedforward;
-import frc.robot.subsystems.arm.DJArmFeedforward.JointConfig;
 
 public class ArmSubsystem extends SubsystemBase {
   /** Creates a new ArmSubsystem. */
@@ -33,26 +33,22 @@ public class ArmSubsystem extends SubsystemBase {
   private DutyCycleEncoder m_upperEncoder = new DutyCycleEncoder(DIOConstants.UPPER_ENCODER_ARM);
   private DutyCycleEncoder m_lowerEncoder = new DutyCycleEncoder(DIOConstants.LOWER_ENCODER_ARM);
   
-
   private TrapezoidProfile.Constraints lowerConstraints = new TrapezoidProfile.Constraints(ArmConstants.UPPER_CRUISE, ArmConstants.UPPER_ACCELERATION);
   private TrapezoidProfile.Constraints upperConstraints = new TrapezoidProfile.Constraints(ArmConstants.LOWER_CRUISE, ArmConstants.LOWER_ACCELERATION);
 
   private ProfiledPIDController m_controllerLower = new ProfiledPIDController(ArmConstants.GAINS_LOWER_JOINT.kP, ArmConstants.GAINS_LOWER_JOINT.kI, ArmConstants.GAINS_LOWER_JOINT.kD, lowerConstraints);
   private ProfiledPIDController m_controllerUpper = new ProfiledPIDController(ArmConstants.GAINS_UPPER_JOINT.kP, ArmConstants.GAINS_UPPER_JOINT.kI, ArmConstants.GAINS_UPPER_JOINT.kD, upperConstraints);
 
-  private ArmFeedforward m_upperFeedforward = new ArmFeedforward(ArmConstants.kSUpper, ArmConstants.kGUpper, ArmConstants.kVUpper) ;
-  private ArmFeedforward m_lowerFeedforward = new ArmFeedforward(ArmConstants.kSLower, ArmConstants.kGLower, ArmConstants.kVLower) ;
+  private JointConfig joint_Upper = new JointConfig(ArmConstants.UPPER_MASS, ArmConstants.UPPER_LENGTH, ArmConstants.UPPER_MOI, ArmConstants.UPPER_CGRADIUS, ArmConstants.UPPER_MOTOR);
+  private JointConfig joint_Lower = new JointConfig(ArmConstants.LOWER_MASS, ArmConstants.LOWER_LENGTH, ArmConstants.LOWER_MOI, ArmConstants.LOWER_CGRADIUS, ArmConstants.LOWER_MOTOR);
 
-  private JointConfig joint_1 = new JointConfig(ArmConstants.UPPER_MASS, ArmConstants.UPPER_LENGTH, ArmConstants.UPPER_MOI, ArmConstants.UPPER_CGRADIUS, ArmConstants.UPPER_MOTOR);
-  private JointConfig joint_2 = new JointConfig(ArmConstants.LOWER_MASS, ArmConstants.LOWER_LENGTH, ArmConstants.LOWER_MOI, ArmConstants.LOWER_CGRADIUS, ArmConstants.LOWER_MOTOR);
-
-  private DJArmFeedforward m_doubleJointedFeedForwards = new DJArmFeedforward(joint_2, joint_1);
+  private DJArmFeedforward m_doubleJointedFeedForwards = new DJArmFeedforward(joint_Lower, joint_Upper);
 
   private double m_upperSetpoint;
   private double m_lowerSetpoint;
 
   
-  public ArmSubsystem() {    
+  public ArmSubsystem() {  
     //Config Duty Cycle Range for the encoders
     m_lowerEncoder.setDutyCycleRange(ArmConstants.DUTY_CYCLE_MIN, ArmConstants.DUTY_CYCLE_MAX);
     m_upperEncoder.setDutyCycleRange(ArmConstants.DUTY_CYCLE_MIN, ArmConstants.DUTY_CYCLE_MAX);
@@ -84,8 +80,8 @@ public class ArmSubsystem extends SubsystemBase {
     m_upperJoint.configPeakOutputForward(ArmConstants.PEAK_OUTPUT_FORWARD, ArmConstants.TIMEOUT);
     m_upperJoint.configPeakOutputReverse(ArmConstants.PEAK_OUTPUT_REVERSE, ArmConstants.TIMEOUT);
 
-    m_lowerJoint.configVoltageCompSaturation(12.9, ArmConstants.TIMEOUT);
-    m_upperJoint.configVoltageCompSaturation(12.9, ArmConstants.TIMEOUT);
+    m_lowerJoint.configVoltageCompSaturation(12, ArmConstants.TIMEOUT);
+    m_upperJoint.configVoltageCompSaturation(12, ArmConstants.TIMEOUT);
 
     m_lowerJoint.configFeedbackNotContinuous(true, ArmConstants.TIMEOUT);
     m_upperJoint.configFeedbackNotContinuous(true, ArmConstants.TIMEOUT);
@@ -98,13 +94,9 @@ public class ArmSubsystem extends SubsystemBase {
     m_lowerJoint.configForwardSoftLimitThreshold(ArmConstants.FORWARD_SOFT_LIMIT_LOWER, ArmConstants.TIMEOUT);
     m_lowerJoint.configReverseSoftLimitThreshold(ArmConstants.REVERSE_SOFT_LIMIT_LOWER, ArmConstants.TIMEOUT);
 
-    // m_upperSetpoint = getUpperJointDegrees();
-    // m_lowerSetpoint = getLowerJointDegrees();
-
     m_controllerUpper.setTolerance(ArmConstants.TOLERANCE_UPPER);
     m_controllerLower.setTolerance(ArmConstants.TOLERANCE_LOWER);
 
-    //reset();
   }
 
 
@@ -167,27 +159,28 @@ public class ArmSubsystem extends SubsystemBase {
     }
   }
 
+  public Vector<N2> calculateFeedforwards(){
+    Vector<N2> positionVector = VecBuilder.fill(Math.toRadians(m_lowerSetpoint-225), Math.toRadians(m_upperSetpoint-90));
+    Vector<N2> velocityVector = VecBuilder.fill(Math.toRadians(m_controllerLower.getSetpoint().velocity), Math.toRadians(m_controllerUpper.getSetpoint().velocity));
+    Vector<N2> accelVector = VecBuilder.fill(0.0, 0.0);
+    Vector<N2> vectorFF = m_doubleJointedFeedForwards.calculate(positionVector, velocityVector, accelVector);
+    return vectorFF;
+  }  
+  
   public void runUpperProfiled(){
     m_controllerUpper.setGoal(new TrapezoidProfile.State(m_upperSetpoint, 0.0));
     double pidOutput = m_controllerUpper.calculate(getUpperJointDegrees());
-    double radians = Math.toRadians(getUpperJointDegrees()-225) - Math.toRadians(getLowerJointDegrees()-90);
-    //double velocity = Math.toRadians(m_controllerUpper.getSetpoint().velocity);
-    System.out.println("radians" + radians);
-    double feedForward = -m_upperFeedforward.calculate(radians, 0);
-    System.out.println("feedforward" + feedForward);
-    setPercentOutputUpper(pidOutput + feedForward);
+    double ff = (calculateFeedforwards().get(0, 0))/12.0;
+    System.out.println("upper ff" + (ff));
+    setPercentOutputUpper(pidOutput );
   }
 
   public void runLowerProfiled(){
     m_controllerLower.setGoal(new TrapezoidProfile.State(m_lowerSetpoint, 0.0));
     double pidOutput = m_controllerLower.calculate(getLowerJointDegrees());
-    double radians = Math.toRadians(getLowerJointDegrees()-90);
-    //double velocity = Math.toRadians(m_controllerLower.getSetpoint().velocity);
-    // System.out.println("radians" + radians);
-    double feedForward = 
-    m_lowerFeedforward.calculate(radians, 0);
-    // System.out.println("feedforward" + feedForward);
-    setPercentOutputLower(pidOutput + feedForward);
+    double ff = (calculateFeedforwards().get(1, 0))/12.0;
+    System.out.println("lower ff" + (ff));
+    setPercentOutputLower(pidOutput );
   }
 
   public void setToCurrent(){
