@@ -170,7 +170,7 @@ public class ArmSubsystem extends SubsystemBase {
   public void runUpperProfiled(){
     m_controllerUpper.setGoal(new TrapezoidProfile.State(m_upperSetpoint, 0.0));
     double pidOutput = m_controllerUpper.calculate(getUpperJointDegrees());
-    double ff = (calculateFeedforwards().get(0, 0))/12.0;
+    double ff = (calculateFeedforwards().get(1, 0))/12.0;
     System.out.println("upper ff" + (ff));
     setPercentOutputUpper(pidOutput );
   }
@@ -178,7 +178,7 @@ public class ArmSubsystem extends SubsystemBase {
   public void runLowerProfiled(){
     m_controllerLower.setGoal(new TrapezoidProfile.State(m_lowerSetpoint, 0.0));
     double pidOutput = m_controllerLower.calculate(getLowerJointDegrees());
-    double ff = (calculateFeedforwards().get(1, 0))/12.0;
+    double ff = (calculateFeedforwards().get(0, 0))/12.0;
     System.out.println("lower ff" + (ff));
     setPercentOutputLower(pidOutput );
   }
