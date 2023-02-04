@@ -17,6 +17,8 @@ import frc.robot.subsystems.arm.ArmDefault;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.TeleopSwerve;
+import frc.robot.util.GamePiece;
+import frc.robot.util.GamePiece.GamePieceType;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -36,11 +38,12 @@ public class RobotContainer {
   private final DriveSubsystem m_drive = new DriveSubsystem();
   private final ArmSubsystem m_arm = new ArmSubsystem();
   private final ClawSubsytem m_claw = new ClawSubsytem();
-  private final Pneumatics m_Pneumatics = new Pneumatics();
   // private final LimelightSubsystem m_limelight = new LimelightSubsystem();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    GamePiece.setGamePiece(GamePieceType.Cone);
+    new Pneumatics();
     if(Constants.tuningMode){
       DriverStation.silenceJoystickConnectionWarning(true);
     }
@@ -48,7 +51,7 @@ public class RobotContainer {
       DriverStation.silenceJoystickConnectionWarning(false);
     }
     // Configure the trigger bindings
-
+    
     //new Pneumatics();
     configureBindings();
     m_drive.setDefaultCommand(new TeleopSwerve(m_drive, 
@@ -58,10 +61,12 @@ public class RobotContainer {
                                               m_driverController.leftStick(),
                                               m_driverController.leftBumper(),
                                               m_driverController.rightBumper()));
+
     m_arm.setDefaultCommand(new ArmDefault(m_arm,
                                           m_operatorController.leftBumper(),
                                           () -> m_operatorController.getLeftY(), 
                                           () -> m_operatorController.getRightY()));
+
     m_claw.setDefaultCommand(new ClawDefault(m_claw, ()-> m_operatorController.getRightTriggerAxis(), () -> m_operatorController.getLeftTriggerAxis()));
   }
 
@@ -75,30 +80,33 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
+
+    //Driver Controls
     m_driverController.start().onTrue(new InstantCommand(m_drive::zeroGyro, m_drive));
 
-    m_operatorController.rightBumper().onTrue(Commands.runOnce( () -> m_arm.updateUpperSetpoint(ArmSetpoints.STOWED_UPPER)));
-    m_operatorController.rightBumper().onTrue(Commands.runOnce( () -> m_arm.updateLowerSetpoint(ArmSetpoints.STOWED_LOWER)));
+    //Opperator Controls
 
-    m_operatorController.b().onTrue(Commands.runOnce( () -> m_arm.updateUpperSetpoint(ArmSetpoints.CUBENODE_MID_UPPER)));
-    m_operatorController.b().onTrue(Commands.runOnce( () -> m_arm.updateLowerSetpoint(ArmSetpoints.CUBENODE_MID_LOWER)));
+    //Set game Piece type 
+    m_operatorController.start().onTrue(Commands.runOnce(() -> GamePiece.setGamePiece(GamePieceType.Cube)));
+    m_operatorController.back().onTrue(Commands.runOnce(() -> GamePiece.setGamePiece(GamePieceType.Cone)));
 
-    m_operatorController.a().onTrue(Commands.runOnce( () -> m_arm.updateUpperSetpoint(ArmSetpoints.CUBENODE_TOP_UPPER)));
-    m_operatorController.a().onTrue(Commands.runOnce( () -> m_arm.updateLowerSetpoint(ArmSetpoints.CUBENODE_TOP_LOWER)));
+    //Set arm positions
+    m_operatorController.rightBumper().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.STOWED)));
 
-    m_operatorController.y().onTrue(Commands.runOnce( () -> m_arm.updateUpperSetpoint(ArmSetpoints.FLOOR_CUBE_UPPER)));
-    m_operatorController.y().onTrue(Commands.runOnce( () -> m_arm.updateLowerSetpoint(ArmSetpoints.FLOOR_CUBE_LOWER)));
+    m_operatorController.a().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.FLOOR)));
 
-    m_operatorController.x().onTrue(Commands.runOnce( () -> m_arm.updateUpperSetpoint(ArmSetpoints.DOUBLE_SUBSTATION_CUBE_UPPER)));
-    m_operatorController.x().onTrue(Commands.runOnce( () -> m_arm.updateLowerSetpoint(ArmSetpoints.DOUBLE_SUBSTATION_CUBE_LOWER)));
+    m_operatorController.b().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.MID_NODE)));
 
-    m_operatorController.povUp().onTrue(Commands.runOnce(m_claw::actuateClawUp, m_claw));
-    m_operatorController.povDown().onTrue(Commands.runOnce(m_claw::actuateClawDown, m_claw));
+    m_operatorController.y().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.TOP_NODE)));
+
+    m_operatorController.x().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.SUBSTATION)));
+
+    //Manually set claw
+    m_operatorController.povUp().onTrue(Commands.runOnce(m_arm::actuateClawUp, m_arm));
+    m_operatorController.povDown().onTrue(Commands.runOnce(m_arm::actuateClawDown, m_arm));
   }
 
+ 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *

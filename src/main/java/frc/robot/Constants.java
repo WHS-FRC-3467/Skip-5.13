@@ -11,6 +11,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
+import frc.robot.subsystems.arm.Setpoint;
 import frc.robot.util.COTSFalconSwerveConstants;
 import frc.robot.util.Gains;
 import frc.robot.util.SwerveModuleConstants;
@@ -270,46 +271,14 @@ public final class Constants {
     public static final double PERIOD = 1025;
 
     public static final double ENCODER_DISTANCE_PER_PULSE =  (2.0 * Math.PI / 8192);
-
-    //set points
-    public static final double UPPER_HORIZANTAL_FORWARD = 115;
-    public static final double UPPER_VERTICAL = 176;
-    public static final double UPPER_HORIZANTAL_BACKWARD = 291;
-
-    public static final double LOWER_HORIZANTAL_FORWARD = 264;
-    public static final double LOWER_VERTICAL = 175;
-    public static final double LOWER_HORIZANTAL_BACKWARD = 82;
   }
 
   public static final class ArmSetpoints{
-    //Setpoints
-
-    public static final double STOWED_UPPER = 308;
-    public static final double STOWED_LOWER = 186;
-
-    public static final double CONENODE_TOP_UPPER = 0;
-    public static final double CONENODE_TOP_LOWER = 0;
-
-    public static final double CONENODE_MID_UPPER = 0;
-    public static final double CONENODE_MID_LOWER = 0;
-
-    public static final double CUBENODE_TOP_UPPER = 207;
-    public static final double CUBENODE_TOP_LOWER = 153;
-
-    public static final double CUBENODE_MID_UPPER = 250;
-    public static final double CUBENODE_MID_LOWER = 179;
-
-    public static final double DOUBLE_SUBSTATION_CONE_UPPER = 251;
-    public static final double DOUBLE_SUBSTATION_CONE_LOWER = 194;
-
-    public static final double DOUBLE_SUBSTATION_CUBE_UPPER = 265;
-    public static final double DOUBLE_SUBSTATION_CUBE_LOWER = 223;
-
-    public static final double FLOOR_CONE_UPPER = 0;
-    public static final double FLOOR_CONE_LOWER= 0;
-
-    public static final double FLOOR_CUBE_UPPER = 250;
-    public static final double FLOOR_CUBE_LOWER= 108;
+    public static final Setpoint STOWED = new Setpoint(186, 308, true, 186, 308, true);
+    public static final Setpoint FLOOR = new Setpoint(112, 270, true, 112, 270, true);
+    public static final Setpoint MID_NODE = new Setpoint(159, 249, true, 178, 256, false);
+    public static final Setpoint TOP_NODE = new Setpoint(142, 185, false, 160, 219, false);
+    public static final Setpoint SUBSTATION = new Setpoint(223, 265, false, 223, 265, false);
   }
 
   public static final class LimelightConstants{

@@ -17,12 +17,17 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.numbers.N2;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.CanConstants;
 import frc.robot.Constants.DIOConstants;
+import frc.robot.Constants.PHConstants;
+import frc.robot.util.GamePiece;
+import frc.robot.util.GamePiece.GamePieceType;
 
 public class ArmSubsystem extends SubsystemBase {
   /** Creates a new ArmSubsystem. */
@@ -51,6 +56,8 @@ public class ArmSubsystem extends SubsystemBase {
 
   private double m_upperSetpoint;
   private double m_lowerSetpoint;
+  private boolean m_writstSetpoint;
+  private Solenoid m_clawJoint = new Solenoid(PneumaticsModuleType.REVPH, PHConstants.CLAW_JOINT_CHANNEL);
 
   public ArmSubsystem() {
     // Config Duty Cycle Range for the encoders
@@ -108,7 +115,9 @@ public class ArmSubsystem extends SubsystemBase {
 
     SmartDashboard.putNumber("Upper Setpoint", m_upperSetpoint);
     SmartDashboard.putNumber("Lower Setpoint", m_lowerSetpoint);
-
+    
+    SmartDashboard.putBoolean("Game Peice", GamePiece.getGamePiece() == GamePieceType.Cube);
+    
     if (Constants.tuningMode) {
       SmartDashboard.putNumber("Lower Angle", dutyCycleToDegrees(getLowerJointPos()));
       SmartDashboard.putNumber("Upper Angle", dutyCycleToDegrees(getUpperJointPos()));
@@ -129,7 +138,6 @@ public class ArmSubsystem extends SubsystemBase {
       SmartDashboard.clearPersistent("Lower Current");
     }
   }
-
   public void reset() {
     m_controllerUpper.reset(getUpperJointDegrees());
     m_controllerLower.reset(getLowerJointDegrees());
@@ -151,6 +159,25 @@ public class ArmSubsystem extends SubsystemBase {
       if (setpoint < 360 && setpoint > 0) {
         m_lowerSetpoint = setpoint;
       }
+    }
+  }
+
+  public void updateWristSetpoint(boolean setpoint){
+    m_writstSetpoint = setpoint;
+    m_clawJoint.set(m_writstSetpoint);
+  }
+
+  public void updateAllSetpoints(Setpoint setpoint){
+    if(GamePiece.getGamePiece() == GamePieceType.Cone){
+      updateUpperSetpoint(setpoint.m_upperCone);
+      updateLowerSetpoint(setpoint.m_lowerCone);
+      updateWristSetpoint(setpoint.wristCone);
+    }
+    else if (GamePiece.getGamePiece() == GamePieceType.Cube){
+      updateUpperSetpoint(setpoint.m_upperCube);
+      updateLowerSetpoint(setpoint.m_lowerCube);
+      updateWristSetpoint(setpoint.wristCube);
+
     }
   }
 
@@ -235,5 +262,12 @@ public class ArmSubsystem extends SubsystemBase {
 
   public double dutyCycleToDegrees(double dutyCyclePos) {
     return dutyCyclePos * 360;
+  }
+
+  public void actuateClawUp(){
+    m_clawJoint.set(true);
+  }
+  public void actuateClawDown(){
+    m_clawJoint.set(false);
   }
 }
