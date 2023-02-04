@@ -98,10 +98,6 @@ public class ArmSubsystem extends SubsystemBase {
     m_upperJoint.configReverseSoftLimitThreshold(ArmConstants.REVERSE_SOFT_LIMIT_UPPER, ArmConstants.TIMEOUT);
     m_lowerJoint.configForwardSoftLimitThreshold(ArmConstants.FORWARD_SOFT_LIMIT_LOWER, ArmConstants.TIMEOUT);
     m_lowerJoint.configReverseSoftLimitThreshold(ArmConstants.REVERSE_SOFT_LIMIT_LOWER, ArmConstants.TIMEOUT);
-
-    m_controllerUpper.setTolerance(ArmConstants.TOLERANCE_UPPER);
-    m_controllerLower.setTolerance(ArmConstants.TOLERANCE_LOWER);
-
   }
 
   @Override
@@ -174,9 +170,9 @@ public class ArmSubsystem extends SubsystemBase {
   public void runUpperProfiled() {
     m_controllerUpper.setGoal(new TrapezoidProfile.State(m_upperSetpoint, 0.0));
     double pidOutput = m_controllerUpper.calculate(getUpperJointDegrees());
-    double ff = (calculateFeedforwards().get(1, 0)) / 12.0;
+    double ff = -(calculateFeedforwards().get(1, 0)) / 12.0;
     System.out.println("upper ff" + (ff));
-    setPercentOutputUpper(pidOutput); // may need to negate ff voltage to get desired output
+    setPercentOutputUpper(pidOutput + ff); // may need to negate ff voltage to get desired output
   }
 
   public void runLowerProfiled() {
@@ -184,7 +180,7 @@ public class ArmSubsystem extends SubsystemBase {
     double pidOutput = m_controllerLower.calculate(getLowerJointDegrees());
     double ff = (calculateFeedforwards().get(0, 0)) / 12.0;
     System.out.println("lower ff" + (ff));
-    setPercentOutputLower(pidOutput); // may need to negate ff voltage to get desired output
+    setPercentOutputLower(pidOutput + ff); // may need to negate ff voltage to get desired output
   }
 
   public void setToCurrent() {

@@ -9,15 +9,16 @@ import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-// import edu.wpi.first.wpilibj.PneumaticsModuleType;
-// import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CanConstants;
+import frc.robot.Constants.PHConstants;
 
 public class ClawSubsytem extends SubsystemBase {
   /** Creates a new ClawSubsytem. */
   private TalonSRX m_clawMotor = new TalonSRX(CanConstants.CLAW_MOTOR);
-  // private Solenoid m_clawJoint = new Solenoid(PneumaticsModuleType.REVPH, PHConstants.CLAW_JOINT_CHANNEL);
+  private Solenoid m_clawJoint = new Solenoid(PneumaticsModuleType.REVPH, PHConstants.CLAW_JOINT_CHANNEL);
   public ClawSubsytem() {
     m_clawMotor.configFactoryDefault();
     m_clawMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 20, 30, 0.2));
@@ -33,13 +34,10 @@ public class ClawSubsytem extends SubsystemBase {
   public void driveClaw(double speed){
     m_clawMotor.set(TalonSRXControlMode.PercentOutput, speed);
   }
-  // public void actuateClawUp(){
-  //   m_clawJoint.set(true);
-  // }
-  // public void actuateClawDown(){
-  //   m_clawJoint.set(false);
-  // }
-  // public void toggleClaw(){
-  //   m_clawJoint.toggle();
-  // }
+  public void actuateClawUp(){
+    m_clawJoint.set(true);
+  }
+  public void actuateClawDown(){
+    m_clawJoint.set(false);
+  }
 }
