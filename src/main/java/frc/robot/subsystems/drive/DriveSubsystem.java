@@ -50,7 +50,7 @@ public class DriveSubsystem extends SubsystemBase {
         swerveOdometry = new SwerveDriveOdometry(SwerveConstants.SWERVE_DRIVE_KINEMATICS, getYaw(), getModulePositions());
     }
 
-    public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
+    public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop, boolean isTeleop) {
         SwerveModuleState[] swerveModuleStates =
         SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
                 fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
@@ -67,12 +67,12 @@ public class DriveSubsystem extends SubsystemBase {
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, SwerveConstants.MAX_SPEED);
 
         for(SwerveModule mod : mSwerveMods){
-            mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
+            mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop, isTeleop);
         }
     }    
 
     public void stopDrive(){
-        drive(new Translation2d(0, 0), 0, false, true);
+        drive(new Translation2d(0, 0), 0, false, true, true);
     }
 
 
@@ -80,7 +80,7 @@ public class DriveSubsystem extends SubsystemBase {
     public void setModuleStates(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, SwerveConstants.MAX_SPEED);
         for(SwerveModule mod : mSwerveMods){
-            mod.setDesiredState(desiredStates[mod.moduleNumber], false);
+            mod.setDesiredState(desiredStates[mod.moduleNumber], false, false);
         }
     }    
 
@@ -116,6 +116,10 @@ public class DriveSubsystem extends SubsystemBase {
         return (SwerveConstants.INVERT_GYRO) ? Rotation2d.fromDegrees(360 - gyro.getYaw()) : Rotation2d.fromDegrees(gyro.getYaw());
     }
 
+    public double getAbsYaw(){
+        return gyro.getAbsoluteCompassHeading();
+    }
+
     public void resetModulesToAbsolute(){
         for(SwerveModule mod : mSwerveMods){
             mod.resetToAbsolute();
@@ -149,6 +153,7 @@ public class DriveSubsystem extends SubsystemBase {
         PIDController thetaController = new PIDController(1, 0, 0);
         PIDController xController = new PIDController(10, 0, 0);
         PIDController yController = new PIDController(10, 0, 0);
+        thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
         return new SequentialCommandGroup(
              new InstantCommand(() -> {

@@ -44,21 +44,31 @@ public class SwerveModule {
         lastAngle = getState().angle;
     }
 
-    public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop){
+    public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop, boolean isTeleop){
         /* This is a custom optimize function, since default WPILib optimize assumes continuous controller which CTRE and Rev onboard is not */
         desiredState = CTREModuleState.optimize(desiredState, getState().angle); 
         setAngle(desiredState);
-        setSpeed(desiredState, isOpenLoop);
+        setSpeed(desiredState, isOpenLoop, isTeleop);
     }
 
-    private void setSpeed(SwerveModuleState desiredState, boolean isOpenLoop){
-        if(isOpenLoop){
-            double percentOutput = desiredState.speedMetersPerSecond / SwerveConstants.MAX_SPEED;
+    private void setSpeed(SwerveModuleState desiredState, boolean isOpenLoop, boolean isTeleop){
+        if(isOpenLoop && isTeleop){
+            double speed = Math.copySign(Math.pow(desiredState.speedMetersPerSecond, 2), desiredState.speedMetersPerSecond);
+            double percentOutput = speed / SwerveConstants.MAX_SPEED;
             mDriveMotor.set(ControlMode.PercentOutput, percentOutput);
         }
-        else {
+        else if (!isOpenLoop && !isTeleop) {
             double velocity = Conversions.MPSToFalcon(desiredState.speedMetersPerSecond, SwerveConstants.WHEEL_CIRCUMFRENCE, SwerveConstants.DRIVE_GEAR_RATIO);
             mDriveMotor.set(ControlMode.Velocity, velocity, DemandType.ArbitraryFeedForward, feedforward.calculate(desiredState.speedMetersPerSecond));
+        }
+        else if (!isOpenLoop && isTeleop){
+            double speed = Math.copySign(Math.pow(desiredState.speedMetersPerSecond, 2), desiredState.speedMetersPerSecond);
+            double velocity = Conversions.MPSToFalcon(speed, SwerveConstants.WHEEL_CIRCUMFRENCE, SwerveConstants.DRIVE_GEAR_RATIO);
+            mDriveMotor.set(ControlMode.Velocity, velocity, DemandType.ArbitraryFeedForward, feedforward.calculate(desiredState.speedMetersPerSecond));
+        }
+        else if (isOpenLoop && !isTeleop){
+            double percentOutput = desiredState.speedMetersPerSecond / SwerveConstants.MAX_SPEED;
+            mDriveMotor.set(ControlMode.PercentOutput, percentOutput);
         }
     }
 

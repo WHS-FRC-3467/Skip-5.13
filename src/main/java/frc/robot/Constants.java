@@ -147,10 +147,10 @@ public final class Constants {
 
     /* Swerve Profiling Values */
     /** Meters per Second */
-    public static final double MAX_SPEED = 0.25;
+    public static final double MAX_SPEED = 2.0;
 
     /** Radians per Second */
-    public static final double MAX_ANGULAR_VELOCITY = 0.5;
+    public static final double MAX_ANGULAR_VELOCITY = 4.0;
 
     /* Neutral Modes */
     public static final NeutralMode ANGLE_NEUTRAL_MODE = NeutralMode.Coast;
@@ -197,7 +197,8 @@ public final class Constants {
             new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
     }
 
-    public static final Gains GAINS_ANGLE_SNAP = new Gains(0.0,0.0,0.0,0.0, 50, 0.0);
+    public static final Gains GAINS_ANGLE_SNAP = new Gains(0.03,0.0,0.0,0.0, 50, 0.0);
+    
     public static final Gains GAINS_BALANCE = new Gains(0.0,0.0,0.0,0.0, 50, 0.0);
 
     public static final double SNAP_TOLLERANCE = 2.0;

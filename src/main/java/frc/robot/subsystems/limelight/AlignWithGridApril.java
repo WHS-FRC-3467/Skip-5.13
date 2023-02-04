@@ -57,7 +57,7 @@ public class AlignWithGridApril extends CommandBase {
     yTrans = m_pidControllerY.calculate(m_limelight.getDistanceFromTarget(LimelightConstants.SETPOINT_DIS_FROM_GRID_APRIL));
     yTrans = Math.max(yTrans, 1.0);
     yTrans = Math.min(yTrans, -1.0);
-    m_drive.drive(new Translation2d(xTrans, yTrans), 0.0, true, true);
+    m_drive.drive(new Translation2d(xTrans, yTrans), 0.0, true, true, false);
 
     if(m_pidControllerX.atSetpoint() && m_pidControllerY.atSetpoint()){
       m_end = true;

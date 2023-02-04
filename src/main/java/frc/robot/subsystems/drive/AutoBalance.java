@@ -61,7 +61,7 @@ public class AutoBalance extends CommandBase {
       double gyroAngle = m_drive.getYaw().getDegrees() % 360;
       if (gyroAngle > 180) gyroAngle = 360 - gyroAngle;
   
-      m_drive.drive(new Translation2d(0,0), m_thetaController.calculate(gyroAngle, -m_angle), true, true);  
+      m_drive.drive(new Translation2d(0,0), m_thetaController.calculate(gyroAngle, -m_angle), true, true, false);  
 
       m_end = false;
     }
