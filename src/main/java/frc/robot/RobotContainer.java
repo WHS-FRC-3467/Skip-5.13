@@ -36,11 +36,11 @@ public class RobotContainer {
   private final DriveSubsystem m_drive = new DriveSubsystem();
   private final ArmSubsystem m_arm = new ArmSubsystem();
   private final ClawSubsytem m_claw = new ClawSubsytem();
+  private final Pneumatics m_Pneumatics = new Pneumatics();
   // private final LimelightSubsystem m_limelight = new LimelightSubsystem();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    
     if(Constants.tuningMode){
       DriverStation.silenceJoystickConnectionWarning(true);
     }
@@ -95,6 +95,8 @@ public class RobotContainer {
     m_operatorController.x().onTrue(Commands.runOnce( () -> m_arm.updateUpperSetpoint(ArmSetpoints.DOUBLE_SUBSTATION_CUBE_UPPER)));
     m_operatorController.x().onTrue(Commands.runOnce( () -> m_arm.updateLowerSetpoint(ArmSetpoints.DOUBLE_SUBSTATION_CUBE_LOWER)));
 
+    m_operatorController.povUp().onTrue(Commands.runOnce(m_claw::actuateClawUp, m_claw));
+    m_operatorController.povDown().onTrue(Commands.runOnce(m_claw::actuateClawDown, m_claw));
   }
 
   /**

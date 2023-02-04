@@ -17,7 +17,6 @@ public class ClawDefault extends CommandBase {
     m_fwd = fwd;
     m_rev = rev;
     addRequirements(m_claw);
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called every time the scheduler runs while the command is scheduled.

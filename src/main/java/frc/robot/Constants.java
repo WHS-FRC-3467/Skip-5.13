@@ -204,31 +204,30 @@ public final class Constants {
   }
 
   public static final class ArmConstants{
-    /**
-     * kF = minimum percent output to break friction
-    */
-    public static final  Gains GAINS_UPPER_JOINT = new Gains(0.02, 0.01, 0.00, 0.0, 50, 1.00);
 
-    public static final  Gains GAINS_LOWER_JOINT  = new Gains(0.015, 0.01, 0.00, 0.00, 50, 1.00);
+    public static final  Gains GAINS_UPPER_JOINT = new Gains(0.02, 0.0, 0.00, 0.0, 50, 1.00);
+
+    public static final  Gains GAINS_LOWER_JOINT  = new Gains(0.02, 0.0, 0.00, 0.00, 50, 1.00);
 
 
     public static final double kSUpper = 0.04;
     public static final double kGUpper = 0.25;
     public static final double kVUpper = 0.06;
     public static final double kAUpper = 0.0;
+
     public static final double kSLower = 0.04;
     public static final double kGLower = 0.25;
     public static final double kVLower = 0.06;
     public static final double kALower = 0.0;
 
     //JointConfig for DJArmFeedForwards
-    public static final double UPPER_LENGTH = 0.8;
+    public static final double UPPER_LENGTH = 1.1684;
     public static final double UPPER_MOI = 0.4;
     public static final double UPPER_CGRADIUS = 1.0;
     public static final double UPPER_MASS = 5.0;
     public static final DCMotor UPPER_MOTOR = DCMotor.getFalcon500(1).withReduction(200);
 
-    public static final double LOWER_LENGTH = 0.8;
+    public static final double LOWER_LENGTH = 0.7874;
     public static final double LOWER_MOI = 0.4;
     public static final double LOWER_CGRADIUS = 1.0;
     public static final double LOWER_MASS = 5.0;
@@ -244,8 +243,8 @@ public final class Constants {
 
     public static final double NOMINAL_OUTPUT_FORWARD = 0;
     public static final double NOMINAL_OUTPUT_REVERSE = 0;
-    public static final double PEAK_OUTPUT_FORWARD = 0.4;
-    public static final double PEAK_OUTPUT_REVERSE = -0.4;
+    public static final double PEAK_OUTPUT_FORWARD = 1.0;
+    public static final double PEAK_OUTPUT_REVERSE = -1.0;
 
     public static final int REVERSE_SOFT_LIMIT_UPPER = 100;
     public static final int FORWARD_SOFT_LIMIT_UPPER = 3500;
@@ -258,15 +257,12 @@ public final class Constants {
     */
 	  public final static int TIMEOUT = 10;
 
-    public static final double TOLERANCE_UPPER = 2.0;
-    public static final double TOLERANCE_LOWER = 2.0;
-
     // Motion Magic constants
-    public static final double LOWER_CRUISE = 80.0;
-    public static final double LOWER_ACCELERATION = 50.0;
+    public static final double LOWER_CRUISE = 50.0;
+    public static final double LOWER_ACCELERATION = 100.0;
 
-    public static final double UPPER_CRUISE = 80.0;
-    public static final double UPPER_ACCELERATION = 50.0;
+    public static final double UPPER_CRUISE = 50.0;
+    public static final double UPPER_ACCELERATION = 100.0;
 
     public static final double DUTY_CYCLE_MIN = 1.0/1025.0;
     public static final double DUTY_CYCLE_MAX = 1024.0/1025.0;
@@ -312,8 +308,8 @@ public final class Constants {
     public static final double FLOOR_CONE_UPPER = 0;
     public static final double FLOOR_CONE_LOWER= 0;
 
-    public static final double FLOOR_CUBE_UPPER = 279;
-    public static final double FLOOR_CUBE_LOWER= 163;
+    public static final double FLOOR_CUBE_UPPER = 250;
+    public static final double FLOOR_CUBE_LOWER= 108;
   }
 
   public static final class LimelightConstants{

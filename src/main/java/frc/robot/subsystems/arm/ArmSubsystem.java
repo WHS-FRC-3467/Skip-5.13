@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems.arm;
 
-
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
@@ -32,32 +31,38 @@ public class ArmSubsystem extends SubsystemBase {
 
   private DutyCycleEncoder m_upperEncoder = new DutyCycleEncoder(DIOConstants.UPPER_ENCODER_ARM);
   private DutyCycleEncoder m_lowerEncoder = new DutyCycleEncoder(DIOConstants.LOWER_ENCODER_ARM);
-  
-  private TrapezoidProfile.Constraints lowerConstraints = new TrapezoidProfile.Constraints(ArmConstants.UPPER_CRUISE, ArmConstants.UPPER_ACCELERATION);
-  private TrapezoidProfile.Constraints upperConstraints = new TrapezoidProfile.Constraints(ArmConstants.LOWER_CRUISE, ArmConstants.LOWER_ACCELERATION);
 
-  private ProfiledPIDController m_controllerLower = new ProfiledPIDController(ArmConstants.GAINS_LOWER_JOINT.kP, ArmConstants.GAINS_LOWER_JOINT.kI, ArmConstants.GAINS_LOWER_JOINT.kD, lowerConstraints);
-  private ProfiledPIDController m_controllerUpper = new ProfiledPIDController(ArmConstants.GAINS_UPPER_JOINT.kP, ArmConstants.GAINS_UPPER_JOINT.kI, ArmConstants.GAINS_UPPER_JOINT.kD, upperConstraints);
+  private TrapezoidProfile.Constraints lowerConstraints = new TrapezoidProfile.Constraints(ArmConstants.UPPER_CRUISE,
+      ArmConstants.UPPER_ACCELERATION);
+  private TrapezoidProfile.Constraints upperConstraints = new TrapezoidProfile.Constraints(ArmConstants.LOWER_CRUISE,
+      ArmConstants.LOWER_ACCELERATION);
 
-  private JointConfig joint_Upper = new JointConfig(ArmConstants.UPPER_MASS, ArmConstants.UPPER_LENGTH, ArmConstants.UPPER_MOI, ArmConstants.UPPER_CGRADIUS, ArmConstants.UPPER_MOTOR);
-  private JointConfig joint_Lower = new JointConfig(ArmConstants.LOWER_MASS, ArmConstants.LOWER_LENGTH, ArmConstants.LOWER_MOI, ArmConstants.LOWER_CGRADIUS, ArmConstants.LOWER_MOTOR);
+  private ProfiledPIDController m_controllerLower = new ProfiledPIDController(ArmConstants.GAINS_LOWER_JOINT.kP,
+      ArmConstants.GAINS_LOWER_JOINT.kI, ArmConstants.GAINS_LOWER_JOINT.kD, lowerConstraints);
+  private ProfiledPIDController m_controllerUpper = new ProfiledPIDController(ArmConstants.GAINS_UPPER_JOINT.kP,
+      ArmConstants.GAINS_UPPER_JOINT.kI, ArmConstants.GAINS_UPPER_JOINT.kD, upperConstraints);
+
+  private JointConfig joint_Upper = new JointConfig(ArmConstants.UPPER_MASS, ArmConstants.UPPER_LENGTH,
+      ArmConstants.UPPER_MOI, ArmConstants.UPPER_CGRADIUS, ArmConstants.UPPER_MOTOR);
+  private JointConfig joint_Lower = new JointConfig(ArmConstants.LOWER_MASS, ArmConstants.LOWER_LENGTH,
+      ArmConstants.LOWER_MOI, ArmConstants.LOWER_CGRADIUS, ArmConstants.LOWER_MOTOR);
 
   private DJArmFeedforward m_doubleJointedFeedForwards = new DJArmFeedforward(joint_Lower, joint_Upper);
 
   private double m_upperSetpoint;
   private double m_lowerSetpoint;
 
-  
-  public ArmSubsystem() {  
-    //Config Duty Cycle Range for the encoders
+  public ArmSubsystem() {
+    // Config Duty Cycle Range for the encoders
     m_lowerEncoder.setDutyCycleRange(ArmConstants.DUTY_CYCLE_MIN, ArmConstants.DUTY_CYCLE_MAX);
     m_upperEncoder.setDutyCycleRange(ArmConstants.DUTY_CYCLE_MIN, ArmConstants.DUTY_CYCLE_MAX);
 
-    //Default Motors
+    // Default Motors
     m_lowerJoint.configFactoryDefault(ArmConstants.TIMEOUT);
     m_upperJoint.configFactoryDefault(ArmConstants.TIMEOUT);
 
-    //Set Neutral Mode to Brake and NeutralDeadBand to prevent need for intentional stalling
+    // Set Neutral Mode to Brake and NeutralDeadBand to prevent need for intentional
+    // stalling
     m_lowerJoint.setNeutralMode(NeutralMode.Brake);
     m_upperJoint.setNeutralMode(NeutralMode.Brake);
 
@@ -93,27 +98,18 @@ public class ArmSubsystem extends SubsystemBase {
     m_upperJoint.configReverseSoftLimitThreshold(ArmConstants.REVERSE_SOFT_LIMIT_UPPER, ArmConstants.TIMEOUT);
     m_lowerJoint.configForwardSoftLimitThreshold(ArmConstants.FORWARD_SOFT_LIMIT_LOWER, ArmConstants.TIMEOUT);
     m_lowerJoint.configReverseSoftLimitThreshold(ArmConstants.REVERSE_SOFT_LIMIT_LOWER, ArmConstants.TIMEOUT);
-
-    m_controllerUpper.setTolerance(ArmConstants.TOLERANCE_UPPER);
-    m_controllerLower.setTolerance(ArmConstants.TOLERANCE_LOWER);
-
   }
 
-
-  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     m_upperJoint.setSelectedSensorPosition(dutyCycleToCTREUnits(getUpperJointPos()), 0, ArmConstants.TIMEOUT);
     m_lowerJoint.setSelectedSensorPosition(dutyCycleToCTREUnits(getLowerJointPos()), 0, ArmConstants.TIMEOUT);
 
-
-
     SmartDashboard.putNumber("Upper Setpoint", m_upperSetpoint);
     SmartDashboard.putNumber("Lower Setpoint", m_lowerSetpoint);
-    
-    
-    if(Constants.tuningMode){
+
+    if (Constants.tuningMode) {
       SmartDashboard.putNumber("Lower Angle", dutyCycleToDegrees(getLowerJointPos()));
       SmartDashboard.putNumber("Upper Angle", dutyCycleToDegrees(getUpperJointPos()));
       SmartDashboard.putNumber("Upper Percent", m_upperJoint.getMotorOutputPercent());
@@ -122,8 +118,7 @@ public class ArmSubsystem extends SubsystemBase {
       SmartDashboard.putNumber("Upper Error", m_controllerUpper.getPositionError());
       SmartDashboard.putNumber("Lower Velocity Setpoint", m_controllerLower.getPositionError());
       SmartDashboard.putNumber("Upper Velocity Setpoint", m_controllerUpper.getPositionError());
-    }
-    else{
+    } else {
       SmartDashboard.clearPersistent("Lower Angle");
       SmartDashboard.clearPersistent("Upper Angle");
       SmartDashboard.clearPersistent("Upper Percent");
@@ -135,100 +130,106 @@ public class ArmSubsystem extends SubsystemBase {
     }
   }
 
-  public void reset(){
+  public void reset() {
     m_controllerUpper.reset(getUpperJointDegrees());
-    m_controllerLower.reset(getLowerJointDegrees());   
+    m_controllerLower.reset(getLowerJointDegrees());
     m_upperSetpoint = getUpperJointDegrees();
     m_lowerSetpoint = getLowerJointDegrees();
- 
 
   }
-  public void updateUpperSetpoint(double setpoint){
-    if(m_upperSetpoint != setpoint){
-      if(setpoint<360 && setpoint>0){
+
+  public void updateUpperSetpoint(double setpoint) {
+    if (m_upperSetpoint != setpoint) {
+      if (setpoint < 360 && setpoint > 0) {
         m_upperSetpoint = setpoint;
       }
     }
   }
 
-  public void updateLowerSetpoint(double setpoint){
-    if(m_lowerSetpoint != setpoint){
-      if(setpoint<360 && setpoint>0){
+  public void updateLowerSetpoint(double setpoint) {
+    if (m_lowerSetpoint != setpoint) {
+      if (setpoint < 360 && setpoint > 0) {
         m_lowerSetpoint = setpoint;
       }
     }
   }
 
-  public Vector<N2> calculateFeedforwards(){
-    Vector<N2> positionVector = VecBuilder.fill(Math.toRadians(m_lowerSetpoint-225), Math.toRadians(m_upperSetpoint-90));
-    Vector<N2> velocityVector = VecBuilder.fill(Math.toRadians(m_controllerLower.getSetpoint().velocity), Math.toRadians(m_controllerUpper.getSetpoint().velocity));
+  public Vector<N2> calculateFeedforwards() {
+    Vector<N2> positionVector = VecBuilder.fill(Math.toRadians(m_lowerSetpoint - 90), // to set lower constant, move
+                                                                                      // lower and upper arms to
+                                                                                      // vertical, set to lower encoder
+                                                                                      // value minus 90 (for horizontal)
+        Math.toRadians(-m_upperSetpoint + 130)); // to set upper constant, move upper arm and lower arms to vertical and
+                                                 // set to upper encoder value
+    Vector<N2> velocityVector = VecBuilder.fill(0.0, 0.0);
     Vector<N2> accelVector = VecBuilder.fill(0.0, 0.0);
     Vector<N2> vectorFF = m_doubleJointedFeedForwards.calculate(positionVector, velocityVector, accelVector);
     return vectorFF;
-  }  
-  
-  public void runUpperProfiled(){
+  }
+
+  public void runUpperProfiled() {
     m_controllerUpper.setGoal(new TrapezoidProfile.State(m_upperSetpoint, 0.0));
     double pidOutput = m_controllerUpper.calculate(getUpperJointDegrees());
-    double ff = (calculateFeedforwards().get(0, 0))/12.0;
+    double ff = -(calculateFeedforwards().get(1, 0)) / 12.0;
     System.out.println("upper ff" + (ff));
-    setPercentOutputUpper(pidOutput );
+    setPercentOutputUpper(pidOutput + ff); // may need to negate ff voltage to get desired output
   }
 
-  public void runLowerProfiled(){
+  public void runLowerProfiled() {
     m_controllerLower.setGoal(new TrapezoidProfile.State(m_lowerSetpoint, 0.0));
     double pidOutput = m_controllerLower.calculate(getLowerJointDegrees());
-    double ff = (calculateFeedforwards().get(1, 0))/12.0;
+    double ff = (calculateFeedforwards().get(0, 0)) / 12.0;
     System.out.println("lower ff" + (ff));
-    setPercentOutputLower(pidOutput );
+    setPercentOutputLower(pidOutput + ff); // may need to negate ff voltage to get desired output
   }
 
-  public void setToCurrent(){
+  public void setToCurrent() {
     m_lowerSetpoint = getLowerJointDegrees();
     m_upperSetpoint = getUpperJointDegrees();
   }
-  public boolean upperAtSetpoint(){
+
+  public boolean upperAtSetpoint() {
     return m_controllerUpper.atSetpoint();
   }
 
-  public boolean lowerAtSetpoint(){
+  public boolean lowerAtSetpoint() {
     return m_controllerLower.atSetpoint();
   }
 
-  public void setPercentOutputUpper(double speed){
+  public void setPercentOutputUpper(double speed) {
     m_upperJoint.set(TalonFXControlMode.PercentOutput, speed);
   }
 
-  public void setPercentOutputLower(double speed){
+  public void setPercentOutputLower(double speed) {
     m_lowerJoint.set(TalonFXControlMode.PercentOutput, speed);
   }
 
-  public void neutralUpper(){
+  public void neutralUpper() {
     m_lowerJoint.neutralOutput();
   }
 
-  public void neutralLower(){
+  public void neutralLower() {
     m_lowerJoint.neutralOutput();
   }
 
-  public double getLowerJointPos(){
+  public double getLowerJointPos() {
     return m_lowerEncoder.getAbsolutePosition();
   }
 
-  public double getUpperJointPos(){
+  public double getUpperJointPos() {
     return m_upperEncoder.getAbsolutePosition();
   }
 
-  public double getLowerJointDegrees(){
+  public double getLowerJointDegrees() {
     return dutyCycleToDegrees(getLowerJointPos());
   }
 
-  public double getUpperJointDegrees(){
+  public double getUpperJointDegrees() {
     return dutyCycleToDegrees(getUpperJointPos());
   }
 
-  public double dutyCycleToCTREUnits(double dutyCyclePos){
-    //4096 units per rotation = raw sensor units for Pulse width encoder
+  public double dutyCycleToCTREUnits(double dutyCyclePos) {
+    // 4096 units per rotation = raw sensor units for Pulse width encoder
     return dutyCyclePos * 4096;
   }
 

@@ -22,12 +22,12 @@ import edu.wpi.first.math.numbers.N2;
 public class DJArmFeedforward {
   private static final double g = 9.80665;
   
+  private final JointConfig Joint_Lower;
   private final JointConfig joint_Upper;
-  private final JointConfig joint_Lower;
 
-  public DJArmFeedforward(JointConfig joint_Upper, JointConfig joint_Lower) {
+  public DJArmFeedforward(JointConfig Joint_Lower, JointConfig joint_Upper) {
+    this.Joint_Lower = Joint_Lower;
     this.joint_Upper = joint_Upper;
-    this.joint_Lower = joint_Lower;
   }
 
   public Vector<N2> calculate(Vector<N2> position) {
@@ -42,79 +42,79 @@ public class DJArmFeedforward {
     M.set(
         0,
         0,
-        joint_Upper.mass * Math.pow(joint_Upper.cgRadius, 2.0)
-            + joint_Lower.mass * (Math.pow(joint_Upper.length, 2.0) + Math.pow(joint_Lower.cgRadius, 2.0))
+        Joint_Lower.mass * Math.pow(Joint_Lower.cgRadius, 2.0)
+            + joint_Upper.mass * (Math.pow(Joint_Lower.length, 2.0) + Math.pow(joint_Upper.cgRadius, 2.0))
+            + Joint_Lower.moi
             + joint_Upper.moi
-            + joint_Lower.moi
             + 2
-                * joint_Lower.mass
-                * joint_Upper.length
-                * joint_Lower.cgRadius
+                * joint_Upper.mass
+                * Joint_Lower.length
+                * joint_Upper.cgRadius
                 * Math.cos(position.get(1, 0)));
     M.set(
         1,
         0,
-        joint_Lower.mass * Math.pow(joint_Lower.cgRadius, 2.0)
-            + joint_Lower.moi
-            + joint_Lower.mass
-                * joint_Upper.length
-                * joint_Lower.cgRadius
+        joint_Upper.mass * Math.pow(joint_Upper.cgRadius, 2.0)
+            + joint_Upper.moi
+            + joint_Upper.mass
+                * Joint_Lower.length
+                * joint_Upper.cgRadius
                 * Math.cos(position.get(1, 0)));
     M.set(
         0,
         1,
-        joint_Lower.mass * Math.pow(joint_Lower.cgRadius, 2.0)
-            + joint_Lower.moi
-            + joint_Lower.mass
-                * joint_Upper.length
-                * joint_Lower.cgRadius
+        joint_Upper.mass * Math.pow(joint_Upper.cgRadius, 2.0)
+            + joint_Upper.moi
+            + joint_Upper.mass
+                * Joint_Lower.length
+                * joint_Upper.cgRadius
                 * Math.cos(position.get(1, 0)));
-    M.set(1, 1, joint_Lower.mass * Math.pow(joint_Lower.cgRadius, 2.0) + joint_Lower.moi);
+    M.set(1, 1, joint_Upper.mass * Math.pow(joint_Upper.cgRadius, 2.0) + joint_Upper.moi);
     C.set(
         0,
         0,
-        -joint_Lower.mass
-            * joint_Upper.length
-            * joint_Lower.cgRadius
+        -joint_Upper.mass
+            * Joint_Lower.length
+            * joint_Upper.cgRadius
             * Math.sin(position.get(1, 0))
             * velocity.get(1, 0));
     C.set(
         1,
         0,
-        joint_Lower.mass
-            * joint_Upper.length
-            * joint_Lower.cgRadius
+        joint_Upper.mass
+            * Joint_Lower.length
+            * joint_Upper.cgRadius
             * Math.sin(position.get(1, 0))
             * velocity.get(0, 0));
     C.set(
         0,
         1,
-        -joint_Lower.mass
-            * joint_Upper.length
-            * joint_Lower.cgRadius
+        -joint_Upper.mass
+            * Joint_Lower.length
+            * joint_Upper.cgRadius
             * Math.sin(position.get(1, 0))
             * (velocity.get(0, 0) + velocity.get(1, 0)));
     Tg.set(
         0,
         0,
-        (joint_Upper.mass * joint_Upper.cgRadius + joint_Lower.mass * joint_Upper.length)
+        (Joint_Lower.mass * Joint_Lower.cgRadius + joint_Upper.mass * Joint_Lower.length)
                 * g
                 * Math.cos(position.get(0, 0))
-            + joint_Lower.mass
-                * joint_Lower.cgRadius
+            + joint_Upper.mass
+                * joint_Upper.cgRadius
                 * g
                 * Math.cos(position.get(0, 0) + position.get(1, 0)));
     Tg.set(
         1,
         0,
-        joint_Lower.mass
-            * joint_Lower.cgRadius
+        joint_Upper.mass
+            * joint_Upper.cgRadius
             * g
             * Math.cos(position.get(0, 0) + position.get(1, 0)));
 
     var torque = M.times(acceleration).plus(C.times(velocity)).plus(Tg);
     return VecBuilder.fill(
-        joint_Upper.motor.getVoltage(torque.get(0, 0), velocity.get(0, 0)),
-        joint_Lower.motor.getVoltage(torque.get(1, 0), velocity.get(1, 0)));
+        Joint_Lower.motor.getVoltage(torque.get(0, 0), velocity.get(0, 0)),
+        joint_Upper.motor.getVoltage(torque.get(1, 0), velocity.get(1, 0)));
   }
 }

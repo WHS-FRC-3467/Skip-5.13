@@ -35,8 +35,8 @@ public class ArmDefault extends CommandBase {
   public void execute() {
     if(m_joyMode.getAsBoolean()){
       m_arm.setToCurrent();
-      m_arm.setPercentOutputUpper(m_upperOutput.getAsDouble()*0.1);
-      m_arm.setPercentOutputLower(m_lowerOutput.getAsDouble()*0.1);
+      m_arm.setPercentOutputUpper(m_upperOutput.getAsDouble()*0.5);
+      m_arm.setPercentOutputLower(m_lowerOutput.getAsDouble()*0.5);
       m_arm.reset();
     }
     else{
