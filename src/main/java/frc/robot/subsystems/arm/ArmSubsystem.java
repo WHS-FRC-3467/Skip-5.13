@@ -32,7 +32,7 @@ import frc.robot.util.GamePiece.GamePieceType;
 public class ArmSubsystem extends SubsystemBase {
   /** Creates a new ArmSubsystem. */
   private TalonFX m_lowerJoint = new WPI_TalonFX(CanConstants.LOWER_JOINT_MOTOR);
-  private TalonFX m_upperJoint = new TalonFX(CanConstants.UPPER_JOINT_MOTOR);
+  private TalonFX m_upperJoint = new WPI_TalonFX(CanConstants.UPPER_JOINT_MOTOR);
 
   private DutyCycleEncoder m_upperEncoder = new DutyCycleEncoder(DIOConstants.UPPER_ENCODER_ARM);
   private DutyCycleEncoder m_lowerEncoder = new DutyCycleEncoder(DIOConstants.LOWER_ENCODER_ARM);
@@ -57,7 +57,9 @@ public class ArmSubsystem extends SubsystemBase {
   private double m_upperSetpoint;
   private double m_lowerSetpoint;
   private boolean m_writstSetpoint;
-  private Solenoid m_clawJoint = new Solenoid(PneumaticsModuleType.REVPH, PHConstants.CLAW_JOINT_CHANNEL);
+
+  private Solenoid m_wrist = new Solenoid(PneumaticsModuleType.REVPH, PHConstants.WRIST_CHANNEL);
+  private Solenoid m_claw = new Solenoid(PneumaticsModuleType.REVPH, PHConstants.CLAW_CHANNEL);
 
   public ArmSubsystem() {
     // Config Duty Cycle Range for the encoders
@@ -79,8 +81,8 @@ public class ArmSubsystem extends SubsystemBase {
     m_lowerJoint.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition, 0, ArmConstants.TIMEOUT);
     m_upperJoint.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition, 0, ArmConstants.TIMEOUT);
 
-    m_upperJoint.setInverted(TalonFXInvertType.Clockwise);
-    m_lowerJoint.setInverted(TalonFXInvertType.Clockwise);
+    m_upperJoint.setInverted(TalonFXInvertType.CounterClockwise);
+    m_lowerJoint.setInverted(TalonFXInvertType.CounterClockwise);
 
     m_lowerJoint.configNominalOutputForward(ArmConstants.NOMINAL_OUTPUT_FORWARD, ArmConstants.TIMEOUT);
     m_lowerJoint.configNominalOutputReverse(ArmConstants.NOMINAL_OUTPUT_REVERSE, ArmConstants.TIMEOUT);
@@ -127,6 +129,7 @@ public class ArmSubsystem extends SubsystemBase {
       SmartDashboard.putNumber("Upper Error", m_controllerUpper.getPositionError());
       SmartDashboard.putNumber("Lower Velocity Setpoint", m_controllerLower.getPositionError());
       SmartDashboard.putNumber("Upper Velocity Setpoint", m_controllerUpper.getPositionError());
+      
     } else {
       SmartDashboard.clearPersistent("Lower Angle");
       SmartDashboard.clearPersistent("Upper Angle");
@@ -164,7 +167,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void updateWristSetpoint(boolean setpoint){
     m_writstSetpoint = setpoint;
-    m_clawJoint.set(m_writstSetpoint);
+    m_wrist.set(m_writstSetpoint);
   }
 
   public void updateAllSetpoints(Setpoint setpoint){
@@ -182,11 +185,11 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public Vector<N2> calculateFeedforwards() {
-    Vector<N2> positionVector = VecBuilder.fill(Math.toRadians(m_lowerSetpoint - 90), // to set lower constant, move
+    Vector<N2> positionVector = VecBuilder.fill(Math.toRadians(m_lowerSetpoint - 100), // to set lower constant, move
                                                                                       // lower and upper arms to
                                                                                       // vertical, set to lower encoder
                                                                                       // value minus 90 (for horizontal)
-        Math.toRadians(-m_upperSetpoint + 130)); // to set upper constant, move upper arm and lower arms to vertical and
+        Math.toRadians(-m_upperSetpoint + 167)); // to set upper constant, move upper arm and lower arms to vertical and
                                                  // set to upper encoder value
     Vector<N2> velocityVector = VecBuilder.fill(0.0, 0.0);
     Vector<N2> accelVector = VecBuilder.fill(0.0, 0.0);
@@ -196,17 +199,19 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void runUpperProfiled() {
     m_controllerUpper.setGoal(new TrapezoidProfile.State(m_upperSetpoint, 0.0));
-    double pidOutput = m_controllerUpper.calculate(getUpperJointDegrees());
+    double pidOutput = -m_controllerUpper.calculate(getUpperJointDegrees());
     double ff = -(calculateFeedforwards().get(1, 0)) / 12.0;
     System.out.println("upper ff" + (ff));
+    System.out.println("Upper PID" + pidOutput);
     setPercentOutputUpper(pidOutput + ff); // may need to negate ff voltage to get desired output
   }
 
   public void runLowerProfiled() {
     m_controllerLower.setGoal(new TrapezoidProfile.State(m_lowerSetpoint, 0.0));
-    double pidOutput = m_controllerLower.calculate(getLowerJointDegrees());
+    double pidOutput = -m_controllerLower.calculate(getLowerJointDegrees());
     double ff = (calculateFeedforwards().get(0, 0)) / 12.0;
     System.out.println("lower ff" + (ff));
+    System.out.println("Lower PID" + pidOutput);
     setPercentOutputLower(pidOutput + ff); // may need to negate ff voltage to get desired output
   }
 
@@ -264,10 +269,16 @@ public class ArmSubsystem extends SubsystemBase {
     return dutyCyclePos * 360;
   }
 
-  public void actuateClawUp(){
-    m_clawJoint.set(true);
+  public void actuateWristUp(){
+    m_wrist.set(true);
   }
-  public void actuateClawDown(){
-    m_clawJoint.set(false);
+  public void actuateWristDown(){
+    m_wrist.set(false);
+  }
+  public void actuateClawIn(){
+    m_claw.set(true);
+  }
+  public void actuateClawOut(){
+    m_claw.set(false);
   }
 }

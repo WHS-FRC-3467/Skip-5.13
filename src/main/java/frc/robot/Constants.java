@@ -59,7 +59,8 @@ public final class Constants {
 
   }
   public static final class PHConstants{
-    public static final int CLAW_JOINT_CHANNEL = 0;
+    public static final int WRIST_CHANNEL = 0;
+    public static final int CLAW_CHANNEL = 1;
   }
 
 
@@ -69,14 +70,14 @@ public final class Constants {
 
 
     //Mod 0
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 43.9;
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 109.1;
     //Mod 1
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 17.75;
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 253.9;
     //Mod 2
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 263.1; 
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 111.5; 
     //Mod 3
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 358.7;
-
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 27.2;
+    
     public static final boolean INVERT_GYRO = false; // Always ensure Gyro is CCW+ CW-
 
     //Tailgate (For Testing)
@@ -147,10 +148,10 @@ public final class Constants {
 
     /* Swerve Profiling Values */
     /** Meters per Second */
-    public static final double MAX_SPEED = 2.0;
+    public static final double MAX_SPEED = 1.5;
 
     /** Radians per Second */
-    public static final double MAX_ANGULAR_VELOCITY = 4.0;
+    public static final double MAX_ANGULAR_VELOCITY = 3.0;
 
     /* Neutral Modes */
     public static final NeutralMode ANGLE_NEUTRAL_MODE = NeutralMode.Coast;
@@ -197,7 +198,7 @@ public final class Constants {
             new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
     }
 
-    public static final Gains GAINS_ANGLE_SNAP = new Gains(0.03,0.0,0.0,0.0, 50, 0.0);
+    public static final Gains GAINS_ANGLE_SNAP = new Gains(0.02, 0.0, 0.0, 0.0, 50, 0.0);
     
     public static final Gains GAINS_BALANCE = new Gains(0.0,0.0,0.0,0.0, 50, 0.0);
 
@@ -223,7 +224,7 @@ public final class Constants {
     public static final double kALower = 0.0;
 
     //JointConfig for DJArmFeedForwards
-    public static final double UPPER_LENGTH = 1.1684;
+    public static final double UPPER_LENGTH = 1.07;
     public static final double UPPER_MOI = 0.4;
     public static final double UPPER_CGRADIUS = 1.0;
     public static final double UPPER_MASS = 5.0;
@@ -245,14 +246,14 @@ public final class Constants {
 
     public static final double NOMINAL_OUTPUT_FORWARD = 0;
     public static final double NOMINAL_OUTPUT_REVERSE = 0;
-    public static final double PEAK_OUTPUT_FORWARD = 1.0;
-    public static final double PEAK_OUTPUT_REVERSE = -1.0;
+    public static final double PEAK_OUTPUT_FORWARD = 0.25;
+    public static final double PEAK_OUTPUT_REVERSE = -0.25;
 
-    public static final int REVERSE_SOFT_LIMIT_UPPER = 100;
-    public static final int FORWARD_SOFT_LIMIT_UPPER = 3500;
-
-    public static final int REVERSE_SOFT_LIMIT_LOWER = 1800;
-    public static final int FORWARD_SOFT_LIMIT_LOWER = 2800;
+    public static final int FORWARD_SOFT_LIMIT_UPPER = 3300;
+    public static final int REVERSE_SOFT_LIMIT_UPPER = 500;
+    
+    public static final int FORWARD_SOFT_LIMIT_LOWER = 3400;
+    public static final int REVERSE_SOFT_LIMIT_LOWER = 1000;
     /**
      * Set to zero to skip waiting for confirmation.
      * Set to nonzero to wait and report to DS if action fails.
@@ -275,11 +276,16 @@ public final class Constants {
   }
 
   public static final class ArmSetpoints{
+    public static final Setpoint TEST_SETPOINT_HIGHER = new Setpoint(191, 35, true, 191, 35, true);
+    public static final Setpoint TEST_SETPOINT_LOWER = new Setpoint(164, 65, true, 164, 65, true);
+
     public static final Setpoint STOWED = new Setpoint(186, 308, true, 186, 308, true);
     public static final Setpoint FLOOR = new Setpoint(112, 270, true, 112, 270, true);
     public static final Setpoint MID_NODE = new Setpoint(159, 249, true, 178, 256, false);
     public static final Setpoint TOP_NODE = new Setpoint(142, 185, false, 160, 219, false);
     public static final Setpoint SUBSTATION = new Setpoint(223, 265, false, 223, 265, false);
+
+    public static final double INTERMEDIATE_LOWER_POSITION = 90;
   }
 
   public static final class LimelightConstants{
@@ -294,7 +300,7 @@ public final class Constants {
 
     // distance from the center of the Limelight lens to the floor
     public static final double LIMELIGHT_LENS_HEIGHT_INCHES = 20.0;
-
+ 
     public static final double SETPOINT_DIS_FROM_MID_CONE = 24;
     public static final double SETPOINT_DIS_FROM_TOP_CONE = 40;
 

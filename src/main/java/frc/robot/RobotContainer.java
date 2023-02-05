@@ -95,19 +95,26 @@ public class RobotContainer {
     m_operatorController.back().onTrue(Commands.runOnce(() -> GamePiece.setGamePiece(GamePieceType.Cone)));
 
     //Set arm positions
-    m_operatorController.rightBumper().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.STOWED)));
+    // m_operatorController.rightBumper().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.STOWED)));
 
-    m_operatorController.a().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.FLOOR)));
+    // m_operatorController.a().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.FLOOR)));
 
-    m_operatorController.b().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.MID_NODE)));
+    // m_operatorController.b().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.MID_NODE)));
 
-    m_operatorController.y().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.TOP_NODE)));
+    // m_operatorController.y().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.TOP_NODE)));
 
-    m_operatorController.x().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.SUBSTATION)));
+    // m_operatorController.x().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.SUBSTATION)));
+
+    m_operatorController.a().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.TEST_SETPOINT_LOWER)));
+
+    m_operatorController.b().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.TEST_SETPOINT_HIGHER)));
 
     //Manually set claw
-    m_operatorController.povUp().onTrue(Commands.runOnce(m_arm::actuateClawUp, m_arm));
-    m_operatorController.povDown().onTrue(Commands.runOnce(m_arm::actuateClawDown, m_arm));
+    m_operatorController.povUp().onTrue(Commands.runOnce(m_arm::actuateWristUp, m_arm));
+    m_operatorController.povDown().onTrue(Commands.runOnce(m_arm::actuateWristDown, m_arm));
+    
+    m_operatorController.povRight().onTrue(Commands.runOnce(m_arm::actuateClawIn, m_arm));
+    m_operatorController.povLeft().onTrue(Commands.runOnce(m_arm::actuateClawOut, m_arm));
   }
 
  

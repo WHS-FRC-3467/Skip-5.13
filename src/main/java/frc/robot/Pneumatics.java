@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 // import frc.robot.Control.XBoxControllerEE;
 
@@ -20,7 +21,8 @@ public class Pneumatics extends SubsystemBase{
   
   @Override
   public void periodic() {
-    pdh.clearStickyFaults();
-    phCompressor.enableDigital();
+    // pdh.clearStickyFaults();
+    // phCompressor.enableAnalog(115,120);
+    // SmartDashboard.putNumber("Pressure", phCompressor.getPressure());
   }
 }
