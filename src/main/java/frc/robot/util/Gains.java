@@ -6,7 +6,6 @@ public class Gains {
 	public final double kD;
 	public final double kF;
 	public final double kIzone;
-	public final double kPeakOutput;
 	/**
 	 * 
 	 * @param _kP Proportional Gain
@@ -16,12 +15,11 @@ public class Gains {
 	 * @param _kIzone Integral Zone
 	 * @param _kPeakOutput Peak output
 	 */
-	public Gains(double _kP, double _kI, double _kD, double _kF, double _kIzone, double _kPeakOutput){
+	public Gains(double _kP, double _kI, double _kD, double _kF, double _kIzone){
 		kP = _kP;
 		kI = _kI;
 		kD = _kD;
 		kF = _kF;
 		kIzone = _kIzone;
-		kPeakOutput = _kPeakOutput;
 	}
 }

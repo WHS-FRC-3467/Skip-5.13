@@ -67,16 +67,26 @@ public final class Constants {
 
     public static final double DRIVE_DEADBAND = 0.2;
 
+    //Gold Bot
+    // //Mod 0
+    // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 109.1;
+    // //Mod 1
+    // public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 253.9;
+    // //Mod 2
+    // public static final double BACK_LEFT_MODULE_STEER_OFFSET = 111.5; 
+    // //Mod 3
+    // public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 27.2;
 
+    //Alpha Bot
     //Mod 0
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 43.9;
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 178.4;
     //Mod 1
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 17.75;
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 82.3;
     //Mod 2
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 263.1; 
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 190.0; 
     //Mod 3
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 358.7;
-
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 222.188;
+    
     public static final boolean INVERT_GYRO = false; // Always ensure Gyro is CCW+ CW-
 
     //Tailgate (For Testing)
@@ -134,10 +144,10 @@ public final class Constants {
     public static final double CLOSED_LOOP_RAMP = 0.0;
 
     /* Angle Motor PID Values */
-    public static final Gains GAINS_ANGLE_MOTOR =new Gains(CHOSEN_MODULE.angleKP, CHOSEN_MODULE.angleKI, CHOSEN_MODULE.angleKD, CHOSEN_MODULE.angleKF, 0.0, 0.0);
+    public static final Gains GAINS_ANGLE_MOTOR =new Gains(CHOSEN_MODULE.angleKP, CHOSEN_MODULE.angleKI, CHOSEN_MODULE.angleKD, CHOSEN_MODULE.angleKF, 0.0);
     
     /* Drive Motor PID Values */
-    public static final Gains GAINS_DRIVE_MOTOR = new Gains(0.05, 0.0, 0.0, 0.0, 0, 0);
+    public static final Gains GAINS_DRIVE_MOTOR = new Gains(0.05, 0.0, 0.0, 0.0, 0);
 
     /* Drive Motor Characterization Values 
      * Divide SYSID values by 12 to convert from volts to percent output for CTRE */
@@ -147,10 +157,10 @@ public final class Constants {
 
     /* Swerve Profiling Values */
     /** Meters per Second */
-    public static final double MAX_SPEED = 2.0;
+    public static final double MAX_SPEED = 1.5;
 
     /** Radians per Second */
-    public static final double MAX_ANGULAR_VELOCITY = 4.0;
+    public static final double MAX_ANGULAR_VELOCITY = 3.0;
 
     /* Neutral Modes */
     public static final NeutralMode ANGLE_NEUTRAL_MODE = NeutralMode.Coast;
@@ -197,9 +207,9 @@ public final class Constants {
             new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
     }
 
-    public static final Gains GAINS_ANGLE_SNAP = new Gains(0.03,0.0,0.0,0.0, 50, 0.0);
+    public static final Gains GAINS_ANGLE_SNAP = new Gains(0.02, 0.0, 0.0, 0.0, 50);
     
-    public static final Gains GAINS_BALANCE = new Gains(0.0,0.0,0.0,0.0, 50, 0.0);
+    public static final Gains GAINS_BALANCE = new Gains(0.0,0.0,0.0,0.0, 50);
 
     public static final double SNAP_TOLLERANCE = 2.0;
     public static final double BALANCE_TOLLERANCE = 0.5;
@@ -207,9 +217,9 @@ public final class Constants {
 
   public static final class ArmConstants{
 
-    public static final  Gains GAINS_UPPER_JOINT = new Gains(0.02, 0.0, 0.00, 0.0, 50, 1.00);
+    public static final  Gains GAINS_UPPER_JOINT = new Gains(0.02, 0.0, 0.00, 0.0, 50);
 
-    public static final  Gains GAINS_LOWER_JOINT  = new Gains(0.02, 0.0, 0.00, 0.00, 50, 1.00);
+    public static final  Gains GAINS_LOWER_JOINT  = new Gains(0.02, 0.0, 0.00, 0.00, 50);
 
 
     public static final double kSUpper = 0.04;
@@ -283,8 +293,8 @@ public final class Constants {
   }
 
   public static final class LimelightConstants{
-    public static final Gains GAINS_VISION_X = new Gains(0.0, 0.0, 0.0, 0.0, 50, 1.0);
-    public static final Gains GAINS_VISION_Y = new Gains(0.0, 0.0, 0.0, 0.0, 50, 1.0);
+    public static final Gains GAINS_VISION_X = new Gains(0.0, 0.0, 0.0, 0.0, 50);
+    public static final Gains GAINS_VISION_Y = new Gains(0.0, 0.0, 0.0, 0.0, 50);
 
     public static final double VISION_VEL_TOLLERANCE = 0.5;
     public static final double VISION_POS_TOLLERANCE = 0.5;
@@ -294,7 +304,7 @@ public final class Constants {
 
     // distance from the center of the Limelight lens to the floor
     public static final double LIMELIGHT_LENS_HEIGHT_INCHES = 20.0;
-
+ 
     public static final double SETPOINT_DIS_FROM_MID_CONE = 24;
     public static final double SETPOINT_DIS_FROM_TOP_CONE = 40;
 
