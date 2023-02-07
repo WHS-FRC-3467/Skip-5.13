@@ -72,8 +72,8 @@ public class ArmSubsystem extends SubsystemBase {
 
     // Set Neutral Mode to Brake and NeutralDeadBand to prevent need for intentional
     // stalling
-    m_lowerJoint.setNeutralMode(NeutralMode.Brake);
-    m_upperJoint.setNeutralMode(NeutralMode.Brake);
+    m_lowerJoint.setNeutralMode(NeutralMode.Coast);
+    m_upperJoint.setNeutralMode(NeutralMode.Coast);
 
     m_lowerJoint.configNeutralDeadband(ArmConstants.NEUTRAL_DEADBAND);
     m_upperJoint.configNeutralDeadband(ArmConstants.NEUTRAL_DEADBAND);
@@ -121,15 +121,14 @@ public class ArmSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("Game Peice", GamePiece.getGamePiece() == GamePieceType.Cube);
     
     if (Constants.tuningMode) {
-      SmartDashboard.putNumber("Lower Angle", dutyCycleToDegrees(getLowerJointPos()));
-      SmartDashboard.putNumber("Upper Angle", dutyCycleToDegrees(getUpperJointPos()));
+      SmartDashboard.putNumber("Lower Angle", dutyCycleToDegrees(getLowerJointPos()) + ArmConstants.LOWER_ANGLE_OFFSET);
+      SmartDashboard.putNumber("Upper Angle", dutyCycleToDegrees(getUpperJointPos()) + ArmConstants.UPPER_ANGLE_OFFSET);
       SmartDashboard.putNumber("Upper Percent", m_upperJoint.getMotorOutputPercent());
       SmartDashboard.putNumber("Lower Percent", m_lowerJoint.getMotorOutputPercent());
       SmartDashboard.putNumber("Lower Error", m_controllerLower.getPositionError());
       SmartDashboard.putNumber("Upper Error", m_controllerUpper.getPositionError());
       SmartDashboard.putNumber("Lower Velocity Setpoint", m_controllerLower.getPositionError());
       SmartDashboard.putNumber("Upper Velocity Setpoint", m_controllerUpper.getPositionError());
-      
     } else {
       SmartDashboard.clearPersistent("Lower Angle");
       SmartDashboard.clearPersistent("Upper Angle");
@@ -142,10 +141,10 @@ public class ArmSubsystem extends SubsystemBase {
     }
   }
   public void reset() {
-    m_controllerUpper.reset(getUpperJointDegrees());
-    m_controllerLower.reset(getLowerJointDegrees());
-    m_upperSetpoint = getUpperJointDegrees();
-    m_lowerSetpoint = getLowerJointDegrees();
+    m_controllerUpper.reset(getUpperJointDegrees() + ArmConstants.UPPER_ANGLE_OFFSET);
+    m_controllerLower.reset(getLowerJointDegrees() + ArmConstants.LOWER_ANGLE_OFFSET);
+    m_upperSetpoint = getUpperJointDegrees() + ArmConstants.UPPER_ANGLE_OFFSET;
+    m_lowerSetpoint = getLowerJointDegrees() + ArmConstants.LOWER_ANGLE_OFFSET;
 
   }
 
@@ -185,12 +184,13 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public Vector<N2> calculateFeedforwards() {
-    Vector<N2> positionVector = VecBuilder.fill(Math.toRadians(m_lowerSetpoint - 100), // to set lower constant, move
+    Vector<N2> positionVector = VecBuilder.fill(Math.toRadians(m_lowerSetpoint - (90 + ArmConstants.LOWER_ANGLE_OFFSET)), // to set lower constant, move
                                                                                       // lower and upper arms to
                                                                                       // vertical, set to lower encoder
                                                                                       // value minus 90 (for horizontal)
-        Math.toRadians(-m_upperSetpoint + 167)); // to set upper constant, move upper arm and lower arms to vertical and
+        Math.toRadians(-m_upperSetpoint + (180 + ArmConstants.UPPER_ANGLE_OFFSET))); // to set upper constant, move upper arm and lower arms to vertical and
                                                  // set to upper encoder value
+
     Vector<N2> velocityVector = VecBuilder.fill(0.0, 0.0);
     Vector<N2> accelVector = VecBuilder.fill(0.0, 0.0);
     Vector<N2> vectorFF = m_doubleJointedFeedForwards.calculate(positionVector, velocityVector, accelVector);
@@ -199,7 +199,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void runUpperProfiled() {
     m_controllerUpper.setGoal(new TrapezoidProfile.State(m_upperSetpoint, 0.0));
-    double pidOutput = -m_controllerUpper.calculate(getUpperJointDegrees());
+    double pidOutput = -m_controllerUpper.calculate(getUpperJointDegrees() + ArmConstants.UPPER_ANGLE_OFFSET);
     double ff = -(calculateFeedforwards().get(1, 0)) / 12.0;
     System.out.println("upper ff" + (ff));
     System.out.println("Upper PID" + pidOutput);
@@ -208,7 +208,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void runLowerProfiled() {
     m_controllerLower.setGoal(new TrapezoidProfile.State(m_lowerSetpoint, 0.0));
-    double pidOutput = -m_controllerLower.calculate(getLowerJointDegrees());
+    double pidOutput = -m_controllerLower.calculate(getLowerJointDegrees() + ArmConstants.LOWER_ANGLE_OFFSET);
     double ff = (calculateFeedforwards().get(0, 0)) / 12.0;
     System.out.println("lower ff" + (ff));
     System.out.println("Lower PID" + pidOutput);
@@ -216,8 +216,8 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void setToCurrent() {
-    m_lowerSetpoint = getLowerJointDegrees();
-    m_upperSetpoint = getUpperJointDegrees();
+    m_lowerSetpoint = getLowerJointDegrees() + ArmConstants.LOWER_ANGLE_OFFSET;
+    m_upperSetpoint = getUpperJointDegrees() + ArmConstants.UPPER_ANGLE_OFFSET;
   }
 
   public boolean upperAtSetpoint() {
@@ -226,6 +226,10 @@ public class ArmSubsystem extends SubsystemBase {
 
   public boolean lowerAtSetpoint() {
     return m_controllerLower.atSetpoint();
+  }
+
+  public boolean bothJointsAtSetpoint(){
+    return upperAtSetpoint() && lowerAtSetpoint();
   }
 
   public void setPercentOutputUpper(double speed) {

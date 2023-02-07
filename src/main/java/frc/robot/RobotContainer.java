@@ -5,6 +5,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -13,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.claw.ClawDefault;
 import frc.robot.subsystems.claw.ClawSubsytem;
 import frc.robot.Constants.ArmSetpoints;
+import frc.robot.auto.TestAuto;
 import frc.robot.subsystems.arm.ArmDefault;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
@@ -40,6 +43,7 @@ public class RobotContainer {
   private final ClawSubsytem m_claw = new ClawSubsytem();
   // private final LimelightSubsystem m_limelight = new LimelightSubsystem();
 
+  private SendableChooser<Command> m_autoChooser = new SendableChooser<>();
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     GamePiece.setGamePiece(GamePieceType.Cone);
@@ -51,6 +55,9 @@ public class RobotContainer {
       DriverStation.silenceJoystickConnectionWarning(false);
     }
     // Configure the trigger bindings
+    
+    m_autoChooser.addOption("Test Auto", new TestAuto(m_drive));
+    SmartDashboard.putData("Auto", m_autoChooser);
     
     //new Pneumatics();
     configureBindings();
@@ -86,8 +93,9 @@ public class RobotContainer {
   private void configureBindings() {
 
     //Driver Controls
-    m_driverController.start().onTrue(new InstantCommand(m_drive::zeroGyro, m_drive));
+    m_driverController.povUp().onTrue(new InstantCommand(m_drive::zeroGyro, m_drive));
 
+    
     //Opperator Controls
 
     //Set game Piece type 
@@ -125,6 +133,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return null;
+    return m_autoChooser.getSelected();
   }
 }

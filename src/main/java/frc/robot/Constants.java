@@ -29,6 +29,7 @@ public final class Constants {
 
   public static final class CanConstants{
     //drivebase CAN IDs 
+    //Gold Robot
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 1;
     public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 2;
     public static final int BACK_LEFT_MODULE_DRIVE_MOTOR = 3; 
@@ -42,6 +43,7 @@ public final class Constants {
     public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 10; 
     public static final int BACK_LEFT_MODULE_STEER_ENCODER = 11; 
     public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 12; 
+    // Alpha Bot
 
     public static final int PIGEON2 = 13;
 
@@ -68,15 +70,25 @@ public final class Constants {
 
     public static final double DRIVE_DEADBAND = 0.2;
 
+    //Gold Bot
+    // //Mod 0
+    // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 109.1;
+    // //Mod 1
+    // public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 253.9;
+    // //Mod 2
+    // public static final double BACK_LEFT_MODULE_STEER_OFFSET = 111.5; 
+    // //Mod 3
+    // public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 27.2;
 
+    //Alpha Bot
     //Mod 0
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 109.1;
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 178.4;
     //Mod 1
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 253.9;
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 82.3;
     //Mod 2
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 111.5; 
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 190.0; 
     //Mod 3
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 27.2;
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 222.188;
     
     public static final boolean INVERT_GYRO = false; // Always ensure Gyro is CCW+ CW-
 
@@ -135,10 +147,10 @@ public final class Constants {
     public static final double CLOSED_LOOP_RAMP = 0.0;
 
     /* Angle Motor PID Values */
-    public static final Gains GAINS_ANGLE_MOTOR =new Gains(CHOSEN_MODULE.angleKP, CHOSEN_MODULE.angleKI, CHOSEN_MODULE.angleKD, CHOSEN_MODULE.angleKF, 0.0, 0.0);
+    public static final Gains GAINS_ANGLE_MOTOR =new Gains(CHOSEN_MODULE.angleKP, CHOSEN_MODULE.angleKI, CHOSEN_MODULE.angleKD, CHOSEN_MODULE.angleKF, 0.0);
     
     /* Drive Motor PID Values */
-    public static final Gains GAINS_DRIVE_MOTOR = new Gains(0.05, 0.0, 0.0, 0.0, 0, 0);
+    public static final Gains GAINS_DRIVE_MOTOR = new Gains(0.05, 0.0, 0.0, 0.0, 0);
 
     /* Drive Motor Characterization Values 
      * Divide SYSID values by 12 to convert from volts to percent output for CTRE */
@@ -198,9 +210,9 @@ public final class Constants {
             new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
     }
 
-    public static final Gains GAINS_ANGLE_SNAP = new Gains(0.02, 0.0, 0.0, 0.0, 50, 0.0);
+    public static final Gains GAINS_ANGLE_SNAP = new Gains(0.02, 0.0, 0.0, 0.0, 50);
     
-    public static final Gains GAINS_BALANCE = new Gains(0.0,0.0,0.0,0.0, 50, 0.0);
+    public static final Gains GAINS_BALANCE = new Gains(0.0,0.0,0.0,0.0, 50);
 
     public static final double SNAP_TOLLERANCE = 2.0;
     public static final double BALANCE_TOLLERANCE = 0.5;
@@ -208,9 +220,15 @@ public final class Constants {
 
   public static final class ArmConstants{
 
-    public static final  Gains GAINS_UPPER_JOINT = new Gains(0.02, 0.0, 0.00, 0.0, 50, 1.00);
+    public static final double VERTICAL_ANGLE_UPPER = 180.0;
+    public static final double VERTICAL_ANGLE_LOWER = 180.0;
 
-    public static final  Gains GAINS_LOWER_JOINT  = new Gains(0.02, 0.0, 0.00, 0.00, 50, 1.00);
+    public static final double LOWER_ANGLE_OFFSET = 180 - VERTICAL_ANGLE_LOWER;
+    public static final double UPPER_ANGLE_OFFSET = 180 - VERTICAL_ANGLE_UPPER;
+
+    public static final  Gains GAINS_UPPER_JOINT = new Gains(0.02, 0.0, 0.00, 0.0, 50);
+
+    public static final  Gains GAINS_LOWER_JOINT  = new Gains(0.02, 0.0, 0.00, 0.00, 50);
 
 
     public static final double kSUpper = 0.04;
@@ -246,8 +264,8 @@ public final class Constants {
 
     public static final double NOMINAL_OUTPUT_FORWARD = 0;
     public static final double NOMINAL_OUTPUT_REVERSE = 0;
-    public static final double PEAK_OUTPUT_FORWARD = 0.25;
-    public static final double PEAK_OUTPUT_REVERSE = -0.25;
+    public static final double PEAK_OUTPUT_FORWARD = 0.0;
+    public static final double PEAK_OUTPUT_REVERSE = -0.0;
 
     public static final int FORWARD_SOFT_LIMIT_UPPER = 3300;
     public static final int REVERSE_SOFT_LIMIT_UPPER = 500;
@@ -289,8 +307,8 @@ public final class Constants {
   }
 
   public static final class LimelightConstants{
-    public static final Gains GAINS_VISION_X = new Gains(0.0, 0.0, 0.0, 0.0, 50, 1.0);
-    public static final Gains GAINS_VISION_Y = new Gains(0.0, 0.0, 0.0, 0.0, 50, 1.0);
+    public static final Gains GAINS_VISION_X = new Gains(0.0, 0.0, 0.0, 0.0, 50);
+    public static final Gains GAINS_VISION_Y = new Gains(0.0, 0.0, 0.0, 0.0, 50);
 
     public static final double VISION_VEL_TOLLERANCE = 0.5;
     public static final double VISION_POS_TOLLERANCE = 0.5;
