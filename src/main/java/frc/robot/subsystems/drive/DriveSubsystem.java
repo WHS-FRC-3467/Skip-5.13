@@ -29,14 +29,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class DriveSubsystem extends SubsystemBase {
     public SwerveDriveOdometry swerveOdometry;
     public SwerveModule[] mSwerveMods;
-    public Pigeon2 gyro;
+    public Pigeon2 m_gyro;
 
     private PIDController m_balancePID = new PIDController(SwerveConstants.GAINS_BALANCE.kP, SwerveConstants.GAINS_BALANCE.kI, SwerveConstants.GAINS_BALANCE.kD);
 
     public DriveSubsystem() {
-        gyro = new Pigeon2(CanConstants.PIGEON2, "drive");
-        gyro.configFactoryDefault();
-        gyro.configMountPose(0.0, 0.0, 0.0);
+        m_gyro = new Pigeon2(CanConstants.PIGEON2, "drive");
+        m_gyro.configFactoryDefault();
+        zeroGyro();
         
         mSwerveMods = new SwerveModule[] {
             new SwerveModule(0, SwerveConstants.Mod0.constants),
@@ -52,7 +52,6 @@ public class DriveSubsystem extends SubsystemBase {
         resetModulesToAbsolute();
 
         swerveOdometry = new SwerveDriveOdometry(SwerveConstants.SWERVE_DRIVE_KINEMATICS, getYaw(), getModulePositions());
-
     }
 
     @Override
@@ -65,8 +64,6 @@ public class DriveSubsystem extends SubsystemBase {
         if(Constants.tuningMode){
             for(SwerveModule mod : mSwerveMods){
                 SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
-                // SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Integrated", mod.getPosition().angle.getDegrees());
-                // SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);    
             } 
         }
         else{
@@ -137,18 +134,18 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public void zeroGyro(){
-        gyro.setYaw(0);
+        m_gyro.setYaw(0);
     }
 
     public Rotation2d getYaw() {
-        return (SwerveConstants.INVERT_GYRO) ? Rotation2d.fromDegrees(360 - gyro.getYaw()) : Rotation2d.fromDegrees(gyro.getYaw());
+        return (SwerveConstants.INVERT_GYRO) ? Rotation2d.fromDegrees(360 - m_gyro.getYaw()) : Rotation2d.fromDegrees(m_gyro.getYaw());
     }
     public double getPitch(){
-        return gyro.getPitch();
+        return m_gyro.getPitch();
     }
 
     public double getAbsYaw(){
-        return gyro.getAbsoluteCompassHeading();
+        return m_gyro.getAbsoluteCompassHeading();
     }
 
     public void resetModulesToAbsolute(){

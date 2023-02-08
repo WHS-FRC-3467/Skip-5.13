@@ -71,25 +71,15 @@ public final class Constants {
     public static final double DRIVE_DEADBAND = 0.2;
 
     //Gold Bot
-    // //Mod 0
-    // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 109.1;
-    // //Mod 1
-    // public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 253.9;
-    // //Mod 2
-    // public static final double BACK_LEFT_MODULE_STEER_OFFSET = 111.5; 
-    // //Mod 3
-    // public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 27.2;
-
-    //Alpha Bot
     //Mod 0
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 178.4;
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 109.1;
     //Mod 1
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 82.3;
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 253.9;
     //Mod 2
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 190.0; 
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 111.5; 
     //Mod 3
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 222.188;
-    
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 27.2;
+
     public static final boolean INVERT_GYRO = false; // Always ensure Gyro is CCW+ CW-
 
     //Tailgate (For Testing)
@@ -101,10 +91,7 @@ public final class Constants {
     COTSFalconSwerveConstants.SDSMK4i(COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L2);
 
     /* Drivetrain Constants */
-    //Tailgate (For testing)
-    // public static final double trackWidth = Units.inchesToMeters(21.0); 
-    // public static final double wheelBase = Units.inchesToMeters(21.0); 
-    //2023 Robot
+
     public static final double TRACK_WIDTH = Units.inchesToMeters(18.75); 
     public static final double WHEEL_BASE = Units.inchesToMeters(18.75); 
 
@@ -220,8 +207,8 @@ public final class Constants {
 
   public static final class ArmConstants{
 
-    public static final double VERTICAL_ANGLE_UPPER = 180.0;
-    public static final double VERTICAL_ANGLE_LOWER = 180.0;
+    public static final double VERTICAL_ANGLE_UPPER = 171.4;
+    public static final double VERTICAL_ANGLE_LOWER = 176.0;
 
     public static final double LOWER_ANGLE_OFFSET = 180 - VERTICAL_ANGLE_LOWER;
     public static final double UPPER_ANGLE_OFFSET = 180 - VERTICAL_ANGLE_UPPER;
@@ -264,8 +251,8 @@ public final class Constants {
 
     public static final double NOMINAL_OUTPUT_FORWARD = 0;
     public static final double NOMINAL_OUTPUT_REVERSE = 0;
-    public static final double PEAK_OUTPUT_FORWARD = 0.0;
-    public static final double PEAK_OUTPUT_REVERSE = -0.0;
+    public static final double PEAK_OUTPUT_FORWARD = 0.5;
+    public static final double PEAK_OUTPUT_REVERSE = -0.5;
 
     public static final int FORWARD_SOFT_LIMIT_UPPER = 3300;
     public static final int REVERSE_SOFT_LIMIT_UPPER = 500;
@@ -279,11 +266,11 @@ public final class Constants {
 	  public final static int TIMEOUT = 10;
 
     // Motion Magic constants
-    public static final double LOWER_CRUISE = 50.0;
-    public static final double LOWER_ACCELERATION = 100.0;
+    public static final double LOWER_CRUISE = 70.0;
+    public static final double LOWER_ACCELERATION = 120.0;
 
-    public static final double UPPER_CRUISE = 50.0;
-    public static final double UPPER_ACCELERATION = 100.0;
+    public static final double UPPER_CRUISE = 70.0;
+    public static final double UPPER_ACCELERATION = 120.0;
 
     public static final double DUTY_CYCLE_MIN = 1.0/1025.0;
     public static final double DUTY_CYCLE_MAX = 1024.0/1025.0;
@@ -297,11 +284,13 @@ public final class Constants {
     public static final Setpoint TEST_SETPOINT_HIGHER = new Setpoint(191, 35, true, 191, 35, true);
     public static final Setpoint TEST_SETPOINT_LOWER = new Setpoint(164, 65, true, 164, 65, true);
 
-    public static final Setpoint STOWED = new Setpoint(186, 308, true, 186, 308, true);
-    public static final Setpoint FLOOR = new Setpoint(112, 270, true, 112, 270, true);
-    public static final Setpoint MID_NODE = new Setpoint(159, 249, true, 178, 256, false);
-    public static final Setpoint TOP_NODE = new Setpoint(142, 185, false, 160, 219, false);
-    public static final Setpoint SUBSTATION = new Setpoint(223, 265, false, 223, 265, false);
+    public static final Setpoint STOWED = new Setpoint(180, 16, false, 180, 16, false);
+    public static final Setpoint FLOOR = new Setpoint(243, 61, true, 243, 62, true);
+    public static final Setpoint MID_NODE = new Setpoint(189, 85, false, 192, 69, false);
+    public static final Setpoint MID_NODE_PLACED = new Setpoint(197, 69, false, 192, 69, false);
+    public static final Setpoint TOP_NODE = new Setpoint(225, 149, false, 213, 111, false);
+    public static final Setpoint TOP_NODE_PLACED = new Setpoint(234, 149, false, 213, 111, false);
+    public static final Setpoint SUBSTATION = new Setpoint(148, 54, false, 137, 47, false);
 
     public static final double INTERMEDIATE_LOWER_POSITION = 90;
   }
