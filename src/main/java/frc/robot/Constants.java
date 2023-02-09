@@ -58,7 +58,6 @@ public final class Constants {
   public static final class DIOConstants{
     public static final int LOWER_ENCODER_ARM = 1;
     public static final int UPPER_ENCODER_ARM = 0;
-
   }
   public static final class PHConstants{
     public static final int WRIST_CHANNEL = 0;
@@ -82,9 +81,6 @@ public final class Constants {
 
     public static final boolean INVERT_GYRO = false; // Always ensure Gyro is CCW+ CW-
 
-    //Tailgate (For Testing)
-    // public static final COTSFalconSwerveConstants chosenModule =  
-    //     COTSFalconSwerveConstants.SDSMK4(COTSFalconSwerveConstants.driveGearRatios.SDSMK4_L2);
 
     //2023 Robot
     public static final COTSFalconSwerveConstants CHOSEN_MODULE =  
@@ -147,10 +143,10 @@ public final class Constants {
 
     /* Swerve Profiling Values */
     /** Meters per Second */
-    public static final double MAX_SPEED = 1.5;
+    public static final double MAX_SPEED = 2.0;
 
     /** Radians per Second */
-    public static final double MAX_ANGULAR_VELOCITY = 3.0;
+    public static final double MAX_ANGULAR_VELOCITY = 4.5;
 
     /* Neutral Modes */
     public static final NeutralMode ANGLE_NEUTRAL_MODE = NeutralMode.Coast;
@@ -247,7 +243,7 @@ public final class Constants {
     public static final int MAX_SENSOR_VEL = 86398;
 
     /* Motor neutral dead-band : Range 0.001 -> 0.25 */
-	  public static final double NEUTRAL_DEADBAND = 0.05;
+	  public static final double NEUTRAL_DEADBAND = 0.005;
 
     public static final double NOMINAL_OUTPUT_FORWARD = 0;
     public static final double NOMINAL_OUTPUT_REVERSE = 0;

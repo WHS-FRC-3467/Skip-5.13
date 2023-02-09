@@ -201,12 +201,12 @@ public class ArmSubsystem extends SubsystemBase {
 
 
   public Vector<N2> calculateFeedforwards() {
-    Vector<N2> positionVector = VecBuilder.fill(Math.toRadians(m_lowerSetpoint - (90)), // to set lower constant, move
-                                                                                      // lower and upper arms to
-                                                                                      // vertical, set to lower encoder
-                                                                                      // value minus 90 (for horizontal)
-        Math.toRadians(-m_upperSetpoint + (180))); // to set upper constant, move upper arm and lower arms to vertical and
-                                                 // set to upper encoder value
+                                                //To set lower constant, move lower and upper arms to
+                                                //vertical, set to lower encoder value minus 90 (for horizontal)
+    Vector<N2> positionVector = VecBuilder.fill(Math.toRadians(m_lowerSetpoint - (90)), 
+                                                //to set upper constant, move upper arm and lower arms to vertical 
+                                                //and set to upper encoder value
+                                                Math.toRadians(-m_upperSetpoint + (180))); 
 
     Vector<N2> velocityVector = VecBuilder.fill(0.0, 0.0);
     Vector<N2> accelVector = VecBuilder.fill(0.0, 0.0);
@@ -217,7 +217,7 @@ public class ArmSubsystem extends SubsystemBase {
   public void runUpperProfiled() {
     m_controllerUpper.setGoal(new TrapezoidProfile.State(m_upperSetpoint, 0.0));
     double pidOutput = -m_controllerUpper.calculate(getUpperJointDegrees());
-    double ff = (calculateFeedforwards().get(1, 0)) / 12.0;
+    double ff = -(calculateFeedforwards().get(1, 0)) / 12.0;
     System.out.println("upper ff" + (ff));
     System.out.println("Upper PID" + pidOutput);
     setPercentOutputUpper(pidOutput ); // may need to negate ff voltage to get desired output

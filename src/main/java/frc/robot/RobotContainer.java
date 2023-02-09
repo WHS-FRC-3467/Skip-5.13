@@ -62,8 +62,8 @@ public class RobotContainer {
     //new Pneumatics();
     configureBindings();
     m_drive.setDefaultCommand(new TeleopSwerve(m_drive, 
-                                              () -> m_driverController.getLeftY(), 
-                                              () -> m_driverController.getLeftX(), 
+                                              () -> -m_driverController.getLeftY(), 
+                                              () -> -m_driverController.getLeftX(), 
                                               () -> m_driverController.getRightX(), 
                                               m_driverController.leftStick(),
                                               m_driverController.leftBumper(),

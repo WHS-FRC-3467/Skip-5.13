@@ -11,6 +11,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import com.ctre.phoenix.sensors.Pigeon2;
 
 import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 
 import edu.wpi.first.math.MathUtil;
@@ -21,6 +22,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -31,13 +33,15 @@ public class DriveSubsystem extends SubsystemBase {
     public SwerveModule[] mSwerveMods;
     public Pigeon2 m_gyro;
 
+    public Field2d m_field;
     private PIDController m_balancePID = new PIDController(SwerveConstants.GAINS_BALANCE.kP, SwerveConstants.GAINS_BALANCE.kI, SwerveConstants.GAINS_BALANCE.kD);
 
+    public SwerveAutoBuilder m_autoBuilder;
     public DriveSubsystem() {
         m_gyro = new Pigeon2(CanConstants.PIGEON2, "drive");
         m_gyro.configFactoryDefault();
         zeroGyro();
-        
+        m_field = new Field2d();
         mSwerveMods = new SwerveModule[] {
             new SwerveModule(0, SwerveConstants.Mod0.constants),
             new SwerveModule(1, SwerveConstants.Mod1.constants),
@@ -52,6 +56,7 @@ public class DriveSubsystem extends SubsystemBase {
         resetModulesToAbsolute();
 
         swerveOdometry = new SwerveDriveOdometry(SwerveConstants.SWERVE_DRIVE_KINEMATICS, getYaw(), getModulePositions());
+
     }
 
     @Override
@@ -59,8 +64,11 @@ public class DriveSubsystem extends SubsystemBase {
 
         SmartDashboard.putString("Alliance Color", DriverStation.getAlliance().name());
 
-        swerveOdometry.update(getYaw(), getModulePositions());  
+        swerveOdometry.update(getYaw(), getModulePositions()); 
 
+        m_field.setRobotPose(swerveOdometry.getPoseMeters());
+
+        SmartDashboard.putData("Feild", m_field);
         if(Constants.tuningMode){
             for(SwerveModule mod : mSwerveMods){
                 SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
@@ -162,14 +170,13 @@ public class DriveSubsystem extends SubsystemBase {
 
     public SequentialCommandGroup followTrajectoryCommand(PathPlannerTrajectory traj, boolean isFirstPath) {
                 
-        PIDController thetaController = new PIDController(0.1, 0, 0);
+        PIDController thetaController = new PIDController(0, 0, 0);
         PIDController xController = new PIDController(1, 0, 0);
         PIDController yController = new PIDController(1, 0, 0);
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
         return new SequentialCommandGroup(
              new InstantCommand(() -> {
-                zeroGyro();
                // Reset odometry for the first path you run during auto
                if(isFirstPath){
                    resetOdometry(traj.getInitialHolonomicPose());
