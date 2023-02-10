@@ -56,11 +56,15 @@ public class DriveSubsystem extends SubsystemBase {
         resetModulesToAbsolute();
 
         swerveOdometry = new SwerveDriveOdometry(SwerveConstants.SWERVE_DRIVE_KINEMATICS, getYaw(), getModulePositions());
-
     }
 
     @Override
     public void periodic(){
+        m_balancePID.setTolerance(SwerveConstants.BALANCE_TOLLERANCE);
+        double pidOutput = m_balancePID.calculate(getRoll(), 0);
+        SmartDashboard.putNumber("Balance PID", pidOutput);
+        SmartDashboard.putNumber("Robot Pitch", getPitch());
+        SmartDashboard.putNumber("Robot Roll", getRoll());
 
         SmartDashboard.putString("Alliance Color", DriverStation.getAlliance().name());
 
@@ -102,6 +106,10 @@ public class DriveSubsystem extends SubsystemBase {
         for(SwerveModule mod : mSwerveMods){
             mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop, isTeleop);
         }
+
+        SmartDashboard.putNumber("X Translation", translation.getX());
+        SmartDashboard.putNumber("Y Translation", translation.getY());
+        SmartDashboard.putNumber("Rotation Value", rotation);
     }    
 
     public void stopDrive(){
@@ -148,14 +156,16 @@ public class DriveSubsystem extends SubsystemBase {
     public Rotation2d getYaw() {
         return (SwerveConstants.INVERT_GYRO) ? Rotation2d.fromDegrees(360 - m_gyro.getYaw()) : Rotation2d.fromDegrees(m_gyro.getYaw());
     }
+
     public double getPitch(){
         return m_gyro.getPitch();
     }
 
-    public double getAbsYaw(){
-        return m_gyro.getAbsoluteCompassHeading();
+    public double getRoll(){
+        return m_gyro.getRoll();
     }
 
+   
     public void resetModulesToAbsolute(){
         for(SwerveModule mod : mSwerveMods){
             mod.resetToAbsolute();
@@ -164,8 +174,13 @@ public class DriveSubsystem extends SubsystemBase {
 
     public void AutoBalance(){
         m_balancePID.setTolerance(SwerveConstants.BALANCE_TOLLERANCE);
-        double pidOutput = MathUtil.clamp(m_balancePID.calculate(getPitch(), 0), -0.25, 0.25);
-        drive(new Translation2d(0,0), pidOutput, true, true, false);
+        double pidOutput = MathUtil.clamp(m_balancePID.calculate(getRoll(), 0), -0.25, 0.25);
+        SmartDashboard.putNumber("Balance PID", pidOutput);
+        drive(new Translation2d(pidOutput, 0), 0.0, true, true, false);
+    }
+
+    public boolean isRobotBalanced(){
+        return m_balancePID.atSetpoint();
     }
 
     public SequentialCommandGroup followTrajectoryCommand(PathPlannerTrajectory traj, boolean isFirstPath) {

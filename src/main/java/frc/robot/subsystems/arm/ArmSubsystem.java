@@ -218,18 +218,18 @@ public class ArmSubsystem extends SubsystemBase {
     m_controllerUpper.setGoal(new TrapezoidProfile.State(m_upperSetpoint, 0.0));
     double pidOutput = -m_controllerUpper.calculate(getUpperJointDegrees());
     double ff = -(calculateFeedforwards().get(1, 0)) / 12.0;
-    System.out.println("upper ff" + (ff));
-    System.out.println("Upper PID" + pidOutput);
-    setPercentOutputUpper(pidOutput ); // may need to negate ff voltage to get desired output
+    // System.out.println("upper ff" + (ff));
+    // System.out.println("Upper PID" + pidOutput);
+    setPercentOutputUpper(pidOutput + ff); // may need to negate ff voltage to get desired output
   }
 
   public void runLowerProfiled() {
     m_controllerLower.setGoal(new TrapezoidProfile.State(m_lowerSetpoint, 0.0));
     double pidOutput = -m_controllerLower.calculate(getLowerJointDegrees());
     double ff = -(calculateFeedforwards().get(0, 0)) / 12.0;
-    System.out.println("lower ff" + (ff));
-    System.out.println("Lower PID" + pidOutput);
-    setPercentOutputLower(pidOutput ); // may need to negate ff voltage to get desired output
+    // System.out.println("lower ff" + (ff));
+    // System.out.println("Lower PID" + pidOutput);
+    setPercentOutputLower(pidOutput + ff); // may need to negate ff voltage to get desired output
   }
 
   public void setToCurrent() {

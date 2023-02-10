@@ -195,10 +195,10 @@ public final class Constants {
 
     public static final Gains GAINS_ANGLE_SNAP = new Gains(0.02, 0.0, 0.0, 0.0, 50);
     
-    public static final Gains GAINS_BALANCE = new Gains(0.0,0.0,0.0,0.0, 50);
+    public static final Gains GAINS_BALANCE = new Gains(0.02, 0.0, 0.01, 0.0, 50);
 
     public static final double SNAP_TOLLERANCE = 2.0;
-    public static final double BALANCE_TOLLERANCE = 0.5;
+    public static final double BALANCE_TOLLERANCE = 0.01;
   }
 
   public static final class ArmConstants{
