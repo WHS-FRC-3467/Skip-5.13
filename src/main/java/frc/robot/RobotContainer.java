@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.claw.ClawDefault;
@@ -96,7 +95,7 @@ public class RobotContainer {
     //Driver Controls
     m_driverController.povUp().onTrue(new InstantCommand(m_drive::zeroGyro, m_drive));
     
-    m_driverController.a().whileTrue(Commands.run(m_drive::AutoBalance, m_drive).andThen(m_drive::stopDrive, m_drive));
+    m_driverController.start().whileTrue(Commands.run(m_drive::AutoBalance, m_drive).andThen(m_drive::stopDrive, m_drive));
 
     //Opperator Controls
     //Set game Piece type 
@@ -114,16 +113,16 @@ public class RobotContainer {
 
     m_operatorController.x().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.SUBSTATION)));
 
-    // m_operatorController.povRight().onTrue(Commands.runOnce(()-> m_arm.updateAllSetpoints(ArmSetpoints.MID_NODE_PLACED)));
+    m_operatorController.povRight().onTrue(Commands.runOnce(()-> m_arm.updateAllSetpoints(ArmSetpoints.MID_NODE_PLACED)));
 
-    // m_operatorController.povUp().onTrue(Commands.runOnce(()-> m_arm.updateAllSetpoints(ArmSetpoints.TOP_NODE_PLACED)));
+    m_operatorController.povUp().onTrue(Commands.runOnce(()-> m_arm.updateAllSetpoints(ArmSetpoints.TOP_NODE_PLACED)));
 
     //Manually set claw
-    m_operatorController.povUp().onTrue(Commands.runOnce(m_arm::actuateWristUp, m_arm));
-    m_operatorController.povDown().onTrue(Commands.runOnce(m_arm::actuateWristDown, m_arm));
+    // m_operatorController.povUp().onTrue(Commands.runOnce(m_arm::actuateWristUp, m_arm));
+    // m_operatorController.povDown().onTrue(Commands.runOnce(m_arm::actuateWristDown, m_arm));
     
-    m_operatorController.povRight().onTrue(Commands.runOnce(m_arm::actuateClawIn, m_arm));
-    m_operatorController.povLeft().onTrue(Commands.runOnce(m_arm::actuateClawOut, m_arm));
+    // m_operatorController.povRight().onTrue(Commands.runOnce(m_arm::actuateClawIn, m_arm));
+    // m_operatorController.povLeft().onTrue(Commands.runOnce(m_arm::actuateClawOut, m_arm));
   }
 
  

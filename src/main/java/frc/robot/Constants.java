@@ -143,10 +143,10 @@ public final class Constants {
 
     /* Swerve Profiling Values */
     /** Meters per Second */
-    public static final double MAX_SPEED = 2.0;
+    public static final double MAX_SPEED = 1.5;
 
     /** Radians per Second */
-    public static final double MAX_ANGULAR_VELOCITY = 4.5;
+    public static final double MAX_ANGULAR_VELOCITY = 4.0;
 
     /* Neutral Modes */
     public static final NeutralMode ANGLE_NEUTRAL_MODE = NeutralMode.Coast;
@@ -281,12 +281,12 @@ public final class Constants {
     public static final Setpoint TEST_SETPOINT_LOWER = new Setpoint(164, 65, true, 164, 65, true);
 
     public static final Setpoint STOWED = new Setpoint(180, 16, false, 180, 16, false);
-    public static final Setpoint FLOOR = new Setpoint(243, 61, true, 243, 62, true);
-    public static final Setpoint MID_NODE = new Setpoint(189, 85, false, 192, 69, false);
-    public static final Setpoint MID_NODE_PLACED = new Setpoint(197, 69, false, 192, 69, false);
-    public static final Setpoint TOP_NODE = new Setpoint(225, 149, false, 213, 111, false);
+    public static final Setpoint FLOOR = new Setpoint(245, 61, true, 245, 62, true);
+    public static final Setpoint MID_NODE = new Setpoint(192, 90, false, 192, 69, false);
+    public static final Setpoint MID_NODE_PLACED = new Setpoint(199, 87, false, 192, 69, false);
+    public static final Setpoint TOP_NODE = new Setpoint(225, 150, false, 213, 111, false);
     public static final Setpoint TOP_NODE_PLACED = new Setpoint(234, 149, false, 213, 111, false);
-    public static final Setpoint SUBSTATION = new Setpoint(148, 54, false, 137, 47, false);
+    public static final Setpoint SUBSTATION = new Setpoint(150, 53, false, 150, 53, false);
 
     public static final double INTERMEDIATE_LOWER_POSITION = 90;
   }

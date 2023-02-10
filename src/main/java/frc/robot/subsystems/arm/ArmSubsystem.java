@@ -123,7 +123,7 @@ public class ArmSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Upper Setpoint", m_upperSetpoint);
     SmartDashboard.putNumber("Lower Setpoint", m_lowerSetpoint);
     
-    SmartDashboard.putBoolean("Game Peice", GamePiece.getGamePiece() == GamePieceType.Cube);
+    SmartDashboard.putBoolean("Game Peice", GamePiece.getGamePiece() == GamePieceType.Cone);
     
     if (Constants.tuningMode) {
       SmartDashboard.putNumber("Lower Angle", getLowerJointDegrees());
@@ -175,14 +175,15 @@ public class ArmSubsystem extends SubsystemBase {
     m_writstSetpoint = setpoint;
     m_wrist.set(m_writstSetpoint);
   }
+
   public void updateClawSetpoint(GamePiece.GamePieceType gamePiece){
     if(gamePiece == GamePieceType.Cone){
-      m_clawSetpoint = true;
+      m_claw.set(true);
     }
+
     else if(gamePiece == GamePieceType.Cube){
-      m_clawSetpoint = false;
+      m_claw.set(false);
     }
-    m_claw.set(m_clawSetpoint);
   }
 
   public void updateAllSetpoints(Setpoint setpoint){
@@ -220,7 +221,7 @@ public class ArmSubsystem extends SubsystemBase {
     double ff = -(calculateFeedforwards().get(1, 0)) / 12.0;
     // System.out.println("upper ff" + (ff));
     // System.out.println("Upper PID" + pidOutput);
-    setPercentOutputUpper(pidOutput + ff); // may need to negate ff voltage to get desired output
+    setPercentOutputUpper(pidOutput); // may need to negate ff voltage to get desired output
   }
 
   public void runLowerProfiled() {
@@ -229,7 +230,7 @@ public class ArmSubsystem extends SubsystemBase {
     double ff = -(calculateFeedforwards().get(0, 0)) / 12.0;
     // System.out.println("lower ff" + (ff));
     // System.out.println("Lower PID" + pidOutput);
-    setPercentOutputLower(pidOutput + ff); // may need to negate ff voltage to get desired output
+    setPercentOutputLower(pidOutput); // may need to negate ff voltage to get desired output
   }
 
   public void setToCurrent() {
