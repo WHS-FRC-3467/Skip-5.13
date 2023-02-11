@@ -130,8 +130,8 @@ public class ArmSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("Game Peice", GamePiece.getGamePiece() == GamePieceType.Cone);
     
     if (Constants.tuningMode) {
-      SmartDashboard.putBoolean("Upper at Setpoint", m_upperAtSetpoint);
-      SmartDashboard.putBoolean("Lower at Setpoint", m_lowerAtSetpoint);
+      SmartDashboard.putBoolean("Upper at Setpoint", m_controllerUpper.atGoal());
+      SmartDashboard.putBoolean("Lower at Setpoint", m_controllerLower.atGoal());
       SmartDashboard.putNumber("Lower Angle", getLowerJointDegrees());
       SmartDashboard.putNumber("Upper Angle", getUpperJointDegrees());
       SmartDashboard.putNumber("Lower Angle Uncorrected", dutyCycleToDegrees(getLowerJointPos()));
@@ -226,7 +226,6 @@ public class ArmSubsystem extends SubsystemBase {
     System.out.println("upper ff" + (ff));
     System.out.println("Upper PID" + pidOutput);
     setPercentOutputUpper(pidOutput); // may need to negate ff voltage to get desired output
-    m_upperAtSetpoint = m_controllerUpper.atGoal();
   }
 
   public void runLowerProfiled() {
@@ -236,7 +235,6 @@ public class ArmSubsystem extends SubsystemBase {
     System.out.println("lower ff" + (ff));
     System.out.println("Lower PID" + pidOutput);
     setPercentOutputLower(pidOutput); // may need to negate ff voltage to get desired output
-    m_lowerAtSetpoint = m_controllerLower.atGoal();
   }
 
   public void setToCurrent() {
@@ -245,15 +243,15 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public boolean getLowerAtSetpoint(){
-    return m_lowerAtSetpoint;
+    return m_controllerLower.atGoal();
   }
 
   public boolean getUpperAtSetpoint(){
-    return m_lowerAtSetpoint;
+    return m_controllerUpper.atGoal();
   }
 
   public boolean bothJointsAtSetpoint(){
-    return m_lowerAtSetpoint && m_upperAtSetpoint;
+    return getLowerAtSetpoint() && getUpperAtSetpoint();
   }
 
   public void setPercentOutputUpper(double speed) {
