@@ -58,8 +58,6 @@ public class ArmSubsystem extends SubsystemBase {
   private double m_upperSetpoint;
   private double m_lowerSetpoint;
   private boolean m_writstSetpoint;
-  private boolean m_upperAtSetpoint;
-  private boolean m_lowerAtSetpoint;
 
   private Solenoid m_wrist = new Solenoid(PneumaticsModuleType.REVPH, PHConstants.WRIST_CHANNEL);
   private Solenoid m_claw = new Solenoid(PneumaticsModuleType.REVPH, PHConstants.CLAW_CHANNEL);
@@ -134,6 +132,8 @@ public class ArmSubsystem extends SubsystemBase {
       SmartDashboard.putBoolean("Lower at Setpoint", m_controllerLower.atGoal());
       SmartDashboard.putNumber("Lower Angle", getLowerJointDegrees());
       SmartDashboard.putNumber("Upper Angle", getUpperJointDegrees());
+      // SmartDashboard.putNumber("Upper FF", (calculateFeedforwards().get(1, 0) / 12.0));
+      // SmartDashboard.putNumber("Lower FF", (calculateFeedforwards().get(0, 0) / 12.0));
       SmartDashboard.putNumber("Lower Angle Uncorrected", dutyCycleToDegrees(getLowerJointPos()));
       SmartDashboard.putNumber("Upper Angle Uncorrected", dutyCycleToDegrees(getUpperJointPos()));
       SmartDashboard.putNumber("Lower Error", m_controllerLower.getPositionError());
@@ -205,13 +205,14 @@ public class ArmSubsystem extends SubsystemBase {
     }
     updateClawSetpoint(GamePiece.getGamePiece());
   }
+  
 
 
   public Vector<N2> calculateFeedforwards() {
                                                 //Setpoint -
-    Vector<N2> positionVector = VecBuilder.fill(Math.toRadians(m_lowerSetpoint + (90)), 
+    Vector<N2> positionVector = VecBuilder.fill(Math.toRadians(m_lowerSetpoint + (180)), 
                                                 //Setpoint + 90 - So horizantal is 0 
-                                                Math.toRadians(m_upperSetpoint + (90))); 
+                                                Math.toRadians(m_upperSetpoint + (180))); 
 
     Vector<N2> velocityVector = VecBuilder.fill(0.0, 0.0);
     Vector<N2> accelVector = VecBuilder.fill(0.0, 0.0);
@@ -222,7 +223,7 @@ public class ArmSubsystem extends SubsystemBase {
   public void runUpperProfiled() {
     m_controllerUpper.setGoal(new TrapezoidProfile.State(m_upperSetpoint, 0.0));
     double pidOutput = -m_controllerUpper.calculate(getUpperJointDegrees());
-    double ff = (calculateFeedforwards().get(1, 0)) / 12.0;
+    double ff = -(calculateFeedforwards().get(1, 0)) / 12.0;
     System.out.println("upper ff" + (ff));
     System.out.println("Upper PID" + pidOutput);
     setPercentOutputUpper(pidOutput); // may need to negate ff voltage to get desired output

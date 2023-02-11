@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LimelightConstants;
 import edu.wpi.first.wpilibj.shuffleboard.SendableCameraWrapper;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -39,6 +40,9 @@ public class LimelightSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     //read values periodically
     SmartDashboard.putData(SendableCameraWrapper.wrap(m_limelight));
+    setPipeline(LimelightConstants.APRILTAG_PIPELINE);
+    SmartDashboard.putNumber("X offset", getX());
+    SmartDashboard.putNumber("Y offset", getY());
   }
   
   public double getX(){

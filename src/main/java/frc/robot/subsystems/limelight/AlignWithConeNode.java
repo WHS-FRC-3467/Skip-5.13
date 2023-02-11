@@ -5,7 +5,6 @@
 package frc.robot.subsystems.limelight;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.LimelightConstants;
 import frc.robot.subsystems.drive.DriveSubsystem;
@@ -42,7 +41,7 @@ public class AlignWithConeNode extends CommandBase {
     m_pidControllerX.setTolerance(LimelightConstants.VISION_POS_TOLLERANCE, LimelightConstants.VISION_VEL_TOLLERANCE);
 
     m_end = false;
-    m_limelight.setPipeline(2);
+    m_limelight.setPipeline(LimelightConstants.RETRO_PIPELINE);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -53,16 +52,16 @@ public class AlignWithConeNode extends CommandBase {
       System.out.println("no target");
     }
 
-    m_pidControllerY.setSetpoint(LimelightConstants.SETPOINT_DIS_FROM_MID_CONE);
+    // m_pidControllerY.setSetpoint(LimelightConstants.SETPOINT_DIS_FROM_MID_CONE);
     m_pidControllerX.setSetpoint(LimelightConstants.ALIGNED_CONE_X);
     xTrans = m_pidControllerX.calculate(m_limelight.getX());
     xTrans = Math.max(xTrans, 1.0);
     xTrans = Math.min(xTrans, -1.0);
 
-    yTrans = m_pidControllerY.calculate(m_limelight.getDistanceFromTarget(LimelightConstants.SETPOINT_DIS_FROM_MID_CONE));
-    yTrans = Math.max(yTrans, 1.0);
-    yTrans = Math.min(yTrans, -1.0);
-    m_drive.drive(new Translation2d(xTrans, yTrans), 0.0, true, true, false);
+    // yTrans = m_pidControllerY.calculate(m_limelight.getDistanceFromTarget(LimelightConstants.SETPOINT_DIS_FROM_MID_CONE));
+    // yTrans = Math.max(yTrans, 1.0);
+    // yTrans = Math.min(yTrans, -1.0);
+    // m_drive.drive(new Translation2d(0.0, yTrans), 0.0, true, true, false);
 
     if(m_pidControllerX.atSetpoint() && m_pidControllerY.atSetpoint()){
       m_end = true;

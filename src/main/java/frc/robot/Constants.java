@@ -270,14 +270,18 @@ public final class Constants {
     public static final Setpoint FLOOR = new Setpoint(245, 61, true, 245, 62, true);
     public static final Setpoint MID_NODE = new Setpoint(192, 90, false, 192, 69, false);
     public static final Setpoint MID_NODE_PLACED = new Setpoint(199, 87, false, 192, 69, false);
-    public static final Setpoint TOP_NODE = new Setpoint(225, 150, false, 213, 111, false);
-    public static final Setpoint TOP_NODE_PLACED = new Setpoint(234, 149, false, 213, 111, false);
+    public static final Setpoint TOP_NODE = new Setpoint(225, 153, false, 213, 115, false);
+    public static final Setpoint TOP_NODE_PLACED = new Setpoint(234, 149, false, 213, 115, false);
     public static final Setpoint SUBSTATION = new Setpoint(150, 53, false, 150, 53, false);
 
     public static final double INTERMEDIATE_LOWER_POSITION = 150;
   }
 
   public static final class LimelightConstants{
+    public static final int DRIVER_PIPELINE = 0;
+    public static final int APRILTAG_PIPELINE = 1;
+    public static final int RETRO_PIPELINE = 2;
+
     public static final Gains GAINS_VISION_X = new Gains(0.0, 0.0, 0.0, 0.0, 50);
     public static final Gains GAINS_VISION_Y = new Gains(0.0, 0.0, 0.0, 0.0, 50);
 
@@ -296,8 +300,8 @@ public final class Constants {
     public static final double SETPOINT_DIS_FROM_GRID_APRIL = 14.062222;
     public static final double SETPOINT_DIS_FROM_SUBSTATION_APRIL = 5;
 
-    public static final double ALIGNED_CONE_X = 0.0;
-    public static final double ALIGNED_GRID_APRIL_X = 0.0;
+    public static final double ALIGNED_CONE_X = 7.8;
+    public static final double ALIGNED_GRID_APRIL_X = 8.6;
     public static final double ALIGNED_SUBSTATION_APRIL_X = 0.0;
 
 

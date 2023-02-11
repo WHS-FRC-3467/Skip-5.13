@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,8 +21,10 @@ import frc.robot.auto.TestAuto;
 import frc.robot.subsystems.arm.ArmDefault;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.arm.GoToPositionWithIntermediate;
+import frc.robot.subsystems.arm.RetractFromGrid;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.TeleopSwerve;
+import frc.robot.subsystems.limelight.AlignWithConeNode;
 import frc.robot.subsystems.limelight.LimelightSubsystem;
 import frc.robot.util.GamePiece;
 import frc.robot.util.GamePiece.GamePieceType;
@@ -99,7 +103,7 @@ public class RobotContainer {
     m_driverController.povUp().onTrue(new InstantCommand(m_drive::zeroGyro, m_drive));
     
     m_driverController.start().whileTrue(Commands.run(m_drive::AutoBalance, m_drive).andThen(m_drive::stopDrive, m_drive));
-
+    // m_driverController.rightTrigger().whileTrue(new AlignWithConeNode(m_limelight, m_drive));
     //Opperator Controls
     //Set game Piece type 
     m_operatorController.start().onTrue(Commands.runOnce(() -> GamePiece.setGamePiece(GamePieceType.Cube)));
@@ -110,16 +114,17 @@ public class RobotContainer {
 
     m_operatorController.a().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.FLOOR)));
 
-    m_operatorController.b().onTrue(new GoToPositionWithIntermediate(m_arm, ArmSetpoints.MID_NODE));
+    m_operatorController.b().onTrue(new GoToPositionWithIntermediate(m_arm, ArmSetpoints.MID_NODE, ArmSetpoints.MID_NODE_PLACED));
     // m_operatorController.b().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.MID_NODE)));
 
-    m_operatorController.y().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.TOP_NODE)));
+    m_operatorController.y().onTrue(new GoToPositionWithIntermediate(m_arm, ArmSetpoints.TOP_NODE, ArmSetpoints.TOP_NODE_PLACED));
+    // m_operatorController.y().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.TOP_NODE)));
 
     m_operatorController.x().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.SUBSTATION)));
 
-    m_operatorController.povRight().onTrue(Commands.runOnce(()-> m_arm.updateAllSetpoints(ArmSetpoints.MID_NODE_PLACED)));
+    m_operatorController.povRight().onTrue(new RetractFromGrid(m_arm, ArmSetpoints.MID_NODE_PLACED));
 
-    m_operatorController.povUp().onTrue(Commands.runOnce(()-> m_arm.updateAllSetpoints(ArmSetpoints.TOP_NODE_PLACED)));
+    m_operatorController.povUp().onTrue(new RetractFromGrid(m_arm, ArmSetpoints.TOP_NODE_PLACED));
 
     //Manually set claw
     // m_operatorController.povUp().onTrue(Commands.runOnce(m_arm::actuateWristUp, m_arm));
