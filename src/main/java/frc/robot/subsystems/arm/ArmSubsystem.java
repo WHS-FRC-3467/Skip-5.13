@@ -58,7 +58,8 @@ public class ArmSubsystem extends SubsystemBase {
   private double m_upperSetpoint;
   private double m_lowerSetpoint;
   private boolean m_writstSetpoint;
-  private boolean m_clawSetpoint;
+  private boolean m_upperAtSetpoint;
+  private boolean m_lowerAtSetpoint;
 
   private Solenoid m_wrist = new Solenoid(PneumaticsModuleType.REVPH, PHConstants.WRIST_CHANNEL);
   private Solenoid m_claw = new Solenoid(PneumaticsModuleType.REVPH, PHConstants.CLAW_CHANNEL);
@@ -112,6 +113,9 @@ public class ArmSubsystem extends SubsystemBase {
     m_upperJoint.configReverseSoftLimitThreshold(ArmConstants.REVERSE_SOFT_LIMIT_UPPER, ArmConstants.TIMEOUT);
     m_lowerJoint.configForwardSoftLimitThreshold(ArmConstants.FORWARD_SOFT_LIMIT_LOWER, ArmConstants.TIMEOUT);
     m_lowerJoint.configReverseSoftLimitThreshold(ArmConstants.REVERSE_SOFT_LIMIT_LOWER, ArmConstants.TIMEOUT);
+
+    m_controllerLower.setTolerance(ArmConstants.TOLERANCE_POS, ArmConstants.TOLERANCE_VEL);
+    m_controllerUpper.setTolerance(ArmConstants.TOLERANCE_POS, ArmConstants.TOLERANCE_VEL);
   }
 
   @Override
@@ -122,20 +126,22 @@ public class ArmSubsystem extends SubsystemBase {
 
     SmartDashboard.putNumber("Upper Setpoint", m_upperSetpoint);
     SmartDashboard.putNumber("Lower Setpoint", m_lowerSetpoint);
-    
+
     SmartDashboard.putBoolean("Game Peice", GamePiece.getGamePiece() == GamePieceType.Cone);
     
     if (Constants.tuningMode) {
+      SmartDashboard.putBoolean("Upper at Setpoint", m_upperAtSetpoint);
+      SmartDashboard.putBoolean("Lower at Setpoint", m_lowerAtSetpoint);
       SmartDashboard.putNumber("Lower Angle", getLowerJointDegrees());
       SmartDashboard.putNumber("Upper Angle", getUpperJointDegrees());
       SmartDashboard.putNumber("Lower Angle Uncorrected", dutyCycleToDegrees(getLowerJointPos()));
       SmartDashboard.putNumber("Upper Angle Uncorrected", dutyCycleToDegrees(getUpperJointPos()));
-      SmartDashboard.putNumber("Upper Percent", m_upperJoint.getMotorOutputPercent());
-      SmartDashboard.putNumber("Lower Percent", m_lowerJoint.getMotorOutputPercent());
       SmartDashboard.putNumber("Lower Error", m_controllerLower.getPositionError());
       SmartDashboard.putNumber("Upper Error", m_controllerUpper.getPositionError());
-      SmartDashboard.putNumber("Lower Velocity Setpoint", m_controllerLower.getPositionError());
-      SmartDashboard.putNumber("Upper Velocity Setpoint", m_controllerUpper.getPositionError());
+      SmartDashboard.putNumber("Lower VEL Error", m_controllerLower.getVelocityError());
+      SmartDashboard.putNumber("Upper VEL Error", m_controllerUpper.getVelocityError());
+      SmartDashboard.putNumber("Lower Velocity Setpoint", m_controllerLower.getSetpoint().velocity);
+      SmartDashboard.putNumber("Upper Velocity Setpoint", m_controllerUpper.getSetpoint().velocity);
     } else {
       SmartDashboard.clearPersistent("Lower Angle");
       SmartDashboard.clearPersistent("Upper Angle");
@@ -202,35 +208,35 @@ public class ArmSubsystem extends SubsystemBase {
 
 
   public Vector<N2> calculateFeedforwards() {
-                                                //To set lower constant, move lower and upper arms to
-                                                //vertical, set to lower encoder value minus 90 (for horizontal)
-    Vector<N2> positionVector = VecBuilder.fill(Math.toRadians(m_lowerSetpoint - (90)), 
-                                                //to set upper constant, move upper arm and lower arms to vertical 
-                                                //and set to upper encoder value
-                                                Math.toRadians(-m_upperSetpoint + (180))); 
+                                                //Setpoint -
+    Vector<N2> positionVector = VecBuilder.fill(Math.toRadians(m_lowerSetpoint + (90)), 
+                                                //Setpoint + 90 - So horizantal is 0 
+                                                Math.toRadians(m_upperSetpoint + (90))); 
 
     Vector<N2> velocityVector = VecBuilder.fill(0.0, 0.0);
     Vector<N2> accelVector = VecBuilder.fill(0.0, 0.0);
-    Vector<N2> vectorFF = m_doubleJointedFeedForwards.calculate(positionVector, velocityVector, accelVector);
+    Vector<N2> vectorFF = m_doubleJointedFeedForwards.feedforward(positionVector, velocityVector, accelVector);
     return vectorFF;
   }
 
   public void runUpperProfiled() {
     m_controllerUpper.setGoal(new TrapezoidProfile.State(m_upperSetpoint, 0.0));
     double pidOutput = -m_controllerUpper.calculate(getUpperJointDegrees());
-    double ff = -(calculateFeedforwards().get(1, 0)) / 12.0;
-    // System.out.println("upper ff" + (ff));
-    // System.out.println("Upper PID" + pidOutput);
+    double ff = (calculateFeedforwards().get(1, 0)) / 12.0;
+    System.out.println("upper ff" + (ff));
+    System.out.println("Upper PID" + pidOutput);
     setPercentOutputUpper(pidOutput); // may need to negate ff voltage to get desired output
+    m_upperAtSetpoint = m_controllerUpper.atGoal();
   }
 
   public void runLowerProfiled() {
     m_controllerLower.setGoal(new TrapezoidProfile.State(m_lowerSetpoint, 0.0));
     double pidOutput = -m_controllerLower.calculate(getLowerJointDegrees());
     double ff = -(calculateFeedforwards().get(0, 0)) / 12.0;
-    // System.out.println("lower ff" + (ff));
-    // System.out.println("Lower PID" + pidOutput);
+    System.out.println("lower ff" + (ff));
+    System.out.println("Lower PID" + pidOutput);
     setPercentOutputLower(pidOutput); // may need to negate ff voltage to get desired output
+    m_lowerAtSetpoint = m_controllerLower.atGoal();
   }
 
   public void setToCurrent() {
@@ -238,16 +244,16 @@ public class ArmSubsystem extends SubsystemBase {
     m_upperSetpoint = getUpperJointDegrees();
   }
 
-  public boolean upperAtSetpoint() {
-    return m_controllerUpper.atSetpoint();
+  public boolean getLowerAtSetpoint(){
+    return m_lowerAtSetpoint;
   }
 
-  public boolean lowerAtSetpoint() {
-    return m_controllerLower.atSetpoint();
+  public boolean getUpperAtSetpoint(){
+    return m_lowerAtSetpoint;
   }
 
   public boolean bothJointsAtSetpoint(){
-    return upperAtSetpoint() && lowerAtSetpoint();
+    return m_lowerAtSetpoint && m_upperAtSetpoint;
   }
 
   public void setPercentOutputUpper(double speed) {

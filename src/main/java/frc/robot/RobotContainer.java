@@ -18,8 +18,10 @@ import frc.robot.Constants.ArmSetpoints;
 import frc.robot.auto.TestAuto;
 import frc.robot.subsystems.arm.ArmDefault;
 import frc.robot.subsystems.arm.ArmSubsystem;
+import frc.robot.subsystems.arm.GoToPositionWithIntermediate;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.TeleopSwerve;
+import frc.robot.subsystems.limelight.LimelightSubsystem;
 import frc.robot.util.GamePiece;
 import frc.robot.util.GamePiece.GamePieceType;
 
@@ -41,12 +43,13 @@ public class RobotContainer {
   private final DriveSubsystem m_drive = new DriveSubsystem();
   private final ArmSubsystem m_arm = new ArmSubsystem();
   private final ClawSubsytem m_claw = new ClawSubsytem();
-  // private final LimelightSubsystem m_limelight = new LimelightSubsystem();
+  private final LimelightSubsystem m_limelight = new LimelightSubsystem();
 
   private SendableChooser<Command> m_autoChooser = new SendableChooser<>();
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     GamePiece.setGamePiece(GamePieceType.Cone);
+    
     new Pneumatics();
     if(Constants.tuningMode){
       DriverStation.silenceJoystickConnectionWarning(true);
@@ -107,7 +110,8 @@ public class RobotContainer {
 
     m_operatorController.a().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.FLOOR)));
 
-    m_operatorController.b().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.MID_NODE)));
+    m_operatorController.b().onTrue(new GoToPositionWithIntermediate(m_arm, ArmSetpoints.MID_NODE));
+    // m_operatorController.b().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.MID_NODE)));
 
     m_operatorController.y().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.TOP_NODE)));
 

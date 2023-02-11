@@ -202,78 +202,64 @@ public final class Constants {
   }
 
   public static final class ArmConstants{
-
-    public static final double VERTICAL_ANGLE_UPPER = 171.4;
-    public static final double VERTICAL_ANGLE_LOWER = 176.0;
+    //Arm offsets
+    public static final double VERTICAL_ANGLE_UPPER = 167.9;
+    public static final double VERTICAL_ANGLE_LOWER = 180.0;
 
     public static final double LOWER_ANGLE_OFFSET = 180 - VERTICAL_ANGLE_LOWER;
     public static final double UPPER_ANGLE_OFFSET = 180 - VERTICAL_ANGLE_UPPER;
 
+    //Gains
     public static final  Gains GAINS_UPPER_JOINT = new Gains(0.02, 0.0, 0.00, 0.0, 50);
-
     public static final  Gains GAINS_LOWER_JOINT  = new Gains(0.02, 0.0, 0.00, 0.00, 50);
+    
+    //PID Tollerance in Degrees
+    public static final double TOLERANCE_VEL = 1.0;
+    public static final double TOLERANCE_POS = 2.0;
 
-
-    public static final double kSUpper = 0.04;
-    public static final double kGUpper = 0.25;
-    public static final double kVUpper = 0.06;
-    public static final double kAUpper = 0.0;
-
-    public static final double kSLower = 0.04;
-    public static final double kGLower = 0.25;
-    public static final double kVLower = 0.06;
-    public static final double kALower = 0.0;
-
-    //JointConfig for DJArmFeedForwards
+    //Upper joint Config
     public static final double UPPER_LENGTH = 1.07;
     public static final double UPPER_MOI = 0.4;
     public static final double UPPER_CGRADIUS = 1.0;
     public static final double UPPER_MASS = 5.0;
     public static final DCMotor UPPER_MOTOR = DCMotor.getFalcon500(1).withReduction(200);
 
+    //Lower Joint config
     public static final double LOWER_LENGTH = 0.7874;
     public static final double LOWER_MOI = 0.4;
     public static final double LOWER_CGRADIUS = 1.0;
     public static final double LOWER_MASS = 5.0;
     public static final DCMotor LOWER_MOTOR = DCMotor.getFalcon500(1).withReduction(200);
 
-
-    //Max sensor velocity per 100 ms
-    //Max RPM 6380 * 2:1 gearing * 4096 ticks *1min/60000ms * 100ms
-    public static final int MAX_SENSOR_VEL = 86398;
-
     /* Motor neutral dead-band : Range 0.001 -> 0.25 */
 	  public static final double NEUTRAL_DEADBAND = 0.005;
 
+    //Nominal Outputs
     public static final double NOMINAL_OUTPUT_FORWARD = 0;
     public static final double NOMINAL_OUTPUT_REVERSE = 0;
     public static final double PEAK_OUTPUT_FORWARD = 0.5;
     public static final double PEAK_OUTPUT_REVERSE = -0.5;
 
+    //Soft Limits
     public static final int FORWARD_SOFT_LIMIT_UPPER = 3300;
     public static final int REVERSE_SOFT_LIMIT_UPPER = 500;
     
     public static final int FORWARD_SOFT_LIMIT_LOWER = 3400;
     public static final int REVERSE_SOFT_LIMIT_LOWER = 1000;
-    /**
-     * Set to zero to skip waiting for confirmation.
-     * Set to nonzero to wait and report to DS if action fails.
-    */
-	  public final static int TIMEOUT = 10;
 
-    // Motion Magic constants
+    //Timeout ms
+    public final static int TIMEOUT = 10;
+
+    // Profiled PID Constants
     public static final double LOWER_CRUISE = 70.0;
     public static final double LOWER_ACCELERATION = 120.0;
 
     public static final double UPPER_CRUISE = 70.0;
     public static final double UPPER_ACCELERATION = 120.0;
 
+    //Duty cycle constants
     public static final double DUTY_CYCLE_MIN = 1.0/1025.0;
     public static final double DUTY_CYCLE_MAX = 1024.0/1025.0;
-    public static final int FREQUENCY = 976;
-    public static final double PERIOD = 1025;
-
-    public static final double ENCODER_DISTANCE_PER_PULSE =  (2.0 * Math.PI / 8192);
   }
 
   public static final class ArmSetpoints{
@@ -288,7 +274,7 @@ public final class Constants {
     public static final Setpoint TOP_NODE_PLACED = new Setpoint(234, 149, false, 213, 111, false);
     public static final Setpoint SUBSTATION = new Setpoint(150, 53, false, 150, 53, false);
 
-    public static final double INTERMEDIATE_LOWER_POSITION = 90;
+    public static final double INTERMEDIATE_LOWER_POSITION = 150;
   }
 
   public static final class LimelightConstants{
