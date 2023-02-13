@@ -18,4 +18,12 @@ public class GamePiece {
     public static GamePieceType getGamePiece(){
         return gamePiece;
     }
+    public static void toggleGamePiece(){
+        if(gamePiece == GamePieceType.Cone){
+            gamePiece = GamePieceType.Cube;
+        }
+        else{
+            gamePiece = GamePieceType.Cone;
+        }
+    }
 }

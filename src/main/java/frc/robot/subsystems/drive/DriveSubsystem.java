@@ -126,6 +126,7 @@ public class DriveSubsystem extends SubsystemBase {
     }    
 
     public Pose2d getPose() {
+        
         return swerveOdometry.getPoseMeters();
     }
 
@@ -174,18 +175,16 @@ public class DriveSubsystem extends SubsystemBase {
 
     public void AutoBalance(){
         m_balancePID.setTolerance(SwerveConstants.BALANCE_TOLLERANCE);
-        double pidOutput = MathUtil.clamp(m_balancePID.calculate(getRoll(), 0), -0.25, 0.25);
+        double pidOutput;
+        pidOutput = MathUtil.clamp(m_balancePID.calculate(getRoll(), 0), -0.4, 0.4);
+        
         SmartDashboard.putNumber("Balance PID", pidOutput);
-        drive(new Translation2d(pidOutput, 0), 0.0, true, true, false);
-    }
-
-    public boolean isRobotBalanced(){
-        return m_balancePID.atSetpoint();
+        drive(new Translation2d(pidOutput, 0), 0.0, false, true, false);
     }
 
     public SequentialCommandGroup followTrajectoryCommand(PathPlannerTrajectory traj, boolean isFirstPath) {
                 
-        PIDController thetaController = new PIDController(0, 0, 0);
+        PIDController thetaController = new PIDController(0.1, 0, 0);
         PIDController xController = new PIDController(1, 0, 0);
         PIDController yController = new PIDController(1, 0, 0);
         thetaController.enableContinuousInput(-Math.PI, Math.PI);

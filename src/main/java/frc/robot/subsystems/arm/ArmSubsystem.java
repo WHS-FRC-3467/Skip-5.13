@@ -104,8 +104,8 @@ public class ArmSubsystem extends SubsystemBase {
     m_lowerJoint.configFeedbackNotContinuous(true, ArmConstants.TIMEOUT);
     m_upperJoint.configFeedbackNotContinuous(true, ArmConstants.TIMEOUT);
 
-    m_lowerJoint.configForwardSoftLimitEnable(true, ArmConstants.TIMEOUT);
-    m_upperJoint.configForwardSoftLimitEnable(true, ArmConstants.TIMEOUT);
+    m_lowerJoint.configForwardSoftLimitEnable(false, ArmConstants.TIMEOUT);
+    m_upperJoint.configForwardSoftLimitEnable(false, ArmConstants.TIMEOUT);
 
     m_upperJoint.configForwardSoftLimitThreshold(ArmConstants.FORWARD_SOFT_LIMIT_UPPER, ArmConstants.TIMEOUT);
     m_upperJoint.configReverseSoftLimitThreshold(ArmConstants.REVERSE_SOFT_LIMIT_UPPER, ArmConstants.TIMEOUT);
@@ -184,11 +184,11 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void updateClawSetpoint(GamePiece.GamePieceType gamePiece){
     if(gamePiece == GamePieceType.Cone){
-      m_claw.set(true);
+      m_claw.set(false);
     }
 
     else if(gamePiece == GamePieceType.Cube){
-      m_claw.set(false);
+      m_claw.set(true);
     }
   }
 
@@ -302,10 +302,12 @@ public class ArmSubsystem extends SubsystemBase {
   public void actuateWristDown(){
     m_wrist.set(false);
   }
+
   public void actuateClawIn(){
-    m_claw.set(true);
-  }
-  public void actuateClawOut(){
     m_claw.set(false);
+  }
+
+  public void actuateClawOut(){
+    m_claw.set(true);
   }
 }

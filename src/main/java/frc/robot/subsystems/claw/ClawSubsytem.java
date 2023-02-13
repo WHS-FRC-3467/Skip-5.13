@@ -17,7 +17,7 @@ public class ClawSubsytem extends SubsystemBase {
   private TalonSRX m_clawMotor = new TalonSRX(CanConstants.CLAW_MOTOR);
   public ClawSubsytem() {
     m_clawMotor.configFactoryDefault();
-    m_clawMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 10, 15, 0.2));
+    m_clawMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 10, 15, 0.5));
     m_clawMotor.setNeutralMode(NeutralMode.Brake);
     m_clawMotor.configOpenloopRamp(0.2);
   }

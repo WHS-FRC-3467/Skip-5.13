@@ -18,30 +18,30 @@ import frc.robot.util.GamePiece.GamePieceType;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class GoToPositionWithIntermediate extends SequentialCommandGroup {
   /** Creates a new GoToPositionWithIntermediate. */
-  public GoToPositionWithIntermediate(ArmSubsystem arm, Setpoint setpoint, Setpoint secondSetpoint) {
+  public GoToPositionWithIntermediate(ArmSubsystem arm, Setpoint setpoint) {
 
     Setpoint intermediateSetpoint = new Setpoint(ArmSetpoints.INTERMEDIATE_LOWER_POSITION, setpoint.m_upperCone * 0.5, setpoint.wristCone, 
                                                 ArmSetpoints.INTERMEDIATE_LOWER_POSITION, (setpoint.m_upperCube) * 0.5, setpoint.wristCube);
     if(GamePiece.getGamePiece() == GamePieceType.Cone){
       addCommands(
         new InstantCommand(()-> arm.updateAllSetpoints(intermediateSetpoint)),
-        new WaitCommand(2.0),
+        new WaitCommand(1.5),
         // new WaitUntilCommand(()-> arm.bothJointsAtSetpoint()),
         new InstantCommand( ()-> arm.updateAllSetpoints(setpoint)),
-        new WaitCommand(2.0),
+        new WaitCommand(1.5)
         //new WaitUntilCommand(()-> arm.bothJointsAtSetpoint())
-        new InstantCommand(()-> arm.updateAllSetpoints(secondSetpoint)),
-        new WaitCommand(0.5),
-        new InstantCommand(arm::actuateClawOut)
+        // new InstantCommand(()-> arm.updateAllSetpoints(secondSetpoint)),
+        // new WaitCommand(0.5),
+        // new InstantCommand(arm::actuateClawOut)
       );
     }
     else if (GamePiece.getGamePiece() == GamePieceType.Cube){
       addCommands(
         new InstantCommand(()-> arm.updateAllSetpoints(intermediateSetpoint)),
-        new WaitCommand(2.0),
+        new WaitCommand(1.5),
         // new WaitUntilCommand(()-> arm.bothJointsAtSetpoint()),
         new InstantCommand( ()-> arm.updateAllSetpoints(setpoint)),
-        new WaitCommand(2.0)
+        new WaitCommand(1.5)
         //new WaitUntilCommand(()-> arm.bothJointsAtSetpoint())  
       );
     }

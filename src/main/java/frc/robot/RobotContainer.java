@@ -12,19 +12,22 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.claw.ClawDefault;
 import frc.robot.subsystems.claw.ClawSubsytem;
 import frc.robot.Constants.ArmSetpoints;
+import frc.robot.auto.OneConeFar;
+import frc.robot.auto.OneConeWithCharge;
 import frc.robot.auto.TestAuto;
 import frc.robot.subsystems.arm.ArmDefault;
 import frc.robot.subsystems.arm.ArmSubsystem;
+import frc.robot.subsystems.arm.StowedWithIntermediete;
 import frc.robot.subsystems.arm.GoToPositionWithIntermediate;
 import frc.robot.subsystems.arm.RetractFromGrid;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.TeleopSwerve;
-import frc.robot.subsystems.limelight.AlignWithConeNode;
 import frc.robot.subsystems.limelight.LimelightSubsystem;
 import frc.robot.util.GamePiece;
 import frc.robot.util.GamePiece.GamePieceType;
@@ -64,6 +67,8 @@ public class RobotContainer {
     // Configure the trigger bindings
     
     m_autoChooser.addOption("Test Auto", new TestAuto(m_drive));
+    m_autoChooser.addOption("OneConeFar", new OneConeFar(m_drive, m_arm, m_claw));
+    m_autoChooser.addOption("OneConeWithCharge", new OneConeWithCharge(m_drive, m_arm, m_claw));
     SmartDashboard.putData("Auto", m_autoChooser);
     
     //new Pneumatics();
@@ -81,11 +86,12 @@ public class RobotContainer {
                                               m_driverController.x()));
 
     m_arm.setDefaultCommand(new ArmDefault(m_arm,
-                                          m_operatorController.leftBumper(),
+                                          m_operatorController.back(),
                                           () -> m_operatorController.getLeftY(), 
                                           () -> m_operatorController.getRightY()));
 
-    m_claw.setDefaultCommand(new ClawDefault(m_claw, ()-> m_operatorController.getRightTriggerAxis(), () -> m_operatorController.getLeftTriggerAxis()));
+    m_claw.setDefaultCommand(new ClawDefault(m_claw, ()-> m_operatorController.getLeftTriggerAxis(), 
+                                            () -> m_operatorController.getRightTriggerAxis()));
   }
 
   /**
@@ -103,22 +109,25 @@ public class RobotContainer {
     m_driverController.povUp().onTrue(new InstantCommand(m_drive::zeroGyro, m_drive));
     
     m_driverController.start().whileTrue(Commands.run(m_drive::AutoBalance, m_drive).andThen(m_drive::stopDrive, m_drive));
-    // m_driverController.rightTrigger().whileTrue(new AlignWithConeNode(m_limelight, m_drive));
+
+    m_driverController.rightTrigger().onTrue(Commands.runOnce(() -> m_arm.updateAllSetpoints(ArmSetpoints.MID_NODE_PLACED)).andThen(new WaitCommand(0.7)).andThen(m_arm::actuateClawOut));
+
+    m_driverController.leftTrigger().onTrue(Commands.runOnce(() -> m_arm.updateAllSetpoints(ArmSetpoints.TOP_NODE_PLACED)).andThen(new WaitCommand(0.9)).andThen(m_arm::actuateClawOut));
+
     //Opperator Controls
     //Set game Piece type 
-    m_operatorController.start().onTrue(Commands.runOnce(() -> GamePiece.setGamePiece(GamePieceType.Cube)));
-    m_operatorController.back().onTrue(Commands.runOnce(() -> GamePiece.setGamePiece(GamePieceType.Cone)));
+    m_operatorController.start().onTrue(Commands.runOnce(() -> GamePiece.toggleGamePiece()));
+    m_operatorController.back().onTrue(Commands.runOnce(() -> GamePiece.toggleGamePiece()));
 
     //Set arm positions
-    m_operatorController.rightBumper().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.STOWED)));
+    m_operatorController.rightBumper().onTrue(new StowedWithIntermediete(m_arm, ArmSetpoints.STOWED));
+    m_operatorController.leftBumper().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.STOWED)));
 
     m_operatorController.a().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.FLOOR)));
 
-    m_operatorController.b().onTrue(new GoToPositionWithIntermediate(m_arm, ArmSetpoints.MID_NODE, ArmSetpoints.MID_NODE_PLACED));
-    // m_operatorController.b().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.MID_NODE)));
+    m_operatorController.b().onTrue(new GoToPositionWithIntermediate(m_arm, ArmSetpoints.MID_NODE));
 
-    m_operatorController.y().onTrue(new GoToPositionWithIntermediate(m_arm, ArmSetpoints.TOP_NODE, ArmSetpoints.TOP_NODE_PLACED));
-    // m_operatorController.y().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.TOP_NODE)));
+    m_operatorController.y().onTrue(new GoToPositionWithIntermediate(m_arm, ArmSetpoints.TOP_NODE));
 
     m_operatorController.x().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.SUBSTATION)));
 

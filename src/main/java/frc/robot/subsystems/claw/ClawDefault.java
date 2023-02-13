@@ -24,14 +24,13 @@ public class ClawDefault extends CommandBase {
   public void execute() {
 
     if(m_fwd.getAsDouble() > 0.2){
-      m_claw.driveClaw(m_fwd.getAsDouble());
+      m_claw.driveClaw(0.8);
     }
     else if(m_rev.getAsDouble() > 0.2){
-      m_claw.driveClaw(-m_rev.getAsDouble());
+      m_claw.driveClaw(-0.4);
     }
     else if(m_fwd.getAsDouble() < 0.2 && m_rev.getAsDouble() < 0.2){
-      m_claw.driveClaw(0.0);
-      //m_claw.driveClaw(0.1);
+      m_claw.driveClaw(0.25);
     }
 
   }

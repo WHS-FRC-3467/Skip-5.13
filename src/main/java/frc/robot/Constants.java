@@ -143,10 +143,10 @@ public final class Constants {
 
     /* Swerve Profiling Values */
     /** Meters per Second */
-    public static final double MAX_SPEED = 1.5;
+    public static final double MAX_SPEED = 2.5;
 
     /** Radians per Second */
-    public static final double MAX_ANGULAR_VELOCITY = 4.0;
+    public static final double MAX_ANGULAR_VELOCITY = 4.5;
 
     /* Neutral Modes */
     public static final NeutralMode ANGLE_NEUTRAL_MODE = NeutralMode.Coast;
@@ -193,17 +193,17 @@ public final class Constants {
             new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
     }
 
-    public static final Gains GAINS_ANGLE_SNAP = new Gains(0.02, 0.0, 0.0, 0.0, 50);
+    public static final Gains GAINS_ANGLE_SNAP = new Gains(0.015, 0.0, 0.0, 0.0, 50);
     
-    public static final Gains GAINS_BALANCE = new Gains(0.02, 0.0, 0.01, 0.0, 50);
+    public static final Gains GAINS_BALANCE = new Gains(0.025, 0.0, 0.0, 0.0, 50);
 
     public static final double SNAP_TOLLERANCE = 2.0;
-    public static final double BALANCE_TOLLERANCE = 0.01;
+    public static final double BALANCE_TOLLERANCE = 0.001;
   }
 
   public static final class ArmConstants{
     //Arm offsets
-    public static final double VERTICAL_ANGLE_UPPER = 167.9;
+    public static final double VERTICAL_ANGLE_UPPER = 188.4;
     public static final double VERTICAL_ANGLE_LOWER = 180.0;
 
     public static final double LOWER_ANGLE_OFFSET = 180 - VERTICAL_ANGLE_LOWER;
@@ -268,10 +268,10 @@ public final class Constants {
 
     public static final Setpoint STOWED = new Setpoint(180, 16, false, 180, 16, false);
     public static final Setpoint FLOOR = new Setpoint(245, 61, true, 245, 62, true);
-    public static final Setpoint MID_NODE = new Setpoint(192, 90, false, 192, 69, false);
-    public static final Setpoint MID_NODE_PLACED = new Setpoint(199, 87, false, 192, 69, false);
-    public static final Setpoint TOP_NODE = new Setpoint(225, 153, false, 213, 115, false);
-    public static final Setpoint TOP_NODE_PLACED = new Setpoint(234, 149, false, 213, 115, false);
+    public static final Setpoint MID_NODE = new Setpoint(175.5, 80, false, 192, 71, false);
+    public static final Setpoint MID_NODE_PLACED = new Setpoint(183.5, 72, false, 192, 69, false);
+    public static final Setpoint TOP_NODE = new Setpoint(212, 143, false, 213, 118, false);
+    public static final Setpoint TOP_NODE_PLACED = new Setpoint(218, 140, false, 213, 115, false);
     public static final Setpoint SUBSTATION = new Setpoint(150, 53, false, 150, 53, false);
 
     public static final double INTERMEDIATE_LOWER_POSITION = 150;

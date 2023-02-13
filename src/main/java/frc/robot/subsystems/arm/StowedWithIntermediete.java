@@ -4,27 +4,25 @@
 
 package frc.robot.subsystems.arm;
 
+
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.Constants.ArmSetpoints;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class RetractFromGrid extends SequentialCommandGroup {
-  /** Creates a new RetractFromGrid. */
-  public RetractFromGrid(ArmSubsystem arm, Setpoint setpoint) {
-    Setpoint intermediateSetpoint = new Setpoint(ArmSetpoints.INTERMEDIATE_LOWER_POSITION, setpoint.m_upperCone * 0.5, setpoint.wristCone, 
-    ArmSetpoints.INTERMEDIATE_LOWER_POSITION, (setpoint.m_upperCube) * 0.5, setpoint.wristCube);
+public class StowedWithIntermediete extends SequentialCommandGroup {
+  /** Creates a new FloorPickUp. */
+  public StowedWithIntermediete(ArmSubsystem arm, Setpoint setpoint) {
+    Setpoint intermediete = new Setpoint(setpoint.m_lowerCone, setpoint.m_upperCone + 20 , true, setpoint.m_lowerCube, setpoint.m_upperCube + 20, true);
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new InstantCommand(arm::actuateClawOut),
-      new InstantCommand( ()-> arm.updateAllSetpoints(intermediateSetpoint)),
-      new InstantCommand(arm::actuateClawOut),
-      new WaitCommand(2.0),
-      new InstantCommand(()-> arm.updateAllSetpoints(ArmSetpoints.STOWED))
+      new InstantCommand(()-> arm.updateAllSetpoints(intermediete)),
+      new WaitCommand(1.0),
+      new InstantCommand( ()-> arm.updateAllSetpoints(setpoint)),
+      new WaitCommand(1.0)
     );
   }
 }
