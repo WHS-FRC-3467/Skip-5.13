@@ -233,7 +233,7 @@ public class ArmSubsystem extends SubsystemBase {
     double ff = -(calculateFeedforwards().get(1, 0)) / 12.0;
     System.out.println("upper ff" + (ff));
     System.out.println("Upper PID" + pidOutput);
-    setPercentOutputUpper(pidOutput); // may need to negate ff voltage to get desired output
+    m_upperJoint.set(TalonFXControlMode.PercentOutput, pidOutput); // may need to negate ff voltage to get desired output
   }
 
   public void runLowerProfiled() {
@@ -243,7 +243,7 @@ public class ArmSubsystem extends SubsystemBase {
     double ff = -(calculateFeedforwards().get(0, 0)) / 12.0;
     System.out.println("lower ff" + (ff));
     System.out.println("Lower PID" + pidOutput);
-    setPercentOutputLower(pidOutput); // may need to negate ff voltage to get desired output
+    m_lowerJoint.set(TalonFXControlMode.PercentOutput, pidOutput); // may need to negate ff voltage to get desired output
   }
 
   public void setToCurrent() {
