@@ -14,15 +14,18 @@ public class RetractToStowed extends CommandBase {
 
   /** Creates a new RetractToStow. */
   public RetractToStowed(ArmSubsystem arm) {
-    this.arm = arm;
     addRequirements(arm);
+    this.arm = arm;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     // Retracting from grid
-    if (arm.getSetpoint().equals(ArmSetpoints.MID_NODE) ||
+    if (arm.getSetpoint() == null) {
+      arm.updateAllSetpoints(ArmSetpoints.STOWED);
+      m_end = true;
+    } else if (arm.getSetpoint().equals(ArmSetpoints.MID_NODE) ||
         arm.getSetpoint().equals(ArmSetpoints.MID_NODE_PLACED) ||
         arm.getSetpoint().equals(ArmSetpoints.TOP_NODE) ||
         arm.getSetpoint().equals(ArmSetpoints.TOP_NODE_PLACED)) {
@@ -39,6 +42,7 @@ public class RetractToStowed extends CommandBase {
     }
     // Retracting from floor
     else if (arm.getSetpoint().equals(ArmSetpoints.FLOOR)) {
+
       intermediate = new Setpoint(
           ArmSetpoints.STOWED.lowerCone,
           ArmSetpoints.STOWED.upperCone + 20,
@@ -52,27 +56,28 @@ public class RetractToStowed extends CommandBase {
     // No Intermediate - go directly to stow
     else {
       arm.updateAllSetpoints(ArmSetpoints.STOWED);
+      m_end = true;
     }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    arm.runUpperProfiled();
-    arm.runLowerProfiled();
-    if (arm.bothJointsAtSetpoint() && !arm.getSetpoint().equals(ArmSetpoints.STOWED)) {
-      arm.updateAllSetpoints(ArmSetpoints.STOWED);
-    } else if (arm.bothJointsAtSetpoint() && arm.getSetpoint().equals(ArmSetpoints.STOWED)) {
+    if (arm.getSetpoint() == null 
+        || (!arm.getSetpoint().equals(ArmSetpoints.STOWED) && !arm.getSetpoint().equals(intermediate))
+        || arm.isJoyMode()) { // if joymode is entered or another setpoint is set, stop
       m_end = true;
-    }
+    }     
+    else if (arm.bothJointsAtSetpoint() && !arm.getSetpoint().equals(ArmSetpoints.STOWED)) {
+      arm.updateAllSetpoints(ArmSetpoints.STOWED);
+      m_end = true;
+    }  
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if (interrupted) {
-      arm.setToCurrent();
-    }
+    m_end = true;
   }
 
   // Returns true when the command should end.

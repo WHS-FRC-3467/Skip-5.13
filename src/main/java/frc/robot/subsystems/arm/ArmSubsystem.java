@@ -60,6 +60,8 @@ public class ArmSubsystem extends SubsystemBase {
   private double m_lowerSetpoint;
   private boolean m_writstSetpoint;
 
+  private boolean inJoyMode = false;
+
   private Solenoid m_wrist = new Solenoid(PneumaticsModuleType.REVPH, PHConstants.WRIST_CHANNEL);
   private Solenoid m_claw = new Solenoid(PneumaticsModuleType.REVPH, PHConstants.CLAW_CHANNEL);
 
@@ -225,6 +227,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void runUpperProfiled() {
+    inJoyMode = false;
     m_controllerUpper.setGoal(new TrapezoidProfile.State(m_upperSetpoint, 0.0));
     double pidOutput = -m_controllerUpper.calculate(getUpperJointDegrees());
     double ff = -(calculateFeedforwards().get(1, 0)) / 12.0;
@@ -234,6 +237,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void runLowerProfiled() {
+    inJoyMode = false;
     m_controllerLower.setGoal(new TrapezoidProfile.State(m_lowerSetpoint, 0.0));
     double pidOutput = -m_controllerLower.calculate(getLowerJointDegrees());
     double ff = -(calculateFeedforwards().get(0, 0)) / 12.0;
@@ -243,6 +247,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void setToCurrent() {
+    m_setpoint = null;
     m_lowerSetpoint = getLowerJointDegrees();
     m_upperSetpoint = getUpperJointDegrees();
   }
@@ -265,10 +270,12 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void setPercentOutputUpper(double speed) {
+    inJoyMode = true;
     m_upperJoint.set(TalonFXControlMode.PercentOutput, speed);
   }
 
   public void setPercentOutputLower(double speed) {
+    inJoyMode = true;
     m_lowerJoint.set(TalonFXControlMode.PercentOutput, speed);
   }
 
@@ -319,5 +326,9 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void actuateClawOut() {
     m_claw.set(true);
+  }
+
+  public boolean isJoyMode() {
+    return inJoyMode;
   }
 }
