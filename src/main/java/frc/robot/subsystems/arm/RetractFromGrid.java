@@ -15,14 +15,13 @@ import frc.robot.Constants.ArmSetpoints;
 public class RetractFromGrid extends SequentialCommandGroup {
   /** Creates a new RetractFromGrid. */
   public RetractFromGrid(ArmSubsystem arm, Setpoint setpoint) {
-    Setpoint intermediateSetpoint = new Setpoint(ArmSetpoints.INTERMEDIATE_LOWER_POSITION, setpoint.m_upperCone * 0.5, setpoint.wristCone, 
-    ArmSetpoints.INTERMEDIATE_LOWER_POSITION, (setpoint.m_upperCube) * 0.5, setpoint.wristCube);
+    Setpoint intermediateSetpoint = new Setpoint(ArmSetpoints.INTERMEDIATE_LOWER_POSITION, setpoint.upperCone * 0.5, setpoint.wristCone, 
+                                                  ArmSetpoints.INTERMEDIATE_LOWER_POSITION, (setpoint.upperCube) * 0.5, setpoint.wristCube);
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
+    if(arm.getSetpoint() == ArmSetpoints.FLOOR)
     addCommands(
-      new InstantCommand(arm::actuateClawOut),
       new InstantCommand( ()-> arm.updateAllSetpoints(intermediateSetpoint)),
-      new InstantCommand(arm::actuateClawOut),
       new WaitCommand(2.0),
       new InstantCommand(()-> arm.updateAllSetpoints(ArmSetpoints.STOWED))
     );

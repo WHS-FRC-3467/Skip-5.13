@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -26,6 +24,7 @@ import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.arm.StowedWithIntermediete;
 import frc.robot.subsystems.arm.GoToPositionWithIntermediate;
 import frc.robot.subsystems.arm.RetractFromGrid;
+import frc.robot.subsystems.arm.RetractToStowed;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.TeleopSwerve;
 import frc.robot.subsystems.limelight.LimelightSubsystem;
@@ -74,9 +73,9 @@ public class RobotContainer {
     //new Pneumatics();
     configureBindings();
     m_drive.setDefaultCommand(new TeleopSwerve(m_drive, 
-                                              () -> -m_driverController.getLeftY(), 
-                                              () -> -m_driverController.getLeftX(), 
-                                              () -> m_driverController.getRightX(), 
+                                              () -> m_driverController.getLeftY(), 
+                                              () -> m_driverController.getLeftX(), 
+                                              () -> -m_driverController.getRightX(), 
                                               m_driverController.leftStick(),
                                               m_driverController.leftBumper(),
                                               m_driverController.rightBumper(),
@@ -120,8 +119,8 @@ public class RobotContainer {
     m_operatorController.back().onTrue(Commands.runOnce(() -> GamePiece.toggleGamePiece()));
 
     //Set arm positions
-    m_operatorController.rightBumper().onTrue(new StowedWithIntermediete(m_arm, ArmSetpoints.STOWED));
-    m_operatorController.leftBumper().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.STOWED)));
+    m_operatorController.rightBumper().onTrue(new RetractToStowed(m_arm));
+    // m_operatorController.leftBumper().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.STOWED)));
 
     m_operatorController.a().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.FLOOR)));
 
@@ -131,9 +130,9 @@ public class RobotContainer {
 
     m_operatorController.x().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.SUBSTATION)));
 
-    m_operatorController.povRight().onTrue(new RetractFromGrid(m_arm, ArmSetpoints.MID_NODE_PLACED));
+    // m_operatorController.povRight().onTrue(new RetractFromGrid(m_arm, ArmSetpoints.MID_NODE_PLACED));
 
-    m_operatorController.povUp().onTrue(new RetractFromGrid(m_arm, ArmSetpoints.TOP_NODE_PLACED));
+    // m_operatorController.povUp().onTrue(new RetractFromGrid(m_arm, ArmSetpoints.TOP_NODE_PLACED));
 
     //Manually set claw
     // m_operatorController.povUp().onTrue(Commands.runOnce(m_arm::actuateWristUp, m_arm));

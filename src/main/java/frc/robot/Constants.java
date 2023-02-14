@@ -71,13 +71,13 @@ public final class Constants {
 
     //Gold Bot
     //Mod 0
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 109.1;
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 290.3;
     //Mod 1
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 253.9;
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 74.1;
     //Mod 2
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 111.5; 
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 290.4; 
     //Mod 3
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 27.2;
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 206.7;
 
     public static final boolean INVERT_GYRO = false; // Always ensure Gyro is CCW+ CW-
 

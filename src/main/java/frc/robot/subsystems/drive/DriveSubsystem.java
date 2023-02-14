@@ -183,10 +183,9 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public SequentialCommandGroup followTrajectoryCommand(PathPlannerTrajectory traj, boolean isFirstPath) {
-                
-        PIDController thetaController = new PIDController(0.1, 0, 0);
-        PIDController xController = new PIDController(1, 0, 0);
-        PIDController yController = new PIDController(1, 0, 0);
+        PIDController thetaController = new PIDController(1.2, 0, 0);
+        PIDController xController = new PIDController(1.0, 0, 0);
+        PIDController yController = new PIDController(1.0, 0, 0);
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
         return new SequentialCommandGroup(

@@ -20,8 +20,8 @@ public class GoToPositionWithIntermediate extends SequentialCommandGroup {
   /** Creates a new GoToPositionWithIntermediate. */
   public GoToPositionWithIntermediate(ArmSubsystem arm, Setpoint setpoint) {
 
-    Setpoint intermediateSetpoint = new Setpoint(ArmSetpoints.INTERMEDIATE_LOWER_POSITION, setpoint.m_upperCone * 0.5, setpoint.wristCone, 
-                                                ArmSetpoints.INTERMEDIATE_LOWER_POSITION, (setpoint.m_upperCube) * 0.5, setpoint.wristCube);
+    Setpoint intermediateSetpoint = new Setpoint(ArmSetpoints.INTERMEDIATE_LOWER_POSITION, setpoint.upperCone * 0.5, setpoint.wristCone, 
+                                                ArmSetpoints.INTERMEDIATE_LOWER_POSITION, (setpoint.upperCube) * 0.5, setpoint.wristCube);
     if(GamePiece.getGamePiece() == GamePieceType.Cone){
       addCommands(
         new InstantCommand(()-> arm.updateAllSetpoints(intermediateSetpoint)),

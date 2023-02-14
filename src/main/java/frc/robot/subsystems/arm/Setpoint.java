@@ -6,11 +6,11 @@ package frc.robot.subsystems.arm;
 
 /** Add your docs here. */
 public class Setpoint {
-    public double m_lowerCone;
-    public double m_upperCone;
+    public double lowerCone;
+    public double upperCone;
     public boolean wristCone;
-    public double m_lowerCube;
-    public double m_upperCube;
+    public double lowerCube;
+    public double upperCube;
     public boolean wristCube;
     /**
      * 
@@ -21,13 +21,13 @@ public class Setpoint {
      * @param m_upperCube
      * @param wristCube
      */
-    public Setpoint(double m_lowerCone, double m_upperCone, boolean wristCone, double m_lowerCube, double m_upperCube,
+    public Setpoint(double lowerCone, double upperCone, boolean wristCone, double lowerCube, double upperCube,
             boolean wristCube) {
-        this.m_lowerCone = m_lowerCone;
-        this.m_upperCone = m_upperCone;
+        this.lowerCone = lowerCone;
+        this.upperCone = upperCone;
         this.wristCone = wristCone;
-        this.m_lowerCube = m_lowerCube;
-        this.m_upperCube = m_upperCube;
+        this.lowerCube = lowerCube;
+        this.upperCube = upperCube;
         this.wristCube = wristCube;
     }
 }

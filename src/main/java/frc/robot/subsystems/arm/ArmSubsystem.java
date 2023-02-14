@@ -55,6 +55,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   private DJArmFeedforward m_doubleJointedFeedForwards = new DJArmFeedforward(joint_Lower, joint_Upper);
 
+  private Setpoint m_setpoint;
   private double m_upperSetpoint;
   private double m_lowerSetpoint;
   private boolean m_writstSetpoint;
@@ -190,17 +191,21 @@ public class ArmSubsystem extends SubsystemBase {
     else if(gamePiece == GamePieceType.Cube){
       m_claw.set(true);
     }
+    else if (gamePiece == GamePieceType.None){
+      m_claw.set(true);
+    }
   }
 
   public void updateAllSetpoints(Setpoint setpoint){
+    m_setpoint = setpoint;
     if(GamePiece.getGamePiece() == GamePieceType.Cone){
-      updateUpperSetpoint(setpoint.m_upperCone);
-      updateLowerSetpoint(setpoint.m_lowerCone);
+      updateUpperSetpoint(setpoint.upperCone);
+      updateLowerSetpoint(setpoint.lowerCone);
       updateWristSetpoint(setpoint.wristCone);
     }
     else if (GamePiece.getGamePiece() == GamePieceType.Cube){
-      updateUpperSetpoint(setpoint.m_upperCube);
-      updateLowerSetpoint(setpoint.m_lowerCube);
+      updateUpperSetpoint(setpoint.upperCube);
+      updateLowerSetpoint(setpoint.lowerCube);
       updateWristSetpoint(setpoint.wristCube);
     }
     updateClawSetpoint(GamePiece.getGamePiece());
@@ -249,6 +254,10 @@ public class ArmSubsystem extends SubsystemBase {
 
   public boolean getUpperAtSetpoint(){
     return m_controllerUpper.atGoal();
+  }
+
+  public Setpoint getSetpoint(){
+    return m_setpoint;
   }
 
   public boolean bothJointsAtSetpoint(){

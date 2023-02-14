@@ -15,9 +15,11 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 public class StowedWithIntermediete extends SequentialCommandGroup {
   /** Creates a new FloorPickUp. */
   public StowedWithIntermediete(ArmSubsystem arm, Setpoint setpoint) {
-    Setpoint intermediete = new Setpoint(setpoint.m_lowerCone, setpoint.m_upperCone + 20 , true, setpoint.m_lowerCube, setpoint.m_upperCube + 20, true);
+    Setpoint intermediete = new Setpoint(setpoint.lowerCone, setpoint.upperCone + 20 , true, 
+                                        setpoint.lowerCube, setpoint.upperCube + 20, true);
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
+    
     addCommands(
       new InstantCommand(()-> arm.updateAllSetpoints(intermediete)),
       new WaitCommand(1.0),

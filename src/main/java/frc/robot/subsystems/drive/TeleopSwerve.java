@@ -70,17 +70,17 @@ public class TeleopSwerve extends CommandBase {
 
         if(rotateWithButton){
             if(m_0.getAsBoolean()){
-                m_thetaController.setSetpoint(180.0);
+                m_thetaController.setSetpoint(0.0);
 
             }
             else if(m_90.getAsBoolean()){
-                m_thetaController.setSetpoint(-90.0);
+                m_thetaController.setSetpoint(90.0);
             }
             else if(m_180.getAsBoolean()){
-                m_thetaController.setSetpoint(0.0);
+                m_thetaController.setSetpoint(180.0);
             }
             else if(m_270.getAsBoolean()){
-                m_thetaController.setSetpoint(90.0);
+                m_thetaController.setSetpoint(-90.0);
             }
             rotationVal = m_thetaController.calculate(-(MathUtil.inputModulus(m_Swerve.getYaw().getDegrees(), -180, 180)), m_thetaController.getSetpoint());
             SmartDashboard.putNumber("RotationVal", rotationVal);
