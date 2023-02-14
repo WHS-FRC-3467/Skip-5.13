@@ -4,47 +4,80 @@
 
 package frc.robot.subsystems.arm;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmSetpoints;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class RetractToStowed extends SequentialCommandGroup {
-  /** Creates a new RetractToStowed. */
+public class RetractToStowed extends CommandBase {
+  ArmSubsystem arm;
+  Setpoint intermediate;
+  boolean m_end = false;
+
+  /** Creates a new RetractToStow. */
   public RetractToStowed(ArmSubsystem arm) {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
-    //Retracting from grid
-    // if(arm.getSetpoint().equals(ArmSetpoints.MID_NODE) || arm.getSetpoint().equals(ArmSetpoints.MID_NODE_PLACED) || arm.getSetpoint() == ArmSetpoints.TOP_NODE || arm.getSetpoint() == ArmSetpoints.TOP_NODE_PLACED){
-    //       Setpoint intermediateSetpoint = new Setpoint(ArmSetpoints.INTERMEDIATE_LOWER_POSITION, arm.getSetpoint().upperCone * 0.5, arm.getSetpoint().wristCone, 
-    //                                                   ArmSetpoints.INTERMEDIATE_LOWER_POSITION, arm.getSetpoint().lowerCube * 0.5, arm.getSetpoint().wristCube);
-    //       addCommands(
-    //         new InstantCommand(()-> arm.updateAllSetpoints(intermediateSetpoint)),
-    //         new WaitCommand(1.0),
-    //         new InstantCommand( ()-> arm.updateAllSetpoints(ArmSetpoints.STOWED)),
-    //         new WaitCommand(1.0)
-    //       );
-    // }
-    // //Retracting from floor
-    // else if (arm.getSetpoint() == ArmSetpoints.FLOOR){
-    //   Setpoint intermediete = new Setpoint(ArmSetpoints.STOWED.lowerCone, ArmSetpoints.STOWED.upperCone + 20 , true, 
-    //                                       ArmSetpoints.STOWED.lowerCube, ArmSetpoints.STOWED.upperCube + 20, true);
-    //   addCommands(
-    //         new InstantCommand( ()-> arm.updateAllSetpoints(intermediete)),
-    //         new WaitCommand(2.0),
-    //         new InstantCommand(()-> arm.updateAllSetpoints(ArmSetpoints.STOWED))
-    //   );
-    // }
-    // //Retracting from Substation 
-    // else if(arm.getSetpoint() == ArmSetpoints.SUBSTATION){
-    //   addCommands(new InstantCommand(()-> arm.updateAllSetpoints(ArmSetpoints.STOWED)));
-    // }
-    // //Other
-    // else{
-      addCommands(new InstantCommand(()-> arm.updateAllSetpoints(ArmSetpoints.STOWED)));
-    //}
+    this.arm = arm;
+    addRequirements(arm);
+  }
+
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+    // Retracting from grid
+    if (arm.getSetpoint().equals(ArmSetpoints.MID_NODE) ||
+        arm.getSetpoint().equals(ArmSetpoints.MID_NODE_PLACED) ||
+        arm.getSetpoint().equals(ArmSetpoints.TOP_NODE) ||
+        arm.getSetpoint().equals(ArmSetpoints.TOP_NODE_PLACED)) {
+
+      intermediate = new Setpoint(
+          ArmSetpoints.INTERMEDIATE_LOWER_POSITION,
+          arm.getSetpoint().upperCone * 0.5,
+          arm.getSetpoint().wristCone,
+          ArmSetpoints.INTERMEDIATE_LOWER_POSITION,
+          arm.getSetpoint().lowerCube * 0.5,
+          arm.getSetpoint().wristCube);
+
+      arm.updateAllSetpoints(intermediate);
+    }
+    // Retracting from floor
+    else if (arm.getSetpoint().equals(ArmSetpoints.FLOOR)) {
+      intermediate = new Setpoint(
+          ArmSetpoints.STOWED.lowerCone,
+          ArmSetpoints.STOWED.upperCone + 20,
+          true,
+          ArmSetpoints.STOWED.lowerCube,
+          ArmSetpoints.STOWED.upperCube + 20,
+          true);
+
+      arm.updateAllSetpoints(intermediate);
+    }
+    // No Intermediate - go directly to stow
+    else {
+      arm.updateAllSetpoints(ArmSetpoints.STOWED);
+    }
+  }
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    arm.runUpperProfiled();
+    arm.runLowerProfiled();
+    if (arm.bothJointsAtSetpoint() && !arm.getSetpoint().equals(ArmSetpoints.STOWED)) {
+      arm.updateAllSetpoints(ArmSetpoints.STOWED);
+    } else if (arm.bothJointsAtSetpoint() && arm.getSetpoint().equals(ArmSetpoints.STOWED)) {
+      m_end = true;
+    }
+  }
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+    if (interrupted) {
+      arm.setToCurrent();
+    }
+  }
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return m_end;
   }
 }

@@ -127,14 +127,16 @@ public class ArmSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Lower Setpoint", m_lowerSetpoint);
 
     SmartDashboard.putBoolean("Game Peice", GamePiece.getGamePiece() == GamePieceType.Cone);
-    
+
     if (Constants.tuningMode) {
       SmartDashboard.putBoolean("Upper at Setpoint", m_controllerUpper.atGoal());
       SmartDashboard.putBoolean("Lower at Setpoint", m_controllerLower.atGoal());
       SmartDashboard.putNumber("Lower Angle", getLowerJointDegrees());
       SmartDashboard.putNumber("Upper Angle", getUpperJointDegrees());
-      // SmartDashboard.putNumber("Upper FF", (calculateFeedforwards().get(1, 0) / 12.0));
-      // SmartDashboard.putNumber("Lower FF", (calculateFeedforwards().get(0, 0) / 12.0));
+      // SmartDashboard.putNumber("Upper FF", (calculateFeedforwards().get(1, 0) /
+      // 12.0));
+      // SmartDashboard.putNumber("Lower FF", (calculateFeedforwards().get(0, 0) /
+      // 12.0));
       SmartDashboard.putNumber("Lower Angle Uncorrected", dutyCycleToDegrees(getLowerJointPos()));
       SmartDashboard.putNumber("Upper Angle Uncorrected", dutyCycleToDegrees(getUpperJointPos()));
       SmartDashboard.putNumber("Lower Error", m_controllerLower.getPositionError());
@@ -154,6 +156,7 @@ public class ArmSubsystem extends SubsystemBase {
       SmartDashboard.clearPersistent("Lower Current");
     }
   }
+
   public void reset() {
     m_controllerUpper.reset(getUpperJointDegrees());
     m_controllerLower.reset(getLowerJointDegrees());
@@ -178,46 +181,42 @@ public class ArmSubsystem extends SubsystemBase {
     }
   }
 
-  public void updateWristSetpoint(boolean setpoint){
+  public void updateWristSetpoint(boolean setpoint) {
     m_writstSetpoint = setpoint;
     m_wrist.set(m_writstSetpoint);
   }
 
-  public void updateClawSetpoint(GamePiece.GamePieceType gamePiece){
-    if(gamePiece == GamePieceType.Cone){
+  public void updateClawSetpoint(GamePiece.GamePieceType gamePiece) {
+    if (gamePiece == GamePieceType.Cone) {
       m_claw.set(false);
     }
 
-    else if(gamePiece == GamePieceType.Cube){
+    else if (gamePiece == GamePieceType.Cube) {
       m_claw.set(true);
-    }
-    else if (gamePiece == GamePieceType.None){
+    } else if (gamePiece == GamePieceType.None) {
       m_claw.set(true);
     }
   }
 
-  public void updateAllSetpoints(Setpoint setpoint){
+  public void updateAllSetpoints(Setpoint setpoint) {
     m_setpoint = setpoint;
-    if(GamePiece.getGamePiece() == GamePieceType.Cone){
+    if (GamePiece.getGamePiece() == GamePieceType.Cone) {
       updateUpperSetpoint(setpoint.upperCone);
       updateLowerSetpoint(setpoint.lowerCone);
       updateWristSetpoint(setpoint.wristCone);
-    }
-    else if (GamePiece.getGamePiece() == GamePieceType.Cube){
+    } else if (GamePiece.getGamePiece() == GamePieceType.Cube) {
       updateUpperSetpoint(setpoint.upperCube);
       updateLowerSetpoint(setpoint.lowerCube);
       updateWristSetpoint(setpoint.wristCube);
     }
     updateClawSetpoint(GamePiece.getGamePiece());
   }
-  
-
 
   public Vector<N2> calculateFeedforwards() {
-                                                //Setpoint -
-    Vector<N2> positionVector = VecBuilder.fill(Math.toRadians(m_lowerSetpoint + (180)), 
-                                                //Setpoint + 90 - So horizantal is 0 
-                                                Math.toRadians(m_upperSetpoint + (180))); 
+    // Setpoint -
+    Vector<N2> positionVector = VecBuilder.fill(Math.toRadians(m_lowerSetpoint + (180)),
+        // Setpoint + 90 - So horizantal is 0
+        Math.toRadians(m_upperSetpoint + (180)));
 
     Vector<N2> velocityVector = VecBuilder.fill(0.0, 0.0);
     Vector<N2> accelVector = VecBuilder.fill(0.0, 0.0);
@@ -248,20 +247,21 @@ public class ArmSubsystem extends SubsystemBase {
     m_upperSetpoint = getUpperJointDegrees();
   }
 
-  public boolean getLowerAtSetpoint(){
+  public boolean getLowerAtSetpoint() {
     return m_controllerLower.atGoal();
   }
 
-  public boolean getUpperAtSetpoint(){
+  public boolean getUpperAtSetpoint() {
     return m_controllerUpper.atGoal();
   }
 
-  public Setpoint getSetpoint(){
+  public Setpoint getSetpoint() {
     return m_setpoint;
   }
 
-  public boolean bothJointsAtSetpoint(){
-    return getLowerAtSetpoint() && getUpperAtSetpoint();
+  public boolean bothJointsAtSetpoint() {
+    return Math.abs(m_controllerUpper.getPositionError()) < ArmConstants.TOLERANCE_POS &&
+        Math.abs(m_controllerLower.getPositionError()) < ArmConstants.TOLERANCE_POS;
   }
 
   public void setPercentOutputUpper(double speed) {
@@ -305,18 +305,19 @@ public class ArmSubsystem extends SubsystemBase {
     return dutyCyclePos * 360;
   }
 
-  public void actuateWristUp(){
+  public void actuateWristUp() {
     m_wrist.set(true);
   }
-  public void actuateWristDown(){
+
+  public void actuateWristDown() {
     m_wrist.set(false);
   }
 
-  public void actuateClawIn(){
+  public void actuateClawIn() {
     m_claw.set(false);
   }
 
-  public void actuateClawOut(){
+  public void actuateClawOut() {
     m_claw.set(true);
   }
 }
