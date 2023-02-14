@@ -68,6 +68,7 @@ public class RobotContainer {
     m_autoChooser.addOption("Test Auto", new TestAuto(m_drive));
     m_autoChooser.addOption("OneConeFar", new OneConeFar(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("OneConeWithCharge", new OneConeWithCharge(m_drive, m_arm, m_claw));
+    m_autoChooser.addOption("No Auto", null);
     SmartDashboard.putData("Auto", m_autoChooser);
     
     //new Pneumatics();

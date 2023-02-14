@@ -8,6 +8,7 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -24,7 +25,7 @@ public class TeleopSwerve extends CommandBase {
     private double rotationVal, xVal, yVal;
     double m_angle = 0d;
     private PIDController m_thetaController;
-    ;
+    private SendableChooser<Double> m_speedChooser;
   
     /**
      * 
@@ -58,34 +59,43 @@ public class TeleopSwerve extends CommandBase {
         m_thetaController = new PIDController(SwerveConstants.GAINS_ANGLE_SNAP.kP, SwerveConstants.GAINS_ANGLE_SNAP.kI, SwerveConstants.GAINS_ANGLE_SNAP.kD);
         
         m_thetaController.enableContinuousInput(-180, 180);
+        m_speedChooser = new SendableChooser<Double>();
+        m_speedChooser.addOption("100%", 1.0);
+        m_speedChooser.addOption("90%", 0.9);
+        m_speedChooser.setDefaultOption("80%", 0.8);
+        m_speedChooser.addOption("70%", 0.7);
+        m_speedChooser.addOption("60%", 0.6);
+        SmartDashboard.putData("Speed Percent", m_speedChooser);
     }
+
     @Override
     public void execute() {
+
         SmartDashboard.putNumber("gyro Yaw", m_Swerve.getYaw().getDegrees());
         /* Get Values, Deadband*/
         boolean rotateWithButton = m_0.getAsBoolean() || m_90.getAsBoolean() || m_180.getAsBoolean() || m_270.getAsBoolean();
-        xVal = MathUtil.applyDeadband(xSup.getAsDouble(), SwerveConstants.DRIVE_DEADBAND);
-        yVal = MathUtil.applyDeadband(ySup.getAsDouble(), SwerveConstants.DRIVE_DEADBAND);
+        xVal = MathUtil.applyDeadband(xSup.getAsDouble() * m_speedChooser.getSelected() , SwerveConstants.DRIVE_DEADBAND);
+        yVal = MathUtil.applyDeadband(ySup.getAsDouble() * m_speedChooser.getSelected(), SwerveConstants.DRIVE_DEADBAND);
         SmartDashboard.putBoolean("rotate with button", rotateWithButton);
-
+        
         if(rotateWithButton){
             if(m_0.getAsBoolean()){
                 m_thetaController.setSetpoint(0.0);
 
             }
             else if(m_90.getAsBoolean()){
-                m_thetaController.setSetpoint(90.0);
+                m_thetaController.setSetpoint(-90.0);
             }
             else if(m_180.getAsBoolean()){
                 m_thetaController.setSetpoint(180.0);
             }
             else if(m_270.getAsBoolean()){
-                m_thetaController.setSetpoint(-90.0);
+                m_thetaController.setSetpoint(90.0);
             }
-            rotationVal = m_thetaController.calculate(-(MathUtil.inputModulus(m_Swerve.getYaw().getDegrees(), -180, 180)), m_thetaController.getSetpoint());
+            rotationVal = m_thetaController.calculate((MathUtil.inputModulus(m_Swerve.getYaw().getDegrees(), -180, 180)), m_thetaController.getSetpoint());
+            rotationVal = MathUtil.clamp(rotationVal, -SwerveConstants.MAX_ANGULAR_VELOCITY * 0.5, SwerveConstants.MAX_ANGULAR_VELOCITY * 0.5);
             SmartDashboard.putNumber("RotationVal", rotationVal);
             SmartDashboard.putNumber("Theta Controller setpoint", m_thetaController.getSetpoint());
-            SmartDashboard.putNumber("Yaw", m_Swerve.getYaw().getDegrees() % 180.0);
         }
         else if (!rotateWithButton){
             rotationVal = MathUtil.applyDeadband(rotationSup.getAsDouble(), SwerveConstants.DRIVE_DEADBAND);

@@ -203,7 +203,7 @@ public class DriveSubsystem extends SubsystemBase {
                  yController, // Y controller (usually the same values as X controller)
                  thetaController, // Rotation controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
                  this::setModuleStates,  // Module states consumer
-                 true, 
+                 false, //Automatic mirroring
                  this // Requires this drive subsystem
              ) 
              .andThen(() -> stopDrive())

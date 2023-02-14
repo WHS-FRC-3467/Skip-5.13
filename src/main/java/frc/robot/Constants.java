@@ -193,7 +193,7 @@ public final class Constants {
             new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
     }
 
-    public static final Gains GAINS_ANGLE_SNAP = new Gains(0.015, 0.0, 0.0, 0.0, 50);
+    public static final Gains GAINS_ANGLE_SNAP = new Gains(0.02, 0.0, 0.0, 0.0, 50);
     
     public static final Gains GAINS_BALANCE = new Gains(0.025, 0.0, 0.0, 0.0, 50);
 
