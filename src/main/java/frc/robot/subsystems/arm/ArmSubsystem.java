@@ -337,45 +337,4 @@ public class ArmSubsystem extends SubsystemBase {
   public boolean isJoyMode() {
     return inJoyMode;
   }
-
-  public SequentialCommandGroup RetractToStowed() {
-    //Add your commands in the addCommands() call, e.g.
-    //Retracting from grid
-   
-    if(getSetpoint().state.equals(ArmState.MID_NODE) || 
-      getSetpoint().state.equals(ArmState.MID_NODE_PLACED) || 
-      getSetpoint().state.equals(ArmState.TOP_NODE) || 
-      getSetpoint().state.equals(ArmState.TOP_NODE_PLACED)){
-
-        Setpoint intermediateSetpoint = new Setpoint(ArmSetpoints.INTERMEDIATE_LOWER_POSITION, getSetpoint().upperCone * 0.5, getSetpoint().wristCone, 
-                                                    ArmSetpoints.INTERMEDIATE_LOWER_POSITION, getSetpoint().lowerCube * 0.5, getSetpoint().wristCube, 
-                                                    ArmState.INTERMEDIATE);
-        return new SequentialCommandGroup(
-          new InstantCommand(()-> updateAllSetpoints(intermediateSetpoint)),
-          new WaitCommand(1.0),
-          new InstantCommand( ()-> updateAllSetpoints(ArmSetpoints.STOWED)),
-          new WaitCommand(1.0)
-        );
-    }
-    //Retracting from floor
-    else if (getSetpoint().state.equals(ArmState.FLOOR)){
-      Setpoint intermediete = new Setpoint(ArmSetpoints.STOWED.lowerCone, ArmSetpoints.STOWED.upperCone + 20 , true, 
-                                          ArmSetpoints.STOWED.lowerCube, ArmSetpoints.STOWED.upperCube + 20, true,
-                                          ArmState.INTERMEDIATE);
-      return new SequentialCommandGroup(
-            new InstantCommand( ()-> updateAllSetpoints(intermediete)),
-            new WaitCommand(2.0),
-            new InstantCommand(()-> updateAllSetpoints(ArmSetpoints.STOWED))
-      );
-    }
-    //Retracting from Substation 
-    else if(getSetpoint().state.equals(ArmState.SUBSTATION)){
-      return new SequentialCommandGroup(new InstantCommand(()-> updateAllSetpoints(ArmSetpoints.STOWED)));
-    }
-    //Other
-    else{
-      return new SequentialCommandGroup(new InstantCommand(()-> updateAllSetpoints(ArmSetpoints.STOWED)));
-    }
-  }
-
 }
