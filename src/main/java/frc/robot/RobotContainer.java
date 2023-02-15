@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -120,7 +119,6 @@ public class RobotContainer {
 
     //Set arm positions
     m_operatorController.rightBumper().onTrue(new RetractToStowed(m_arm));
-    // m_operatorController.leftBumper().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.STOWED)));
 
     m_operatorController.a().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.FLOOR)));
 
@@ -130,16 +128,6 @@ public class RobotContainer {
 
     m_operatorController.x().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.SUBSTATION)));
 
-    // m_operatorController.povRight().onTrue(new RetractFromGrid(m_arm, ArmSetpoints.MID_NODE_PLACED));
-
-    // m_operatorController.povUp().onTrue(new RetractFromGrid(m_arm, ArmSetpoints.TOP_NODE_PLACED));
-
-    //Manually set claw
-    // m_operatorController.povUp().onTrue(Commands.runOnce(m_arm::actuateWristUp, m_arm));
-    // m_operatorController.povDown().onTrue(Commands.runOnce(m_arm::actuateWristDown, m_arm));
-    
-    // m_operatorController.povRight().onTrue(Commands.runOnce(m_arm::actuateClawIn, m_arm));
-    // m_operatorController.povLeft().onTrue(Commands.runOnce(m_arm::actuateClawOut, m_arm));
   }
 
  
