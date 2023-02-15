@@ -215,7 +215,6 @@ public final class Constants {
     public static final  Gains GAINS_LOWER_JOINT  = new Gains(0.02, 0.0, 0.00, 0.00, 50);
     
     //PID Tollerance in Degrees
-    public static final double TOLERANCE_VEL = 1.0;
     public static final double TOLERANCE_POS = 10.0;
 
     //Upper joint Config
