@@ -21,12 +21,17 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.ArmSetpoints;
 import frc.robot.Constants.CanConstants;
 import frc.robot.Constants.DIOConstants;
 import frc.robot.Constants.PHConstants;
+import frc.robot.subsystems.arm.Setpoint.ArmState;
 import frc.robot.util.GamePiece;
 import frc.robot.util.GamePiece.GamePieceType;
 
@@ -117,6 +122,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     m_controllerLower.setTolerance(ArmConstants.TOLERANCE_POS, ArmConstants.TOLERANCE_VEL);
     m_controllerUpper.setTolerance(ArmConstants.TOLERANCE_POS, ArmConstants.TOLERANCE_VEL);
+    m_setpoint = new Setpoint(m_lowerSetpoint, m_upperSetpoint, false, m_lowerSetpoint, m_upperSetpoint, false, ArmState.OTHER);
   }
 
   @Override
@@ -231,8 +237,8 @@ public class ArmSubsystem extends SubsystemBase {
     m_controllerUpper.setGoal(new TrapezoidProfile.State(m_upperSetpoint, 0.0));
     double pidOutput = -m_controllerUpper.calculate(getUpperJointDegrees());
     double ff = -(calculateFeedforwards().get(1, 0)) / 12.0;
-    System.out.println("upper ff" + (ff));
-    System.out.println("Upper PID" + pidOutput);
+    // System.out.println("upper ff" + (ff));
+    // System.out.println("Upper PID" + pidOutput);
     m_upperJoint.set(TalonFXControlMode.PercentOutput, pidOutput); // may need to negate ff voltage to get desired output
   }
 
@@ -241,8 +247,8 @@ public class ArmSubsystem extends SubsystemBase {
     m_controllerLower.setGoal(new TrapezoidProfile.State(m_lowerSetpoint, 0.0));
     double pidOutput = -m_controllerLower.calculate(getLowerJointDegrees());
     double ff = -(calculateFeedforwards().get(0, 0)) / 12.0;
-    System.out.println("lower ff" + (ff));
-    System.out.println("Lower PID" + pidOutput);
+    // System.out.println("lower ff" + (ff));
+    // System.out.println("Lower PID" + pidOutput);
     m_lowerJoint.set(TalonFXControlMode.PercentOutput, pidOutput); // may need to negate ff voltage to get desired output
   }
 
@@ -331,4 +337,45 @@ public class ArmSubsystem extends SubsystemBase {
   public boolean isJoyMode() {
     return inJoyMode;
   }
+
+  public SequentialCommandGroup RetractToStowed() {
+    //Add your commands in the addCommands() call, e.g.
+    //Retracting from grid
+   
+    if(getSetpoint().state.equals(ArmState.MID_NODE) || 
+      getSetpoint().state.equals(ArmState.MID_NODE_PLACED) || 
+      getSetpoint().state.equals(ArmState.TOP_NODE) || 
+      getSetpoint().state.equals(ArmState.TOP_NODE_PLACED)){
+
+        Setpoint intermediateSetpoint = new Setpoint(ArmSetpoints.INTERMEDIATE_LOWER_POSITION, getSetpoint().upperCone * 0.5, getSetpoint().wristCone, 
+                                                    ArmSetpoints.INTERMEDIATE_LOWER_POSITION, getSetpoint().lowerCube * 0.5, getSetpoint().wristCube, 
+                                                    ArmState.INTERMEDIATE);
+        return new SequentialCommandGroup(
+          new InstantCommand(()-> updateAllSetpoints(intermediateSetpoint)),
+          new WaitCommand(1.0),
+          new InstantCommand( ()-> updateAllSetpoints(ArmSetpoints.STOWED)),
+          new WaitCommand(1.0)
+        );
+    }
+    //Retracting from floor
+    else if (getSetpoint().state.equals(ArmState.FLOOR)){
+      Setpoint intermediete = new Setpoint(ArmSetpoints.STOWED.lowerCone, ArmSetpoints.STOWED.upperCone + 20 , true, 
+                                          ArmSetpoints.STOWED.lowerCube, ArmSetpoints.STOWED.upperCube + 20, true,
+                                          ArmState.INTERMEDIATE);
+      return new SequentialCommandGroup(
+            new InstantCommand( ()-> updateAllSetpoints(intermediete)),
+            new WaitCommand(2.0),
+            new InstantCommand(()-> updateAllSetpoints(ArmSetpoints.STOWED))
+      );
+    }
+    //Retracting from Substation 
+    else if(getSetpoint().state.equals(ArmState.SUBSTATION)){
+      return new SequentialCommandGroup(new InstantCommand(()-> updateAllSetpoints(ArmSetpoints.STOWED)));
+    }
+    //Other
+    else{
+      return new SequentialCommandGroup(new InstantCommand(()-> updateAllSetpoints(ArmSetpoints.STOWED)));
+    }
+  }
+
 }

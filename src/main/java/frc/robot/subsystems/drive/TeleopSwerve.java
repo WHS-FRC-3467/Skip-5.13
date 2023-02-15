@@ -81,7 +81,6 @@ public class TeleopSwerve extends CommandBase {
         if(rotateWithButton){
             if(m_0.getAsBoolean()){
                 m_thetaController.setSetpoint(0.0);
-
             }
             else if(m_90.getAsBoolean()){
                 m_thetaController.setSetpoint(-90.0);

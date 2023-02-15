@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 // import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
 import frc.robot.Constants.ArmSetpoints;
+import frc.robot.subsystems.arm.Setpoint.ArmState;
 import frc.robot.util.GamePiece;
 import frc.robot.util.GamePiece.GamePieceType;
 
@@ -21,7 +22,7 @@ public class GoToPositionWithIntermediate extends SequentialCommandGroup {
   public GoToPositionWithIntermediate(ArmSubsystem arm, Setpoint setpoint) {
 
     Setpoint intermediateSetpoint = new Setpoint(ArmSetpoints.INTERMEDIATE_LOWER_POSITION, setpoint.upperCone * 0.5, setpoint.wristCone, 
-                                                ArmSetpoints.INTERMEDIATE_LOWER_POSITION, (setpoint.upperCube) * 0.5, setpoint.wristCube);
+                                                ArmSetpoints.INTERMEDIATE_LOWER_POSITION, (setpoint.upperCube) * 0.5, setpoint.wristCube, ArmState.INTERMEDIATE);
     if(GamePiece.getGamePiece() == GamePieceType.Cone){
       addCommands(
         new InstantCommand(()-> arm.updateAllSetpoints(intermediateSetpoint)),

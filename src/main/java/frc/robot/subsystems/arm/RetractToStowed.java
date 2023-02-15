@@ -6,6 +6,7 @@ package frc.robot.subsystems.arm;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmSetpoints;
+import frc.robot.subsystems.arm.Setpoint.ArmState;
 
 public class RetractToStowed extends CommandBase {
   ArmSubsystem arm;
@@ -22,13 +23,10 @@ public class RetractToStowed extends CommandBase {
   @Override
   public void initialize() {
     // Retracting from grid
-    if (arm.getSetpoint() == null) {
-      arm.updateAllSetpoints(ArmSetpoints.STOWED);
-      m_end = true;
-    } else if (arm.getSetpoint().equals(ArmSetpoints.MID_NODE) ||
-        arm.getSetpoint().equals(ArmSetpoints.MID_NODE_PLACED) ||
-        arm.getSetpoint().equals(ArmSetpoints.TOP_NODE) ||
-        arm.getSetpoint().equals(ArmSetpoints.TOP_NODE_PLACED)) {
+    if (arm.getSetpoint().state.equals(ArmState.MID_NODE) || 
+                arm.getSetpoint().state.equals(ArmState.MID_NODE_PLACED) || 
+                arm.getSetpoint().state.equals(ArmState.TOP_NODE) || 
+                arm.getSetpoint().state.equals(ArmState.TOP_NODE_PLACED)) {
 
       intermediate = new Setpoint(
           ArmSetpoints.INTERMEDIATE_LOWER_POSITION,
@@ -36,12 +34,13 @@ public class RetractToStowed extends CommandBase {
           arm.getSetpoint().wristCone,
           ArmSetpoints.INTERMEDIATE_LOWER_POSITION,
           arm.getSetpoint().lowerCube * 0.5,
-          arm.getSetpoint().wristCube);
+          arm.getSetpoint().wristCube,
+          ArmState.INTERMEDIATE);
 
       arm.updateAllSetpoints(intermediate);
     }
     // Retracting from floor
-    else if (arm.getSetpoint().equals(ArmSetpoints.FLOOR)) {
+    else if (arm.getSetpoint().state.equals(ArmState.MID_NODE)) {
 
       intermediate = new Setpoint(
           ArmSetpoints.STOWED.lowerCone,
@@ -49,7 +48,8 @@ public class RetractToStowed extends CommandBase {
           true,
           ArmSetpoints.STOWED.lowerCube,
           ArmSetpoints.STOWED.upperCube + 20,
-          true);
+          true,
+          ArmState.INTERMEDIATE);
 
       arm.updateAllSetpoints(intermediate);
     }
@@ -64,11 +64,11 @@ public class RetractToStowed extends CommandBase {
   @Override
   public void execute() {
     if (arm.getSetpoint() == null 
-        || (!arm.getSetpoint().equals(ArmSetpoints.STOWED) && !arm.getSetpoint().equals(intermediate))
+        || (!arm.getSetpoint().state.equals(ArmState.STOWED) && !arm.getSetpoint().state.equals(ArmState.INTERMEDIATE))
         || arm.isJoyMode()) { // if joymode is entered or another setpoint is set, stop
-      m_end = true;
+      m_end = false;
     }     
-    else if (arm.bothJointsAtSetpoint() && !arm.getSetpoint().equals(ArmSetpoints.STOWED)) {
+    else if (arm.bothJointsAtSetpoint() && !arm.getSetpoint().state.equals(ArmState.STOWED)) {
       arm.updateAllSetpoints(ArmSetpoints.STOWED);
       m_end = true;
     }  

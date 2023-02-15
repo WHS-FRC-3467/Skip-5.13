@@ -8,6 +8,7 @@ package frc.robot.subsystems.arm;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.subsystems.arm.Setpoint.ArmState;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -16,7 +17,7 @@ public class StowedWithIntermediete extends SequentialCommandGroup {
   /** Creates a new FloorPickUp. */
   public StowedWithIntermediete(ArmSubsystem arm, Setpoint setpoint) {
     Setpoint intermediete = new Setpoint(setpoint.lowerCone, setpoint.upperCone + 20 , true, 
-                                        setpoint.lowerCube, setpoint.upperCube + 20, true);
+                                        setpoint.lowerCube, setpoint.upperCube + 20, true, ArmState.OTHER);
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     

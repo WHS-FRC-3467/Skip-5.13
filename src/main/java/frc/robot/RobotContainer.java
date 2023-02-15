@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -72,8 +73,8 @@ public class RobotContainer {
     //new Pneumatics();
     configureBindings();
     m_drive.setDefaultCommand(new TeleopSwerve(m_drive, 
-                                              () -> m_driverController.getLeftY(), 
-                                              () -> m_driverController.getLeftX(), 
+                                              () -> -m_driverController.getLeftY(), 
+                                              () -> -m_driverController.getLeftX(), 
                                               () -> -m_driverController.getRightX(), 
                                               m_driverController.leftStick(),
                                               m_driverController.leftBumper(),
