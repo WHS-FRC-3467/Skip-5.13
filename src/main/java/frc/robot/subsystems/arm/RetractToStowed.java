@@ -66,14 +66,15 @@ public class RetractToStowed extends CommandBase {
     
     if (!arm.getSetpoint().state.equals(ArmState.STOWED) && !arm.getSetpoint().state.equals(ArmState.INTERMEDIATE)) 
     { 
-          // if joymode is entered or another setpoint is set, stop
-          arm.updateAllSetpoints(intermediate);
+        // if joymode is entered or another setpoint is set, stop
+        arm.updateAllSetpoints(intermediate);
          m_end = false;
     }     
     else if (arm.bothJointsAtSetpoint() && !arm.getSetpoint().state.equals(ArmState.STOWED) && count>50) {
-      arm.updateAllSetpoints(ArmSetpoints.STOWED);
-      m_end = true;
+        arm.updateAllSetpoints(ArmSetpoints.STOWED);
+        m_end = true;
     }  
+    System.out.println("end retract " + m_end);
     count++;
   }
 

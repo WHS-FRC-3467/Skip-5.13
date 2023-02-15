@@ -131,8 +131,8 @@ public class ArmSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("Game Peice", GamePiece.getGamePiece() == GamePieceType.Cone);
 
     if (Constants.tuningMode) {
-      SmartDashboard.putBoolean("Upper at Setpoint", m_controllerUpper.atGoal());
-      SmartDashboard.putBoolean("Lower at Setpoint", m_controllerLower.atGoal());
+      SmartDashboard.putBoolean("Upper at Setpoint", getUpperAtSetpoint());
+      SmartDashboard.putBoolean("Lower at Setpoint", getLowerAtSetpoint());
       SmartDashboard.putNumber("Lower Angle", getLowerJointDegrees());
       SmartDashboard.putNumber("Upper Angle", getUpperJointDegrees());
       // SmartDashboard.putNumber("Upper FF", (calculateFeedforwards().get(1, 0) /
