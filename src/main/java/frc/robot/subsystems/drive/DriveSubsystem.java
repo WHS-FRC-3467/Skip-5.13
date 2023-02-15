@@ -22,6 +22,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -187,12 +188,13 @@ public class DriveSubsystem extends SubsystemBase {
         PIDController xController = new PIDController(1.0, 0, 0);
         PIDController yController = new PIDController(1.0, 0, 0);
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
-
+        
+        PathPlannerTrajectory.transformTrajectoryForAlliance(traj, DriverStation.getAlliance());
         return new SequentialCommandGroup(
              new InstantCommand(() -> {
                // Reset odometry for the first path you run during auto
                if(isFirstPath){
-                   resetOdometry(traj.getInitialHolonomicPose());
+                    resetOdometry(traj.getInitialHolonomicPose());
                }
              }),
              new PPSwerveControllerCommand(
