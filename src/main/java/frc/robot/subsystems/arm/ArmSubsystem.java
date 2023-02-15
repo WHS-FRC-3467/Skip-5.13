@@ -27,6 +27,7 @@ import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.CanConstants;
 import frc.robot.Constants.DIOConstants;
 import frc.robot.Constants.PHConstants;
+import frc.robot.subsystems.arm.Setpoint.ArmState;
 import frc.robot.util.GamePiece;
 import frc.robot.util.GamePiece.GamePieceType;
 
@@ -59,6 +60,8 @@ public class ArmSubsystem extends SubsystemBase {
   private double m_upperSetpoint;
   private double m_lowerSetpoint;
   private boolean m_writstSetpoint;
+
+  private boolean inJoyMode = false;
 
   private Solenoid m_wrist = new Solenoid(PneumaticsModuleType.REVPH, PHConstants.WRIST_CHANNEL);
   private Solenoid m_claw = new Solenoid(PneumaticsModuleType.REVPH, PHConstants.CLAW_CHANNEL);
@@ -113,8 +116,7 @@ public class ArmSubsystem extends SubsystemBase {
     m_lowerJoint.configForwardSoftLimitThreshold(ArmConstants.FORWARD_SOFT_LIMIT_LOWER, ArmConstants.TIMEOUT);
     m_lowerJoint.configReverseSoftLimitThreshold(ArmConstants.REVERSE_SOFT_LIMIT_LOWER, ArmConstants.TIMEOUT);
 
-    m_controllerLower.setTolerance(ArmConstants.TOLERANCE_POS, ArmConstants.TOLERANCE_VEL);
-    m_controllerUpper.setTolerance(ArmConstants.TOLERANCE_POS, ArmConstants.TOLERANCE_VEL);
+    m_setpoint = new Setpoint(m_lowerSetpoint, m_upperSetpoint, false, m_lowerSetpoint, m_upperSetpoint, false, ArmState.OTHER);
   }
 
   @Override
@@ -127,20 +129,20 @@ public class ArmSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Lower Setpoint", m_lowerSetpoint);
 
     SmartDashboard.putBoolean("Game Peice", GamePiece.getGamePiece() == GamePieceType.Cone);
-    
+
     if (Constants.tuningMode) {
-      SmartDashboard.putBoolean("Upper at Setpoint", m_controllerUpper.atGoal());
-      SmartDashboard.putBoolean("Lower at Setpoint", m_controllerLower.atGoal());
+      SmartDashboard.putBoolean("Upper at Setpoint", getUpperAtSetpoint());
+      SmartDashboard.putBoolean("Lower at Setpoint", getLowerAtSetpoint());
       SmartDashboard.putNumber("Lower Angle", getLowerJointDegrees());
       SmartDashboard.putNumber("Upper Angle", getUpperJointDegrees());
-      // SmartDashboard.putNumber("Upper FF", (calculateFeedforwards().get(1, 0) / 12.0));
-      // SmartDashboard.putNumber("Lower FF", (calculateFeedforwards().get(0, 0) / 12.0));
+      // SmartDashboard.putNumber("Upper FF", (calculateFeedforwards().get(1, 0) /
+      // 12.0));
+      // SmartDashboard.putNumber("Lower FF", (calculateFeedforwards().get(0, 0) /
+      // 12.0));
       SmartDashboard.putNumber("Lower Angle Uncorrected", dutyCycleToDegrees(getLowerJointPos()));
       SmartDashboard.putNumber("Upper Angle Uncorrected", dutyCycleToDegrees(getUpperJointPos()));
-      SmartDashboard.putNumber("Lower Error", m_controllerLower.getPositionError());
-      SmartDashboard.putNumber("Upper Error", m_controllerUpper.getPositionError());
-      SmartDashboard.putNumber("Lower VEL Error", m_controllerLower.getVelocityError());
-      SmartDashboard.putNumber("Upper VEL Error", m_controllerUpper.getVelocityError());
+      SmartDashboard.putNumber("Lower Error", getLowerError());
+      SmartDashboard.putNumber("Upper Error", getUpperError());
       SmartDashboard.putNumber("Lower Velocity Setpoint", m_controllerLower.getSetpoint().velocity);
       SmartDashboard.putNumber("Upper Velocity Setpoint", m_controllerUpper.getSetpoint().velocity);
     } else {
@@ -154,6 +156,7 @@ public class ArmSubsystem extends SubsystemBase {
       SmartDashboard.clearPersistent("Lower Current");
     }
   }
+
   public void reset() {
     m_controllerUpper.reset(getUpperJointDegrees());
     m_controllerLower.reset(getLowerJointDegrees());
@@ -178,46 +181,42 @@ public class ArmSubsystem extends SubsystemBase {
     }
   }
 
-  public void updateWristSetpoint(boolean setpoint){
+  public void updateWristSetpoint(boolean setpoint) {
     m_writstSetpoint = setpoint;
     m_wrist.set(m_writstSetpoint);
   }
 
-  public void updateClawSetpoint(GamePiece.GamePieceType gamePiece){
-    if(gamePiece == GamePieceType.Cone){
+  public void updateClawSetpoint(GamePiece.GamePieceType gamePiece) {
+    if (gamePiece == GamePieceType.Cone) {
       m_claw.set(false);
     }
 
-    else if(gamePiece == GamePieceType.Cube){
+    else if (gamePiece == GamePieceType.Cube) {
       m_claw.set(true);
-    }
-    else if (gamePiece == GamePieceType.None){
+    } else if (gamePiece == GamePieceType.None) {
       m_claw.set(true);
     }
   }
 
-  public void updateAllSetpoints(Setpoint setpoint){
+  public void updateAllSetpoints(Setpoint setpoint) {
     m_setpoint = setpoint;
-    if(GamePiece.getGamePiece() == GamePieceType.Cone){
+    if (GamePiece.getGamePiece() == GamePieceType.Cone) {
       updateUpperSetpoint(setpoint.upperCone);
       updateLowerSetpoint(setpoint.lowerCone);
       updateWristSetpoint(setpoint.wristCone);
-    }
-    else if (GamePiece.getGamePiece() == GamePieceType.Cube){
+    } else if (GamePiece.getGamePiece() == GamePieceType.Cube) {
       updateUpperSetpoint(setpoint.upperCube);
       updateLowerSetpoint(setpoint.lowerCube);
       updateWristSetpoint(setpoint.wristCube);
     }
     updateClawSetpoint(GamePiece.getGamePiece());
   }
-  
-
 
   public Vector<N2> calculateFeedforwards() {
-                                                //Setpoint -
-    Vector<N2> positionVector = VecBuilder.fill(Math.toRadians(m_lowerSetpoint + (180)), 
-                                                //Setpoint + 90 - So horizantal is 0 
-                                                Math.toRadians(m_upperSetpoint + (180))); 
+    // Setpoint -
+    Vector<N2> positionVector = VecBuilder.fill(Math.toRadians(m_lowerSetpoint + (180)),
+        // Setpoint + 90 - So horizantal is 0
+        Math.toRadians(m_upperSetpoint + (180)));
 
     Vector<N2> velocityVector = VecBuilder.fill(0.0, 0.0);
     Vector<N2> accelVector = VecBuilder.fill(0.0, 0.0);
@@ -226,49 +225,62 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void runUpperProfiled() {
+    inJoyMode = false;
     m_controllerUpper.setGoal(new TrapezoidProfile.State(m_upperSetpoint, 0.0));
     double pidOutput = -m_controllerUpper.calculate(getUpperJointDegrees());
     double ff = -(calculateFeedforwards().get(1, 0)) / 12.0;
-    System.out.println("upper ff" + (ff));
-    System.out.println("Upper PID" + pidOutput);
-    setPercentOutputUpper(pidOutput); // may need to negate ff voltage to get desired output
+    // System.out.println("upper ff" + (ff));
+    // System.out.println("Upper PID" + pidOutput);
+    m_upperJoint.set(TalonFXControlMode.PercentOutput, pidOutput); // may need to negate ff voltage to get desired output
   }
 
   public void runLowerProfiled() {
+    inJoyMode = false;
     m_controllerLower.setGoal(new TrapezoidProfile.State(m_lowerSetpoint, 0.0));
     double pidOutput = -m_controllerLower.calculate(getLowerJointDegrees());
     double ff = -(calculateFeedforwards().get(0, 0)) / 12.0;
-    System.out.println("lower ff" + (ff));
-    System.out.println("Lower PID" + pidOutput);
-    setPercentOutputLower(pidOutput); // may need to negate ff voltage to get desired output
+    // System.out.println("lower ff" + (ff));
+    // System.out.println("Lower PID" + pidOutput);
+    m_lowerJoint.set(TalonFXControlMode.PercentOutput, pidOutput); // may need to negate ff voltage to get desired output
   }
 
   public void setToCurrent() {
+    m_setpoint = null;
     m_lowerSetpoint = getLowerJointDegrees();
     m_upperSetpoint = getUpperJointDegrees();
   }
-
-  public boolean getLowerAtSetpoint(){
-    return m_controllerLower.atGoal();
+  
+  public double getLowerError(){
+    return Math.abs(m_lowerSetpoint - getLowerJointDegrees());
+  }
+  public double getUpperError(){
+    return Math.abs(m_upperSetpoint - getUpperJointDegrees());
   }
 
-  public boolean getUpperAtSetpoint(){
-    return m_controllerUpper.atGoal();
+  public boolean getLowerAtSetpoint() {
+    return getLowerError()< ArmConstants.TOLERANCE_POS;
   }
 
-  public Setpoint getSetpoint(){
+  public boolean getUpperAtSetpoint() {
+    return getUpperError() < ArmConstants.TOLERANCE_POS;
+  }
+
+
+  public boolean bothJointsAtSetpoint() {
+    return getUpperAtSetpoint() && getLowerAtSetpoint();
+  }
+  
+  public Setpoint getSetpoint() {
     return m_setpoint;
   }
 
-  public boolean bothJointsAtSetpoint(){
-    return getLowerAtSetpoint() && getUpperAtSetpoint();
-  }
-
   public void setPercentOutputUpper(double speed) {
+    inJoyMode = true;
     m_upperJoint.set(TalonFXControlMode.PercentOutput, speed);
   }
 
   public void setPercentOutputLower(double speed) {
+    inJoyMode = true;
     m_lowerJoint.set(TalonFXControlMode.PercentOutput, speed);
   }
 
@@ -305,18 +317,23 @@ public class ArmSubsystem extends SubsystemBase {
     return dutyCyclePos * 360;
   }
 
-  public void actuateWristUp(){
+  public void actuateWristUp() {
     m_wrist.set(true);
   }
-  public void actuateWristDown(){
+
+  public void actuateWristDown() {
     m_wrist.set(false);
   }
 
-  public void actuateClawIn(){
+  public void actuateClawIn() {
     m_claw.set(false);
   }
 
-  public void actuateClawOut(){
+  public void actuateClawOut() {
     m_claw.set(true);
+  }
+
+  public boolean isJoyMode() {
+    return inJoyMode;
   }
 }

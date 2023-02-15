@@ -12,6 +12,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import frc.robot.subsystems.arm.Setpoint;
+import frc.robot.subsystems.arm.Setpoint.ArmState;
 import frc.robot.util.COTSFalconSwerveConstants;
 import frc.robot.util.Gains;
 import frc.robot.util.SwerveModuleConstants;
@@ -214,7 +215,6 @@ public final class Constants {
     public static final  Gains GAINS_LOWER_JOINT  = new Gains(0.02, 0.0, 0.00, 0.00, 50);
     
     //PID Tollerance in Degrees
-    public static final double TOLERANCE_VEL = 1.0;
     public static final double TOLERANCE_POS = 2.0;
 
     //Upper joint Config
@@ -263,16 +263,16 @@ public final class Constants {
   }
 
   public static final class ArmSetpoints{
-    public static final Setpoint TEST_SETPOINT_HIGHER = new Setpoint(191, 35, true, 191, 35, true);
-    public static final Setpoint TEST_SETPOINT_LOWER = new Setpoint(164, 65, true, 164, 65, true);
+    public static final Setpoint TEST_SETPOINT_HIGHER = new Setpoint(191, 35, true, 191, 35, true, ArmState.OTHER);
+    public static final Setpoint TEST_SETPOINT_LOWER = new Setpoint(164, 65, true, 164, 65, true, ArmState.OTHER);
 
-    public static final Setpoint STOWED = new Setpoint(180, 16, false, 180, 16, false);
-    public static final Setpoint FLOOR = new Setpoint(245, 61, true, 245, 62, true);
-    public static final Setpoint MID_NODE = new Setpoint(175.5, 80, false, 192, 71, false);
-    public static final Setpoint MID_NODE_PLACED = new Setpoint(183.5, 72, false, 192, 69, false);
-    public static final Setpoint TOP_NODE = new Setpoint(212, 143, false, 213, 118, false);
-    public static final Setpoint TOP_NODE_PLACED = new Setpoint(218, 140, false, 213, 115, false);
-    public static final Setpoint SUBSTATION = new Setpoint(150, 53, false, 150, 53, false);
+    public static final Setpoint STOWED = new Setpoint(180, 16, false, 180, 16, false, ArmState.STOWED);
+    public static final Setpoint FLOOR = new Setpoint(245, 61, true, 245, 62, true, ArmState.FLOOR);
+    public static final Setpoint MID_NODE = new Setpoint(175.5, 80, false, 192, 71, false, ArmState.MID_NODE);
+    public static final Setpoint MID_NODE_PLACED = new Setpoint(183.5, 72, false, 192, 69, false, ArmState.MID_NODE_PLACED);
+    public static final Setpoint TOP_NODE = new Setpoint(212, 143, false, 213, 118, false, ArmState.TOP_NODE);
+    public static final Setpoint TOP_NODE_PLACED = new Setpoint(218, 140, false, 213, 115, false, ArmState.TOP_NODE_PLACED);
+    public static final Setpoint SUBSTATION = new Setpoint(150, 53, false, 150, 53, false, ArmState.SUBSTATION);
 
     public static final double INTERMEDIATE_LOWER_POSITION = 150;
   }
