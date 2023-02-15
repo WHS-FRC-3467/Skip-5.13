@@ -188,7 +188,7 @@ public class DriveSubsystem extends SubsystemBase {
         PIDController xController = new PIDController(1.0, 0, 0);
         PIDController yController = new PIDController(1.0, 0, 0);
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
-        
+
         PathPlannerTrajectory.transformTrajectoryForAlliance(traj, DriverStation.getAlliance());
         return new SequentialCommandGroup(
              new InstantCommand(() -> {
@@ -205,7 +205,7 @@ public class DriveSubsystem extends SubsystemBase {
                  yController, // Y controller (usually the same values as X controller)
                  thetaController, // Rotation controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
                  this::setModuleStates,  // Module states consumer
-                 false, //Automatic mirroring
+                 true, //Automatic mirroring
                  this // Requires this drive subsystem
              ) 
              .andThen(() -> stopDrive())
