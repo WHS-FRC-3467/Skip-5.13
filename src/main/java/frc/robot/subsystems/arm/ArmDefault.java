@@ -33,10 +33,9 @@ public class ArmDefault extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(m_joyMode.getAsBoolean() && Math.abs(m_upperOutput.getAsDouble())>0.2 && Math.abs(m_lowerOutput.getAsDouble())>0.2){
-      m_arm.setToCurrent();
+    if(m_joyMode.getAsBoolean() && ((Math.abs(m_upperOutput.getAsDouble())>0.2) || (Math.abs(m_lowerOutput.getAsDouble())>0.2))){
       m_arm.setPercentOutputUpper(m_upperOutput.getAsDouble()*0.3);
-      m_arm.setPercentOutputLower(m_lowerOutput.getAsDouble()*0.3);
+      m_arm.setPercentOutputLower(-m_lowerOutput.getAsDouble()*0.3);
       m_arm.reset();
     }
     else{

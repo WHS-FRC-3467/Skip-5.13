@@ -267,6 +267,9 @@ public final class Constants {
     public static final Setpoint TEST_SETPOINT_LOWER = new Setpoint(164, 65, true, 164, 65, true, ArmState.OTHER);
 
     public static final Setpoint STOWED = new Setpoint(180, 16, false, 180, 16, false, ArmState.STOWED);
+
+    public static final Setpoint MANUAL_MODE = new Setpoint(180, 16, false, 180, 16, false, ArmState.OTHER);
+
     public static final Setpoint FLOOR = new Setpoint(245, 61, true, 245, 62, true, ArmState.FLOOR);
     public static final Setpoint MID_NODE = new Setpoint(175.5, 80, false, 192, 71, false, ArmState.MID_NODE);
     public static final Setpoint MID_NODE_PLACED = new Setpoint(183.5, 72, false, 192, 69, false, ArmState.MID_NODE_PLACED);
@@ -275,6 +278,10 @@ public final class Constants {
     public static final Setpoint SUBSTATION = new Setpoint(150, 53, false, 150, 53, false, ArmState.SUBSTATION);
 
     public static final double INTERMEDIATE_LOWER_POSITION = 150;
+  }
+  public static final class ClawConstants{
+    public static final double CLAW_BASE_CURRENT = 2.0;
+    public static final double CLAW_SPIKE_CURRENT = 6.0;
   }
 
   public static final class LimelightConstants{
