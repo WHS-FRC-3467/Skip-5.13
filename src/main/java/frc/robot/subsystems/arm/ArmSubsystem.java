@@ -116,8 +116,6 @@ public class ArmSubsystem extends SubsystemBase {
     m_lowerJoint.configForwardSoftLimitThreshold(ArmConstants.FORWARD_SOFT_LIMIT_LOWER, ArmConstants.TIMEOUT);
     m_lowerJoint.configReverseSoftLimitThreshold(ArmConstants.REVERSE_SOFT_LIMIT_LOWER, ArmConstants.TIMEOUT);
 
-    m_controllerLower.setTolerance(ArmConstants.TOLERANCE_POS, ArmConstants.TOLERANCE_VEL);
-    m_controllerUpper.setTolerance(ArmConstants.TOLERANCE_POS, ArmConstants.TOLERANCE_VEL);
     m_setpoint = new Setpoint(m_lowerSetpoint, m_upperSetpoint, false, m_lowerSetpoint, m_upperSetpoint, false, ArmState.OTHER);
   }
 
@@ -143,10 +141,8 @@ public class ArmSubsystem extends SubsystemBase {
       // 12.0));
       SmartDashboard.putNumber("Lower Angle Uncorrected", dutyCycleToDegrees(getLowerJointPos()));
       SmartDashboard.putNumber("Upper Angle Uncorrected", dutyCycleToDegrees(getUpperJointPos()));
-      SmartDashboard.putNumber("Lower Error", m_controllerLower.getPositionError());
-      SmartDashboard.putNumber("Upper Error", m_controllerUpper.getPositionError());
-      SmartDashboard.putNumber("Lower VEL Error", m_controllerLower.getVelocityError());
-      SmartDashboard.putNumber("Upper VEL Error", m_controllerUpper.getVelocityError());
+      SmartDashboard.putNumber("Lower Error", getLowerError());
+      SmartDashboard.putNumber("Upper Error", getUpperError());
       SmartDashboard.putNumber("Lower Velocity Setpoint", m_controllerLower.getSetpoint().velocity);
       SmartDashboard.putNumber("Upper Velocity Setpoint", m_controllerUpper.getSetpoint().velocity);
     } else {
@@ -253,22 +249,29 @@ public class ArmSubsystem extends SubsystemBase {
     m_lowerSetpoint = getLowerJointDegrees();
     m_upperSetpoint = getUpperJointDegrees();
   }
+  
+  public double getLowerError(){
+    return Math.abs(m_lowerSetpoint - getLowerJointDegrees());
+  }
+  public double getUpperError(){
+    return Math.abs(m_upperSetpoint - getUpperJointDegrees());
+  }
 
   public boolean getLowerAtSetpoint() {
-    return m_controllerLower.atGoal();
+    return getLowerError()< ArmConstants.TOLERANCE_POS;
   }
 
   public boolean getUpperAtSetpoint() {
-    return m_controllerUpper.atGoal();
+    return getUpperError() < ArmConstants.TOLERANCE_POS;
   }
 
-  public Setpoint getSetpoint() {
-    return m_setpoint;
-  }
 
   public boolean bothJointsAtSetpoint() {
-    return Math.abs(m_controllerUpper.getPositionError()) < ArmConstants.TOLERANCE_POS &&
-        Math.abs(m_controllerLower.getPositionError()) < ArmConstants.TOLERANCE_POS;
+    return getUpperAtSetpoint() && getLowerAtSetpoint();
+  }
+  
+  public Setpoint getSetpoint() {
+    return m_setpoint;
   }
 
   public void setPercentOutputUpper(double speed) {

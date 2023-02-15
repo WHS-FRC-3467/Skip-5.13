@@ -216,7 +216,7 @@ public final class Constants {
     
     //PID Tollerance in Degrees
     public static final double TOLERANCE_VEL = 1.0;
-    public static final double TOLERANCE_POS = 2.0;
+    public static final double TOLERANCE_POS = 10.0;
 
     //Upper joint Config
     public static final double UPPER_LENGTH = 1.07;
