@@ -24,7 +24,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
-import frc.robot.Constants.ArmSetpoints;
 import frc.robot.Constants.CanConstants;
 import frc.robot.Constants.DIOConstants;
 import frc.robot.Constants.PHConstants;
@@ -52,17 +51,16 @@ public class ArmSubsystem extends SubsystemBase {
 
   private JointConfig joint_Upper = new JointConfig(ArmConstants.UPPER_MASS, ArmConstants.UPPER_LENGTH,
       ArmConstants.UPPER_MOI, ArmConstants.UPPER_CGRADIUS, ArmConstants.UPPER_MOTOR);
+      
   private JointConfig joint_Lower = new JointConfig(ArmConstants.LOWER_MASS, ArmConstants.LOWER_LENGTH,
       ArmConstants.LOWER_MOI, ArmConstants.LOWER_CGRADIUS, ArmConstants.LOWER_MOTOR);
 
   private DJArmFeedforward m_doubleJointedFeedForwards = new DJArmFeedforward(joint_Lower, joint_Upper);
 
-  private Setpoint m_setpoint = ArmSetpoints.MANUAL_MODE;
+  private Setpoint m_setpoint;
   private double m_upperSetpoint;
   private double m_lowerSetpoint;
   private boolean m_writstSetpoint;
-
-  private boolean inJoyMode = false;
 
   private Solenoid m_wrist = new Solenoid(PneumaticsModuleType.REVPH, PHConstants.WRIST_CHANNEL);
   private Solenoid m_claw = new Solenoid(PneumaticsModuleType.REVPH, PHConstants.CLAW_CHANNEL);
@@ -117,7 +115,7 @@ public class ArmSubsystem extends SubsystemBase {
     m_lowerJoint.configForwardSoftLimitThreshold(ArmConstants.FORWARD_SOFT_LIMIT_LOWER, ArmConstants.TIMEOUT);
     m_lowerJoint.configReverseSoftLimitThreshold(ArmConstants.REVERSE_SOFT_LIMIT_LOWER, ArmConstants.TIMEOUT);
 
-    m_setpoint = new Setpoint(m_lowerSetpoint, m_upperSetpoint, false, m_lowerSetpoint, m_upperSetpoint, false, ArmState.OTHER);
+    reset();    
   }
 
   @Override
@@ -159,11 +157,11 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void reset() {
+    m_lowerSetpoint = getLowerJointDegrees();
+    m_upperSetpoint = getUpperJointDegrees();
     m_controllerUpper.reset(getUpperJointDegrees());
     m_controllerLower.reset(getLowerJointDegrees());
-    m_upperSetpoint = getUpperJointDegrees();
-    m_lowerSetpoint = getLowerJointDegrees();
-
+    m_setpoint = new Setpoint(m_lowerSetpoint, m_upperSetpoint, false, m_lowerSetpoint, m_upperSetpoint, false, ArmState.OTHER);
   }
 
   public void updateUpperSetpoint(double setpoint) {
@@ -226,7 +224,6 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void runUpperProfiled() {
-    inJoyMode = false;
     m_controllerUpper.setGoal(new TrapezoidProfile.State(m_upperSetpoint, 0.0));
     double pidOutput = -m_controllerUpper.calculate(getUpperJointDegrees());
     //double ff = -(calculateFeedforwards().get(1, 0)) / 12.0;
@@ -236,19 +233,12 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void runLowerProfiled() {
-    inJoyMode = false;
     m_controllerLower.setGoal(new TrapezoidProfile.State(m_lowerSetpoint, 0.0));
     double pidOutput = -m_controllerLower.calculate(getLowerJointDegrees());
     //double ff = -(calculateFeedforwards().get(0, 0)) / 12.0;
     // System.out.println("lower ff" + (ff));
     // System.out.println("Lower PID" + pidOutput);
     m_lowerJoint.set(TalonFXControlMode.PercentOutput, pidOutput); // may need to negate ff voltage to get desired output
-  }
-
-  public void setToCurrent() {
-    m_setpoint = ArmSetpoints.MANUAL_MODE;
-    m_lowerSetpoint = getLowerJointDegrees();
-    m_upperSetpoint = getUpperJointDegrees();
   }
   
   public double getLowerError(){
@@ -276,12 +266,10 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void setPercentOutputUpper(double speed) {
-    inJoyMode = true;
     m_upperJoint.set(TalonFXControlMode.PercentOutput, speed);
   }
 
   public void setPercentOutputLower(double speed) {
-    inJoyMode = true;
     m_lowerJoint.set(TalonFXControlMode.PercentOutput, speed);
   }
 
@@ -332,9 +320,5 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void actuateClawOut() {
     m_claw.set(true);
-  }
-
-  public boolean isJoyMode() {
-    return inJoyMode;
   }
 }

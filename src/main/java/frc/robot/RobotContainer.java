@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.claw.ClawDefault;
 import frc.robot.subsystems.claw.ClawSubsytem;
 import frc.robot.Constants.ArmSetpoints;
+import frc.robot.Constants.LimelightConstants;
 import frc.robot.auto.OneConeFar;
 import frc.robot.auto.OneConeWithCharge;
 import frc.robot.auto.TestAuto;
@@ -115,6 +116,9 @@ public class RobotContainer {
 
     m_driverController.leftTrigger().onTrue(Commands.runOnce(() -> m_arm.updateAllSetpoints(ArmSetpoints.TOP_NODE_PLACED)).andThen(new WaitCommand(0.9)).andThen(m_arm::actuateClawOut));
 
+    m_driverController.povDown().onTrue(Commands.runOnce(() -> m_limelight.setPipeline(LimelightConstants.DRIVER_PIPELINE), m_limelight));
+    m_driverController.povLeft().onTrue(Commands.runOnce(() -> m_limelight.setPipeline(LimelightConstants.RETRO_PIPELINE), m_limelight));
+    m_driverController.povRight().onTrue(Commands.runOnce(() -> m_limelight.setPipeline(LimelightConstants.APRILTAG_PIPELINE), m_limelight));
     //Opperator Controls
     //Set game Piece type 
     m_operatorController.start().onTrue(Commands.runOnce(() -> GamePiece.toggleGamePiece()));

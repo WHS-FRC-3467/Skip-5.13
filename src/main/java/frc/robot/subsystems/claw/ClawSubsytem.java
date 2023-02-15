@@ -30,5 +30,8 @@ public class ClawSubsytem extends SubsystemBase {
   public void driveClaw(double speed){
     m_clawMotor.set(TalonSRXControlMode.PercentOutput, speed);
   }
+  public double getClawCurrent(){
+    return m_clawMotor.getSupplyCurrent();
+  }
   
 }

@@ -279,6 +279,10 @@ public final class Constants {
 
     public static final double INTERMEDIATE_LOWER_POSITION = 150;
   }
+  public static final class ClawConstants{
+    public static final double CLAW_BASE_CURRENT = 2.0;
+    public static final double CLAW_SPIKE_CURRENT = 6.0;
+  }
 
   public static final class LimelightConstants{
     public static final int DRIVER_PIPELINE = 0;
