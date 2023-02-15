@@ -55,7 +55,7 @@ public class RetractToStowed extends CommandBase {
     // No Intermediate - go directly to stow
     else {
       arm.updateAllSetpoints(ArmSetpoints.STOWED);
-      m_end = true;
+      m_end = false;
     }
     count = 1;
   }
@@ -64,16 +64,23 @@ public class RetractToStowed extends CommandBase {
   @Override
   public void execute() {
     
-    if (!arm.getSetpoint().state.equals(ArmState.STOWED) && !arm.getSetpoint().state.equals(ArmState.INTERMEDIATE)) 
+    if (arm.getSetpoint().state.equals(ArmState.INTERMEDIATE) && !arm.bothJointsAtSetpoint() && count>50) 
     { 
-        // if joymode is entered or another setpoint is set, stop
         arm.updateAllSetpoints(intermediate);
-         m_end = false;
+        m_end = false;
     }     
     else if (arm.bothJointsAtSetpoint() && !arm.getSetpoint().state.equals(ArmState.STOWED) && count>50) {
         arm.updateAllSetpoints(ArmSetpoints.STOWED);
         m_end = true;
-    }  
+    }
+    else if(arm.bothJointsAtSetpoint() && count>50){
+      arm.updateAllSetpoints(ArmSetpoints.STOWED);
+      m_end = true;
+    }
+    else{
+      m_end = false;
+    }
+    
     System.out.println("end retract " + m_end);
     count++;
   }

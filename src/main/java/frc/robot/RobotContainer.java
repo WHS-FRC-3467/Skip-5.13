@@ -25,6 +25,7 @@ import frc.robot.subsystems.arm.GoToPositionWithIntermediate;
 import frc.robot.subsystems.arm.RetractToStowed;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.TeleopSwerve;
+import frc.robot.subsystems.led.LEDSubsystem;
 import frc.robot.subsystems.limelight.LimelightSubsystem;
 import frc.robot.util.GamePiece;
 import frc.robot.util.GamePiece.GamePieceType;
@@ -48,8 +49,10 @@ public class RobotContainer {
   private final ArmSubsystem m_arm = new ArmSubsystem();
   private final ClawSubsytem m_claw = new ClawSubsytem();
   private final LimelightSubsystem m_limelight = new LimelightSubsystem();
+  private final LEDSubsystem m_led = new LEDSubsystem();
 
   private SendableChooser<Command> m_autoChooser = new SendableChooser<>();
+  
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     GamePiece.setGamePiece(GamePieceType.Cone);

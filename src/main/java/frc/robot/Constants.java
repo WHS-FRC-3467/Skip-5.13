@@ -251,10 +251,10 @@ public final class Constants {
     public final static int TIMEOUT = 10;
 
     // Profiled PID Constants
-    public static final double LOWER_CRUISE = 70.0;
+    public static final double LOWER_CRUISE = 80.0;
     public static final double LOWER_ACCELERATION = 120.0;
 
-    public static final double UPPER_CRUISE = 70.0;
+    public static final double UPPER_CRUISE = 80.0;
     public static final double UPPER_ACCELERATION = 120.0;
 
     //Duty cycle constants

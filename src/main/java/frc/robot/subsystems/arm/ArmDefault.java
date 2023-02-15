@@ -33,16 +33,16 @@ public class ArmDefault extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // if(m_joyMode.getAsBoolean() && Math.abs(m_upperOutput.getAsDouble())>0.2 && Math.abs(m_lowerOutput.getAsDouble())>0.2){
-    //   m_arm.setToCurrent();
-    //   m_arm.setPercentOutputUpper(m_upperOutput.getAsDouble()*0.3);
-    //   m_arm.setPercentOutputLower(m_lowerOutput.getAsDouble()*0.3);
-    //   m_arm.reset();
-    // }
-    // else{
+    if(m_joyMode.getAsBoolean() && Math.abs(m_upperOutput.getAsDouble())>0.2 && Math.abs(m_lowerOutput.getAsDouble())>0.2){
+      m_arm.setToCurrent();
+      m_arm.setPercentOutputUpper(m_upperOutput.getAsDouble()*0.3);
+      m_arm.setPercentOutputLower(m_lowerOutput.getAsDouble()*0.3);
+      m_arm.reset();
+    }
+    else{
       m_arm.runUpperProfiled();
       m_arm.runLowerProfiled();      
-    //}
+    }
   }
 
   // Called once the command ends or is interrupted.

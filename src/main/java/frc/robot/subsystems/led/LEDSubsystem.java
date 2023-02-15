@@ -9,6 +9,8 @@ import com.ctre.phoenix.led.CANdle.LEDStripType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CanConstants;
+import frc.robot.util.GamePiece;
+import frc.robot.util.GamePiece.GamePieceType;
 
 public class LEDSubsystem extends SubsystemBase {
   /** Creates a new LEDSubsystem. */
@@ -21,6 +23,17 @@ public class LEDSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    if(GamePiece.getGamePiece() == GamePieceType.Cube){
+      //Set color to purple
+      setColor(127, 0, 255);
+    }
+    else if(GamePiece.getGamePiece() == GamePieceType.Cone){
+      setColor(255,191,0);
+    }
+    else if (GamePiece.getGamePiece() == GamePieceType.None){
+      setColor(255,0,0);
+    }
+    
     // This method will be called once per scheduler run
   }
   public void setColor(int r, int g, int b){
