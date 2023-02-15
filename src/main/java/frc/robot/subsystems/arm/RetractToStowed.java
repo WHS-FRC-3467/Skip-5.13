@@ -12,10 +12,9 @@ public class RetractToStowed extends CommandBase {
   ArmSubsystem arm;
   Setpoint intermediate;
   boolean m_end = false;
-
+  double count;
   /** Creates a new RetractToStow. */
   public RetractToStowed(ArmSubsystem arm) {
-    addRequirements(arm);
     this.arm = arm;
   }
 
@@ -40,7 +39,7 @@ public class RetractToStowed extends CommandBase {
       arm.updateAllSetpoints(intermediate);
     }
     // Retracting from floor
-    else if (arm.getSetpoint().state.equals(ArmState.MID_NODE)) {
+    else if (arm.getSetpoint().state.equals(ArmState.FLOOR)) {
 
       intermediate = new Setpoint(
           ArmSetpoints.STOWED.lowerCone,
@@ -58,20 +57,24 @@ public class RetractToStowed extends CommandBase {
       arm.updateAllSetpoints(ArmSetpoints.STOWED);
       m_end = true;
     }
+    count = 1;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (arm.getSetpoint() == null 
-        || (!arm.getSetpoint().state.equals(ArmState.STOWED) && !arm.getSetpoint().state.equals(ArmState.INTERMEDIATE))
-        || arm.isJoyMode()) { // if joymode is entered or another setpoint is set, stop
-      m_end = false;
+    
+    if (!arm.getSetpoint().state.equals(ArmState.STOWED) && !arm.getSetpoint().state.equals(ArmState.INTERMEDIATE)) 
+    { 
+          // if joymode is entered or another setpoint is set, stop
+          arm.updateAllSetpoints(intermediate);
+         m_end = false;
     }     
-    else if (arm.bothJointsAtSetpoint() && !arm.getSetpoint().state.equals(ArmState.STOWED)) {
+    else if (arm.bothJointsAtSetpoint() && !arm.getSetpoint().state.equals(ArmState.STOWED) && count>50) {
       arm.updateAllSetpoints(ArmSetpoints.STOWED);
       m_end = true;
     }  
+    count++;
   }
 
   // Called once the command ends or is interrupted.
