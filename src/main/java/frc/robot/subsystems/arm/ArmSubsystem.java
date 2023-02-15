@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.ArmSetpoints;
 import frc.robot.Constants.CanConstants;
 import frc.robot.Constants.DIOConstants;
 import frc.robot.Constants.PHConstants;
@@ -56,7 +57,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   private DJArmFeedforward m_doubleJointedFeedForwards = new DJArmFeedforward(joint_Lower, joint_Upper);
 
-  private Setpoint m_setpoint;
+  private Setpoint m_setpoint = ArmSetpoints.MANUAL_MODE;
   private double m_upperSetpoint;
   private double m_lowerSetpoint;
   private boolean m_writstSetpoint;
@@ -245,7 +246,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void setToCurrent() {
-    m_setpoint = null;
+    m_setpoint = ArmSetpoints.MANUAL_MODE;
     m_lowerSetpoint = getLowerJointDegrees();
     m_upperSetpoint = getUpperJointDegrees();
   }
