@@ -32,7 +32,7 @@ public class RetractToStowed extends CommandBase {
           arm.getSetpoint().upperCone * 0.5,
           arm.getSetpoint().wristCone,
           ArmSetpoints.INTERMEDIATE_LOWER_POSITION,
-          arm.getSetpoint().lowerCube * 0.5,
+          arm.getSetpoint().upperCube * 0.5,
           arm.getSetpoint().wristCube,
           ArmState.INTERMEDIATE);
 
@@ -43,10 +43,10 @@ public class RetractToStowed extends CommandBase {
 
       intermediate = new Setpoint(
           ArmSetpoints.STOWED.lowerCone,
-          ArmSetpoints.STOWED.upperCone + 20,
+          ArmSetpoints.STOWED.upperCone,
           true,
           ArmSetpoints.STOWED.lowerCube,
-          ArmSetpoints.STOWED.upperCube + 20,
+          ArmSetpoints.STOWED.upperCube,
           true,
           ArmState.INTERMEDIATE);
 

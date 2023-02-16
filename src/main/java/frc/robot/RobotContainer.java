@@ -26,7 +26,10 @@ import frc.robot.subsystems.arm.GoToPositionWithIntermediate;
 import frc.robot.subsystems.arm.RetractToStowed;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.TeleopSwerve;
+import frc.robot.subsystems.led.LEDDefault;
 import frc.robot.subsystems.led.LEDSubsystem;
+import frc.robot.subsystems.limelight.AlignWithConeNode;
+import frc.robot.subsystems.limelight.AlignWithGridApril;
 import frc.robot.subsystems.limelight.LimelightSubsystem;
 import frc.robot.util.GamePiece;
 import frc.robot.util.GamePiece.GamePieceType;
@@ -94,6 +97,8 @@ public class RobotContainer {
 
     m_claw.setDefaultCommand(new ClawDefault(m_claw, ()-> m_operatorController.getLeftTriggerAxis(), 
                                             () -> m_operatorController.getRightTriggerAxis()));
+
+    m_led.setDefaultCommand(new LEDDefault(m_led, m_claw, m_limelight));
   }
 
   /**
@@ -111,13 +116,16 @@ public class RobotContainer {
     m_driverController.povUp().onTrue(new InstantCommand(m_drive::zeroGyro, m_drive));
     
     m_driverController.start().whileTrue(Commands.run(m_drive::AutoBalance, m_drive).andThen(m_drive::stopDrive, m_drive));
-
+    m_driverController.back().whileTrue(new AlignWithGridApril(m_limelight, m_drive));
+    
     m_driverController.rightTrigger().onTrue(Commands.runOnce(() -> m_arm.updateAllSetpoints(ArmSetpoints.MID_NODE_PLACED)).andThen(new WaitCommand(0.7)).andThen(m_arm::actuateClawOut));
 
     m_driverController.leftTrigger().onTrue(Commands.runOnce(() -> m_arm.updateAllSetpoints(ArmSetpoints.TOP_NODE_PLACED)).andThen(new WaitCommand(0.9)).andThen(m_arm::actuateClawOut));
 
     m_driverController.povDown().onTrue(Commands.runOnce(() -> m_limelight.setPipeline(LimelightConstants.DRIVER_PIPELINE), m_limelight));
+
     m_driverController.povLeft().onTrue(Commands.runOnce(() -> m_limelight.setPipeline(LimelightConstants.RETRO_PIPELINE), m_limelight));
+
     m_driverController.povRight().onTrue(Commands.runOnce(() -> m_limelight.setPipeline(LimelightConstants.APRILTAG_PIPELINE), m_limelight));
     //Opperator Controls
     //Set game Piece type 

@@ -17,7 +17,7 @@ import frc.robot.Constants.ArmSetpoints;
 import frc.robot.subsystems.arm.ArmDefault;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.arm.GoToPositionWithIntermediate;
-import frc.robot.subsystems.arm.RetractFromGrid;
+import frc.robot.subsystems.arm.RetractToStowed;
 import frc.robot.subsystems.claw.ClawSubsytem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.util.GamePiece;
@@ -42,7 +42,7 @@ public class OneConeWithCharge extends SequentialCommandGroup {
           Commands.runOnce(() -> arm.updateAllSetpoints(ArmSetpoints.TOP_NODE_PLACED)),
           new WaitCommand(0.4),
           new InstantCommand(arm::actuateClawOut),
-          new RetractFromGrid(arm, ArmSetpoints.TOP_NODE_PLACED),
+          new RetractToStowed(arm).withTimeout(4.0),
           drive.followTrajectoryCommand(path1, true),
           new RunCommand(drive::AutoBalance, drive).withTimeout(6)
         ),

@@ -52,13 +52,6 @@ public class TeleopSwerve extends CommandBase {
         m_90 = ninety;
         m_270 = twoSeventy;
         addRequirements(m_Swerve);
-    }
-
-    @Override 
-    public void initialize(){
-        m_thetaController = new PIDController(SwerveConstants.GAINS_ANGLE_SNAP.kP, SwerveConstants.GAINS_ANGLE_SNAP.kI, SwerveConstants.GAINS_ANGLE_SNAP.kD);
-        
-        m_thetaController.enableContinuousInput(-180, 180);
         m_speedChooser = new SendableChooser<Double>();
         m_speedChooser.addOption("100%", 1.0);
         m_speedChooser.addOption("90%", 0.9);
@@ -68,15 +61,21 @@ public class TeleopSwerve extends CommandBase {
         SmartDashboard.putData("Speed Percent", m_speedChooser);
     }
 
+    @Override 
+    public void initialize(){
+        m_thetaController = new PIDController(SwerveConstants.GAINS_ANGLE_SNAP.kP, SwerveConstants.GAINS_ANGLE_SNAP.kI, SwerveConstants.GAINS_ANGLE_SNAP.kD);
+        
+        m_thetaController.enableContinuousInput(-180, 180);
+    }
+
     @Override
     public void execute() {
 
-        SmartDashboard.putNumber("gyro Yaw", m_Swerve.getYaw().getDegrees());
         /* Get Values, Deadband*/
         boolean rotateWithButton = m_0.getAsBoolean() || m_90.getAsBoolean() || m_180.getAsBoolean() || m_270.getAsBoolean();
         xVal = MathUtil.applyDeadband(xSup.getAsDouble() * m_speedChooser.getSelected() , SwerveConstants.DRIVE_DEADBAND);
         yVal = MathUtil.applyDeadband(ySup.getAsDouble() * m_speedChooser.getSelected(), SwerveConstants.DRIVE_DEADBAND);
-        SmartDashboard.putBoolean("rotate with button", rotateWithButton);
+        // SmartDashboard.putBoolean("rotate with button", rotateWithButton);
         
         if(rotateWithButton){
             if(m_0.getAsBoolean()){
@@ -92,9 +91,9 @@ public class TeleopSwerve extends CommandBase {
                 m_thetaController.setSetpoint(90.0);
             }
             rotationVal = m_thetaController.calculate((MathUtil.inputModulus(m_Swerve.getYaw().getDegrees(), -180, 180)), m_thetaController.getSetpoint());
-            rotationVal = MathUtil.clamp(rotationVal, -SwerveConstants.MAX_ANGULAR_VELOCITY * 0.5, SwerveConstants.MAX_ANGULAR_VELOCITY * 0.5);
-            SmartDashboard.putNumber("RotationVal", rotationVal);
-            SmartDashboard.putNumber("Theta Controller setpoint", m_thetaController.getSetpoint());
+            rotationVal = MathUtil.clamp(rotationVal, -SwerveConstants.MAX_ANGULAR_VELOCITY * 0.3, SwerveConstants.MAX_ANGULAR_VELOCITY * 0.3);
+            // SmartDashboard.putNumber("RotationVal", rotationVal);
+            // SmartDashboard.putNumber("Theta Controller setpoint", m_thetaController.getSetpoint());
         }
         else if (!rotateWithButton){
             rotationVal = MathUtil.applyDeadband(rotationSup.getAsDouble(), SwerveConstants.DRIVE_DEADBAND);

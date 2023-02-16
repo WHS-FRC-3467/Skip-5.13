@@ -40,7 +40,6 @@ public class LimelightSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     //read values periodically
     SmartDashboard.putData(SendableCameraWrapper.wrap(m_limelight));
-    setPipeline(LimelightConstants.APRILTAG_PIPELINE);
     SmartDashboard.putNumber("X offset", getX());
     SmartDashboard.putNumber("Y offset", getY());
   }
@@ -101,6 +100,10 @@ public class LimelightSubsystem extends SubsystemBase {
   public void setPipeline(int pipelineNumber){
     Number numObj = (Number)pipelineNumber;
     table.getEntry("pipeline").setNumber(numObj);
+  }
+
+  public boolean inVisionMode(){
+    return table.getEntry("pipeline").getDouble(0.0) != 0.0;
   }
 }
 

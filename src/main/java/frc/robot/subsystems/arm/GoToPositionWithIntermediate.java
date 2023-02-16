@@ -21,8 +21,9 @@ public class GoToPositionWithIntermediate extends SequentialCommandGroup {
                                                 ArmSetpoints.INTERMEDIATE_LOWER_POSITION, (setpoint.upperCube) * 0.5, setpoint.wristCube, ArmState.INTERMEDIATE);
     addCommands(  
         new InstantCommand(()-> arm.updateAllSetpoints(intermediateSetpoint)),
-        new WaitUntilCommand(()-> arm.bothJointsAtSetpoint()),
+        new WaitUntilCommand(()-> arm.bothJointsAtSetpoint()).withTimeout(2.0),
         new InstantCommand( ()-> arm.updateAllSetpoints(setpoint)),
-        new WaitUntilCommand(()-> arm.bothJointsAtSetpoint()));
+        new WaitUntilCommand(()-> arm.bothJointsAtSetpoint()).withTimeout(2.0)
+    );
   }
 }

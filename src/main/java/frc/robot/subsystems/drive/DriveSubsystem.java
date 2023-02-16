@@ -61,10 +61,10 @@ public class DriveSubsystem extends SubsystemBase {
     @Override
     public void periodic(){
         m_balancePID.setTolerance(SwerveConstants.BALANCE_TOLLERANCE);
-        double pidOutput = m_balancePID.calculate(getRoll(), 0);
-        SmartDashboard.putNumber("Balance PID", pidOutput);
-        SmartDashboard.putNumber("Robot Pitch", getPitch());
-        SmartDashboard.putNumber("Robot Roll", getRoll());
+        //double pidOutput = m_balancePID.calculate(getRoll(), 0);
+        // SmartDashboard.putNumber("Balance PID", pidOutput);
+        // SmartDashboard.putNumber("Robot Pitch", getPitch());
+        // SmartDashboard.putNumber("Robot Roll", getRoll());
 
         SmartDashboard.putString("Alliance Color", DriverStation.getAlliance().name());
 
@@ -74,6 +74,8 @@ public class DriveSubsystem extends SubsystemBase {
 
         SmartDashboard.putData("Feild", m_field);
         if(Constants.tuningMode){
+            SmartDashboard.putNumber("gyro Yaw", getYaw().getDegrees());
+
             for(SwerveModule mod : mSwerveMods){
                 SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
             } 
@@ -107,9 +109,9 @@ public class DriveSubsystem extends SubsystemBase {
             mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop, isTeleop);
         }
 
-        SmartDashboard.putNumber("X Translation", translation.getX());
-        SmartDashboard.putNumber("Y Translation", translation.getY());
-        SmartDashboard.putNumber("Rotation Value", rotation);
+        // SmartDashboard.putNumber("X Translation", translation.getX());
+        // SmartDashboard.putNumber("Y Translation", translation.getY());
+        // SmartDashboard.putNumber("Rotation Value", rotation);
     }    
 
     public void stopDrive(){
@@ -178,8 +180,8 @@ public class DriveSubsystem extends SubsystemBase {
         double pidOutput;
         pidOutput = MathUtil.clamp(m_balancePID.calculate(getRoll(), 0), -0.4, 0.4);
         
-        SmartDashboard.putNumber("Balance PID", pidOutput);
-        drive(new Translation2d(pidOutput, 0), 0.0, false, true, false);
+        // SmartDashboard.putNumber("Balance PID", pidOutput);
+        drive(new Translation2d(-pidOutput, 0), 0.0, false, true, false);
     }
 
     public SequentialCommandGroup followTrajectoryCommand(PathPlannerTrajectory traj, boolean isFirstPath) {

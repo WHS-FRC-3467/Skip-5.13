@@ -124,8 +124,6 @@ public class ArmSubsystem extends SubsystemBase {
     m_upperJoint.setSelectedSensorPosition(dutyCycleToCTREUnits(getUpperJointPos()), 0, ArmConstants.TIMEOUT);
     m_lowerJoint.setSelectedSensorPosition(dutyCycleToCTREUnits(getLowerJointPos()), 0, ArmConstants.TIMEOUT);
 
-    SmartDashboard.putNumber("Upper Setpoint", m_upperSetpoint);
-    SmartDashboard.putNumber("Lower Setpoint", m_lowerSetpoint);
 
     SmartDashboard.putBoolean("Game Peice", GamePiece.getGamePiece() == GamePieceType.Cone);
 
@@ -142,8 +140,8 @@ public class ArmSubsystem extends SubsystemBase {
       SmartDashboard.putNumber("Upper Angle Uncorrected", dutyCycleToDegrees(getUpperJointPos()));
       SmartDashboard.putNumber("Lower Error", getLowerError());
       SmartDashboard.putNumber("Upper Error", getUpperError());
-      SmartDashboard.putNumber("Lower Velocity Setpoint", m_controllerLower.getSetpoint().velocity);
-      SmartDashboard.putNumber("Upper Velocity Setpoint", m_controllerUpper.getSetpoint().velocity);
+      // SmartDashboard.putNumber("Lower Velocity Setpoint", m_controllerLower.getSetpoint().velocity);
+      // SmartDashboard.putNumber("Upper Velocity Setpoint", m_controllerUpper.getSetpoint().velocity);
     } else {
       SmartDashboard.clearPersistent("Lower Angle");
       SmartDashboard.clearPersistent("Upper Angle");

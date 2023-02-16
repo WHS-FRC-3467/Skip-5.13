@@ -4,9 +4,11 @@
 
 package frc.robot.subsystems.led;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ClawConstants;
 import frc.robot.subsystems.claw.ClawSubsytem;
+import frc.robot.subsystems.limelight.LimelightSubsystem;
 import frc.robot.util.GamePiece;
 import frc.robot.util.GamePiece.GamePieceType;
 
@@ -14,22 +16,33 @@ public class LEDDefault extends CommandBase {
   /** Creates a new LEDDefault. */
   LEDSubsystem m_led;
   ClawSubsytem m_claw;
-  public LEDDefault(LEDSubsystem led, ClawSubsytem claw) {
+  LimelightSubsystem m_limelight;
+  public LEDDefault(LEDSubsystem led, ClawSubsytem claw, LimelightSubsystem limelight) {
     m_led = led;
     m_claw = claw;
+    m_limelight = limelight;
     addRequirements(m_led);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
+  public void initialize() {  
+  }
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    SmartDashboard.putBoolean("Is vision Mode", m_limelight.inVisionMode());
     if(m_claw.getClawCurrent()>=ClawConstants.CLAW_SPIKE_CURRENT){
-      m_led.setColor(0,255,0);
+      m_led.setColor(122, 249, 240);
+    }
+    else if(m_limelight.inVisionMode()){
+      m_led.setColor(0, 0, 0);
     }
     else if(GamePiece.getGamePiece() == GamePieceType.Cube){
       //Set color to purple
-      m_led.setColor(127, 0, 255);
+      m_led.setColor(186, 0, 255);
     }
     else if(GamePiece.getGamePiece() == GamePieceType.Cone){
       m_led.setColor(255,191,0);
@@ -38,11 +51,8 @@ public class LEDDefault extends CommandBase {
       m_led.setColor(255,0,0);
     }
 
-  }
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {}
+  }
 
   // Called once the command ends or is interrupted.
   @Override

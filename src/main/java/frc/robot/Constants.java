@@ -194,7 +194,7 @@ public final class Constants {
             new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
     }
 
-    public static final Gains GAINS_ANGLE_SNAP = new Gains(0.02, 0.0, 0.0, 0.0, 50);
+    public static final Gains GAINS_ANGLE_SNAP = new Gains(0.025, 0.0, 0.0, 0.0, 50);
     
     public static final Gains GAINS_BALANCE = new Gains(0.025, 0.0, 0.0, 0.0, 50);
 
@@ -215,7 +215,7 @@ public final class Constants {
     public static final  Gains GAINS_LOWER_JOINT  = new Gains(0.02, 0.0, 0.00, 0.00, 50);
     
     //PID Tollerance in Degrees
-    public static final double TOLERANCE_POS = 2.0;
+    public static final double TOLERANCE_POS = 3.0;
 
     //Upper joint Config
     public static final double UPPER_LENGTH = 1.07;
@@ -237,8 +237,8 @@ public final class Constants {
     //Nominal Outputs
     public static final double NOMINAL_OUTPUT_FORWARD = 0;
     public static final double NOMINAL_OUTPUT_REVERSE = 0;
-    public static final double PEAK_OUTPUT_FORWARD = 0.5;
-    public static final double PEAK_OUTPUT_REVERSE = -0.5;
+    public static final double PEAK_OUTPUT_FORWARD = 1.0;
+    public static final double PEAK_OUTPUT_REVERSE = -1.0;
 
     //Soft Limits
     public static final int FORWARD_SOFT_LIMIT_UPPER = 3300;
@@ -251,11 +251,11 @@ public final class Constants {
     public final static int TIMEOUT = 10;
 
     // Profiled PID Constants
-    public static final double LOWER_CRUISE = 80.0;
-    public static final double LOWER_ACCELERATION = 120.0;
+    public static final double LOWER_CRUISE = 120.0;
+    public static final double LOWER_ACCELERATION = 200.0;
 
-    public static final double UPPER_CRUISE = 80.0;
-    public static final double UPPER_ACCELERATION = 120.0;
+    public static final double UPPER_CRUISE = 120.0;
+    public static final double UPPER_ACCELERATION = 200.0;
 
     //Duty cycle constants
     public static final double DUTY_CYCLE_MIN = 1.0/1025.0;
@@ -281,7 +281,7 @@ public final class Constants {
   }
   public static final class ClawConstants{
     public static final double CLAW_BASE_CURRENT = 2.0;
-    public static final double CLAW_SPIKE_CURRENT = 6.0;
+    public static final double CLAW_SPIKE_CURRENT = 12.0;
   }
 
   public static final class LimelightConstants{
@@ -289,7 +289,7 @@ public final class Constants {
     public static final int APRILTAG_PIPELINE = 1;
     public static final int RETRO_PIPELINE = 2;
 
-    public static final Gains GAINS_VISION_X = new Gains(0.0, 0.0, 0.0, 0.0, 50);
+    public static final Gains GAINS_VISION_X = new Gains(0.1, 0.0, 0.0, 0.0, 50);
     public static final Gains GAINS_VISION_Y = new Gains(0.0, 0.0, 0.0, 0.0, 50);
 
     public static final double VISION_VEL_TOLLERANCE = 0.5;
@@ -308,8 +308,12 @@ public final class Constants {
     public static final double SETPOINT_DIS_FROM_SUBSTATION_APRIL = 5;
 
     public static final double ALIGNED_CONE_X = 7.8;
-    public static final double ALIGNED_GRID_APRIL_X = 8.6;
+    public static final double ALIGNED_GRID_APRIL_X = 14;
     public static final double ALIGNED_SUBSTATION_APRIL_X = 0.0;
+
+    public static final double ALIGNED_CONE_Y = 7.8;
+    public static final double ALIGNED_GRID_APRIL_Y = -7.68;
+    public static final double ALIGNED_SUBSTATION_APRIL_Y = 0.0;
 
 
     // height of vision tape center in inches

@@ -4,10 +4,13 @@
 
 package frc.robot.subsystems.limelight;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.LimelightConstants;
+import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.drive.DriveSubsystem;
 
 public class AlignWithGridApril extends CommandBase {
@@ -18,6 +21,8 @@ public class AlignWithGridApril extends CommandBase {
   boolean m_end;
   double xTrans = 0.0;
   double yTrans = 0.0;
+  private PIDController m_thetaController;
+
 
   public AlignWithGridApril(LimelightSubsystem limelight, DriveSubsystem drive) {
     m_drive = drive;
@@ -28,6 +33,7 @@ public class AlignWithGridApril extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
     m_pidControllerY = new PIDController(LimelightConstants.GAINS_VISION_Y.kP, LimelightConstants.GAINS_VISION_Y.kI, LimelightConstants.GAINS_VISION_Y.kD);
     m_pidControllerY.setIntegratorRange(0.0, LimelightConstants.GAINS_VISION_Y.kIzone);
     m_pidControllerY.setTolerance(LimelightConstants.VISION_POS_TOLLERANCE, LimelightConstants.VISION_VEL_TOLLERANCE);
@@ -36,6 +42,10 @@ public class AlignWithGridApril extends CommandBase {
     m_pidControllerX.setIntegratorRange(0.0, LimelightConstants.GAINS_VISION_X.kIzone);
     m_pidControllerX.setTolerance(LimelightConstants.VISION_POS_TOLLERANCE, LimelightConstants.VISION_VEL_TOLLERANCE);
 
+    m_thetaController = new PIDController(SwerveConstants.GAINS_ANGLE_SNAP.kP*2, SwerveConstants.GAINS_ANGLE_SNAP.kI, SwerveConstants.GAINS_ANGLE_SNAP.kD);
+        
+    m_thetaController.enableContinuousInput(-180, 180);
+
     m_end = false;
     m_limelight.setPipeline(1);
   }
@@ -43,28 +53,32 @@ public class AlignWithGridApril extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(m_limelight.hasTarget()==false){
-      m_end = true;
-      System.out.println("no target");
-    }
+    // if(m_limelight.hasTarget()==false){
+    //   m_end = true;
+    //   System.out.println("no target");
+    // }
+    m_thetaController.setSetpoint(180.0);
 
-    m_pidControllerY.setSetpoint(LimelightConstants.SETPOINT_DIS_FROM_GRID_APRIL);
+    double rotationVal = m_thetaController.calculate((MathUtil.inputModulus(m_drive.getYaw().getDegrees(), -180, 180)), 180.0);
+    rotationVal = MathUtil.clamp(rotationVal, -SwerveConstants.MAX_ANGULAR_VELOCITY * 0.4, SwerveConstants.MAX_ANGULAR_VELOCITY * 0.4);
+
+    // m_pidControllerY.setSetpoint(LimelightConstants.SETPOINT_DIS_FROM_GRID_APRIL);
     m_pidControllerX.setSetpoint(LimelightConstants.ALIGNED_GRID_APRIL_X);
     xTrans = m_pidControllerX.calculate(m_limelight.getX());
-    xTrans = Math.max(xTrans, 1.0);
-    xTrans = Math.min(xTrans, -1.0);
+    xTrans = MathUtil.clamp(xTrans, -0.5, 0.5);
 
-    yTrans = m_pidControllerY.calculate(m_limelight.getDistanceFromTarget(LimelightConstants.SETPOINT_DIS_FROM_GRID_APRIL));
-    yTrans = Math.max(yTrans, 1.0);
-    yTrans = Math.min(yTrans, -1.0);
-    m_drive.drive(new Translation2d(xTrans, yTrans), 0.0, true, true, false);
+    // m_pidControllerY.setSetpoint(LimelightConstants.ALIGNED_GRID_APRIL_Y);
+    // yTrans = m_pidControllerY.calculate(m_limelight.getY());
+    // yTrans = MathUtil.clamp(yTrans, -0.5, 0.5);
 
-    if(m_pidControllerX.atSetpoint() && m_pidControllerY.atSetpoint()){
-      m_end = true;
-    }
-    else{
-      m_end = false;
-    }
+    m_drive.drive(new Translation2d(0.0, -xTrans), rotationVal, true, true, false);
+    SmartDashboard.putNumber("xtrans", xTrans);
+    // if(m_pidControllerX.atSetpoint() && m_pidControllerY.atSetpoint()){
+    //   m_end = true;
+    // }
+    // else{
+    //   m_end = false;
+    // }
 
   }
 
@@ -77,6 +91,6 @@ public class AlignWithGridApril extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_end;
+    return false;
   }
 }

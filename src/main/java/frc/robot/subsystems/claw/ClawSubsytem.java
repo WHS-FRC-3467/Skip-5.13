@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CanConstants;
 
@@ -18,6 +19,7 @@ public class ClawSubsytem extends SubsystemBase {
   public ClawSubsytem() {
     m_clawMotor.configFactoryDefault();
     m_clawMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 10, 15, 0.5));
+    m_clawMotor.configVoltageCompSaturation(12.0);
     m_clawMotor.setNeutralMode(NeutralMode.Brake);
     m_clawMotor.configOpenloopRamp(0.2);
   }
@@ -25,6 +27,7 @@ public class ClawSubsytem extends SubsystemBase {
   
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("Claw Current", getClawCurrent());
     // This method will be called once per scheduler run
   }
   public void driveClaw(double speed){
