@@ -8,8 +8,12 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
-import com.ctre.phoenix.sensors.Pigeon2;
+import java.util.List;
 
+import javax.crypto.spec.PSource.PSpecified;
+
+import com.ctre.phoenix.sensors.Pigeon2;
+import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
@@ -24,6 +28,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -35,7 +40,6 @@ public class DriveSubsystem extends SubsystemBase {
 
     public Field2d m_field;
     private PIDController m_balancePID = new PIDController(SwerveConstants.GAINS_BALANCE.kP, SwerveConstants.GAINS_BALANCE.kI, SwerveConstants.GAINS_BALANCE.kD);
-
     public SwerveAutoBuilder m_autoBuilder;
     public DriveSubsystem() {
         m_gyro = new Pigeon2(CanConstants.PIGEON2, "drive");
@@ -60,6 +64,13 @@ public class DriveSubsystem extends SubsystemBase {
 
     @Override
     public void periodic(){
+        if(DriverStation.isDisabled()){
+            resetModulesToAbsolute();
+        }
+        for(SwerveModule mod : mSwerveMods){
+            mod.putToTempDashboard();
+        } 
+
         m_balancePID.setTolerance(SwerveConstants.BALANCE_TOLLERANCE);
         //double pidOutput = m_balancePID.calculate(getRoll(), 0);
         // SmartDashboard.putNumber("Balance PID", pidOutput);
@@ -96,7 +107,7 @@ public class DriveSubsystem extends SubsystemBase {
                                     translation.getX(), 
                                     translation.getY(), 
                                     rotation, 
-                                    getYaw()
+                                    swerveOdometry.getPoseMeters().getRotation()
                                 )
                                 : new ChassisSpeeds(
                                     translation.getX(), 
@@ -156,6 +167,10 @@ public class DriveSubsystem extends SubsystemBase {
         m_gyro.setYaw(0);
     }
 
+    public void setYaw(double yaw){
+        m_gyro.setYaw(yaw);
+    }
+
     public Rotation2d getYaw() {
         return (SwerveConstants.INVERT_GYRO) ? Rotation2d.fromDegrees(360 - m_gyro.getYaw()) : Rotation2d.fromDegrees(m_gyro.getYaw());
     }
@@ -184,33 +199,49 @@ public class DriveSubsystem extends SubsystemBase {
         drive(new Translation2d(-pidOutput, 0), 0.0, false, true, false);
     }
 
-    public SequentialCommandGroup followTrajectoryCommand(PathPlannerTrajectory traj, boolean isFirstPath) {
+    public SequentialCommandGroup followTrajectoryCommand(PathPlannerTrajectory path1, boolean isFirstPath) {
         PIDController thetaController = new PIDController(1.2, 0, 0);
         PIDController xController = new PIDController(1.0, 0, 0);
         PIDController yController = new PIDController(1.0, 0, 0);
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
-
-        PathPlannerTrajectory.transformTrajectoryForAlliance(traj, DriverStation.getAlliance());
         return new SequentialCommandGroup(
              new InstantCommand(() -> {
                // Reset odometry for the first path you run during auto
                if(isFirstPath){
-                    resetOdometry(traj.getInitialHolonomicPose());
+                    PathPlannerTrajectory transformed = PathPlannerTrajectory.transformTrajectoryForAlliance(path1, DriverStation.getAlliance());
+                    resetOdometry(transformed.getInitialHolonomicPose());
                }
              }),
              new PPSwerveControllerCommand(
-                 traj, 
+                 path1, 
                  this::getPose, // Pose supplier
                  SwerveConstants.SWERVE_DRIVE_KINEMATICS, // SwerveDriveKinematics
                  xController, // X controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
                  yController, // Y controller (usually the same values as X controller)
                  thetaController, // Rotation controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
                  this::setModuleStates,  // Module states consumer
-                 false, //Automatic mirroring
+                 true, //Automatic mirroring
                  this // Requires this drive subsystem
              ) 
              .andThen(() -> stopDrive())
          );
      }
-
+   
+    // public SequentialCommandGroup followTrajectoryGroupCommand(List<PathPlannerTrajectory> path1, boolean isFirstPath) {
+    //     PIDController thetaController = new PIDController(1.2, 0, 0);
+    //     PIDController xController = new PIDController(1.0, 0, 0);
+    //     PIDController yController = new PIDController(1.0, 0, 0);
+    //     thetaController.enableContinuousInput(-Math.PI, Math.PI);
+    //     SwerveAutoBuilder m_auto = new SwerveAutoBuilder(null, null, null, null, null, null, null);
+    //     return new SequentialCommandGroup(
+    //         new InstantCommand(() -> {
+    //         // Reset odometry for the first path you run during auto
+    //         if(isFirstPath){
+    //                 PathPlannerTrajectory transformed = PathPlannerTrajectory.transformTrajectoryForAlliance(path1.get(0), DriverStation.getAlliance());
+    //                 resetOdometry(transformed.getInitialHolonomicPose());
+    //         }
+    //         }),
+    //         m_auto.fullAuto().andThen(() -> stopDrive())
+    //     );
+    // }
 }

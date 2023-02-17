@@ -10,13 +10,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.claw.ClawDefault;
 import frc.robot.subsystems.claw.ClawSubsytem;
 import frc.robot.Constants.ArmSetpoints;
 import frc.robot.Constants.LimelightConstants;
+import frc.robot.auto.OneConeClose;
 import frc.robot.auto.OneConeFar;
 import frc.robot.auto.OneConeWithCharge;
 import frc.robot.auto.TestAuto;
@@ -29,7 +29,6 @@ import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.TeleopSwerve;
 import frc.robot.subsystems.led.LEDDefault;
 import frc.robot.subsystems.led.LEDSubsystem;
-import frc.robot.subsystems.limelight.AlignWithConeNode;
 import frc.robot.subsystems.limelight.AlignWithGridApril;
 import frc.robot.subsystems.limelight.LimelightSubsystem;
 import frc.robot.util.GamePiece;
@@ -73,12 +72,14 @@ public class RobotContainer {
     
     m_autoChooser.addOption("Test Auto", new TestAuto(m_drive));
     m_autoChooser.addOption("OneConeFar", new OneConeFar(m_drive, m_arm, m_claw));
+    m_autoChooser.addOption("OneConeClose", new OneConeClose(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("OneConeWithCharge", new OneConeWithCharge(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("No Auto", null);
     SmartDashboard.putData("Auto", m_autoChooser);
     
     //new Pneumatics();
     configureBindings();
+    
     m_drive.setDefaultCommand(new TeleopSwerve(m_drive, 
                                               () -> -m_driverController.getLeftY(), 
                                               () -> -m_driverController.getLeftX(), 
@@ -121,8 +122,6 @@ public class RobotContainer {
     
     m_driverController.leftTrigger().onTrue(new ScoreAndRetract(m_arm));
 
-    // m_driverController.leftTrigger().onTrue(Commands.runOnce(() -> m_arm.updateAllSetpoints(ArmSetpoints.TOP_NODE_PLACED)).andThen(new WaitCommand(0.9)).andThen(m_arm::actuateClawOut));
-
     m_driverController.povDown().onTrue(Commands.runOnce(() -> m_limelight.setPipeline(LimelightConstants.DRIVER_PIPELINE), m_limelight));
 
     m_driverController.povLeft().onTrue(Commands.runOnce(() -> m_limelight.setPipeline(LimelightConstants.RETRO_PIPELINE), m_limelight));
@@ -143,7 +142,6 @@ public class RobotContainer {
     m_operatorController.y().onTrue(new GoToPositionWithIntermediate(m_arm, ArmSetpoints.TOP_NODE));
 
     m_operatorController.x().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.SUBSTATION)));
-
   }
 
  

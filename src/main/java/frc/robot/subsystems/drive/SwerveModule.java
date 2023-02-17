@@ -4,6 +4,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.util.Conversions;
 import frc.robot.util.SwerveModuleConstants;
@@ -43,7 +44,7 @@ public class SwerveModule {
 
         lastAngle = getState().angle;
     }
-
+    
     public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop, boolean isTeleop){
         /* This is a custom optimize function, since default WPILib optimize assumes continuous controller which CTRE and Rev onboard is not */
         desiredState = CTREModuleState.optimize(desiredState, getState().angle); 
@@ -51,6 +52,10 @@ public class SwerveModule {
         setSpeed(desiredState, isOpenLoop, isTeleop);
     }
 
+    public void putToTempDashboard(){
+        Shuffleboard.getTab("Swerve Module Temps").add("Drive Temp Mod "+ moduleNumber, mDriveMotor.getTemperature());
+        Shuffleboard.getTab("Swerve Module Temps").add("Steer Temp Mod "+ moduleNumber, mAngleMotor.getTemperature());
+    }
     private void setSpeed(SwerveModuleState desiredState, boolean isOpenLoop, boolean isTeleop){
         if(isOpenLoop && isTeleop){
             double speed = Math.copySign(Math.pow(desiredState.speedMetersPerSecond, 2), desiredState.speedMetersPerSecond);
@@ -127,5 +132,6 @@ public class SwerveModule {
         );
     }
 
+    
     
 }

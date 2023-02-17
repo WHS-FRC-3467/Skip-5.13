@@ -90,7 +90,7 @@ public class TeleopSwerve extends CommandBase {
             else if(m_270.getAsBoolean()){
                 m_thetaController.setSetpoint(90.0);
             }
-            rotationVal = m_thetaController.calculate((MathUtil.inputModulus(m_Swerve.getYaw().getDegrees(), -180, 180)), m_thetaController.getSetpoint());
+            rotationVal = m_thetaController.calculate((MathUtil.inputModulus(m_Swerve.getPose().getRotation().getDegrees(), -180, 180)), m_thetaController.getSetpoint());
             rotationVal = MathUtil.clamp(rotationVal, -SwerveConstants.MAX_ANGULAR_VELOCITY * 0.3, SwerveConstants.MAX_ANGULAR_VELOCITY * 0.3);
             // SmartDashboard.putNumber("RotationVal", rotationVal);
             // SmartDashboard.putNumber("Theta Controller setpoint", m_thetaController.getSetpoint());
