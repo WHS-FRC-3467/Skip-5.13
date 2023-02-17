@@ -24,6 +24,7 @@ import frc.robot.subsystems.arm.ArmDefault;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.arm.GoToPositionWithIntermediate;
 import frc.robot.subsystems.arm.RetractToStowed;
+import frc.robot.subsystems.arm.ScoreAndRetract;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.TeleopSwerve;
 import frc.robot.subsystems.led.LEDDefault;
@@ -118,9 +119,9 @@ public class RobotContainer {
     m_driverController.start().whileTrue(Commands.run(m_drive::AutoBalance, m_drive).andThen(m_drive::stopDrive, m_drive));
     m_driverController.back().whileTrue(new AlignWithGridApril(m_limelight, m_drive));
     
-    m_driverController.rightTrigger().onTrue(Commands.runOnce(() -> m_arm.updateAllSetpoints(ArmSetpoints.MID_NODE_PLACED)).andThen(new WaitCommand(0.7)).andThen(m_arm::actuateClawOut));
+    m_driverController.leftTrigger().onTrue(new ScoreAndRetract(m_arm));
 
-    m_driverController.leftTrigger().onTrue(Commands.runOnce(() -> m_arm.updateAllSetpoints(ArmSetpoints.TOP_NODE_PLACED)).andThen(new WaitCommand(0.9)).andThen(m_arm::actuateClawOut));
+    // m_driverController.leftTrigger().onTrue(Commands.runOnce(() -> m_arm.updateAllSetpoints(ArmSetpoints.TOP_NODE_PLACED)).andThen(new WaitCommand(0.9)).andThen(m_arm::actuateClawOut));
 
     m_driverController.povDown().onTrue(Commands.runOnce(() -> m_limelight.setPipeline(LimelightConstants.DRIVER_PIPELINE), m_limelight));
 

@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Constants.ArmSetpoints;
 import frc.robot.subsystems.arm.Setpoint.ArmState;
+import frc.robot.subsystems.arm.Setpoint.ClawState;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -17,8 +18,9 @@ public class GoToPositionWithIntermediate extends SequentialCommandGroup {
   /** Creates a new GoToPositionWithIntermediate. */
   public GoToPositionWithIntermediate(ArmSubsystem arm, Setpoint setpoint) {
 
-    Setpoint intermediateSetpoint = new Setpoint(ArmSetpoints.INTERMEDIATE_LOWER_POSITION, setpoint.upperCone * 0.5, setpoint.wristCone, 
-                                                ArmSetpoints.INTERMEDIATE_LOWER_POSITION, (setpoint.upperCube) * 0.5, setpoint.wristCube, ArmState.INTERMEDIATE);
+    Setpoint intermediateSetpoint = new Setpoint(ArmSetpoints.INTERMEDIATE_LOWER_POSITION, setpoint.upperCone * 0.5, setpoint.wristCone, ClawState.IN,
+                                                ArmSetpoints.INTERMEDIATE_LOWER_POSITION, (setpoint.upperCube) * 0.5, setpoint.wristCube, ClawState.OUT,
+                                                ArmState.INTERMEDIATE);
     addCommands(  
         new InstantCommand(()-> arm.updateAllSetpoints(intermediateSetpoint)),
         new WaitUntilCommand(()-> arm.bothJointsAtSetpoint()).withTimeout(2.0),

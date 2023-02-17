@@ -28,6 +28,7 @@ import frc.robot.Constants.CanConstants;
 import frc.robot.Constants.DIOConstants;
 import frc.robot.Constants.PHConstants;
 import frc.robot.subsystems.arm.Setpoint.ArmState;
+import frc.robot.subsystems.arm.Setpoint.ClawState;
 import frc.robot.util.GamePiece;
 import frc.robot.util.GamePiece.GamePieceType;
 
@@ -159,7 +160,8 @@ public class ArmSubsystem extends SubsystemBase {
     m_upperSetpoint = getUpperJointDegrees();
     m_controllerUpper.reset(getUpperJointDegrees());
     m_controllerLower.reset(getLowerJointDegrees());
-    m_setpoint = new Setpoint(m_lowerSetpoint, m_upperSetpoint, false, m_lowerSetpoint, m_upperSetpoint, false, ArmState.OTHER);
+    m_setpoint = new Setpoint(m_lowerSetpoint, m_upperSetpoint, false, ClawState.IN, 
+                              m_lowerSetpoint, m_upperSetpoint, false, ClawState.OUT, ArmState.OTHER);
   }
 
   public void updateUpperSetpoint(double setpoint) {
@@ -183,15 +185,12 @@ public class ArmSubsystem extends SubsystemBase {
     m_wrist.set(m_writstSetpoint);
   }
 
-  public void updateClawSetpoint(GamePiece.GamePieceType gamePiece) {
-    if (gamePiece == GamePieceType.Cone) {
-      m_claw.set(false);
+  public void updateClawSetpoint(ClawState clawState) {
+    if(clawState == ClawState.IN){
+      actuateClawIn();
     }
-
-    else if (gamePiece == GamePieceType.Cube) {
-      m_claw.set(true);
-    } else if (gamePiece == GamePieceType.None) {
-      m_claw.set(true);
+    else{
+      actuateClawOut();
     }
   }
 
@@ -201,12 +200,13 @@ public class ArmSubsystem extends SubsystemBase {
       updateUpperSetpoint(setpoint.upperCone);
       updateLowerSetpoint(setpoint.lowerCone);
       updateWristSetpoint(setpoint.wristCone);
+      updateClawSetpoint(setpoint.clawCone);
     } else if (GamePiece.getGamePiece() == GamePieceType.Cube) {
       updateUpperSetpoint(setpoint.upperCube);
       updateLowerSetpoint(setpoint.lowerCube);
       updateWristSetpoint(setpoint.wristCube);
+      updateClawSetpoint(setpoint.clawCube);
     }
-    updateClawSetpoint(GamePiece.getGamePiece());
   }
 
   public Vector<N2> calculateFeedforwards() {

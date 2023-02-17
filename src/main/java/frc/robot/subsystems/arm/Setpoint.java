@@ -13,6 +13,8 @@ public class Setpoint {
     public double upperCube;
     public boolean wristCube;
     public ArmState state;
+    public ClawState clawCone;
+    public ClawState clawCube;
     /**
      * 
      * @param m_lowerCone
@@ -22,17 +24,22 @@ public class Setpoint {
      * @param m_upperCube
      * @param wristCube
      */
-    public Setpoint(double lowerCone, double upperCone, boolean wristCone, double lowerCube, double upperCube,
-            boolean wristCube, ArmState state) {
+    public Setpoint(double lowerCone, double upperCone, boolean wristCone, ClawState clawCone, double lowerCube, double upperCube,
+            boolean wristCube, ClawState clawCube, ArmState state) {
         this.lowerCone = lowerCone;
         this.upperCone = upperCone;
         this.wristCone = wristCone;
+        this.clawCone = clawCone;
         this.lowerCube = lowerCube;
         this.upperCube = upperCube;
         this.wristCube = wristCube;
+        this.clawCube = clawCube;
         this.state = state;
     }
     public enum ArmState{
         STOWED, FLOOR, MID_NODE, MID_NODE_PLACED, TOP_NODE, TOP_NODE_PLACED, SUBSTATION, INTERMEDIATE, OTHER
+    }
+    public enum ClawState{
+        IN, OUT
     }
 }

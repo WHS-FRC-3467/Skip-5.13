@@ -7,6 +7,7 @@ package frc.robot.subsystems.arm;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmSetpoints;
 import frc.robot.subsystems.arm.Setpoint.ArmState;
+import frc.robot.subsystems.arm.Setpoint.ClawState;
 
 public class RetractToStowed extends CommandBase {
   ArmSubsystem arm;
@@ -23,20 +24,38 @@ public class RetractToStowed extends CommandBase {
   public void initialize() {
     // Retracting from grid
     if (arm.getSetpoint().state.equals(ArmState.MID_NODE) || 
-                arm.getSetpoint().state.equals(ArmState.MID_NODE_PLACED) || 
-                arm.getSetpoint().state.equals(ArmState.TOP_NODE) || 
-                arm.getSetpoint().state.equals(ArmState.TOP_NODE_PLACED)) {
+        arm.getSetpoint().state.equals(ArmState.TOP_NODE)) {
 
       intermediate = new Setpoint(
           ArmSetpoints.INTERMEDIATE_LOWER_POSITION,
           arm.getSetpoint().upperCone * 0.5,
           arm.getSetpoint().wristCone,
+          ClawState.IN,
           ArmSetpoints.INTERMEDIATE_LOWER_POSITION,
           arm.getSetpoint().upperCube * 0.5,
           arm.getSetpoint().wristCube,
+          ClawState.OUT,
           ArmState.INTERMEDIATE);
 
       arm.updateAllSetpoints(intermediate);
+    }
+    else if (arm.getSetpoint().state.equals(ArmState.MID_NODE_PLACED) || 
+             arm.getSetpoint().state.equals(ArmState.TOP_NODE_PLACED)) {
+              
+      intermediate = new Setpoint(
+        ArmSetpoints.INTERMEDIATE_LOWER_POSITION,
+        arm.getSetpoint().upperCone * 0.5,
+        arm.getSetpoint().wristCone,
+        ClawState.OUT,
+        ArmSetpoints.INTERMEDIATE_LOWER_POSITION,
+        arm.getSetpoint().upperCube * 0.5,
+        arm.getSetpoint().wristCube,
+        ClawState.OUT,
+        ArmState.INTERMEDIATE);
+
+      arm.updateAllSetpoints(intermediate);
+
+
     }
     // Retracting from floor
     else if (arm.getSetpoint().state.equals(ArmState.FLOOR)) {
@@ -45,9 +64,11 @@ public class RetractToStowed extends CommandBase {
           ArmSetpoints.STOWED.lowerCone,
           ArmSetpoints.STOWED.upperCone,
           true,
+          ClawState.IN,
           ArmSetpoints.STOWED.lowerCube,
           ArmSetpoints.STOWED.upperCube,
           true,
+          ClawState.OUT,
           ArmState.INTERMEDIATE);
 
       arm.updateAllSetpoints(intermediate);
