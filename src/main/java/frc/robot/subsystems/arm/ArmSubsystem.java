@@ -127,12 +127,12 @@ public class ArmSubsystem extends SubsystemBase {
 
 
     SmartDashboard.putBoolean("Game Peice", GamePiece.getGamePiece() == GamePieceType.Cone);
+    SmartDashboard.putBoolean("Upper at Setpoint", getUpperAtSetpoint());
+    SmartDashboard.putBoolean("Lower at Setpoint", getLowerAtSetpoint());
+    SmartDashboard.putNumber("Lower Angle", getLowerJointDegrees());
+    SmartDashboard.putNumber("Upper Angle", getUpperJointDegrees());
 
     if (Constants.tuningMode) {
-      SmartDashboard.putBoolean("Upper at Setpoint", getUpperAtSetpoint());
-      SmartDashboard.putBoolean("Lower at Setpoint", getLowerAtSetpoint());
-      SmartDashboard.putNumber("Lower Angle", getLowerJointDegrees());
-      SmartDashboard.putNumber("Upper Angle", getUpperJointDegrees());
       // SmartDashboard.putNumber("Upper FF", (calculateFeedforwards().get(1, 0) /
       // 12.0));
       // SmartDashboard.putNumber("Lower FF", (calculateFeedforwards().get(0, 0) /
@@ -143,16 +143,7 @@ public class ArmSubsystem extends SubsystemBase {
       SmartDashboard.putNumber("Upper Error", getUpperError());
       // SmartDashboard.putNumber("Lower Velocity Setpoint", m_controllerLower.getSetpoint().velocity);
       // SmartDashboard.putNumber("Upper Velocity Setpoint", m_controllerUpper.getSetpoint().velocity);
-    } else {
-      SmartDashboard.clearPersistent("Lower Angle");
-      SmartDashboard.clearPersistent("Upper Angle");
-      SmartDashboard.clearPersistent("Upper Percent");
-      SmartDashboard.clearPersistent("Lower Percent");
-      SmartDashboard.clearPersistent("Upper Abs");
-      SmartDashboard.clearPersistent("Lower Abs");
-      SmartDashboard.clearPersistent("Upper Current");
-      SmartDashboard.clearPersistent("Lower Current");
-    }
+    } 
   }
 
   public void reset() {

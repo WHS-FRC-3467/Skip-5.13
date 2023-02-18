@@ -8,12 +8,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
-import java.util.List;
-
-import javax.crypto.spec.PSource.PSpecified;
-
 import com.ctre.phoenix.sensors.Pigeon2;
-import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
@@ -28,7 +23,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -64,12 +58,12 @@ public class DriveSubsystem extends SubsystemBase {
 
     @Override
     public void periodic(){
-        if(DriverStation.isDisabled()){
-            resetModulesToAbsolute();
-        }
-        for(SwerveModule mod : mSwerveMods){
-            mod.putToTempDashboard();
-        } 
+        // if(DriverStation.isDisabled()){
+        //     resetModulesToAbsolute();
+        // }
+        // for(SwerveModule mod : mSwerveMods){
+        //     mod.putToTempDashboard();
+        // } 
 
         m_balancePID.setTolerance(SwerveConstants.BALANCE_TOLLERANCE);
         //double pidOutput = m_balancePID.calculate(getRoll(), 0);
@@ -90,13 +84,6 @@ public class DriveSubsystem extends SubsystemBase {
             for(SwerveModule mod : mSwerveMods){
                 SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
             } 
-        }
-        else{
-            for(SwerveModule mod : mSwerveMods){
-                SmartDashboard.clearPersistent("Mod " + mod.moduleNumber + " Cancoder");
-                SmartDashboard.clearPersistent("Mod " + mod.moduleNumber + " Integrated");
-                SmartDashboard.clearPersistent("Mod " + mod.moduleNumber + " Velocity");    
-            }   
         }
     }
 

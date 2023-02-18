@@ -4,7 +4,6 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.util.Conversions;
 import frc.robot.util.SwerveModuleConstants;
@@ -52,10 +51,11 @@ public class SwerveModule {
         setSpeed(desiredState, isOpenLoop, isTeleop);
     }
 
-    public void putToTempDashboard(){
-        Shuffleboard.getTab("Swerve Module Temps").add("Drive Temp Mod "+ moduleNumber, mDriveMotor.getTemperature());
-        Shuffleboard.getTab("Swerve Module Temps").add("Steer Temp Mod "+ moduleNumber, mAngleMotor.getTemperature());
-    }
+    // public void putToTempDashboard(){
+    //     SmartDashboard.putNumber("Drive Temp Mod "+ moduleNumber, mDriveMotor.getTemperature());
+    //     SmartDashboard.putNumber("Steer Temp Mod "+ moduleNumber, mAngleMotor.getTemperature());
+    // }
+
     private void setSpeed(SwerveModuleState desiredState, boolean isOpenLoop, boolean isTeleop){
         if(isOpenLoop && isTeleop){
             double speed = Math.copySign(Math.pow(desiredState.speedMetersPerSecond, 2), desiredState.speedMetersPerSecond);

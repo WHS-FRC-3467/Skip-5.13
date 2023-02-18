@@ -27,7 +27,7 @@ import frc.robot.util.SwerveModuleConstants;
  */
 public final class Constants {
 
-  public static final boolean tuningMode = true;
+  public static final boolean tuningMode = false;
 
   public static final class CanConstants{
     //drivebase CAN IDs 
@@ -73,13 +73,13 @@ public final class Constants {
 
     //Gold Bot
     //Mod 0
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 289.2;
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 291.1;
     //Mod 1
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 74.6;
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 73.6;
     //Mod 2
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 291.4; 
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 38.7;
     //Mod 3
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 206.4;
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 207.2;
 
     public static final boolean INVERT_GYRO = false; // Always ensure Gyro is CCW+ CW-
 
@@ -272,13 +272,13 @@ public final class Constants {
     public static final Setpoint MANUAL_MODE = new Setpoint(180, 16, false, ClawState.IN, 180, 16, false, ClawState.OUT, ArmState.OTHER);
 
     public static final Setpoint FLOOR = new Setpoint(245, 61, true, ClawState.IN, 245, 62, true, ClawState.OUT, ArmState.FLOOR);
-    public static final Setpoint MID_NODE = new Setpoint(179, 86, false, ClawState.IN, 192, 71, false, ClawState.OUT, ArmState.MID_NODE);
-    public static final Setpoint MID_NODE_PLACED = new Setpoint(184.5, 77, false, ClawState.IN, 192, 69, false, ClawState.OUT, ArmState.MID_NODE_PLACED);
-    public static final Setpoint MID_NODE_PLACED_AND_OPEN = new Setpoint(183.5, 76, false, ClawState.IN, 192, 69, false, ClawState.OUT, ArmState.MID_NODE_PLACED);
-    public static final Setpoint TOP_NODE = new Setpoint(214, 141, false, ClawState.IN, 213, 118, false, ClawState.OUT, ArmState.TOP_NODE);
-    public static final Setpoint TOP_NODE_PLACED = new Setpoint(218, 139, false, ClawState.IN, 213, 115, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
-    public static final Setpoint TOP_NODE_PLACED_AND_OPEN = new Setpoint(218, 140, false, ClawState.IN, 213, 115, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
-    public static final Setpoint SUBSTATION = new Setpoint(150, 53, false, ClawState.IN, 150, 53, false, ClawState.OUT, ArmState.SUBSTATION);
+    public static final Setpoint MID_NODE = new Setpoint(183, 90, false, ClawState.IN, 192, 75, false, ClawState.OUT, ArmState.MID_NODE);
+    public static final Setpoint MID_NODE_PLACED = new Setpoint(188.5, 80, false, ClawState.IN, 192, 69, false, ClawState.OUT, ArmState.MID_NODE_PLACED);
+    public static final Setpoint MID_NODE_PLACED_AND_OPEN = new Setpoint(188.5, 80, false, ClawState.IN, 192, 69, false, ClawState.OUT, ArmState.MID_NODE_PLACED);
+    public static final Setpoint TOP_NODE = new Setpoint(222, 155, false, ClawState.IN, 213, 122, false, ClawState.OUT, ArmState.TOP_NODE);
+    public static final Setpoint TOP_NODE_PLACED = new Setpoint(222, 140, false, ClawState.IN, 213, 115, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
+    public static final Setpoint TOP_NODE_PLACED_AND_OPEN = new Setpoint(222, 140, false, ClawState.OUT, 213, 115, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
+    public static final Setpoint SUBSTATION = new Setpoint(150, 51, false, ClawState.IN, 150, 51, false, ClawState.OUT, ArmState.SUBSTATION);
 
     public static final double INTERMEDIATE_LOWER_POSITION = 154;
   }
