@@ -27,7 +27,7 @@ import frc.robot.util.SwerveModuleConstants;
  */
 public final class Constants {
 
-  public static final boolean tuningMode = false;
+  public static final boolean tuningMode = true;
 
   public static final class CanConstants{
     //drivebase CAN IDs 
@@ -73,13 +73,13 @@ public final class Constants {
 
     //Gold Bot
     //Mod 0
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 291.1;
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 221.84;
     //Mod 1
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 73.6;
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 186.77;
     //Mod 2
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 38.7;
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 82.53;
     //Mod 3
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 207.2;
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 178.51;
 
     public static final boolean INVERT_GYRO = false; // Always ensure Gyro is CCW+ CW-
 
@@ -278,7 +278,7 @@ public final class Constants {
     public static final Setpoint TOP_NODE = new Setpoint(222, 155, false, ClawState.IN, 213, 122, false, ClawState.OUT, ArmState.TOP_NODE);
     public static final Setpoint TOP_NODE_PLACED = new Setpoint(222, 140, false, ClawState.IN, 213, 115, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
     public static final Setpoint TOP_NODE_PLACED_AND_OPEN = new Setpoint(222, 140, false, ClawState.OUT, 213, 115, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
-    public static final Setpoint SUBSTATION = new Setpoint(150, 51, false, ClawState.IN, 150, 51, false, ClawState.OUT, ArmState.SUBSTATION);
+    public static final Setpoint SUBSTATION = new Setpoint(150, 52, false, ClawState.IN, 150, 52, false, ClawState.OUT, ArmState.SUBSTATION);
 
     public static final double INTERMEDIATE_LOWER_POSITION = 154;
   }
