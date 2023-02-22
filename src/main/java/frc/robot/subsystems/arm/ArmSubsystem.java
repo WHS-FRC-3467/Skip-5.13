@@ -15,6 +15,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.numbers.N2;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -201,22 +202,18 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public Vector<N2> calculateFeedforwards() {
-    // Setpoint -
-    Vector<N2> positionVector = VecBuilder.fill(Math.toRadians(m_lowerSetpoint + (180)),
-        // Setpoint + 90 - So horizantal is 0
-        Math.toRadians(m_upperSetpoint + (180)));
-
-    Vector<N2> velocityVector = VecBuilder.fill(0.0, 0.0);
-    Vector<N2> accelVector = VecBuilder.fill(0.0, 0.0);
-    Vector<N2> vectorFF = m_doubleJointedFeedForwards.feedforward(positionVector, velocityVector, accelVector);
+    Rotation2d upperRotation2d = new Rotation2d(Math.toDegrees(getUpperJointDegrees())).rotateBy(new Rotation2d(Math.PI/2));
+    Rotation2d lowerRotation2d = new Rotation2d(Math.toDegrees(getUpperJointDegrees())).rotateBy(new Rotation2d(Math.PI*3/2));
+    Vector<N2> angles = VecBuilder.fill(lowerRotation2d.getRadians(), upperRotation2d.getRadians());
+    Vector<N2> vectorFF = m_doubleJointedFeedForwards.feedforward(angles);
     return vectorFF;
   }
 
   public void runUpperProfiled() {
     m_controllerUpper.setGoal(new TrapezoidProfile.State(m_upperSetpoint, 0.0));
     double pidOutput = -m_controllerUpper.calculate(getUpperJointDegrees());
-    //double ff = -(calculateFeedforwards().get(1, 0)) / 12.0;
-    // System.out.println("upper ff" + (ff));
+    double ff = -(calculateFeedforwards().get(1, 0)) / 12.0;
+    System.out.println("upper ff" + (ff));
     // System.out.println("Upper PID" + pidOutput);
     m_upperJoint.set(TalonFXControlMode.PercentOutput, pidOutput); // may need to negate ff voltage to get desired output
   }
@@ -224,8 +221,8 @@ public class ArmSubsystem extends SubsystemBase {
   public void runLowerProfiled() {
     m_controllerLower.setGoal(new TrapezoidProfile.State(m_lowerSetpoint, 0.0));
     double pidOutput = -m_controllerLower.calculate(getLowerJointDegrees());
-    //double ff = -(calculateFeedforwards().get(0, 0)) / 12.0;
-    // System.out.println("lower ff" + (ff));
+    double ff = -(calculateFeedforwards().get(0, 0)) / 12.0;
+    System.out.println("lower ff" + (ff));
     // System.out.println("Lower PID" + pidOutput);
     m_lowerJoint.set(TalonFXControlMode.PercentOutput, pidOutput); // may need to negate ff voltage to get desired output
   }
