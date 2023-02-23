@@ -212,8 +212,11 @@ public class ArmSubsystem extends SubsystemBase {
     double pidOutput = -m_controllerUpper.calculate(getUpperJointDegrees(), new TrapezoidProfile.State(m_upperSetpoint, 0.0));
     // double ff = (calculateFeedforwards().get(1, 0)) / 12.0;
     // SmartDashboard.putNumber("upper ff", (ff));
-    // SmartDashboard.putNumber("upper PID", pidOutput);
+    SmartDashboard.putNumber("upper PID", pidOutput);
     // System.out.println("Upper PID" + pidOutput);
+    if(Math.abs(pidOutput) > 0.01 && Math.abs(pidOutput)<0.05){
+      pidOutput = Math.copySign(0.05, pidOutput);
+    }
     m_upperJoint.set(TalonFXControlMode.PercentOutput, pidOutput); // may need to negate ff voltage to get desired output
   }
 
@@ -222,7 +225,7 @@ public class ArmSubsystem extends SubsystemBase {
     double pidOutput = -m_controllerLower.calculate(getLowerJointDegrees(), new TrapezoidProfile.State(m_lowerSetpoint, 0.0));
     // double ff = (calculateFeedforwards().get(0, 0)) / 12.0;
     // SmartDashboard.putNumber("lower ff", (ff));
-    // SmartDashboard.putNumber("lower PID", pidOutput);
+    SmartDashboard.putNumber("lower PID", pidOutput);
     // System.out.println("Lower PID" + pidOutput);
     m_lowerJoint.set(TalonFXControlMode.PercentOutput, pidOutput); // may need to negate ff voltage to get desired output
   }

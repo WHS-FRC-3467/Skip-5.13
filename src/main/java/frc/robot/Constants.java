@@ -214,8 +214,8 @@ public final class Constants {
     public static final double UPPER_ANGLE_OFFSET = 12.4 - VERTICAL_ANGLE_UPPER;
 
     //Gains
-    public static final  Gains GAINS_UPPER_JOINT = new Gains(0.025, 0.0, 0.0, 0.0, 50);
-    public static final  Gains GAINS_LOWER_JOINT  = new Gains(0.025, 0.0, 0.0, 0.00, 50);
+    public static final  Gains GAINS_UPPER_JOINT = new Gains(0.023, 0.0, 0.0, 0.0, 50);
+    public static final  Gains GAINS_LOWER_JOINT  = new Gains(0.023, 0.0, 0.0, 0.00, 50);
     
     //PID Tollerance in Degrees
     public static final double TOLERANCE_POS = 3.0;
