@@ -37,7 +37,6 @@ public class OneConeWithCharge extends SequentialCommandGroup {
       new ParallelCommandGroup(
         new SequentialCommandGroup(
           Commands.runOnce(() -> GamePiece.setGamePiece(GamePieceType.Cone)),
-          //Commands.runOnce(() -> arm.updateAllSetpoints(ArmSetpoints.STOWED)),
           new GoToPositionWithIntermediate(arm, ArmSetpoints.TOP_NODE),
           Commands.runOnce(() -> arm.updateAllSetpoints(ArmSetpoints.TOP_NODE_PLACED)),
           new WaitCommand(0.4),

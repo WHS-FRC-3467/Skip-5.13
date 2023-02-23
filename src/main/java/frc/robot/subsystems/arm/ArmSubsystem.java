@@ -15,6 +15,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.numbers.N2;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -133,16 +134,12 @@ public class ArmSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Upper Angle", getUpperJointDegrees());
 
     if (Constants.tuningMode) {
-      // SmartDashboard.putNumber("Upper FF", (calculateFeedforwards().get(1, 0) /
-      // 12.0));
-      // SmartDashboard.putNumber("Lower FF", (calculateFeedforwards().get(0, 0) /
-      // 12.0));
       SmartDashboard.putNumber("Lower Angle Uncorrected", dutyCycleToDegrees(getLowerJointPos()));
       SmartDashboard.putNumber("Upper Angle Uncorrected", dutyCycleToDegrees(getUpperJointPos()));
       SmartDashboard.putNumber("Lower Error", getLowerError());
       SmartDashboard.putNumber("Upper Error", getUpperError());
-      // SmartDashboard.putNumber("Lower Velocity Setpoint", m_controllerLower.getSetpoint().velocity);
-      // SmartDashboard.putNumber("Upper Velocity Setpoint", m_controllerUpper.getSetpoint().velocity);
+      SmartDashboard.putNumber("Lower Setpoint", m_lowerSetpoint);
+      SmartDashboard.putNumber("Upper Setpoint", m_upperSetpoint);
     } 
   }
 
@@ -201,31 +198,31 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public Vector<N2> calculateFeedforwards() {
-    // Setpoint -
-    Vector<N2> positionVector = VecBuilder.fill(Math.toRadians(m_lowerSetpoint + (180)),
-        // Setpoint + 90 - So horizantal is 0
-        Math.toRadians(m_upperSetpoint + (180)));
-
-    Vector<N2> velocityVector = VecBuilder.fill(0.0, 0.0);
-    Vector<N2> accelVector = VecBuilder.fill(0.0, 0.0);
-    Vector<N2> vectorFF = m_doubleJointedFeedForwards.feedforward(positionVector, velocityVector, accelVector);
+    Rotation2d upperRotation2d = new Rotation2d(Math.toDegrees(getUpperJointDegrees())).rotateBy(new Rotation2d(Math.toRadians(90.0)));
+    Rotation2d lowerRotation2d = new Rotation2d(Math.toDegrees(getUpperJointDegrees())).rotateBy(new Rotation2d(Math.toRadians(270.0)));
+    System.out.println("upper rotation2d "+ upperRotation2d);
+    System.out.println("lower rotation2d "+ lowerRotation2d);
+    Vector<N2> angles = VecBuilder.fill(lowerRotation2d.getRadians(), upperRotation2d.getRadians());
+    Vector<N2> vectorFF = m_doubleJointedFeedForwards.feedforward(angles);
     return vectorFF;
   }
 
   public void runUpperProfiled() {
     m_controllerUpper.setGoal(new TrapezoidProfile.State(m_upperSetpoint, 0.0));
-    double pidOutput = -m_controllerUpper.calculate(getUpperJointDegrees());
-    //double ff = -(calculateFeedforwards().get(1, 0)) / 12.0;
-    // System.out.println("upper ff" + (ff));
+    double pidOutput = -m_controllerUpper.calculate(getUpperJointDegrees(), new TrapezoidProfile.State(m_upperSetpoint, 0.0));
+    // double ff = (calculateFeedforwards().get(1, 0)) / 12.0;
+    // SmartDashboard.putNumber("upper ff", (ff));
+    // SmartDashboard.putNumber("upper PID", pidOutput);
     // System.out.println("Upper PID" + pidOutput);
     m_upperJoint.set(TalonFXControlMode.PercentOutput, pidOutput); // may need to negate ff voltage to get desired output
   }
 
   public void runLowerProfiled() {
     m_controllerLower.setGoal(new TrapezoidProfile.State(m_lowerSetpoint, 0.0));
-    double pidOutput = -m_controllerLower.calculate(getLowerJointDegrees());
-    //double ff = -(calculateFeedforwards().get(0, 0)) / 12.0;
-    // System.out.println("lower ff" + (ff));
+    double pidOutput = -m_controllerLower.calculate(getLowerJointDegrees(), new TrapezoidProfile.State(m_lowerSetpoint, 0.0));
+    // double ff = (calculateFeedforwards().get(0, 0)) / 12.0;
+    // SmartDashboard.putNumber("lower ff", (ff));
+    // SmartDashboard.putNumber("lower PID", pidOutput);
     // System.out.println("Lower PID" + pidOutput);
     m_lowerJoint.set(TalonFXControlMode.PercentOutput, pidOutput); // may need to negate ff voltage to get desired output
   }
@@ -238,20 +235,25 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public boolean getLowerAtSetpoint() {
-    return getLowerError()< ArmConstants.TOLERANCE_POS;
+    return getLowerError() < ArmConstants.TOLERANCE_POS;
   }
 
   public boolean getUpperAtSetpoint() {
     return getUpperError() < ArmConstants.TOLERANCE_POS;
   }
 
-
   public boolean bothJointsAtSetpoint() {
     return getUpperAtSetpoint() && getLowerAtSetpoint();
   }
   
   public Setpoint getSetpoint() {
-    return m_setpoint;
+    if(m_setpoint.equals(null)){
+      reset();
+      return m_setpoint;
+    }
+    else{
+      return m_setpoint;
+    }
   }
 
   public void setPercentOutputUpper(double speed) {

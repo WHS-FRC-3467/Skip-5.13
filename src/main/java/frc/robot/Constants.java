@@ -205,15 +205,17 @@ public final class Constants {
 
   public static final class ArmConstants{
     //Arm offsets
-    public static final double VERTICAL_ANGLE_UPPER = 20.8;
-    public static final double VERTICAL_ANGLE_LOWER = 180.0;
+    //Measured against the hardstop when claw is over pdh
+    public static final double VERTICAL_ANGLE_UPPER = 19.7;
+    //Measured when the lower angle is vertical using 1x1
+    public static final double VERTICAL_ANGLE_LOWER = 182.6;
 
     public static final double LOWER_ANGLE_OFFSET = 180 - VERTICAL_ANGLE_LOWER;
     public static final double UPPER_ANGLE_OFFSET = 12.4 - VERTICAL_ANGLE_UPPER;
 
     //Gains
-    public static final  Gains GAINS_UPPER_JOINT = new Gains(0.02, 0.0, 0.00, 0.0, 50);
-    public static final  Gains GAINS_LOWER_JOINT  = new Gains(0.02, 0.0, 0.00, 0.00, 50);
+    public static final  Gains GAINS_UPPER_JOINT = new Gains(0.025, 0.0, 0.0, 0.0, 50);
+    public static final  Gains GAINS_LOWER_JOINT  = new Gains(0.025, 0.0, 0.0, 0.00, 50);
     
     //PID Tollerance in Degrees
     public static final double TOLERANCE_POS = 3.0;
@@ -222,15 +224,15 @@ public final class Constants {
     public static final double UPPER_LENGTH = 1.07;
     public static final double UPPER_MOI = 0.4;
     public static final double UPPER_CGRADIUS = 1.0;
-    public static final double UPPER_MASS = 5.0;
-    public static final DCMotor UPPER_MOTOR = DCMotor.getFalcon500(1).withReduction(200);
+    public static final double UPPER_MASS = 2.0;
+    public static final DCMotor UPPER_MOTOR = DCMotor.getFalcon500(1).withReduction(250);
 
     //Lower Joint config
     public static final double LOWER_LENGTH = 0.7874;
     public static final double LOWER_MOI = 0.4;
     public static final double LOWER_CGRADIUS = 1.0;
-    public static final double LOWER_MASS = 5.0;
-    public static final DCMotor LOWER_MOTOR = DCMotor.getFalcon500(1).withReduction(200);
+    public static final double LOWER_MASS = 2.0;
+    public static final DCMotor LOWER_MOTOR = DCMotor.getFalcon500(1).withReduction(250);
 
     /* Motor neutral dead-band : Range 0.001 -> 0.25 */
 	  public static final double NEUTRAL_DEADBAND = 0.005;
@@ -252,11 +254,11 @@ public final class Constants {
     public final static int TIMEOUT = 10;
 
     // Profiled PID Constants
-    public static final double LOWER_CRUISE = 120.0;
-    public static final double LOWER_ACCELERATION = 200.0;
+    public static final double LOWER_CRUISE = 160.0;
+    public static final double LOWER_ACCELERATION = 180.0;
 
-    public static final double UPPER_CRUISE = 120.0;
-    public static final double UPPER_ACCELERATION = 200.0;
+    public static final double UPPER_CRUISE = 160.0;
+    public static final double UPPER_ACCELERATION = 180.0;
 
     //Duty cycle constants
     public static final double DUTY_CYCLE_MIN = 1.0/1025.0;

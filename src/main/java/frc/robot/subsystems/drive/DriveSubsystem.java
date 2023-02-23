@@ -213,22 +213,4 @@ public class DriveSubsystem extends SubsystemBase {
              .andThen(() -> stopDrive())
          );
      }
-   
-    // public SequentialCommandGroup followTrajectoryGroupCommand(List<PathPlannerTrajectory> path1, boolean isFirstPath) {
-    //     PIDController thetaController = new PIDController(1.2, 0, 0);
-    //     PIDController xController = new PIDController(1.0, 0, 0);
-    //     PIDController yController = new PIDController(1.0, 0, 0);
-    //     thetaController.enableContinuousInput(-Math.PI, Math.PI);
-    //     SwerveAutoBuilder m_auto = new SwerveAutoBuilder(null, null, null, null, null, null, null);
-    //     return new SequentialCommandGroup(
-    //         new InstantCommand(() -> {
-    //         // Reset odometry for the first path you run during auto
-    //         if(isFirstPath){
-    //                 PathPlannerTrajectory transformed = PathPlannerTrajectory.transformTrajectoryForAlliance(path1.get(0), DriverStation.getAlliance());
-    //                 resetOdometry(transformed.getInitialHolonomicPose());
-    //         }
-    //         }),
-    //         m_auto.fullAuto().andThen(() -> stopDrive())
-    //     );
-    // }
 }
