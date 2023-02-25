@@ -187,10 +187,12 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public SequentialCommandGroup followTrajectoryCommand(PathPlannerTrajectory path1, boolean isFirstPath) {
-        PIDController thetaController = new PIDController(1.2, 0, 0);
-        PIDController xController = new PIDController(1.0, 0, 0);
-        PIDController yController = new PIDController(1.0, 0, 0);
+        PIDController thetaController = new PIDController(2.0, 0, 0);
+        PIDController xController = new PIDController(1.2, 0, 0);
+        PIDController yController = new PIDController(1.2, 0, 0);
+
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
+
         return new SequentialCommandGroup(
              new InstantCommand(() -> {
                // Reset odometry for the first path you run during auto

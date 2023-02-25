@@ -7,13 +7,12 @@ package frc.robot.subsystems.limelight;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.LimelightConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.drive.DriveSubsystem;
 
-public class AlignWithGridApril extends CommandBase {
+public class AlignWithGridAprilAuto extends CommandBase {
   /** Creates a new AlignWithNodeApril. */
   LimelightSubsystem m_limelight;
   DriveSubsystem m_drive;
@@ -25,7 +24,7 @@ public class AlignWithGridApril extends CommandBase {
   private PIDController m_thetaController;
 
 
-  public AlignWithGridApril(LimelightSubsystem limelight, DriveSubsystem drive) {
+  public AlignWithGridAprilAuto(LimelightSubsystem limelight, DriveSubsystem drive) {
     m_drive = drive;
     m_limelight = limelight;
     addRequirements(m_drive, m_limelight);
@@ -60,10 +59,9 @@ public class AlignWithGridApril extends CommandBase {
     // }
     m_thetaController.setSetpoint(180.0);
 
-    double rotationVal = m_thetaController.calculate((MathUtil.inputModulus(m_drive.getYaw().getDegrees(), -180, 180)), 180.0);
-    rotationVal = MathUtil.clamp(rotationVal, -SwerveConstants.MAX_ANGULAR_VELOCITY * 0.4, SwerveConstants.MAX_ANGULAR_VELOCITY * 0.4);
+    double rotationVal = m_thetaController.calculate((MathUtil.inputModulus(m_drive.getPose().getRotation().getDegrees(), -180, 180)), m_thetaController.getSetpoint());
+    rotationVal = MathUtil.clamp(rotationVal, -SwerveConstants.MAX_ANGULAR_VELOCITY * 0.25, SwerveConstants.MAX_ANGULAR_VELOCITY * 0.25);
 
-    // m_pidControllerY.setSetpoint(LimelightConstants.SETPOINT_DIS_FROM_GRID_APRIL);
     m_pidControllerX.setSetpoint(LimelightConstants.ALIGNED_GRID_APRIL_X);
     xTrans = m_pidControllerX.calculate(m_limelight.getX());
     xTrans = MathUtil.clamp(xTrans, -0.5, 0.5);
@@ -73,7 +71,7 @@ public class AlignWithGridApril extends CommandBase {
     yTrans = MathUtil.clamp(yTrans, -0.5, 0.5);
 
     m_drive.drive(new Translation2d(yTrans, -xTrans), rotationVal, true, true, false);
-    SmartDashboard.putNumber("xtrans", xTrans);
+    // SmartDashboard.putNumber("xtrans", xTrans);
 
     if(m_pidControllerX.atSetpoint() && m_pidControllerY.atSetpoint() && count>50){
       m_end = true;

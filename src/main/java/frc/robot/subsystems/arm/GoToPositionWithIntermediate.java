@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Constants.ArmSetpoints;
 import frc.robot.subsystems.arm.Setpoint.ArmState;
 import frc.robot.subsystems.arm.Setpoint.ClawState;
+import frc.robot.util.GamePiece;
+import frc.robot.util.GamePiece.GamePieceType;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -18,14 +20,24 @@ public class GoToPositionWithIntermediate extends SequentialCommandGroup {
   /** Creates a new GoToPositionWithIntermediate. */
   public GoToPositionWithIntermediate(ArmSubsystem arm, Setpoint setpoint) {
 
-    Setpoint intermediateSetpoint = new Setpoint(ArmSetpoints.INTERMEDIATE_LOWER_POSITION, setpoint.upperCone * 0.5, setpoint.wristCone, ClawState.IN,
-                                                ArmSetpoints.INTERMEDIATE_LOWER_POSITION, (setpoint.upperCube) * 0.5, setpoint.wristCube, ClawState.OUT,
+    Setpoint intermediateSetpoint = new Setpoint(ArmSetpoints.INTERMEDIATE_LOWER_POSITION_SCORING, setpoint.upperCone * 0.55, setpoint.wristCone, ClawState.IN,
+                                                ArmSetpoints.INTERMEDIATE_LOWER_POSITION_SCORING, (setpoint.upperCube) * 0.55, setpoint.wristCube, ClawState.OUT,
                                                 ArmState.INTERMEDIATE);
+
+    if(GamePiece.getGamePiece().equals(GamePieceType.Cube) && setpoint.state.equals(ArmState.MID_NODE))
+    {
+      addCommands(  
+        new InstantCommand( ()-> arm.updateAllSetpoints(setpoint)),
+        new WaitUntilCommand(()-> arm.bothJointsAtSetpoint()).withTimeout(1.0)           
+      );
+    }
+    else{
     addCommands(  
         new InstantCommand(()-> arm.updateAllSetpoints(intermediateSetpoint)),
-        new WaitUntilCommand(()-> arm.bothJointsAtSetpoint()).withTimeout(2.0),
+        new WaitUntilCommand(()-> arm.bothJointsAtSetpoint()).withTimeout(1.5),
         new InstantCommand( ()-> arm.updateAllSetpoints(setpoint)),
-        new WaitUntilCommand(()-> arm.bothJointsAtSetpoint()).withTimeout(2.0)
-    );
+        new WaitUntilCommand(()-> arm.bothJointsAtSetpoint()).withTimeout(1.5)
+      );
+    }    
   }
 }

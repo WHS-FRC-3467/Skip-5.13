@@ -4,6 +4,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.util.Conversions;
 import frc.robot.util.SwerveModuleConstants;
@@ -107,6 +108,7 @@ public class SwerveModule {
         mAngleMotor.configAllSettings(m_configs.swerveAngleFXConfig);
         mAngleMotor.setInverted(SwerveConstants.ANGLE_MOTOR_INVERT);
         mAngleMotor.setNeutralMode(SwerveConstants.ANGLE_NEUTRAL_MODE);
+        Timer.delay(1.0);
         resetToAbsolute();
     }
 

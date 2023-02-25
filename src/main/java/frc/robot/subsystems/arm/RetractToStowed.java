@@ -27,11 +27,11 @@ public class RetractToStowed extends CommandBase {
         arm.getSetpoint().state.equals(ArmState.TOP_NODE)) {
 
       intermediate = new Setpoint(
-          ArmSetpoints.INTERMEDIATE_LOWER_POSITION,
+          ArmSetpoints.INTERMEDIATE_LOWER_POSITION_RETRACTING,
           arm.getSetpoint().upperCone * 0.5,
           arm.getSetpoint().wristCone,
           ClawState.IN,
-          ArmSetpoints.INTERMEDIATE_LOWER_POSITION,
+          ArmSetpoints.INTERMEDIATE_LOWER_POSITION_RETRACTING,
           arm.getSetpoint().upperCube * 0.5,
           arm.getSetpoint().wristCube,
           ClawState.OUT,
@@ -43,11 +43,11 @@ public class RetractToStowed extends CommandBase {
              arm.getSetpoint().state.equals(ArmState.TOP_NODE_PLACED)) {
               
       intermediate = new Setpoint(
-        ArmSetpoints.INTERMEDIATE_LOWER_POSITION,
+        ArmSetpoints.INTERMEDIATE_LOWER_POSITION_RETRACTING,
         arm.getSetpoint().upperCone * 0.5,
         arm.getSetpoint().wristCone,
         ClawState.OUT,
-        ArmSetpoints.INTERMEDIATE_LOWER_POSITION,
+        ArmSetpoints.INTERMEDIATE_LOWER_POSITION_RETRACTING,
         arm.getSetpoint().upperCube * 0.5,
         arm.getSetpoint().wristCube,
         ClawState.OUT,

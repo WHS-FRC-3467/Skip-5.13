@@ -15,15 +15,7 @@ public class Setpoint {
     public ArmState state;
     public ClawState clawCone;
     public ClawState clawCube;
-    /**
-     * 
-     * @param m_lowerCone
-     * @param m_upperCone
-     * @param wristCone
-     * @param m_lowerCube
-     * @param m_upperCube
-     * @param wristCube
-     */
+   
     public Setpoint(double lowerCone, double upperCone, boolean wristCone, ClawState clawCone, double lowerCube, double upperCube,
             boolean wristCube, ClawState clawCube, ArmState state) {
         this.lowerCone = lowerCone;

@@ -16,10 +16,12 @@ import frc.robot.subsystems.claw.ClawDefault;
 import frc.robot.subsystems.claw.ClawSubsytem;
 import frc.robot.Constants.ArmSetpoints;
 import frc.robot.Constants.LimelightConstants;
+import frc.robot.auto.OneConeChargeWithMobility;
 import frc.robot.auto.OneConeClose;
 import frc.robot.auto.OneConeFar;
 import frc.robot.auto.OneConeWithCharge;
 import frc.robot.auto.TestAuto;
+import frc.robot.auto.TwoPieceAuto;
 import frc.robot.subsystems.arm.ArmDefault;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.arm.GoToPositionWithIntermediate;
@@ -74,6 +76,8 @@ public class RobotContainer {
     m_autoChooser.addOption("OneConeFar", new OneConeFar(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("OneConeClose", new OneConeClose(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("OneConeWithCharge", new OneConeWithCharge(m_drive, m_arm, m_claw));
+    m_autoChooser.addOption("Two Game Piece", new TwoPieceAuto(m_drive, m_arm, m_claw, m_limelight));
+    m_autoChooser.addOption("Cone with Charge with mobility", new OneConeChargeWithMobility(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("No Auto", null);
     SmartDashboard.putData("Auto", m_autoChooser);
     

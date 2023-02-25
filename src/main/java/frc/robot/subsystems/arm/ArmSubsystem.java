@@ -226,9 +226,9 @@ public class ArmSubsystem extends SubsystemBase {
     // double ff = (calculateFeedforwards().get(0, 0)) / 12.0;
     // SmartDashboard.putNumber("lower ff", (ff));
     SmartDashboard.putNumber("lower PID", pidOutput);
-    if(Math.abs(pidOutput) > 0.01 && Math.abs(pidOutput)<0.04){
-      pidOutput = Math.copySign(0.04, pidOutput);
-    }
+    // if(Math.abs(pidOutput) > 0.01 && Math.abs(pidOutput)<0.04){
+    //   pidOutput = Math.copySign(0.04, pidOutput);
+    // }
     // System.out.println("Lower PID" + pidOutput);
     m_lowerJoint.set(TalonFXControlMode.PercentOutput, pidOutput); // may need to negate ff voltage to get desired output
   }

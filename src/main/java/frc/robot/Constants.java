@@ -206,16 +206,16 @@ public final class Constants {
   public static final class ArmConstants{
     //Arm offsets
     //Measured against the hardstop when claw is over pdh
-    public static final double VERTICAL_ANGLE_UPPER = 12.3;
+    public static final double VERTICAL_ANGLE_UPPER = 13.7;
     //Measured when the lower angle is vertical using 1x1
-    public static final double VERTICAL_ANGLE_LOWER = 180.9;
+    public static final double VERTICAL_ANGLE_LOWER = 180.2;
 
     public static final double LOWER_ANGLE_OFFSET = 180 - VERTICAL_ANGLE_LOWER;
     public static final double UPPER_ANGLE_OFFSET = 12.4 - VERTICAL_ANGLE_UPPER;
 
     //Gains
-    public static final  Gains GAINS_UPPER_JOINT = new Gains(0.023, 0.0, 0.0, 0.0, 50);
-    public static final  Gains GAINS_LOWER_JOINT  = new Gains(0.023, 0.0, 0.0, 0.00, 50);
+    public static final  Gains GAINS_UPPER_JOINT = new Gains(0.02, 0.0, 0.0, 0.0, 50);
+    public static final  Gains GAINS_LOWER_JOINT  = new Gains(0.02, 0.0, 0.0, 0.00, 50);
     
     //PID Tollerance in Degrees
     public static final double TOLERANCE_POS = 3.0;
@@ -254,11 +254,11 @@ public final class Constants {
     public final static int TIMEOUT = 10;
 
     // Profiled PID Constants
-    public static final double LOWER_CRUISE = 160.0;
-    public static final double LOWER_ACCELERATION = 180.0;
+    public static final double LOWER_CRUISE = 120.0;
+    public static final double LOWER_ACCELERATION = 160.0;
 
-    public static final double UPPER_CRUISE = 160.0;
-    public static final double UPPER_ACCELERATION = 180.0;
+    public static final double UPPER_CRUISE = 120.0;
+    public static final double UPPER_ACCELERATION = 160.0;
 
     //Duty cycle constants
     public static final double DUTY_CYCLE_MIN = 1.0/1025.0;
@@ -269,20 +269,21 @@ public final class Constants {
     public static final Setpoint TEST_SETPOINT_HIGHER = new Setpoint(191, 35, true, ClawState.IN, 191, 35, true, ClawState.OUT, ArmState.OTHER);
     public static final Setpoint TEST_SETPOINT_LOWER = new Setpoint(164, 65, true, ClawState.IN, 164, 65, true, ClawState.OUT, ArmState.OTHER);
 
-    public static final Setpoint STOWED = new Setpoint(180, 15, false, ClawState.IN, 180, 15, false, ClawState.OUT, ArmState.STOWED);
+    public static final Setpoint STOWED = new Setpoint(180, 13, false, ClawState.IN, 180, 13, false, ClawState.OUT, ArmState.STOWED);
 
     public static final Setpoint MANUAL_MODE = new Setpoint(180, 16, false, ClawState.IN, 180, 16, false, ClawState.OUT, ArmState.OTHER);
 
-    public static final Setpoint FLOOR = new Setpoint(241, 42, true, ClawState.IN, 241, 42, true, ClawState.OUT, ArmState.FLOOR);
-    public static final Setpoint MID_NODE = new Setpoint(183, 90, false, ClawState.IN, 192, 75, false, ClawState.OUT, ArmState.MID_NODE);
-    public static final Setpoint MID_NODE_PLACED = new Setpoint(188.5, 80, false, ClawState.IN, 192, 69, false, ClawState.OUT, ArmState.MID_NODE_PLACED);
-    public static final Setpoint MID_NODE_PLACED_AND_OPEN = new Setpoint(188.5, 80, false, ClawState.IN, 192, 69, false, ClawState.OUT, ArmState.MID_NODE_PLACED);
-    public static final Setpoint TOP_NODE = new Setpoint(222, 155, false, ClawState.IN, 213, 122, false, ClawState.OUT, ArmState.TOP_NODE);
-    public static final Setpoint TOP_NODE_PLACED = new Setpoint(222, 140, false, ClawState.IN, 213, 115, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
-    public static final Setpoint TOP_NODE_PLACED_AND_OPEN = new Setpoint(222, 140, false, ClawState.OUT, 213, 115, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
-    public static final Setpoint SUBSTATION = new Setpoint(150, 52, false, ClawState.IN, 150, 52, false, ClawState.OUT, ArmState.SUBSTATION);
+    public static final Setpoint FLOOR = new Setpoint(235, 40, true, ClawState.IN, 235, 40, true, ClawState.OUT, ArmState.FLOOR);
+    public static final Setpoint MID_NODE = new Setpoint(178, 93, false, ClawState.IN, 165, 57, false, ClawState.OUT, ArmState.MID_NODE);
+    public static final Setpoint MID_NODE_PLACED = new Setpoint(187, 80, false, ClawState.IN, 192, 69, false, ClawState.OUT, ArmState.MID_NODE_PLACED);
+    public static final Setpoint MID_NODE_PLACED_AND_OPEN = new Setpoint(187, 80, false, ClawState.IN, 192, 69, false, ClawState.OUT, ArmState.MID_NODE_PLACED);
+    public static final Setpoint TOP_NODE = new Setpoint(219, 159, false, ClawState.IN, 212, 126, false, ClawState.OUT, ArmState.TOP_NODE);
+    public static final Setpoint TOP_NODE_PLACED = new Setpoint(220, 140, false, ClawState.IN, 211, 118, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
+    public static final Setpoint TOP_NODE_PLACED_AND_OPEN = new Setpoint(220, 140, false, ClawState.OUT, 213, 115, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
+    public static final Setpoint SUBSTATION = new Setpoint(150, 52, false, ClawState.IN, 150, 53, false, ClawState.OUT, ArmState.SUBSTATION);
 
-    public static final double INTERMEDIATE_LOWER_POSITION = 160;
+    public static final double INTERMEDIATE_LOWER_POSITION_RETRACTING = 160;
+    public static final double INTERMEDIATE_LOWER_POSITION_SCORING = 152;
   }
   public static final class ClawConstants{
     public static final double CLAW_BASE_CURRENT = 2.0;
@@ -295,10 +296,10 @@ public final class Constants {
     public static final int RETRO_PIPELINE = 2;
 
     public static final Gains GAINS_VISION_X = new Gains(0.1, 0.0, 0.0, 0.0, 50);
-    public static final Gains GAINS_VISION_Y = new Gains(0.0, 0.0, 0.0, 0.0, 50);
+    public static final Gains GAINS_VISION_Y = new Gains(0.1, 0.0, 0.0, 0.0, 50);
 
-    public static final double VISION_VEL_TOLLERANCE = 0.5;
-    public static final double VISION_POS_TOLLERANCE = 0.5;
+    public static final double VISION_VEL_TOLLERANCE = 0.1;
+    public static final double VISION_POS_TOLLERANCE = 0.1;
 
     // how many degrees back is your limelight rotated from perfectly vertical?
     public static final double LIMELIGHT_MOUNT_ANGLE_DEGREES = 25.0;
@@ -313,11 +314,11 @@ public final class Constants {
     public static final double SETPOINT_DIS_FROM_SUBSTATION_APRIL = 5;
 
     public static final double ALIGNED_CONE_X = 7.8;
-    public static final double ALIGNED_GRID_APRIL_X = 14;
+    public static final double ALIGNED_GRID_APRIL_X = 14.4;
     public static final double ALIGNED_SUBSTATION_APRIL_X = 0.0;
-
+ 
     public static final double ALIGNED_CONE_Y = 7.8;
-    public static final double ALIGNED_GRID_APRIL_Y = -7.68;
+    public static final double ALIGNED_GRID_APRIL_Y = -6.5;
     public static final double ALIGNED_SUBSTATION_APRIL_Y = 0.0;
 
 
