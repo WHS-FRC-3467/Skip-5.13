@@ -206,9 +206,9 @@ public final class Constants {
   public static final class ArmConstants{
     //Arm offsets
     //Measured against the hardstop when claw is over pdh
-    public static final double VERTICAL_ANGLE_UPPER = 19.7;
+    public static final double VERTICAL_ANGLE_UPPER = 12.3;
     //Measured when the lower angle is vertical using 1x1
-    public static final double VERTICAL_ANGLE_LOWER = 182.6;
+    public static final double VERTICAL_ANGLE_LOWER = 180.9;
 
     public static final double LOWER_ANGLE_OFFSET = 180 - VERTICAL_ANGLE_LOWER;
     public static final double UPPER_ANGLE_OFFSET = 12.4 - VERTICAL_ANGLE_UPPER;
@@ -269,11 +269,11 @@ public final class Constants {
     public static final Setpoint TEST_SETPOINT_HIGHER = new Setpoint(191, 35, true, ClawState.IN, 191, 35, true, ClawState.OUT, ArmState.OTHER);
     public static final Setpoint TEST_SETPOINT_LOWER = new Setpoint(164, 65, true, ClawState.IN, 164, 65, true, ClawState.OUT, ArmState.OTHER);
 
-    public static final Setpoint STOWED = new Setpoint(180, 16, false, ClawState.IN, 180, 16, false, ClawState.OUT, ArmState.STOWED);
+    public static final Setpoint STOWED = new Setpoint(180, 15, false, ClawState.IN, 180, 15, false, ClawState.OUT, ArmState.STOWED);
 
     public static final Setpoint MANUAL_MODE = new Setpoint(180, 16, false, ClawState.IN, 180, 16, false, ClawState.OUT, ArmState.OTHER);
 
-    public static final Setpoint FLOOR = new Setpoint(245, 61, true, ClawState.IN, 245, 62, true, ClawState.OUT, ArmState.FLOOR);
+    public static final Setpoint FLOOR = new Setpoint(241, 42, true, ClawState.IN, 241, 42, true, ClawState.OUT, ArmState.FLOOR);
     public static final Setpoint MID_NODE = new Setpoint(183, 90, false, ClawState.IN, 192, 75, false, ClawState.OUT, ArmState.MID_NODE);
     public static final Setpoint MID_NODE_PLACED = new Setpoint(188.5, 80, false, ClawState.IN, 192, 69, false, ClawState.OUT, ArmState.MID_NODE_PLACED);
     public static final Setpoint MID_NODE_PLACED_AND_OPEN = new Setpoint(188.5, 80, false, ClawState.IN, 192, 69, false, ClawState.OUT, ArmState.MID_NODE_PLACED);
@@ -282,7 +282,7 @@ public final class Constants {
     public static final Setpoint TOP_NODE_PLACED_AND_OPEN = new Setpoint(222, 140, false, ClawState.OUT, 213, 115, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
     public static final Setpoint SUBSTATION = new Setpoint(150, 52, false, ClawState.IN, 150, 52, false, ClawState.OUT, ArmState.SUBSTATION);
 
-    public static final double INTERMEDIATE_LOWER_POSITION = 154;
+    public static final double INTERMEDIATE_LOWER_POSITION = 160;
   }
   public static final class ClawConstants{
     public static final double CLAW_BASE_CURRENT = 2.0;
