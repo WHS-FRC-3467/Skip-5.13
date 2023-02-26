@@ -24,6 +24,7 @@ import frc.robot.auto.TestAuto;
 import frc.robot.auto.TwoPieceAuto;
 import frc.robot.subsystems.arm.ArmDefault;
 import frc.robot.subsystems.arm.ArmSubsystem;
+import frc.robot.subsystems.arm.GoToMidNode;
 import frc.robot.subsystems.arm.GoToPositionWithIntermediate;
 import frc.robot.subsystems.arm.RetractToStowed;
 import frc.robot.subsystems.arm.ScoreAndRetract;
@@ -143,7 +144,7 @@ public class RobotContainer {
 
     m_operatorController.a().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.FLOOR)));
 
-    m_operatorController.b().onTrue(new GoToPositionWithIntermediate(m_arm, ArmSetpoints.MID_NODE));
+    m_operatorController.b().onTrue(new GoToMidNode(m_arm));
 
     m_operatorController.y().onTrue(new GoToPositionWithIntermediate(m_arm, ArmSetpoints.TOP_NODE));
 

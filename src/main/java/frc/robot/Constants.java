@@ -295,10 +295,9 @@ public final class Constants {
     public static final int APRILTAG_PIPELINE = 1;
     public static final int RETRO_PIPELINE = 2;
 
-    public static final Gains GAINS_VISION_X = new Gains(0.1, 0.0, 0.0, 0.0, 50);
-    public static final Gains GAINS_VISION_Y = new Gains(0.1, 0.0, 0.0, 0.0, 50);
+    public static final Gains GAINS_VISION_X = new Gains(0.015, 0.02, 0.0, 0.0, 50);
+    public static final Gains GAINS_VISION_Y = new Gains(0.18, 0.01, 0.0, 0.0, 50);
 
-    public static final double VISION_VEL_TOLLERANCE = 0.1;
     public static final double VISION_POS_TOLLERANCE = 0.1;
 
     // how many degrees back is your limelight rotated from perfectly vertical?
@@ -307,21 +306,21 @@ public final class Constants {
     // distance from the center of the Limelight lens to the floor
     public static final double LIMELIGHT_LENS_HEIGHT_INCHES = 20.0;
  
+    
+    public static final double ALIGNED_CONE_X = 14.0;
+    public static final double ALIGNED_GRID_APRIL_X = 13.8;
+    public static final double ALIGNED_SUBSTATION_APRIL_X = 0.0;
+    
+    public static final double ALIGNED_CONE_Y = 3.5;
+    public static final double ALIGNED_GRID_APRIL_Y = -9.4;
+    public static final double ALIGNED_SUBSTATION_APRIL_Y = 0.0;
+    
+
     public static final double SETPOINT_DIS_FROM_MID_CONE = 24;
     public static final double SETPOINT_DIS_FROM_TOP_CONE = 40;
 
     public static final double SETPOINT_DIS_FROM_GRID_APRIL = 14.062222;
     public static final double SETPOINT_DIS_FROM_SUBSTATION_APRIL = 5;
-
-    public static final double ALIGNED_CONE_X = 7.8;
-    public static final double ALIGNED_GRID_APRIL_X = 14.4;
-    public static final double ALIGNED_SUBSTATION_APRIL_X = 0.0;
- 
-    public static final double ALIGNED_CONE_Y = 7.8;
-    public static final double ALIGNED_GRID_APRIL_Y = -6.5;
-    public static final double ALIGNED_SUBSTATION_APRIL_Y = 0.0;
-
-
     // height of vision tape center in inches
     public static final double HEIGHT_CONE_NODE_TAP = 24.125;
     public static final double HEIGHT_GRID_APRIL = 18.25;
