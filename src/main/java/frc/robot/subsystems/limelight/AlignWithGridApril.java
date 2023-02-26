@@ -37,33 +37,28 @@ public class AlignWithGridApril extends CommandBase {
 
     m_pidControllerY = new PIDController(LimelightConstants.GAINS_VISION_Y.kP, LimelightConstants.GAINS_VISION_Y.kI, LimelightConstants.GAINS_VISION_Y.kD);
     m_pidControllerY.setIntegratorRange(0.0, LimelightConstants.GAINS_VISION_Y.kIzone);
-    m_pidControllerY.setTolerance(LimelightConstants.VISION_POS_TOLLERANCE, LimelightConstants.VISION_VEL_TOLLERANCE);
+    m_pidControllerY.setTolerance(LimelightConstants.VISION_POS_TOLLERANCE);
 
     m_pidControllerX = new PIDController(LimelightConstants.GAINS_VISION_X.kP, LimelightConstants.GAINS_VISION_X.kI, LimelightConstants.GAINS_VISION_X.kD);
     m_pidControllerX.setIntegratorRange(0.0, LimelightConstants.GAINS_VISION_X.kIzone);
-    m_pidControllerX.setTolerance(LimelightConstants.VISION_POS_TOLLERANCE, LimelightConstants.VISION_VEL_TOLLERANCE);
+    m_pidControllerX.setTolerance(LimelightConstants.VISION_POS_TOLLERANCE);
 
     m_thetaController = new PIDController(SwerveConstants.GAINS_ANGLE_SNAP.kP*2, SwerveConstants.GAINS_ANGLE_SNAP.kI, SwerveConstants.GAINS_ANGLE_SNAP.kD);
         
     m_thetaController.enableContinuousInput(-180, 180);
 
     m_end = false;
-    m_limelight.setPipeline(1);
+    m_limelight.setPipeline(LimelightConstants.APRILTAG_PIPELINE);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // if(m_limelight.hasTarget()==false){
-    //   m_end = true;
-    //   System.out.println("no target");
-    // }
     m_thetaController.setSetpoint(180.0);
 
     double rotationVal = m_thetaController.calculate((MathUtil.inputModulus(m_drive.getYaw().getDegrees(), -180, 180)), 180.0);
     rotationVal = MathUtil.clamp(rotationVal, -SwerveConstants.MAX_ANGULAR_VELOCITY * 0.4, SwerveConstants.MAX_ANGULAR_VELOCITY * 0.4);
 
-    // m_pidControllerY.setSetpoint(LimelightConstants.SETPOINT_DIS_FROM_GRID_APRIL);
     m_pidControllerX.setSetpoint(LimelightConstants.ALIGNED_GRID_APRIL_X);
     xTrans = m_pidControllerX.calculate(m_limelight.getX());
     xTrans = MathUtil.clamp(xTrans, -0.5, 0.5);
@@ -73,7 +68,9 @@ public class AlignWithGridApril extends CommandBase {
     yTrans = MathUtil.clamp(yTrans, -0.5, 0.5);
 
     m_drive.drive(new Translation2d(yTrans, -xTrans), rotationVal, true, true, false);
-    SmartDashboard.putNumber("xtrans", xTrans);
+
+    SmartDashboard.putNumber("X Error", m_pidControllerX.getPositionError());
+    SmartDashboard.putNumber("Y Error", m_pidControllerY.getPositionError());
 
     if(m_pidControllerX.atSetpoint() && m_pidControllerY.atSetpoint() && count>50){
       m_end = true;
@@ -89,7 +86,7 @@ public class AlignWithGridApril extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_drive.stopDrive();
-    m_limelight.setPipeline(0);
+    m_limelight.setPipeline(LimelightConstants.DRIVER_PIPELINE);
   }
 
   // Returns true when the command should end.

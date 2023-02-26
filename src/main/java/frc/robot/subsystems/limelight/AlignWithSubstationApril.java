@@ -30,11 +30,11 @@ public class AlignWithSubstationApril extends CommandBase {
   public void initialize() {
     m_pidControllerY = new PIDController(LimelightConstants.GAINS_VISION_Y.kP, LimelightConstants.GAINS_VISION_Y.kI, LimelightConstants.GAINS_VISION_Y.kD);
     m_pidControllerY.setIntegratorRange(0.0, LimelightConstants.GAINS_VISION_Y.kIzone);
-    m_pidControllerY.setTolerance(LimelightConstants.VISION_POS_TOLLERANCE, LimelightConstants.VISION_VEL_TOLLERANCE);
+    m_pidControllerY.setTolerance(LimelightConstants.VISION_POS_TOLLERANCE);
 
     m_pidControllerX = new PIDController(LimelightConstants.GAINS_VISION_X.kP, LimelightConstants.GAINS_VISION_X.kI, LimelightConstants.GAINS_VISION_X.kD);
     m_pidControllerX.setIntegratorRange(0.0, LimelightConstants.GAINS_VISION_X.kIzone);
-    m_pidControllerX.setTolerance(LimelightConstants.VISION_POS_TOLLERANCE, LimelightConstants.VISION_VEL_TOLLERANCE);
+    m_pidControllerX.setTolerance(LimelightConstants.VISION_POS_TOLLERANCE);
 
     m_end = false;
     m_limelight.setPipeline(1);

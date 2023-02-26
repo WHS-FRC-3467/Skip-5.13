@@ -4,9 +4,13 @@
 
 package frc.robot.subsystems.limelight;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.LimelightConstants;
+import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.drive.DriveSubsystem;
 
 public class AlignWithConeNode extends CommandBase {
@@ -17,6 +21,9 @@ public class AlignWithConeNode extends CommandBase {
   boolean m_end;
   double xTrans = 0.0;
   double yTrans = 0.0;
+  double count = 0;
+  private PIDController m_thetaController;
+
   /**
    * 
    * @param limelight Limelight Subsystem
@@ -34,11 +41,17 @@ public class AlignWithConeNode extends CommandBase {
   public void initialize() {
     m_pidControllerY = new PIDController(LimelightConstants.GAINS_VISION_Y.kP, LimelightConstants.GAINS_VISION_Y.kI, LimelightConstants.GAINS_VISION_Y.kD);
     m_pidControllerY.setIntegratorRange(0.0, LimelightConstants.GAINS_VISION_Y.kIzone);
-    m_pidControllerY.setTolerance(LimelightConstants.VISION_POS_TOLLERANCE, LimelightConstants.VISION_VEL_TOLLERANCE);
+    m_pidControllerY.setTolerance(LimelightConstants.VISION_POS_TOLLERANCE);
 
     m_pidControllerX = new PIDController(LimelightConstants.GAINS_VISION_X.kP, LimelightConstants.GAINS_VISION_X.kI, LimelightConstants.GAINS_VISION_X.kD);
     m_pidControllerX.setIntegratorRange(0.0, LimelightConstants.GAINS_VISION_X.kIzone);
-    m_pidControllerX.setTolerance(LimelightConstants.VISION_POS_TOLLERANCE, LimelightConstants.VISION_VEL_TOLLERANCE);
+    m_pidControllerX.setTolerance(LimelightConstants.VISION_POS_TOLLERANCE);
+
+    m_thetaController = new PIDController(SwerveConstants.GAINS_ANGLE_SNAP.kP*2, SwerveConstants.GAINS_ANGLE_SNAP.kI, SwerveConstants.GAINS_ANGLE_SNAP.kD);
+        
+    m_thetaController.enableContinuousInput(-180, 180);
+    SmartDashboard.putNumber("X Error", m_pidControllerX.getPositionError());
+    SmartDashboard.putNumber("Y Error", m_pidControllerY.getPositionError());
 
     m_end = false;
     m_limelight.setPipeline(LimelightConstants.RETRO_PIPELINE);
@@ -47,28 +60,29 @@ public class AlignWithConeNode extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(m_limelight.hasTarget() == false){
-      m_end = true;
-      System.out.println("no target");
-    }
+    m_thetaController.setSetpoint(180.0);
 
-    // m_pidControllerY.setSetpoint(LimelightConstants.SETPOINT_DIS_FROM_MID_CONE);
+    double rotationVal = m_thetaController.calculate((MathUtil.inputModulus(m_drive.getYaw().getDegrees(), -180, 180)), 180.0);
+    rotationVal = MathUtil.clamp(rotationVal, -SwerveConstants.MAX_ANGULAR_VELOCITY * 0.4, SwerveConstants.MAX_ANGULAR_VELOCITY * 0.4);
+
     m_pidControllerX.setSetpoint(LimelightConstants.ALIGNED_CONE_X);
     xTrans = m_pidControllerX.calculate(m_limelight.getX());
-    xTrans = Math.max(xTrans, 1.0);
-    xTrans = Math.min(xTrans, -1.0);
+    xTrans = MathUtil.clamp(xTrans, -0.5, 0.5);
 
-    // yTrans = m_pidControllerY.calculate(m_limelight.getDistanceFromTarget(LimelightConstants.SETPOINT_DIS_FROM_MID_CONE));
-    // yTrans = Math.max(yTrans, 1.0);
-    // yTrans = Math.min(yTrans, -1.0);
-    // m_drive.drive(new Translation2d(0.0, yTrans), 0.0, true, true, false);
+    m_pidControllerY.setSetpoint(LimelightConstants.ALIGNED_CONE_Y);
+    yTrans = m_pidControllerY.calculate(m_limelight.getY());
+    yTrans = MathUtil.clamp(yTrans, -0.5, 0.5);
 
-    if(m_pidControllerX.atSetpoint() && m_pidControllerY.atSetpoint()){
+    m_drive.drive(new Translation2d(yTrans, -xTrans), rotationVal, true, true, false);
+
+    if(m_pidControllerX.atSetpoint() && m_pidControllerY.atSetpoint() && count>50){
       m_end = true;
     }
     else{
       m_end = false;
     }
+
+    count++;
       
   }
 
@@ -76,6 +90,7 @@ public class AlignWithConeNode extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_drive.stopDrive();
+    m_limelight.setPipeline(LimelightConstants.DRIVER_PIPELINE);
   }
 
   // Returns true when the command should end.
