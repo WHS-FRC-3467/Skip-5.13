@@ -255,10 +255,10 @@ public final class Constants {
 
     // Profiled PID Constants
     public static final double LOWER_CRUISE = 120.0;
-    public static final double LOWER_ACCELERATION = 160.0;
+    public static final double LOWER_ACCELERATION = 200.0;
 
     public static final double UPPER_CRUISE = 120.0;
-    public static final double UPPER_ACCELERATION = 160.0;
+    public static final double UPPER_ACCELERATION = 200.0;
 
     //Duty cycle constants
     public static final double DUTY_CYCLE_MIN = 1.0/1025.0;
