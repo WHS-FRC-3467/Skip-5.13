@@ -58,9 +58,12 @@ public final class Constants {
   }
   
   public static final class DIOConstants{
-    public static final int LOWER_ENCODER_ARM = 1;
-    public static final int UPPER_ENCODER_ARM = 0;
+    //Port 1 on the more board
+    public static final int LOWER_ENCODER_ARM = 11;
+    //Port 0
+    public static final int UPPER_ENCODER_ARM = 10;
   }
+
   public static final class PHConstants{
     public static final int WRIST_CHANNEL = 0;
     public static final int CLAW_CHANNEL = 1;
@@ -269,7 +272,7 @@ public final class Constants {
     public static final Setpoint TEST_SETPOINT_HIGHER = new Setpoint(191, 35, true, ClawState.IN, 191, 35, true, ClawState.OUT, ArmState.OTHER);
     public static final Setpoint TEST_SETPOINT_LOWER = new Setpoint(164, 65, true, ClawState.IN, 164, 65, true, ClawState.OUT, ArmState.OTHER);
 
-    public static final Setpoint STOWED = new Setpoint(180, 13, false, ClawState.IN, 180, 13, false, ClawState.OUT, ArmState.STOWED);
+    public static final Setpoint STOWED = new Setpoint(180, 9, false, ClawState.IN, 180, 13, false, ClawState.OUT, ArmState.STOWED);
 
     public static final Setpoint MANUAL_MODE = new Setpoint(180, 16, false, ClawState.IN, 180, 16, false, ClawState.OUT, ArmState.OTHER);
 
@@ -295,25 +298,21 @@ public final class Constants {
     public static final int APRILTAG_PIPELINE = 1;
     public static final int RETRO_PIPELINE = 2;
 
-    public static final Gains GAINS_VISION_X = new Gains(0.015, 0.02, 0.0, 0.0, 50);
-    public static final Gains GAINS_VISION_Y = new Gains(0.18, 0.01, 0.0, 0.0, 50);
+    public static final Gains GAINS_VISION_X = new Gains(0.07, 0.03, 0.0, 0.0, 50);
+    public static final Gains GAINS_VISION_Y = new Gains(0.085, 0.03, 0.0, 0.0, 50);
 
-    public static final double VISION_POS_TOLLERANCE = 0.1;
-
-    // how many degrees back is your limelight rotated from perfectly vertical?
-    public static final double LIMELIGHT_MOUNT_ANGLE_DEGREES = 25.0;
-
-    // distance from the center of the Limelight lens to the floor
-    public static final double LIMELIGHT_LENS_HEIGHT_INCHES = 20.0;
- 
+    public static final double VISION_POS_TOLLERANCE = 0.5;
     
-    public static final double ALIGNED_CONE_X = 14.0;
-    public static final double ALIGNED_GRID_APRIL_X = 13.8;
+    public static final double ALIGNED_CONE_X = -13.3;
+    public static final double ALIGNED_GRID_APRIL_X = -18.3;
     public static final double ALIGNED_SUBSTATION_APRIL_X = 0.0;
     
-    public static final double ALIGNED_CONE_Y = 3.5;
-    public static final double ALIGNED_GRID_APRIL_Y = -9.4;
+    public static final double ALIGNED_CONE_Y = -6.0;
+    public static final double ALIGNED_GRID_APRIL_Y = -16.3;
     public static final double ALIGNED_SUBSTATION_APRIL_Y = 0.0;
+
+    public static final double ALIGNED_GRID_APRIL_AREA = 6.0;
+    public static final double ALIGNED_CONE_AREA = 0.34;
     
 
     public static final double SETPOINT_DIS_FROM_MID_CONE = 24;

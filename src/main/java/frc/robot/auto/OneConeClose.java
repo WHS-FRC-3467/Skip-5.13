@@ -36,7 +36,7 @@ public class OneConeClose extends SequentialCommandGroup {
           new SequentialCommandGroup(
             Commands.runOnce(() -> GamePiece.setGamePiece(GamePieceType.Cone)),
             new GoToPositionWithIntermediate(arm, ArmSetpoints.TOP_NODE),
-            Commands.runOnce(() -> arm.updateAllSetpoints(ArmSetpoints.TOP_NODE_PLACED)),
+            Commands.runOnce(() -> arm.updateAllSetpoints(ArmSetpoints.TOP_NODE_PLACED_AND_OPEN)),
             new WaitCommand(0.9),
             new InstantCommand(arm::actuateClawOut),
             new RetractToStowed(arm).withTimeout(4.0),

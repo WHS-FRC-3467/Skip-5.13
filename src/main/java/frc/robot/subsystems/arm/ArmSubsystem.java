@@ -126,7 +126,11 @@ public class ArmSubsystem extends SubsystemBase {
     m_upperJoint.setSelectedSensorPosition(dutyCycleToCTREUnits(getUpperJointPos()), 0, ArmConstants.TIMEOUT);
     m_lowerJoint.setSelectedSensorPosition(dutyCycleToCTREUnits(getLowerJointPos()), 0, ArmConstants.TIMEOUT);
 
-
+    if(getLowerJointDegrees() <= 0.0 || getLowerJointDegrees() <= 0.0){
+      m_upperJoint.neutralOutput();
+      m_lowerJoint.neutralOutput();
+    }
+    
     SmartDashboard.putBoolean("Game Peice", GamePiece.getGamePiece() == GamePieceType.Cone);
     SmartDashboard.putBoolean("Upper at Setpoint", getUpperAtSetpoint());
     SmartDashboard.putBoolean("Lower at Setpoint", getLowerAtSetpoint());

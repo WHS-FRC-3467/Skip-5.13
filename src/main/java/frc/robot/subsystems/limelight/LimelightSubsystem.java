@@ -5,7 +5,6 @@
 package frc.robot.subsystems.limelight;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.LimelightConstants;
 import edu.wpi.first.wpilibj.shuffleboard.SendableCameraWrapper;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -42,6 +41,7 @@ public class LimelightSubsystem extends SubsystemBase {
     SmartDashboard.putData(SendableCameraWrapper.wrap(m_limelight));
     SmartDashboard.putNumber("X offset", getX());
     SmartDashboard.putNumber("Y offset", getY());
+    SmartDashboard.putNumber("Target Area", getArea()); 
   }
   
   public double getX(){
@@ -81,13 +81,6 @@ public class LimelightSubsystem extends SubsystemBase {
     double y = camtran[1];
     double yaw = camtran[4];
     return new Pose2d(new Translation2d(x,y), new Rotation2d(yaw));
-  }
-
-  public double getDistanceFromTarget(double targetHeightInches){
-    double angleToGoalDegrees = LimelightConstants.LIMELIGHT_MOUNT_ANGLE_DEGREES + getY();
-    double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
-    //calculate distance
-    return (targetHeightInches - LimelightConstants.LIMELIGHT_LENS_HEIGHT_INCHES)/Math.tan(angleToGoalRadians);
   }
 
   public boolean hasTarget(){

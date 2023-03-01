@@ -32,6 +32,7 @@ import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.TeleopSwerve;
 import frc.robot.subsystems.led.LEDDefault;
 import frc.robot.subsystems.led.LEDSubsystem;
+import frc.robot.subsystems.limelight.AlignWithConeNode;
 import frc.robot.subsystems.limelight.AlignWithGridApril;
 import frc.robot.subsystems.limelight.LimelightSubsystem;
 import frc.robot.util.GamePiece;
@@ -107,7 +108,7 @@ public class RobotContainer {
 
     m_led.setDefaultCommand(new LEDDefault(m_led, m_claw, m_limelight));
 
-    //SmartDashboard.putData(new InstantCommand(m_drive::resetModulesToAbsolute));
+    SmartDashboard.putData(new InstantCommand(m_drive::resetModulesToAbsolute));
   }
 
   /**
@@ -129,7 +130,7 @@ public class RobotContainer {
     
     m_driverController.leftTrigger().onTrue(new ScoreAndRetract(m_arm));
 
-    m_driverController.povDown().onTrue(Commands.runOnce(() -> m_limelight.setPipeline(LimelightConstants.DRIVER_PIPELINE), m_limelight));
+    m_driverController.povDown().whileTrue(new AlignWithConeNode(m_limelight, m_drive));
 
     m_driverController.povLeft().onTrue(Commands.runOnce(() -> m_limelight.setPipeline(LimelightConstants.RETRO_PIPELINE), m_limelight));
 

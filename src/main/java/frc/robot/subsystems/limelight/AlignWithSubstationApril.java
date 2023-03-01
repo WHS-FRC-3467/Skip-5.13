@@ -55,7 +55,6 @@ public class AlignWithSubstationApril extends CommandBase {
     xTrans = Math.max(xTrans, 1.0);
     xTrans = Math.min(xTrans, -1.0);
 
-    yTrans = m_pidControllerY.calculate(m_limelight.getDistanceFromTarget(LimelightConstants.SETPOINT_DIS_FROM_SUBSTATION_APRIL));
     yTrans = Math.max(yTrans, 1.0);
     yTrans = Math.min(yTrans, -1.0);
     m_drive.drive(new Translation2d(xTrans, yTrans), 0.0, true, true, false);

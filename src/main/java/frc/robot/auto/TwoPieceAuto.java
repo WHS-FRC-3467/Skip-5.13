@@ -16,7 +16,6 @@ import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.arm.GoToMidNode;
 import frc.robot.subsystems.arm.GoToPositionWithIntermediate;
 import frc.robot.subsystems.arm.RetractToStowed;
-import frc.robot.subsystems.arm.ScoreAndRetract;
 import frc.robot.subsystems.claw.ClawSubsytem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.limelight.LimelightSubsystem;
@@ -29,7 +28,7 @@ import frc.robot.util.GamePiece.GamePieceType;
 public class TwoPieceAuto extends SequentialCommandGroup {
   /** Creates a new TwoPieceAuto. */
   public TwoPieceAuto(DriveSubsystem drive, ArmSubsystem arm, ClawSubsytem claw, LimelightSubsystem limelight) {
-    PathPlannerTrajectory path1 = PathPlanner.loadPath("TwoPiecePart1", new PathConstraints(4.0, 5.0));
+    PathPlannerTrajectory path1 = PathPlanner.loadPath("TwoPiecePart1", new PathConstraints(7.0, 8.5));
     PathPlannerTrajectory path2 = PathPlanner.loadPath("TwoPiecePart2", new PathConstraints(2.0, 2.0));
     PathPlannerTrajectory path3 = PathPlanner.loadPath("TwoPiecePart3", new PathConstraints(7.0, 8.5));
     PathPlannerTrajectory path4 = PathPlanner.loadPath("TwoPiecePart4", new PathConstraints(4.5, 5.5));
@@ -39,7 +38,7 @@ public class TwoPieceAuto extends SequentialCommandGroup {
         Commands.runOnce(() -> GamePiece.setGamePiece(GamePieceType.Cone)),
         new WaitCommand(0.03),
         new GoToPositionWithIntermediate(arm, ArmSetpoints.TOP_NODE),
-        new ScoreAndRetract(arm),
+        Commands.runOnce(() -> arm.updateAllSetpoints(ArmSetpoints.TOP_NODE_PLACED_AND_OPEN)),
         Commands.runOnce(() -> GamePiece.setGamePiece(GamePieceType.Cube)),
         drive.followTrajectoryCommand(path1, true),
         drive.followTrajectoryCommand(path2, false).raceWith(Commands.runOnce(() -> arm.updateAllSetpoints(ArmSetpoints.FLOOR))).raceWith(Commands.run(()-> claw.driveClaw(0.8), claw)),
