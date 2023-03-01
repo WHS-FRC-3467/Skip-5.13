@@ -44,10 +44,11 @@ public class AlignWithSubstationApril extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(m_limelight.hasTarget()==false){
+    if(!m_limelight.hasTarget()){
       m_end = true;
-      System.out.println("no target");
+      System.out.println("No target");
     }
+
 
     m_pidControllerY.setSetpoint(LimelightConstants.SETPOINT_DIS_FROM_SUBSTATION_APRIL);
     m_pidControllerX.setSetpoint(LimelightConstants.ALIGNED_SUBSTATION_APRIL_X);

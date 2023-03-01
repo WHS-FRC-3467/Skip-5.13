@@ -54,6 +54,11 @@ public class AlignWithGridApril extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if(!m_limelight.hasTarget()){
+      m_end = true;
+      System.out.println("No target");
+    }
+
     m_thetaController.setSetpoint(180.0);
 
     double rotationVal = m_thetaController.calculate((MathUtil.inputModulus(m_drive.getYaw().getDegrees(), -180, 180)), 180.0);
