@@ -40,7 +40,6 @@ public final class Constants {
     public static final int FRONT_RIGHT_MODULE_STEER_MOTOR = 6; 
     public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 7;
     public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 8; 
-
     public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 9; 
     public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 10; 
     public static final int BACK_LEFT_MODULE_STEER_ENCODER = 11; 
@@ -74,15 +73,25 @@ public final class Constants {
 
     public static final double DRIVE_DEADBAND = 0.2;
 
-    //Gold Bot
+    // //Midas
+    // //Mod 0
+    // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 221.84;
+    // //Mod 1
+    // public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 186.77;
+    // //Mod 2
+    // public static final double BACK_LEFT_MODULE_STEER_OFFSET = 82.53;
+    // //Mod 3
+    // public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 178.51;
+
+    //MidNight
     //Mod 0
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 221.84;
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 289.7;
     //Mod 1
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 186.77;
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 70.4;
     //Mod 2
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 82.53;
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 287.0;
     //Mod 3
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 178.51;
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 209.9;
 
     public static final boolean INVERT_GYRO = false; // Always ensure Gyro is CCW+ CW-
 
@@ -208,11 +217,17 @@ public final class Constants {
 
   public static final class ArmConstants{
     //Arm offsets
+    //Midas
     //Measured against the hardstop when claw is over pdh
-    public static final double VERTICAL_ANGLE_UPPER = 13.7;
+    // public static final double VERTICAL_ANGLE_UPPER = 13.7;
+    // //Measured when the lower angle is vertical using 1x1
+    // public static final double VERTICAL_ANGLE_LOWER = 180.2;
+    //Midnight
+    //Measured against the hardstop when claw is over pdh
+    public static final double VERTICAL_ANGLE_UPPER = 6.4;
     //Measured when the lower angle is vertical using 1x1
-    public static final double VERTICAL_ANGLE_LOWER = 180.2;
-
+    public static final double VERTICAL_ANGLE_LOWER = 162.9;
+    
     public static final double LOWER_ANGLE_OFFSET = 180 - VERTICAL_ANGLE_LOWER;
     public static final double UPPER_ANGLE_OFFSET = 12.4 - VERTICAL_ANGLE_UPPER;
 
