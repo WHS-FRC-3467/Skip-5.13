@@ -87,7 +87,7 @@ public class DriveSubsystem extends SubsystemBase {
         }
     }
 
-    public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop, boolean isTeleop) {
+    public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
         SwerveModuleState[] swerveModuleStates =
         SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
                 fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
@@ -104,7 +104,7 @@ public class DriveSubsystem extends SubsystemBase {
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, SwerveConstants.MAX_SPEED);
 
         for(SwerveModule mod : mSwerveMods){
-            mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop, isTeleop);
+            mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
         }
 
         // SmartDashboard.putNumber("X Translation", translation.getX());
@@ -113,7 +113,7 @@ public class DriveSubsystem extends SubsystemBase {
     }    
 
     public void stopDrive(){
-        drive(new Translation2d(0, 0), 0, false, true, true);
+        drive(new Translation2d(0, 0), 0, false, true);
     }
 
 
@@ -121,7 +121,7 @@ public class DriveSubsystem extends SubsystemBase {
     public void setModuleStates(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, SwerveConstants.MAX_SPEED);
         for(SwerveModule mod : mSwerveMods){
-            mod.setDesiredState(desiredStates[mod.moduleNumber], false, false);
+            mod.setDesiredState(desiredStates[mod.moduleNumber], false);
         }
     }    
 
@@ -152,6 +152,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     public void zeroGyro(){
         m_gyro.setYaw(0);
+        // swerveOdometry.resetPosition(getYaw(), getModulePositions(), new Pose2d(0.0, 0.0, new Rotation2d(0.0)));
     }
 
     public void setYaw(double yaw){
@@ -180,15 +181,15 @@ public class DriveSubsystem extends SubsystemBase {
     public void AutoBalance(){
         m_balancePID.setTolerance(SwerveConstants.BALANCE_TOLLERANCE);
         double pidOutput;
-        pidOutput = MathUtil.clamp(m_balancePID.calculate(getRoll(), 0), -0.4, 0.4);
+        pidOutput = MathUtil.clamp(m_balancePID.calculate(getRoll(), 0), -1.0, 1.0);
         
-        // SmartDashboard.putNumber("Balance PID", pidOutput);
-        drive(new Translation2d(-pidOutput, 0), 0.0, false, true, false);
+        SmartDashboard.putNumber("Balance PID", pidOutput);
+        drive(new Translation2d(-pidOutput, 0), 0.0, false, true);
     }
 
     public SequentialCommandGroup followTrajectoryCommand(PathPlannerTrajectory path1, boolean isFirstPath) {
         PIDController thetaController = new PIDController(2.0, 0, 0);
-        PIDController xController = new PIDController(1.2, 0, 0);
+        PIDController xController = new PIDController(1.3, 0, 0);
         PIDController yController = new PIDController(1.2, 0, 0);
 
         thetaController.enableContinuousInput(-Math.PI, Math.PI);

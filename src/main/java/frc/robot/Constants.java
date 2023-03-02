@@ -157,10 +157,12 @@ public final class Constants {
 
     /* Swerve Profiling Values */
     /** Meters per Second */
-    public static final double MAX_SPEED = 2.5;
+    public static final double MAX_SPEED = 4.87;
+    //2.5
 
     /** Radians per Second */
-    public static final double MAX_ANGULAR_VELOCITY = 4.5;
+    public static final double MAX_ANGULAR_VELOCITY = 10.0;
+    //4.5
 
     /* Neutral Modes */
     public static final NeutralMode ANGLE_NEUTRAL_MODE = NeutralMode.Coast;
@@ -207,9 +209,9 @@ public final class Constants {
             new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
     }
 
-    public static final Gains GAINS_ANGLE_SNAP = new Gains(0.021, 0.0, 0.0, 0.0, 50);
+    public static final Gains GAINS_ANGLE_SNAP = new Gains(0.02, 0.0, 0.0, 0.0, 50);
     
-    public static final Gains GAINS_BALANCE = new Gains(0.025, 0.0, 0.0, 0.0, 50);
+    public static final Gains GAINS_BALANCE = new Gains(0.045, 0.0, 0.0, 0.0, 50);
 
     public static final double SNAP_TOLLERANCE = 2.0;
     public static final double BALANCE_TOLLERANCE = 0.001;
@@ -224,9 +226,9 @@ public final class Constants {
     // public static final double VERTICAL_ANGLE_LOWER = 175.2;
     //Midnight
     //Measured against the hardstop when claw is over pdh
-    public static final double VERTICAL_ANGLE_UPPER = 7.4;
+    public static final double VERTICAL_ANGLE_UPPER = 60.2;
     //Measured when the lower angle is vertical using 1x1
-    public static final double VERTICAL_ANGLE_LOWER = 175.9;
+    public static final double VERTICAL_ANGLE_LOWER = 178.2;
     
     public static final double LOWER_ANGLE_OFFSET = 180 - VERTICAL_ANGLE_LOWER;
     public static final double UPPER_ANGLE_OFFSET = 12.4 - VERTICAL_ANGLE_UPPER;
@@ -236,12 +238,11 @@ public final class Constants {
     // public static final  Gains GAINS_UPPER_JOINT = new Gains(0.02, 0.0, 0.0, 0.0, 50);
     // public static final  Gains GAINS_LOWER_JOINT  = new Gains(0.02, 0.0, 0.0, 0.00, 50);
     //Gains
-    public static final  Gains GAINS_UPPER_JOINT = new Gains(0.02, 0.0, 0.0, 0.0, 50);
+    public static final  Gains GAINS_UPPER_JOINT = new Gains(0.025, 0.0, 0.0, 0.0, 50);
     public static final  Gains GAINS_LOWER_JOINT  = new Gains(0.025, 0.0, 0.0, 0.00, 50);
     
     //PID Tollerance in Degrees
-    public static final double TOLERANCE_POS = 1.5;
-    public static final double INTERMEDIETE_TOLERANCE_POS = 3.0;
+    public static final double TOLERANCE_POS = 4.0;
 
     //Upper joint Config
     public static final double UPPER_LENGTH = 1.07;
@@ -277,11 +278,11 @@ public final class Constants {
     public final static int TIMEOUT = 10;
 
     // Profiled PID Constants
-    public static final double LOWER_CRUISE = 120.0;
-    public static final double LOWER_ACCELERATION = 200.0;
+    public static final double LOWER_CRUISE = 160.0;
+    public static final double LOWER_ACCELERATION = 300.0;
 
-    public static final double UPPER_CRUISE = 120.0;
-    public static final double UPPER_ACCELERATION = 200.0;
+    public static final double UPPER_CRUISE = 160.0;
+    public static final double UPPER_ACCELERATION = 300.0;
 
     //Duty cycle constants
     public static final double DUTY_CYCLE_MIN = 1.0/1025.0;
@@ -292,20 +293,21 @@ public final class Constants {
     public static final Setpoint TEST_SETPOINT_HIGHER = new Setpoint(191, 35, true, ClawState.IN, 191, 35, true, ClawState.OUT, ArmState.OTHER);
     public static final Setpoint TEST_SETPOINT_LOWER = new Setpoint(164, 65, true, ClawState.IN, 164, 65, true, ClawState.OUT, ArmState.OTHER);
 
-    public static final Setpoint STOWED = new Setpoint(180, 9, false, ClawState.IN, 180, 9, false, ClawState.OUT, ArmState.STOWED);
+    public static final Setpoint STOWED = new Setpoint(180, 13, false, ClawState.IN, 180, 13, false, ClawState.OUT, ArmState.STOWED);
 
     public static final Setpoint FLOOR = new Setpoint(235, 40, true, ClawState.IN, 235, 40, true, ClawState.OUT, ArmState.FLOOR);
-    public static final Setpoint MID_NODE = new Setpoint(178, 93, false, ClawState.IN, 165, 57, false, ClawState.OUT, ArmState.MID_NODE);
+    public static final Setpoint MID_NODE = new Setpoint(180, 97, false, ClawState.IN, 165, 57, false, ClawState.OUT, ArmState.MID_NODE);
     public static final Setpoint MID_NODE_PLACED = new Setpoint(187, 80, false, ClawState.IN, 192, 69, false, ClawState.OUT, ArmState.MID_NODE_PLACED);
     public static final Setpoint MID_NODE_PLACED_AND_OPEN = new Setpoint(187, 80, false, ClawState.IN, 192, 69, false, ClawState.OUT, ArmState.MID_NODE_PLACED);
-    public static final Setpoint TOP_NODE = new Setpoint(219, 159, false, ClawState.IN, 212, 126, false, ClawState.OUT, ArmState.TOP_NODE);
-    public static final Setpoint TOP_NODE_PLACED = new Setpoint(220, 140, false, ClawState.IN, 211, 118, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
-    public static final Setpoint TOP_NODE_PLACED_AND_OPEN = new Setpoint(220, 140, false, ClawState.OUT, 213, 115, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
-    public static final Setpoint SUBSTATION = new Setpoint(150, 52, false, ClawState.IN, 150, 53, false, ClawState.OUT, ArmState.SUBSTATION);
+    public static final Setpoint TOP_NODE = new Setpoint(219, 159, false, ClawState.IN, 198, 118, false, ClawState.OUT, ArmState.TOP_NODE);
+    public static final Setpoint TOP_NODE_PLACED = new Setpoint(219, 140, false, ClawState.IN, 211, 118, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
+    public static final Setpoint TOP_NODE_PLACED_AND_OPEN = new Setpoint(219, 140, false, ClawState.OUT, 213, 115, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
+    public static final Setpoint SUBSTATION = new Setpoint(160, 66, false, ClawState.IN, 160, 66, false, ClawState.OUT, ArmState.SUBSTATION);
     public static final Setpoint FLOOR_HOVER = new Setpoint(190, 37, false, ClawState.IN, 191, 32, false, ClawState.OUT, ArmState.FLOOR);
     public static final Setpoint FLOOR_INTAKING = new Setpoint(216, 37, false, ClawState.IN, 221, 45, false, ClawState.OUT, ArmState.FLOOR);
+    
     public static final double INTERMEDIATE_LOWER_POSITION_RETRACTING = 160;
-    public static final double INTERMEDIATE_LOWER_POSITION_SCORING = 152;
+    public static final double INTERMEDIATE_LOWER_POSITION_SCORING = 150;
   }
   public static final class ClawConstants{
     public static final double CLAW_BASE_CURRENT = 2.0;

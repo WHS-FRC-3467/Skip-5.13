@@ -20,8 +20,8 @@ public class ClawSubsytem extends SubsystemBase {
     m_clawMotor.configFactoryDefault();
     m_clawMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 10, 15, 0.5));
     m_clawMotor.configVoltageCompSaturation(12.0);
-    m_clawMotor.setNeutralMode(NeutralMode.Brake);
-    m_clawMotor.configOpenloopRamp(0.2);
+    m_clawMotor.setNeutralMode(NeutralMode.Coast);
+    m_clawMotor.configOpenloopRamp(0.0);
   }
 
   

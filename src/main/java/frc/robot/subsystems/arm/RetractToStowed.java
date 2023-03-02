@@ -90,11 +90,11 @@ public class RetractToStowed extends CommandBase {
         arm.updateAllSetpoints(intermediate);
         m_end = false;
     }     
-    else if (arm.bothJointsAtSetpoint() && !arm.getSetpoint().state.equals(ArmState.STOWED) && count>10) {
+    else if ((arm.bothJointsAtSetpoint() || count>200)&& !arm.getSetpoint().state.equals(ArmState.STOWED) && count>10) {
         arm.updateAllSetpoints(ArmSetpoints.STOWED);
         m_end = true;
     }
-    else if(arm.bothJointsAtSetpoint() && count>10){
+    else if((arm.bothJointsAtSetpoint() && count>10) || count>200){
       arm.updateAllSetpoints(ArmSetpoints.STOWED);
       m_end = true;
     }

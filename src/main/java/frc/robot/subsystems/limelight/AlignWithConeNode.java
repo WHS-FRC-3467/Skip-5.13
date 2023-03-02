@@ -74,7 +74,7 @@ public class AlignWithConeNode extends CommandBase {
     xTrans = m_pidControllerX.calculate(m_limelight.getX());
     xTrans = MathUtil.clamp(xTrans, -0.5, 0.5);
 
-    m_drive.drive(new Translation2d(0.0, -xTrans), rotationVal, true, true, false);
+    m_drive.drive(new Translation2d(0.0, -xTrans), rotationVal, true, true);
 
     if(m_pidControllerX.atSetpoint() && count>50){
       m_end = true;

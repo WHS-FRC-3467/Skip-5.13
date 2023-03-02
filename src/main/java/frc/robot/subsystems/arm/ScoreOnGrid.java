@@ -42,7 +42,7 @@ public class ScoreOnGrid extends CommandBase {
   public void execute() {
     System.out.println("both at setpoint" + m_arm.bothJointsAtSetpoint());
     System.out.println("end" + m_end);
-    if(m_arm.bothJointsAtSetpoint() && count > 10){
+    if((m_arm.bothJointsAtSetpoint() && count > 10) || count>200){
       if(m_arm.getSetpoint().state.equals(ArmState.TOP_NODE_PLACED)){
         m_arm.updateAllSetpoints(ArmSetpoints.TOP_NODE_PLACED_AND_OPEN);
       }

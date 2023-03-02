@@ -290,7 +290,7 @@
               "_showGlyph": false
             }
           },
-          "9,1": {
+          "2,7": {
             "size": [
               2,
               1
@@ -303,7 +303,7 @@
               "_showGlyph": false
             }
           },
-          "7,1": {
+          "2,5": {
             "size": [
               2,
               1
@@ -487,7 +487,7 @@
               "_showGlyph": false
             }
           },
-          "7,0": {
+          "2,8": {
             "size": [
               2,
               1
@@ -500,7 +500,7 @@
               "_showGlyph": false
             }
           },
-          "9,0": {
+          "4,8": {
             "size": [
               2,
               1
@@ -513,7 +513,7 @@
               "_showGlyph": false
             }
           },
-          "7,2": {
+          "7,0": {
             "size": [
               2,
               1
@@ -526,7 +526,7 @@
               "_showGlyph": false
             }
           },
-          "9,2": {
+          "4,7": {
             "size": [
               2,
               1
@@ -535,6 +535,19 @@
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/Target Area",
               "_title": "Target Area",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "9,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Balance PID",
+              "_title": "Balance PID",
               "_glyph": 148,
               "_showGlyph": false
             }
@@ -557,9 +570,9 @@
     }
   ],
   "windowGeometry": {
-    "x": -4.800000190734863,
+    "x": -6.400000095367432,
     "y": 0.0,
-    "width": 1547.199951171875,
+    "width": 1548.800048828125,
     "height": 830.4000244140625
   }
 }

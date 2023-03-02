@@ -24,7 +24,7 @@ public class GoToPositionWithIntermediate extends SequentialCommandGroup {
                                                 ArmSetpoints.INTERMEDIATE_LOWER_POSITION_SCORING, (setpoint.upperCube) * 0.55, setpoint.wristCube, ClawState.OUT,
                                                 ArmState.INTERMEDIATE);
 
-    if(GamePiece.getGamePiece().equals(GamePieceType.Cube) && setpoint.state.equals(ArmState.MID_NODE))
+    if(GamePiece.getGamePiece().equals(GamePieceType.Cube))
     {
       addCommands(  
         new InstantCommand( ()-> arm.updateAllSetpoints(setpoint)),

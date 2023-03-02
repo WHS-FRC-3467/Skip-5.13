@@ -40,8 +40,7 @@ public class SnapToAngle extends CommandBase {
       new Translation2d(0.0, 0.0), 
       rotationVal * SwerveConstants.MAX_ANGULAR_VELOCITY, 
       true,
-      false,
-      true);
+      false);
 
   }
 

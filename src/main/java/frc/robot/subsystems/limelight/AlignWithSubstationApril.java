@@ -58,7 +58,7 @@ public class AlignWithSubstationApril extends CommandBase {
 
     yTrans = Math.max(yTrans, 1.0);
     yTrans = Math.min(yTrans, -1.0);
-    m_drive.drive(new Translation2d(xTrans, yTrans), 0.0, true, true, false);
+    m_drive.drive(new Translation2d(xTrans, yTrans), 0.0, true, true);
 
     if(m_pidControllerX.atSetpoint() && m_pidControllerY.atSetpoint()){
       m_end = true;

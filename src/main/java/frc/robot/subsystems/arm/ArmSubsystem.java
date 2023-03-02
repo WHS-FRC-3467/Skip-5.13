@@ -41,15 +41,12 @@ public class ArmSubsystem extends SubsystemBase {
   private DutyCycleEncoder m_upperEncoder = new DutyCycleEncoder(DIOConstants.UPPER_ENCODER_ARM);
   private DutyCycleEncoder m_lowerEncoder = new DutyCycleEncoder(DIOConstants.LOWER_ENCODER_ARM);
 
-  private TrapezoidProfile.Constraints lowerConstraints = new TrapezoidProfile.Constraints(ArmConstants.UPPER_CRUISE,
-      ArmConstants.UPPER_ACCELERATION);
-  private TrapezoidProfile.Constraints upperConstraints = new TrapezoidProfile.Constraints(ArmConstants.LOWER_CRUISE,
-      ArmConstants.LOWER_ACCELERATION);
+  private TrapezoidProfile.Constraints lowerConstraints;
+  private TrapezoidProfile.Constraints upperConstraints;
 
-  private ProfiledPIDController m_controllerLower = new ProfiledPIDController(ArmConstants.GAINS_LOWER_JOINT.kP,
-      ArmConstants.GAINS_LOWER_JOINT.kI, ArmConstants.GAINS_LOWER_JOINT.kD, lowerConstraints);
-  private ProfiledPIDController m_controllerUpper = new ProfiledPIDController(ArmConstants.GAINS_UPPER_JOINT.kP,
-      ArmConstants.GAINS_UPPER_JOINT.kI, ArmConstants.GAINS_UPPER_JOINT.kD, upperConstraints);
+  private ProfiledPIDController m_controllerLower;
+  private ProfiledPIDController m_controllerUpper;
+
 
   private JointConfig joint_Upper = new JointConfig(ArmConstants.UPPER_MASS, ArmConstants.UPPER_LENGTH,
       ArmConstants.UPPER_MOI, ArmConstants.UPPER_CGRADIUS, ArmConstants.UPPER_MOTOR);
@@ -68,6 +65,14 @@ public class ArmSubsystem extends SubsystemBase {
   private Solenoid m_claw = new Solenoid(PneumaticsModuleType.REVPH, PHConstants.CLAW_CHANNEL);
 
   public ArmSubsystem() {
+    lowerConstraints = new TrapezoidProfile.Constraints(ArmConstants.UPPER_CRUISE,
+      ArmConstants.UPPER_ACCELERATION);
+    m_controllerLower = new ProfiledPIDController(ArmConstants.GAINS_LOWER_JOINT.kP,
+      ArmConstants.GAINS_LOWER_JOINT.kI, ArmConstants.GAINS_LOWER_JOINT.kD, lowerConstraints);
+    upperConstraints = new TrapezoidProfile.Constraints(ArmConstants.LOWER_CRUISE,
+      ArmConstants.LOWER_ACCELERATION);
+    m_controllerUpper = new ProfiledPIDController(ArmConstants.GAINS_UPPER_JOINT.kP,
+      ArmConstants.GAINS_UPPER_JOINT.kI, ArmConstants.GAINS_UPPER_JOINT.kD, upperConstraints);
     // Config Duty Cycle Range for the encoders
     m_lowerEncoder.setDutyCycleRange(ArmConstants.DUTY_CYCLE_MIN, ArmConstants.DUTY_CYCLE_MAX);
     m_upperEncoder.setDutyCycleRange(ArmConstants.DUTY_CYCLE_MIN, ArmConstants.DUTY_CYCLE_MAX);
@@ -209,19 +214,21 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void runUpperProfiled() {
+    m_controllerUpper.setConstraints(upperConstraints);
     m_controllerUpper.setGoal(new TrapezoidProfile.State(m_upperSetpoint, 0.0));
     double pidOutput = -m_controllerUpper.calculate(getUpperJointDegrees(), new TrapezoidProfile.State(m_upperSetpoint, 0.0));
     // double ff = (calculateFeedforwards().get(1, 0)) / 12.0;
     // SmartDashboard.putNumber("upper ff", (ff));
     SmartDashboard.putNumber("upper PID", pidOutput);
     // System.out.println("Upper PID" + pidOutput);
-    if(Math.abs(pidOutput) > 0.01 && Math.abs(pidOutput)<0.05){
-      pidOutput = Math.copySign(0.05, pidOutput);
+    if(Math.abs(pidOutput) > 0.01 && Math.abs(pidOutput)<0.03){
+      pidOutput = Math.copySign(0.03, pidOutput);
     }
     m_upperJoint.set(TalonFXControlMode.PercentOutput, pidOutput); // may need to negate ff voltage to get desired output
   }
 
   public void runLowerProfiled() {
+    m_controllerLower.setConstraints(lowerConstraints);
     m_controllerLower.setGoal(new TrapezoidProfile.State(m_lowerSetpoint, 0.0));
     double pidOutput = -m_controllerLower.calculate(getLowerJointDegrees(), new TrapezoidProfile.State(m_lowerSetpoint, 0.0));
     // double ff = (calculateFeedforwards().get(0, 0)) / 12.0;
@@ -253,16 +260,6 @@ public class ArmSubsystem extends SubsystemBase {
     return getUpperAtSetpoint() && getLowerAtSetpoint();
   }
 
-  public boolean IntermedietegetLowerAtSetpoint() {
-    return getLowerError() < ArmConstants.INTERMEDIETE_TOLERANCE_POS;
-  }
-
-  public boolean IntermedietegetUpperAtSetpoint() {
-    return getUpperError() < ArmConstants.INTERMEDIETE_TOLERANCE_POS;
-  }
-  public boolean bothIntermedieteJointsAtSetpoint() {
-    return IntermedietegetUpperAtSetpoint() && IntermedietegetLowerAtSetpoint();
-  }
   
   public Setpoint getSetpoint() {
     if(m_setpoint.equals(null)){

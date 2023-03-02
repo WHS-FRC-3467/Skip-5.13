@@ -72,7 +72,7 @@ public class AlignWithGridApril extends CommandBase {
     yTrans = m_pidControllerY.calculate(m_limelight.getArea());
     yTrans = MathUtil.clamp(yTrans, -0.5, 0.5);
 
-    m_drive.drive(new Translation2d(-yTrans, -xTrans), rotationVal, true, true, false);
+    m_drive.drive(new Translation2d(-yTrans, -xTrans), rotationVal, true, true);
 
 
     SmartDashboard.putNumber("X Error", m_pidControllerX.getPositionError());

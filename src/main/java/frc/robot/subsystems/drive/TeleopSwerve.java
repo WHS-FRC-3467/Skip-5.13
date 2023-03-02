@@ -92,12 +92,12 @@ public class TeleopSwerve extends CommandBase {
                 m_thetaController.setSetpoint(90.0);
             }
             rotationVal = m_thetaController.calculate((MathUtil.inputModulus(m_Swerve.getPose().getRotation().getDegrees(), -180, 180)), m_thetaController.getSetpoint());
-            rotationVal = MathUtil.clamp(rotationVal, -SwerveConstants.MAX_ANGULAR_VELOCITY * 0.25, SwerveConstants.MAX_ANGULAR_VELOCITY * 0.25);
+            rotationVal = MathUtil.clamp(rotationVal, -SwerveConstants.MAX_ANGULAR_VELOCITY * 0.075, SwerveConstants.MAX_ANGULAR_VELOCITY * 0.075);
             // SmartDashboard.putNumber("RotationVal", rotationVal);
             // SmartDashboard.putNumber("Theta Controller setpoint", m_thetaController.getSetpoint());
         }
         else if (!rotateWithButton){
-            rotationVal = MathUtil.applyDeadband(rotationSup.getAsDouble(), SwerveConstants.DRIVE_DEADBAND);
+            rotationVal = (MathUtil.applyDeadband(rotationSup.getAsDouble() * m_speedChooser.getSelected(), SwerveConstants.DRIVE_DEADBAND))*0.75;
         }
 
 
@@ -116,8 +116,8 @@ public class TeleopSwerve extends CommandBase {
             }
         }
         else{
-            xVal = xVal*1.1;
-            yVal =yVal*1.1;
+            xVal = xVal*1.0;
+            yVal =yVal*1.0;
             if(!rotateWithButton){
                 rotationVal = rotationVal *1.0;
             } 
@@ -128,7 +128,6 @@ public class TeleopSwerve extends CommandBase {
             new Translation2d(xVal, yVal).times(SwerveConstants.MAX_SPEED), 
             rotationVal * SwerveConstants.MAX_ANGULAR_VELOCITY * 0.9, 
             true,
-            false,
-            true);
+            false);
     }
 }
