@@ -75,23 +75,23 @@ public final class Constants {
 
     // //Midas
     //Mod 0
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 221.84;
-    //Mod 1
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 186.77;
-    //Mod 2
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 82.53;
-    //Mod 3
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 178.51;
+    // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 221.84;
+    // //Mod 1
+    // public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 186.77;
+    // //Mod 2
+    // public static final double BACK_LEFT_MODULE_STEER_OFFSET = 82.53;
+    // //Mod 3
+    // public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 178.51;
 
     //MidNight
     // //Mod 0
-    // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 289.7;
-    // //Mod 1
-    // public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 74.6;
-    // //Mod 2
-    // public static final double BACK_LEFT_MODULE_STEER_OFFSET = 286.8;
-    // //Mod 3
-    // public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 210.3;
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 289.7;
+    //Mod 1
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 74.6;
+    //Mod 2
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 287.8;
+    //Mod 3
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 211.1;
 
     public static final boolean INVERT_GYRO = false; // Always ensure Gyro is CCW+ CW-
 
@@ -218,25 +218,30 @@ public final class Constants {
   public static final class ArmConstants{
     //Arm offsets
     //Midas
-    //Measured against the hardstop when claw is over pdh
-    public static final double VERTICAL_ANGLE_UPPER = 6.4;
-    //Measured when the lower angle is vertical using 1x1
-    public static final double VERTICAL_ANGLE_LOWER = 175.2;
-    //Midnight
     // //Measured against the hardstop when claw is over pdh
     // public static final double VERTICAL_ANGLE_UPPER = 6.4;
     // //Measured when the lower angle is vertical using 1x1
-    // public static final double VERTICAL_ANGLE_LOWER = 162.9;
+    // public static final double VERTICAL_ANGLE_LOWER = 175.2;
+    //Midnight
+    //Measured against the hardstop when claw is over pdh
+    public static final double VERTICAL_ANGLE_UPPER = 7.4;
+    //Measured when the lower angle is vertical using 1x1
+    public static final double VERTICAL_ANGLE_LOWER = 175.9;
     
     public static final double LOWER_ANGLE_OFFSET = 180 - VERTICAL_ANGLE_LOWER;
     public static final double UPPER_ANGLE_OFFSET = 12.4 - VERTICAL_ANGLE_UPPER;
 
+    //Midas
+    // //Gains
+    // public static final  Gains GAINS_UPPER_JOINT = new Gains(0.02, 0.0, 0.0, 0.0, 50);
+    // public static final  Gains GAINS_LOWER_JOINT  = new Gains(0.02, 0.0, 0.0, 0.00, 50);
     //Gains
     public static final  Gains GAINS_UPPER_JOINT = new Gains(0.02, 0.0, 0.0, 0.0, 50);
-    public static final  Gains GAINS_LOWER_JOINT  = new Gains(0.02, 0.0, 0.0, 0.00, 50);
+    public static final  Gains GAINS_LOWER_JOINT  = new Gains(0.025, 0.0, 0.0, 0.00, 50);
     
     //PID Tollerance in Degrees
-    public static final double TOLERANCE_POS = 3.0;
+    public static final double TOLERANCE_POS = 1.5;
+    public static final double INTERMEDIETE_TOLERANCE_POS = 3.0;
 
     //Upper joint Config
     public static final double UPPER_LENGTH = 1.07;
@@ -287,9 +292,7 @@ public final class Constants {
     public static final Setpoint TEST_SETPOINT_HIGHER = new Setpoint(191, 35, true, ClawState.IN, 191, 35, true, ClawState.OUT, ArmState.OTHER);
     public static final Setpoint TEST_SETPOINT_LOWER = new Setpoint(164, 65, true, ClawState.IN, 164, 65, true, ClawState.OUT, ArmState.OTHER);
 
-    public static final Setpoint STOWED = new Setpoint(180, 9, false, ClawState.IN, 180, 13, false, ClawState.OUT, ArmState.STOWED);
-
-    public static final Setpoint MANUAL_MODE = new Setpoint(180, 16, false, ClawState.IN, 180, 16, false, ClawState.OUT, ArmState.OTHER);
+    public static final Setpoint STOWED = new Setpoint(180, 9, false, ClawState.IN, 180, 9, false, ClawState.OUT, ArmState.STOWED);
 
     public static final Setpoint FLOOR = new Setpoint(235, 40, true, ClawState.IN, 235, 40, true, ClawState.OUT, ArmState.FLOOR);
     public static final Setpoint MID_NODE = new Setpoint(178, 93, false, ClawState.IN, 165, 57, false, ClawState.OUT, ArmState.MID_NODE);
@@ -299,8 +302,8 @@ public final class Constants {
     public static final Setpoint TOP_NODE_PLACED = new Setpoint(220, 140, false, ClawState.IN, 211, 118, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
     public static final Setpoint TOP_NODE_PLACED_AND_OPEN = new Setpoint(220, 140, false, ClawState.OUT, 213, 115, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
     public static final Setpoint SUBSTATION = new Setpoint(150, 52, false, ClawState.IN, 150, 53, false, ClawState.OUT, ArmState.SUBSTATION);
-    public static final Setpoint FLOOR_HOVER = new Setpoint(186, 32, false, ClawState.IN, 191, 32, false, ClawState.OUT, ArmState.FLOOR);
-    public static final Setpoint FLOOR_INTAKING = new Setpoint(216, 45, false, ClawState.IN, 221, 45, false, ClawState.OUT, ArmState.FLOOR);
+    public static final Setpoint FLOOR_HOVER = new Setpoint(190, 37, false, ClawState.IN, 191, 32, false, ClawState.OUT, ArmState.FLOOR);
+    public static final Setpoint FLOOR_INTAKING = new Setpoint(216, 37, false, ClawState.IN, 221, 45, false, ClawState.OUT, ArmState.FLOOR);
     public static final double INTERMEDIATE_LOWER_POSITION_RETRACTING = 160;
     public static final double INTERMEDIATE_LOWER_POSITION_SCORING = 152;
   }

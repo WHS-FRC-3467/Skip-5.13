@@ -109,9 +109,6 @@ public class ArmSubsystem extends SubsystemBase {
     m_lowerJoint.configFeedbackNotContinuous(true, ArmConstants.TIMEOUT);
     m_upperJoint.configFeedbackNotContinuous(true, ArmConstants.TIMEOUT);
 
-    m_lowerJoint.configForwardSoftLimitEnable(false, ArmConstants.TIMEOUT);
-    m_upperJoint.configForwardSoftLimitEnable(false, ArmConstants.TIMEOUT);
-
     m_upperJoint.configForwardSoftLimitThreshold(ArmConstants.FORWARD_SOFT_LIMIT_UPPER, ArmConstants.TIMEOUT);
     m_upperJoint.configReverseSoftLimitThreshold(ArmConstants.REVERSE_SOFT_LIMIT_UPPER, ArmConstants.TIMEOUT);
     m_lowerJoint.configForwardSoftLimitThreshold(ArmConstants.FORWARD_SOFT_LIMIT_LOWER, ArmConstants.TIMEOUT);
@@ -254,6 +251,17 @@ public class ArmSubsystem extends SubsystemBase {
 
   public boolean bothJointsAtSetpoint() {
     return getUpperAtSetpoint() && getLowerAtSetpoint();
+  }
+
+  public boolean IntermedietegetLowerAtSetpoint() {
+    return getLowerError() < ArmConstants.INTERMEDIETE_TOLERANCE_POS;
+  }
+
+  public boolean IntermedietegetUpperAtSetpoint() {
+    return getUpperError() < ArmConstants.INTERMEDIETE_TOLERANCE_POS;
+  }
+  public boolean bothIntermedieteJointsAtSetpoint() {
+    return IntermedietegetUpperAtSetpoint() && IntermedietegetLowerAtSetpoint();
   }
   
   public Setpoint getSetpoint() {

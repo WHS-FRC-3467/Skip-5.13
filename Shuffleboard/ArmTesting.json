@@ -5,158 +5,335 @@
       "autoPopulate": true,
       "autoPopulatePrefix": "SmartDashboard/",
       "widgetPane": {
-        "gridSize": 128.0,
+        "gridSize": 60.0,
         "showGrid": true,
         "hgap": 16.0,
         "vgap": 16.0,
         "titleType": 0,
         "tiles": {
-          "0,0": {
+          "0,2": {
             "size": [
-              1,
+              2,
               1
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Upper P",
-              "_title": "Upper P",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "1,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Upper I",
-              "_title": "Upper I",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "2,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Upper D",
-              "_title": "Upper D",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "3,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Lower P",
-              "_title": "Lower P",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "4,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Lower I",
-              "_title": "Lower I",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "5,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Lower D",
-              "_title": "Lower D",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "6,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Upper Setpoint",
-              "_title": "Upper Setpoint",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "7,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Lower Setpoint",
-              "_title": "Lower Setpoint",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "8,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "ComboBox Chooser",
-              "_source0": "network_table:///SmartDashboard/Arm Mode Choose",
-              "_title": "Arm Mode Choose",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "9,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Command",
-              "_source0": "network_table:///SmartDashboard/Arm PID Testing",
-              "_title": "Arm PID Testing",
+              "_source0": "network_table:///SmartDashboard/Lower Angle",
+              "_title": "Lower Angle",
               "_glyph": 148,
               "_showGlyph": false
             }
           },
           "0,1": {
             "size": [
-              1,
+              2,
               1
             ],
             "content": {
-              "_type": "Command",
-              "_source0": "network_table:///SmartDashboard/Run Upper Arm PID",
-              "_title": "Run Upper Arm PID",
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Upper Angle",
+              "_title": "Upper Angle",
               "_glyph": 148,
               "_showGlyph": false
             }
           },
-          "1,1": {
+          "6,3": {
             "size": [
-              1,
+              3,
+              2
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/Auto",
+              "_title": "Auto",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "0,6": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Alliance Color",
+              "_title": "Alliance Color",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "2,0": {
+            "size": [
+              5,
+              3
+            ],
+            "content": {
+              "_type": "Field",
+              "_source0": "network_table:///SmartDashboard/Feild",
+              "_title": "Feild",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Game/Game": "A2023_Charged_Up",
+              "Visuals/Robot Icon Size": 50.0,
+              "Visuals/Show Outside Circles": false
+            }
+          },
+          "2,3": {
+            "size": [
+              4,
+              2
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/Game Peice",
+              "_title": "Game Peice",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Colors/Color when true": "#FFFF00FF",
+              "Colors/Color when false": "#800080FF"
+            }
+          },
+          "0,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Pressure",
+              "_title": "Pressure",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "4,5": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/PPSwerveControllerCommand/xErrorMeters",
+              "_title": "PPSwerveControllerCommand/xErrorMeters",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "8,5": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/PPSwerveControllerCommand/yErrorMeters",
+              "_title": "PPSwerveControllerCommand/yErrorMeters",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "6,5": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/PPSwerveControllerCommand/rotationErrorDegrees",
+              "_title": "PPSwerveControllerCommand/rotationErrorDegrees",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "0,5": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/gyro Yaw",
+              "_title": "gyro Yaw",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "0,8": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/rotate with button",
+              "_title": "rotate with button",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "0,3": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/Upper at Setpoint",
+              "_title": "Upper at Setpoint",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "0,4": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/Lower at Setpoint",
+              "_title": "Lower at Setpoint",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "12,7": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/limelight_PipelineName",
+              "_title": "limelight_PipelineName",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "16,7": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/limelight_Stream",
+              "_title": "limelight_Stream",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "14,7": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/limelight_Interface",
+              "_title": "limelight_Interface",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "9,3": {
+            "size": [
+              3,
+              2
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/Speed Percent",
+              "_title": "Speed Percent",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "12,0": {
+            "size": [
+              8,
+              7
+            ],
+            "content": {
+              "_type": "Camera Stream",
+              "_source0": "camera_server://limelight",
+              "_title": "limelight",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Crosshair/Show crosshair": true,
+              "Crosshair/Crosshair color": "#FFFFFFFF",
+              "Controls/Show controls": true,
+              "Controls/Rotation": "NONE",
+              "compression": -1.0,
+              "fps": -1,
+              "imageWidth": -1,
+              "imageHeight": -1
+            }
+          },
+          "0,7": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Claw Current",
+              "_title": "Claw Current",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "9,1": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/X offset",
+              "_title": "X offset",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "7,1": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Y offset",
+              "_title": "Y offset",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "10,5": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/Is vision Mode",
+              "_title": "Is vision Mode",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "6,8": {
+            "size": [
+              2,
               1
             ],
             "content": {
@@ -167,35 +344,9 @@
               "_showGlyph": false
             }
           },
-          "2,1": {
+          "8,8": {
             "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Mod 0 Integrated",
-              "_title": "Mod 0 Integrated",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "3,1": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Mod 0 Velocity",
-              "_title": "Mod 0 Velocity",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "4,1": {
-            "size": [
-              1,
+              2,
               1
             ],
             "content": {
@@ -206,35 +357,9 @@
               "_showGlyph": false
             }
           },
-          "5,1": {
+          "10,8": {
             "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Mod 1 Integrated",
-              "_title": "Mod 1 Integrated",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "6,1": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Mod 1 Velocity",
-              "_title": "Mod 1 Velocity",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "7,1": {
-            "size": [
-              1,
+              2,
               1
             ],
             "content": {
@@ -245,35 +370,9 @@
               "_showGlyph": false
             }
           },
-          "8,1": {
+          "12,8": {
             "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Mod 2 Integrated",
-              "_title": "Mod 2 Integrated",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "9,1": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Mod 2 Velocity",
-              "_title": "Mod 2 Velocity",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "0,2": {
-            "size": [
-              1,
+              2,
               1
             ],
             "content": {
@@ -284,197 +383,158 @@
               "_showGlyph": false
             }
           },
-          "1,2": {
+          "14,8": {
             "size": [
-              1,
+              2,
               1
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Mod 3 Integrated",
-              "_title": "Mod 3 Integrated",
+              "_source0": "network_table:///SmartDashboard/Lower Angle Uncorrected",
+              "_title": "Lower Angle Uncorrected",
               "_glyph": 148,
               "_showGlyph": false
             }
           },
-          "2,2": {
+          "16,8": {
             "size": [
-              1,
+              2,
               1
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Mod 3 Velocity",
-              "_title": "Mod 3 Velocity",
+              "_source0": "network_table:///SmartDashboard/Upper Angle Uncorrected",
+              "_title": "Upper Angle Uncorrected",
               "_glyph": 148,
               "_showGlyph": false
             }
           },
-          "3,2": {
+          "4,6": {
             "size": [
-              1,
+              2,
               1
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Lower Joint Abs",
-              "_title": "Lower Joint Abs",
+              "_source0": "network_table:///SmartDashboard/Lower Error",
+              "_title": "Lower Error",
               "_glyph": 148,
               "_showGlyph": false
             }
           },
-          "4,2": {
+          "2,6": {
             "size": [
-              1,
+              2,
               1
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Upper Joint Abs",
-              "_title": "Upper Joint Abs",
+              "_source0": "network_table:///SmartDashboard/Upper Error",
+              "_title": "Upper Error",
               "_glyph": 148,
               "_showGlyph": false
             }
           },
-          "5,2": {
+          "6,6": {
             "size": [
-              1,
+              2,
               1
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Lower Joint CTRE Units",
-              "_title": "Lower Joint CTRE Units",
+              "_source0": "network_table:///SmartDashboard/Lower Setpoint",
+              "_title": "Lower Setpoint",
               "_glyph": 148,
               "_showGlyph": false
             }
           },
-          "6,2": {
+          "8,6": {
             "size": [
-              1,
+              2,
               1
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Upper Joint CTRE Units",
-              "_title": "Upper Joint CTRE Units",
+              "_source0": "network_table:///SmartDashboard/Upper Setpoint",
+              "_title": "Upper Setpoint",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "6,7": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/upper PID",
+              "_title": "upper PID",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "8,7": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/lower PID",
+              "_title": "lower PID",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "7,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/X Error",
+              "_title": "X Error",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "9,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Y Error",
+              "_title": "Y Error",
               "_glyph": 148,
               "_showGlyph": false
             }
           },
           "7,2": {
             "size": [
-              1,
+              2,
               1
             ],
             "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Lower Joint Absolute Angle",
-              "_title": "Lower Joint Absolute Angle",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "8,2": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Upper Joint Absolute Angle",
-              "_title": "Upper Joint Absolute Angle",
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/InstantCommand",
+              "_title": "InstantCommand",
               "_glyph": 148,
               "_showGlyph": false
             }
           },
           "9,2": {
             "size": [
-              1,
+              2,
               1
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Upper Joint Talon Sensor Get",
-              "_title": "Upper Joint Talon Sensor Get",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "0,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Lower Joint Talon Sensor Get",
-              "_title": "Lower Joint Talon Sensor Get",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "1,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Upper Joint Talon Target",
-              "_title": "Upper Joint Talon Target",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "2,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Lower Joint Talon Target",
-              "_title": "Lower Joint Talon Target",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "3,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Upper Joint Talon Error",
-              "_title": "Upper Joint Talon Error",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "4,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Lower Joint Talon Error",
-              "_title": "Lower Joint Talon Error",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "5,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Pressure",
-              "_title": "Pressure",
+              "_source0": "network_table:///SmartDashboard/Target Area",
+              "_title": "Target Area",
               "_glyph": 148,
               "_showGlyph": false
             }
@@ -487,7 +547,7 @@
       "autoPopulate": true,
       "autoPopulatePrefix": "LiveWindow/",
       "widgetPane": {
-        "gridSize": 128.0,
+        "gridSize": 60.0,
         "showGrid": true,
         "hgap": 16.0,
         "vgap": 16.0,
@@ -497,9 +557,9 @@
     }
   ],
   "windowGeometry": {
-    "x": -10.399999618530273,
+    "x": -4.800000190734863,
     "y": 0.0,
-    "width": 1546.4000244140625,
-    "height": 745.5999755859375
+    "width": 1547.199951171875,
+    "height": 830.4000244140625
   }
 }
