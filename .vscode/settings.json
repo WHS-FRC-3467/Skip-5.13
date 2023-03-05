@@ -25,5 +25,11 @@
       }
     },
   ],
-  "java.test.defaultConfig": "WPIlibUnitTests"
+  "java.test.defaultConfig": "WPIlibUnitTests",
+  "C_Cpp.inlayHints.parameterNames.suppressWhenArgumentContainsName": false,
+  "debug.inlineValues": "off",
+  "editor.inlineSuggest.enabled": true,
+  "editor.suggest.showInlineDetails": true,
+  "editor.snippetSuggestions": "none",
+  "editor.inlayHints.enabled": "off"
 }

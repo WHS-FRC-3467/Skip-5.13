@@ -182,8 +182,9 @@ public class DriveSubsystem extends SubsystemBase {
         m_balancePID.setTolerance(SwerveConstants.BALANCE_TOLLERANCE);
         double pidOutput;
         pidOutput = MathUtil.clamp(m_balancePID.calculate(getRoll(), 0), -1.0, 1.0);
-        
-        SmartDashboard.putNumber("Balance PID", pidOutput);
+        if(Constants.tuningMode){
+            SmartDashboard.putNumber("Balance PID", pidOutput);
+        }
         drive(new Translation2d(-pidOutput, 0), 0.0, false, true);
     }
 

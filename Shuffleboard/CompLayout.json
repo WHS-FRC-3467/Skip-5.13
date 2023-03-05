@@ -258,8 +258,8 @@
               "Controls/Rotation": "NONE",
               "compression": -1.0,
               "fps": -1,
-              "imageWidth": -1,
-              "imageHeight": -1
+              "imageWidth": 0,
+              "imageHeight": 0
             }
           },
           "5,0": {
@@ -269,8 +269,8 @@
             ],
             "content": {
               "_type": "Command",
-              "_source0": "network_table:///SmartDashboard/InstantCommand",
-              "_title": "InstantCommand",
+              "_source0": "network_table:///SmartDashboard/Reset Modules",
+              "_title": "Reset Modules",
               "_glyph": 148,
               "_showGlyph": false
             }
@@ -293,9 +293,9 @@
     }
   ],
   "windowGeometry": {
-    "x": -6.400000095367432,
+    "x": -6.666666507720947,
     "y": 0.0,
-    "width": 1548.800048828125,
-    "height": 830.4000244140625
+    "width": 1293.3333740234375,
+    "height": 686.6666870117188
   }
 }

@@ -4,8 +4,10 @@
 
 package frc.robot.subsystems.led;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.Constants.ClawConstants;
 import frc.robot.subsystems.claw.ClawSubsytem;
 import frc.robot.subsystems.limelight.LimelightSubsystem;
@@ -30,11 +32,22 @@ public class LEDDefault extends CommandBase {
   public void initialize() {  
   }
 
+
+  @Override
+  public boolean runsWhenDisabled(){
+    return true;
+  }
+
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SmartDashboard.putBoolean("Is vision Mode", m_limelight.inVisionMode());
-    if(m_claw.getClawCurrent()>=ClawConstants.CLAW_SPIKE_CURRENT){
+    if(Constants.tuningMode){
+      SmartDashboard.putBoolean("Is vision Mode", m_limelight.inVisionMode());
+    }
+    if(DriverStation.isDisabled()){
+      m_led.setRainbow();
+    }
+    else if(m_claw.getClawCurrent()>=ClawConstants.CLAW_SPIKE_CURRENT){
       m_led.setColor(122, 249, 240);
     }
     else if(m_limelight.inVisionMode()){

@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.CanConstants;
 
 public class ClawSubsytem extends SubsystemBase {
@@ -21,13 +22,15 @@ public class ClawSubsytem extends SubsystemBase {
     m_clawMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 10, 15, 0.5));
     m_clawMotor.configVoltageCompSaturation(12.0);
     m_clawMotor.setNeutralMode(NeutralMode.Coast);
-    m_clawMotor.configOpenloopRamp(0.0);
+    m_clawMotor.configOpenloopRamp(0.2);
   }
 
   
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Claw Current", getClawCurrent());
+    if(Constants.tuningMode){
+      SmartDashboard.putNumber("Claw Current", getClawCurrent());
+    }
     // This method will be called once per scheduler run
   }
   public void driveClaw(double speed){

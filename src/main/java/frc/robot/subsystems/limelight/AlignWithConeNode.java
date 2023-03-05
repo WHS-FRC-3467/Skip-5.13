@@ -9,6 +9,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.Constants.LimelightConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.drive.DriveSubsystem;
@@ -50,9 +51,10 @@ public class AlignWithConeNode extends CommandBase {
     m_thetaController = new PIDController(SwerveConstants.GAINS_ANGLE_SNAP.kP*2, SwerveConstants.GAINS_ANGLE_SNAP.kI, SwerveConstants.GAINS_ANGLE_SNAP.kD);
         
     m_thetaController.enableContinuousInput(-180, 180);
-    SmartDashboard.putNumber("X Error", m_pidControllerX.getPositionError());
-    SmartDashboard.putNumber("Y Error", m_pidControllerY.getPositionError());
-
+    if(Constants.tuningMode){
+      SmartDashboard.putNumber("X Error", m_pidControllerX.getPositionError());
+      SmartDashboard.putNumber("Y Error", m_pidControllerY.getPositionError());
+    }
     m_end = false;
     m_limelight.setPipeline(LimelightConstants.RETRO_PIPELINE);
   }

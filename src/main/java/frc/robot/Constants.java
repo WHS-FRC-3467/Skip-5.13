@@ -27,7 +27,7 @@ import frc.robot.util.SwerveModuleConstants;
  */
 public final class Constants {
 
-  public static final boolean tuningMode = true;
+  public static final boolean tuningMode = false;
 
   public static final class CanConstants{
     //drivebase CAN IDs 
@@ -85,13 +85,13 @@ public final class Constants {
 
     //MidNight
     // //Mod 0
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 289.7;
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 289.9;
     //Mod 1
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 74.6;
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 76.0;
     //Mod 2
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 287.8;
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 287.0;
     //Mod 3
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 211.1;
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 210.1;
 
     public static final boolean INVERT_GYRO = false; // Always ensure Gyro is CCW+ CW-
 
@@ -226,9 +226,9 @@ public final class Constants {
     // public static final double VERTICAL_ANGLE_LOWER = 175.2;
     //Midnight
     //Measured against the hardstop when claw is over pdh
-    public static final double VERTICAL_ANGLE_UPPER = 60.2;
+    public static final double VERTICAL_ANGLE_UPPER = 71.6;
     //Measured when the lower angle is vertical using 1x1
-    public static final double VERTICAL_ANGLE_LOWER = 178.2;
+    public static final double VERTICAL_ANGLE_LOWER = 183.0;
     
     public static final double LOWER_ANGLE_OFFSET = 180 - VERTICAL_ANGLE_LOWER;
     public static final double UPPER_ANGLE_OFFSET = 12.4 - VERTICAL_ANGLE_UPPER;
@@ -244,19 +244,19 @@ public final class Constants {
     //PID Tollerance in Degrees
     public static final double TOLERANCE_POS = 4.0;
 
-    //Upper joint Config
+    //Upper joint Config=
     public static final double UPPER_LENGTH = 1.07;
     public static final double UPPER_MOI = 0.4;
     public static final double UPPER_CGRADIUS = 1.0;
-    public static final double UPPER_MASS = 2.0;
-    public static final DCMotor UPPER_MOTOR = DCMotor.getFalcon500(1).withReduction(250);
+    public static final double UPPER_MASS = 4.0;
+    public static final DCMotor UPPER_MOTOR = DCMotor.getFalcon500(1).withReduction(200);
 
     //Lower Joint config
     public static final double LOWER_LENGTH = 0.7874;
     public static final double LOWER_MOI = 0.4;
     public static final double LOWER_CGRADIUS = 1.0;
-    public static final double LOWER_MASS = 2.0;
-    public static final DCMotor LOWER_MOTOR = DCMotor.getFalcon500(1).withReduction(250);
+    public static final double LOWER_MASS = 3.0;
+    public static final DCMotor LOWER_MOTOR = DCMotor.getFalcon500(1).withReduction(200);
 
     /* Motor neutral dead-band : Range 0.001 -> 0.25 */
 	  public static final double NEUTRAL_DEADBAND = 0.005;
@@ -279,10 +279,10 @@ public final class Constants {
 
     // Profiled PID Constants
     public static final double LOWER_CRUISE = 160.0;
-    public static final double LOWER_ACCELERATION = 300.0;
+    public static final double LOWER_ACCELERATION = 240.0;
 
     public static final double UPPER_CRUISE = 160.0;
-    public static final double UPPER_ACCELERATION = 300.0;
+    public static final double UPPER_ACCELERATION = 240.0;
 
     //Duty cycle constants
     public static final double DUTY_CYCLE_MIN = 1.0/1025.0;
@@ -296,13 +296,13 @@ public final class Constants {
     public static final Setpoint STOWED = new Setpoint(180, 13, false, ClawState.IN, 180, 13, false, ClawState.OUT, ArmState.STOWED);
 
     public static final Setpoint FLOOR = new Setpoint(235, 40, true, ClawState.IN, 235, 40, true, ClawState.OUT, ArmState.FLOOR);
-    public static final Setpoint MID_NODE = new Setpoint(180, 97, false, ClawState.IN, 165, 57, false, ClawState.OUT, ArmState.MID_NODE);
-    public static final Setpoint MID_NODE_PLACED = new Setpoint(187, 80, false, ClawState.IN, 192, 69, false, ClawState.OUT, ArmState.MID_NODE_PLACED);
-    public static final Setpoint MID_NODE_PLACED_AND_OPEN = new Setpoint(187, 80, false, ClawState.IN, 192, 69, false, ClawState.OUT, ArmState.MID_NODE_PLACED);
+    public static final Setpoint MID_NODE = new Setpoint(182, 97, false, ClawState.IN, 165, 57, false, ClawState.OUT, ArmState.MID_NODE);
+    public static final Setpoint MID_NODE_PLACED = new Setpoint(188, 80, false, ClawState.IN, 192, 69, false, ClawState.OUT, ArmState.MID_NODE_PLACED);
+    public static final Setpoint MID_NODE_PLACED_AND_OPEN = new Setpoint(188, 80, false, ClawState.IN, 192, 69, false, ClawState.OUT, ArmState.MID_NODE_PLACED);
     public static final Setpoint TOP_NODE = new Setpoint(219, 159, false, ClawState.IN, 198, 118, false, ClawState.OUT, ArmState.TOP_NODE);
     public static final Setpoint TOP_NODE_PLACED = new Setpoint(219, 140, false, ClawState.IN, 211, 118, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
     public static final Setpoint TOP_NODE_PLACED_AND_OPEN = new Setpoint(219, 140, false, ClawState.OUT, 213, 115, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
-    public static final Setpoint SUBSTATION = new Setpoint(160, 66, false, ClawState.IN, 160, 66, false, ClawState.OUT, ArmState.SUBSTATION);
+    public static final Setpoint SUBSTATION = new Setpoint(160, 64.5, false, ClawState.IN, 160, 65, false, ClawState.OUT, ArmState.SUBSTATION);
     public static final Setpoint FLOOR_HOVER = new Setpoint(190, 37, false, ClawState.IN, 191, 32, false, ClawState.OUT, ArmState.FLOOR);
     public static final Setpoint FLOOR_INTAKING = new Setpoint(216, 37, false, ClawState.IN, 221, 45, false, ClawState.OUT, ArmState.FLOOR);
     

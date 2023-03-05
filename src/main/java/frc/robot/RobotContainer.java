@@ -108,7 +108,7 @@ public class RobotContainer {
 
     m_led.setDefaultCommand(new LEDDefault(m_led, m_claw, m_limelight));
 
-    SmartDashboard.putData(new InstantCommand(m_drive::resetModulesToAbsolute));
+    SmartDashboard.putData("Reset Modules", new InstantCommand(m_drive::resetModulesToAbsolute));
   }
 
   /**
@@ -149,7 +149,7 @@ public class RobotContainer {
 
     m_operatorController.y().onTrue(new GoToPositionWithIntermediate(m_arm, ArmSetpoints.TOP_NODE));
 
-    m_operatorController.x().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.SUBSTATION)));
+    m_operatorController.x().onTrue(Commands.runOnce(() -> m_arm.updateAllSetpoints(ArmSetpoints.SUBSTATION)));
 
     m_operatorController.povUp().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.FLOOR_HOVER)));
     m_operatorController.povDown().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.FLOOR_INTAKING)));

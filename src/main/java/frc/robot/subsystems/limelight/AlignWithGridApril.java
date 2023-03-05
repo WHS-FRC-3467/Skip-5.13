@@ -9,6 +9,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.Constants.LimelightConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.drive.DriveSubsystem;
@@ -74,9 +75,10 @@ public class AlignWithGridApril extends CommandBase {
 
     m_drive.drive(new Translation2d(-yTrans, -xTrans), rotationVal, true, true);
 
-
-    SmartDashboard.putNumber("X Error", m_pidControllerX.getPositionError());
-    SmartDashboard.putNumber("Y Error", m_pidControllerY.getPositionError());
+    if(Constants.tuningMode){
+      SmartDashboard.putNumber("X Error", m_pidControllerX.getPositionError());
+      SmartDashboard.putNumber("Y Error", m_pidControllerY.getPositionError());
+    }
 
     if(m_pidControllerX.atSetpoint() && m_pidControllerY.atSetpoint() && count>50){
       m_end = true;

@@ -5,6 +5,7 @@
 package frc.robot.subsystems.led;
 
 import com.ctre.phoenix.led.CANdle;
+import com.ctre.phoenix.led.RainbowAnimation;
 import com.ctre.phoenix.led.CANdle.LEDStripType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -15,8 +16,9 @@ public class LEDSubsystem extends SubsystemBase {
   private CANdle m_candle = new CANdle(CanConstants.LED_CANDLE);
   public LEDSubsystem() {
     m_candle.configBrightnessScalar(0.75);
-    m_candle.configLEDType(LEDStripType.RGB);
-
+    m_candle.configLEDType(LEDStripType.GRB);
+    m_candle.configV5Enabled(true);
+    // m_candle.configLOSBehavior(true);
   }
 
   @Override
@@ -24,6 +26,10 @@ public class LEDSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
   public void setColor(int r, int g, int b){
-    m_candle.setLEDs(r, g, b);
+    m_candle.clearAnimation(0);
+    m_candle.setLEDs(r, g, b, 255, 0, 20);
+  }
+  public void setRainbow(){
+    m_candle.animate(new RainbowAnimation(0.5,0.1,20));
   }
 }
