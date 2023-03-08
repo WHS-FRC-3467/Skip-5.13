@@ -6,6 +6,8 @@ package frc.robot.subsystems.drive;
 
 import java.io.IOException;
 
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.apriltag.AprilTagFieldLayout.OriginPosition;
@@ -89,10 +91,16 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
 
     if(DriverStation.getAlliance() == Alliance.Blue){
       poseEstimator.addVisionMeasurement(limelightSubsystem.getBotPoseBlue().toPose2d(), resultTimestamp);
+      Logger.getInstance().recordOutput("LimelightSubsystem BotPose", limelightSubsystem.getBotPoseBlue().toPose2d());
+
     }
     else if (DriverStation.getAlliance() == Alliance.Red){
       poseEstimator.addVisionMeasurement(limelightSubsystem.getBotPoseRed().toPose2d(), resultTimestamp);
+      Logger.getInstance().recordOutput("LimelightSubsystem BotPose", limelightSubsystem.getBotPoseRed().toPose2d());
+
     }
+
+    Logger.getInstance().recordOutput("Pose Estimator Odometry", poseEstimator.getEstimatedPosition());
             
     // Update pose estimator with drivetrain sensors
     poseEstimator.update(
