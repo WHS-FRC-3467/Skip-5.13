@@ -91,23 +91,12 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    var resultTimestamp = limelightSubsystem.getLastEntryTimeStamp();
-    if (Timer.getFPGATimestamp() != previousPipelineTimestamp && limelightSubsystem.hasTarget()) {
-      previousPipelineTimestamp = resultTimestamp;
-      var fiducialId = limelightSubsystem.getID();
-      // Get the tag pose from field layout - consider that the layout will be null if it failed to load
-      Optional<Pose3d> tagPose = aprilTagFieldLayout == null ? Optional.empty() : aprilTagFieldLayout.getTagPose(fiducialId);
-      if (fiducialId >= 0 && tagPose.isPresent()) {
-        var targetPose = tagPose.get();
-        Transform3d camToTarget = limelightSubsystem.getTransform();
-        Pose3d camPose = targetPose.transformBy(camToTarget.inverse());
-
-        var visionMeasurement = camPose.transformBy(LimelightConstants.CAMERA_TO_ROBOT);
-        poseEstimator.addVisionMeasurement(visionMeasurement.toPose2d(), resultTimestamp);
-      }
-    }    
-    // Update pose estimator with the best visible target
-      
+    double resultTimestamp = limelightSubsystem.getLastEntryTimeStamp();
+    previousPipelineTimestamp = resultTimestamp;
+    int fiducialId = limelightSubsystem.getID();
+    
+    poseEstimator.addVisionMeasurement(limelightSubsystem.getBotPose().toPose2d(), resultTimestamp);
+            
     // Update pose estimator with drivetrain sensors
     poseEstimator.update(
       drivetrainSubsystem.getYaw(),
