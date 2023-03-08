@@ -35,6 +35,7 @@ public class LimelightSubsystem extends SubsystemBase {
     m_limelight.setResolution(320, 240);
     m_limelight.setFPS(90);
     CameraServer.addCamera(m_limelight);
+    
   }
 
   @Override
@@ -47,6 +48,7 @@ public class LimelightSubsystem extends SubsystemBase {
       SmartDashboard.putNumber("Y offset", getY());
       SmartDashboard.putNumber("Target Area", getArea()); 
     }
+    
   }
   
   public double getX(){
@@ -109,7 +111,6 @@ public class LimelightSubsystem extends SubsystemBase {
     return new Pose3d(new Translation3d(pose[0], pose[1], pose[2]), new Rotation3d(pose[3], pose[4], pose[5]));
   }
   public Transform3d getTransform(){
-    double[] pose = table.getEntry("botpose").getDoubleArray(new double[6]);
     return new Transform3d(new Pose3d(0.0, 0.0, 0.0, new Rotation3d(0.0, 0.0, 0.0)), getBotPose());
   }
 

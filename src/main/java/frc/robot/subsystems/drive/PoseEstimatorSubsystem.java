@@ -5,7 +5,6 @@
 package frc.robot.subsystems.drive;
 
 import java.io.IOException;
-import java.util.Optional;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
@@ -14,18 +13,14 @@ import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.LimelightConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.limelight.LimelightSubsystem;
 
@@ -57,8 +52,6 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
   private final SwerveDrivePoseEstimator poseEstimator;
 
   private final Field2d field2d = new Field2d();
-
-  private double previousPipelineTimestamp = 0;
 
   public PoseEstimatorSubsystem(LimelightSubsystem limelightSubsystem, DriveSubsystem drivetrainSubsystem) {
     this.limelightSubsystem = limelightSubsystem;
@@ -92,10 +85,14 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     double resultTimestamp = limelightSubsystem.getLastEntryTimeStamp();
-    previousPipelineTimestamp = resultTimestamp;
-    int fiducialId = limelightSubsystem.getID();
-    
-    poseEstimator.addVisionMeasurement(limelightSubsystem.getBotPose().toPose2d(), resultTimestamp);
+    //int fiducialId = limelightSubsystem.getID();
+
+    if(DriverStation.getAlliance() == Alliance.Blue){
+      poseEstimator.addVisionMeasurement(limelightSubsystem.getBotPoseBlue().toPose2d(), resultTimestamp);
+    }
+    else if (DriverStation.getAlliance() == Alliance.Red){
+      poseEstimator.addVisionMeasurement(limelightSubsystem.getBotPoseRed().toPose2d(), resultTimestamp);
+    }
             
     // Update pose estimator with drivetrain sensors
     poseEstimator.update(
