@@ -8,6 +8,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
+import org.littletonrobotics.junction.Logger;
+
 import com.ctre.phoenix.sensors.Pigeon2;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
@@ -72,7 +74,8 @@ public class DriveSubsystem extends SubsystemBase {
         // SmartDashboard.putNumber("Robot Roll", getRoll());
 
         SmartDashboard.putString("Alliance Color", DriverStation.getAlliance().name());
-
+        Logger.getInstance().recordOutput("Swerve Odometry", swerveOdometry.getPoseMeters());
+            
         swerveOdometry.update(getYaw(), getModulePositions()); 
 
         m_field.setRobotPose(swerveOdometry.getPoseMeters());
@@ -106,6 +109,9 @@ public class DriveSubsystem extends SubsystemBase {
         for(SwerveModule mod : mSwerveMods){
             mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
         }
+
+        Logger.getInstance().recordOutput("Swerve Module States", swerveModuleStates);
+
 
         // SmartDashboard.putNumber("X Translation", translation.getX());
         // SmartDashboard.putNumber("Y Translation", translation.getY());
