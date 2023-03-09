@@ -17,19 +17,17 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class LimelightSubsystem extends SubsystemBase {
   /** Creates a new LimelightSubsystem. */  
-  NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-  NetworkTableEntry tx = table.getEntry("tx");
-  NetworkTableEntry ty = table.getEntry("ty");
-  NetworkTableEntry ta = table.getEntry("ta");
-  NetworkTableEntry tv = table.getEntry("tv");
+  NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight-rear");
+  NetworkTable tableFront = NetworkTableInstance.getDefault().getTable("limelight-front");
 
   public static HttpCamera m_limelightRear;
   public static HttpCamera m_limelightFront;
+
+  private boolean m_visionMode;
 
   public LimelightSubsystem() {
     m_limelightRear = new HttpCamera("RearLL", "http://limelight.rear:5809/stream.mjpg");
@@ -51,9 +49,9 @@ public class LimelightSubsystem extends SubsystemBase {
     SmartDashboard.putData(SendableCameraWrapper.wrap(m_limelightRear));
     SmartDashboard.putData(SendableCameraWrapper.wrap(m_limelightFront));
     if(Constants.tuningMode){
-      SmartDashboard.putNumber("X offset", getX());
-      SmartDashboard.putNumber("Y offset", getY());
-      SmartDashboard.putNumber("Target Area", getArea()); 
+      SmartDashboard.putNumber("X offset", getXFront());
+      SmartDashboard.putNumber("Y offset", getYFront());
+      SmartDashboard.putNumber("Target Area", getAreaFront()); 
     }
     
   }
@@ -88,7 +86,7 @@ public class LimelightSubsystem extends SubsystemBase {
   public double getVerticalLength(){
     return table.getEntry("tvert").getDouble(0.0);
   }
-  
+
   public boolean hasTarget(){
     return table.getEntry("tv").getDouble(0.0) == 1;
   }
@@ -105,6 +103,7 @@ public class LimelightSubsystem extends SubsystemBase {
 
   }
 
+  
   public Pose3d getBotPose(){
     double[] pose = table.getEntry("botpose").getDoubleArray(new double[6]);
     return new Pose3d(new Translation3d(pose[0], pose[1], pose[2]), new Rotation3d(pose[3], pose[4], pose[5]));
@@ -133,9 +132,40 @@ public class LimelightSubsystem extends SubsystemBase {
   }
 
   public boolean inVisionMode(){
-    return table.getEntry("pipeline").getDouble(0.0) != 0.0;
+    return m_visionMode;
+  }
+  public void setVisionModeOn(){
+    m_visionMode = true;
+  }
+  public void setVisionModeOff(){
+    m_visionMode = false;
   }
 
-   
+  public double getXFront(){
+    return tableFront.getEntry("tx").getDouble(0.0);
+  }
+  public double getYFront(){
+    return tableFront.getEntry("ty").getDouble(0.0);
+  }
+
+  public double getAreaFront(){
+    return tableFront.getEntry("ta").getDouble(0.0);
+  }
+
+  public boolean hasTargetFront(){
+    return tableFront.getEntry("tv").getDouble(0.0) == 1;
+  }
+
+  public int getIDFront(){
+    return (int)tableFront.getEntry("tid").getDouble(0.0);
+  }
+
+  /**
+  * @param piplineNumber 0 = april tags
+  */
+  public void setPipelineFront(int pipelineNumber){
+   Number numObj = (Number)pipelineNumber;
+   table.getEntry("pipeline").setNumber(numObj);
+  }
 }
 

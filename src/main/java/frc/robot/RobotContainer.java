@@ -129,9 +129,8 @@ public class RobotContainer {
     
     m_driverController.leftTrigger().onTrue(new ScoreAndRetract(m_arm));
 
-    // m_driverController.povDown().whileTrue(new AlignWithConeNode(m_limelight, m_drive));
-
-    m_driverController.povRight().onTrue(Commands.runOnce(() -> m_limelight.setPipeline(LimelightConstants.APRILTAG_PIPELINE), m_limelight));
+    m_driverController.povLeft().onTrue(Commands.runOnce(m_limelight::setVisionModeOn, m_limelight));
+    m_driverController.povRight().onTrue(Commands.runOnce(m_limelight::setVisionModeOff, m_limelight));
     //Opperator Controls
     //Set game Piece type 
     m_operatorController.start().onTrue(Commands.runOnce(() -> GamePiece.toggleGamePiece()));

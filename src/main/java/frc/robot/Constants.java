@@ -30,7 +30,7 @@ import frc.robot.util.SwerveModuleConstants;
  */
 public final class Constants {
 
-  public static final boolean tuningMode = false;
+  public static final boolean tuningMode = true;
 
   public static final class CanConstants{
     //drivebase CAN IDs 
