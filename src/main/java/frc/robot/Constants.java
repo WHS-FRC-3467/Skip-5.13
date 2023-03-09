@@ -7,7 +7,10 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
@@ -27,7 +30,7 @@ import frc.robot.util.SwerveModuleConstants;
  */
 public final class Constants {
 
-  public static final boolean tuningMode = false;
+  public static final boolean tuningMode = true;
 
   public static final class CanConstants{
     //drivebase CAN IDs 
@@ -315,9 +318,7 @@ public final class Constants {
   }
 
   public static final class LimelightConstants{
-    public static final int DRIVER_PIPELINE = 0;
-    public static final int APRILTAG_PIPELINE = 1;
-    public static final int RETRO_PIPELINE = 2;
+    public static final int APRILTAG_PIPELINE = 0;
 
     public static final Gains GAINS_VISION_X = new Gains(0.07, 0.03, 0.0, 0.0, 50);
     public static final Gains GAINS_VISION_Y = new Gains(0.085, 0.03, 0.0, 0.0, 50);
@@ -345,5 +346,7 @@ public final class Constants {
     public static final double HEIGHT_CONE_NODE_TAP = 24.125;
     public static final double HEIGHT_GRID_APRIL = 18.25;
     public static final double HEIGHT_SUBSTATION_APRIL = 27.375;
+
+    public static final Transform3d CAMERA_TO_ROBOT = new Transform3d(new Translation3d(0.0, 0.0, 0.0), new Rotation3d(0.0, 0.0, 0.0));
   }
 }

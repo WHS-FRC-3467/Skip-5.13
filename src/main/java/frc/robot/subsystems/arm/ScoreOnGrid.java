@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmSetpoints;
 import frc.robot.subsystems.arm.Setpoint.ArmState;
 import frc.robot.subsystems.arm.Setpoint.ClawState;
+import frc.robot.util.GamePiece;
+import frc.robot.util.GamePiece.GamePieceType;
 
 public class ScoreOnGrid extends CommandBase {
   /** Creates a new ScoreOnGrid. */
@@ -23,7 +25,10 @@ public class ScoreOnGrid extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (m_arm.getSetpoint().state.equals(ArmState.TOP_NODE)){
+    if(GamePiece.getGamePiece() == GamePieceType.Cube){
+      m_end = true;
+    }
+    else if (m_arm.getSetpoint().state.equals(ArmState.TOP_NODE)){
       m_arm.updateAllSetpoints(ArmSetpoints.TOP_NODE_PLACED);
       m_end = false;
     }
