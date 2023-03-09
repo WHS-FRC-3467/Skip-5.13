@@ -318,9 +318,7 @@ public final class Constants {
   }
 
   public static final class LimelightConstants{
-    public static final int DRIVER_PIPELINE = 0;
-    public static final int APRILTAG_PIPELINE = 1;
-    public static final int RETRO_PIPELINE = 2;
+    public static final int APRILTAG_PIPELINE = 0;
 
     public static final Gains GAINS_VISION_X = new Gains(0.07, 0.03, 0.0, 0.0, 50);
     public static final Gains GAINS_VISION_Y = new Gains(0.085, 0.03, 0.0, 0.0, 50);

@@ -28,13 +28,19 @@ public class LimelightSubsystem extends SubsystemBase {
   NetworkTableEntry ta = table.getEntry("ta");
   NetworkTableEntry tv = table.getEntry("tv");
 
-  public static HttpCamera m_limelight;
+  public static HttpCamera m_limelightRear;
+  public static HttpCamera m_limelightFront;
 
   public LimelightSubsystem() {
-    m_limelight = new HttpCamera("limelight", "http://limelight.local:5809/stream.mjpg");
-    m_limelight.setResolution(320, 240);
-    m_limelight.setFPS(90);
-    CameraServer.addCamera(m_limelight);
+    m_limelightRear = new HttpCamera("RearLL", "http://limelight.rear:5809/stream.mjpg");
+    m_limelightRear.setResolution(320, 240);
+    m_limelightRear.setFPS(90);
+    m_limelightFront = new HttpCamera("FrontLL", "http://limelight.front:5809/stream.mjpg");
+    m_limelightFront.setResolution(320, 240);
+    m_limelightFront.setFPS(90);
+
+    CameraServer.addCamera(m_limelightRear);
+    CameraServer.addCamera(m_limelightFront);
     
   }
 
@@ -42,7 +48,8 @@ public class LimelightSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     //read values periodically
-    SmartDashboard.putData(SendableCameraWrapper.wrap(m_limelight));
+    SmartDashboard.putData(SendableCameraWrapper.wrap(m_limelightRear));
+    SmartDashboard.putData(SendableCameraWrapper.wrap(m_limelightFront));
     if(Constants.tuningMode){
       SmartDashboard.putNumber("X offset", getX());
       SmartDashboard.putNumber("Y offset", getY());

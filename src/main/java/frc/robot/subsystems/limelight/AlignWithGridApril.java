@@ -94,7 +94,7 @@ public class AlignWithGridApril extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_drive.stopDrive();
-    m_limelight.setPipeline(LimelightConstants.DRIVER_PIPELINE);
+    // m_limelight.setPipeline(LimelightConstants.DRIVER_PIPELINE);
   }
 
   // Returns true when the command should end.

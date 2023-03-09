@@ -32,7 +32,6 @@ import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.TeleopSwerve;
 import frc.robot.subsystems.led.LEDDefault;
 import frc.robot.subsystems.led.LEDSubsystem;
-import frc.robot.subsystems.limelight.AlignWithConeNode;
 import frc.robot.subsystems.limelight.AlignWithGridApril;
 import frc.robot.subsystems.limelight.LimelightSubsystem;
 import frc.robot.util.GamePiece;
@@ -74,11 +73,11 @@ public class RobotContainer {
     }
     // Configure the trigger bindings
     
-    m_autoChooser.addOption("Test Auto", new TestAuto(m_drive));
+    m_autoChooser.addOption("Test Auto", new TestAuto(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("OneConeFar", new OneConeFar(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("OneConeClose", new OneConeClose(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("OneConeWithCharge", new OneConeWithCharge(m_drive, m_arm, m_claw));
-    m_autoChooser.addOption("Two Game Piece", new TwoPieceAuto(m_drive, m_arm, m_claw, m_limelight));
+    m_autoChooser.addOption("Two Game Piece", new TwoPieceAuto(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("Cone with Charge with mobility", new OneConeChargeWithMobility(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("No Auto", null);
     SmartDashboard.putData("Auto", m_autoChooser);
@@ -130,9 +129,7 @@ public class RobotContainer {
     
     m_driverController.leftTrigger().onTrue(new ScoreAndRetract(m_arm));
 
-    m_driverController.povDown().whileTrue(new AlignWithConeNode(m_limelight, m_drive));
-
-    m_driverController.povLeft().onTrue(Commands.runOnce(() -> m_limelight.setPipeline(LimelightConstants.RETRO_PIPELINE), m_limelight));
+    // m_driverController.povDown().whileTrue(new AlignWithConeNode(m_limelight, m_drive));
 
     m_driverController.povRight().onTrue(Commands.runOnce(() -> m_limelight.setPipeline(LimelightConstants.APRILTAG_PIPELINE), m_limelight));
     //Opperator Controls
