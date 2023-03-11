@@ -124,7 +124,7 @@ public class RobotContainer {
     m_driverController.povUp().onTrue(new InstantCommand(m_drive::zeroGyro, m_drive));
     
     m_driverController.start().whileTrue(Commands.run(m_drive::AutoBalance, m_drive).andThen(m_drive::stopDrive, m_drive));
-    m_driverController.back().whileTrue(new FollowPathToScore(m_drive));
+    m_driverController.back().whileTrue(m_drive.followPathToScoreGroup());
     
     m_driverController.leftTrigger().onTrue(new ScoreAndRetract(m_arm));
 

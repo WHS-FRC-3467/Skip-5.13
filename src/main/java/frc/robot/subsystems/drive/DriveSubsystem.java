@@ -10,6 +10,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
 import com.ctre.phoenix.sensors.Pigeon2;
+import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.PathPoint;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
@@ -209,7 +211,36 @@ public class DriveSubsystem extends SubsystemBase {
             m_selectedNode--;
         }
     }
+    public PathPlannerTrajectory pathToScore(){
+        return  PathPlanner.generatePath(new PathConstraints(1.0, 1.0), 
+        new PathPoint(swerveOdometry.getPoseMeters().getTranslation(), 
+                      swerveOdometry.getPoseMeters().getRotation(),
+                      swerveOdometry.getPoseMeters().getRotation()),
+                      getSelectedNode());
+    }
+    public SequentialCommandGroup followPathToScoreGroup() {
+        PIDController thetaController = new PIDController(2.0, 0, 0);
+        PIDController xController = new PIDController(1.3, 0, 0);
+        PIDController yController = new PIDController(1.2, 0, 0);
 
+        thetaController.enableContinuousInput(-Math.PI, Math.PI);
+
+        return new SequentialCommandGroup(
+             
+             new PPSwerveControllerCommand(
+                 pathToScore(), 
+                 this::getPose, // Pose supplier
+                 SwerveConstants.SWERVE_DRIVE_KINEMATICS, // SwerveDriveKinematics
+                 xController, // X controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
+                 yController, // Y controller (usually the same values as X controller)
+                 thetaController, // Rotation controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
+                 this::setModuleStates,  // Module states consumer
+                 true, //Automatic mirroring
+                 this // Requires this drive subsystem
+             ) 
+             .andThen(() -> stopDrive())
+         );
+     }
     public PathPoint getSelectedNode(){
         if(DriverStation.getAlliance() == Alliance.Red){
             if(m_selectedNode == 0){
