@@ -2,6 +2,7 @@ package frc.robot.subsystems.drive;
 
 import frc.robot.Constants;
 import frc.robot.Constants.CanConstants;
+import frc.robot.Constants.NodePoints;
 import frc.robot.Constants.SwerveConstants;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -10,6 +11,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
 import com.ctre.phoenix.sensors.Pigeon2;
 import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.PathPoint;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 
@@ -21,6 +23,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -35,6 +38,8 @@ public class DriveSubsystem extends SubsystemBase {
     public Field2d m_field;
     private PIDController m_balancePID = new PIDController(SwerveConstants.GAINS_BALANCE.kP, SwerveConstants.GAINS_BALANCE.kI, SwerveConstants.GAINS_BALANCE.kD);
     public SwerveAutoBuilder m_autoBuilder;
+    private int m_selectedNode;
+
     public DriveSubsystem() {
         m_gyro = new Pigeon2(CanConstants.PIGEON2, "drive");
         m_gyro.configFactoryDefault();
@@ -54,6 +59,7 @@ public class DriveSubsystem extends SubsystemBase {
         resetModulesToAbsolute();
 
         swerveOdometry = new SwerveDriveOdometry(SwerveConstants.SWERVE_DRIVE_KINEMATICS, getYaw(), getModulePositions());
+        m_selectedNode = 0;
     }
 
     @Override
@@ -76,6 +82,8 @@ public class DriveSubsystem extends SubsystemBase {
         swerveOdometry.update(getYaw(), getModulePositions()); 
 
         m_field.setRobotPose(swerveOdometry.getPoseMeters());
+
+        SmartDashboard.putNumber("Selected Node", m_selectedNode);
 
         SmartDashboard.putData("Feild", m_field);
         if(Constants.tuningMode){
@@ -175,6 +183,100 @@ public class DriveSubsystem extends SubsystemBase {
     public void resetModulesToAbsolute(){
         for(SwerveModule mod : mSwerveMods){
             mod.resetToAbsolute();
+        }
+    }
+    public int getSelectedNodeInt(){
+        return m_selectedNode;
+    }
+
+    public void setSelectedNode(int node){
+        if(node<0){
+            node = 0;
+        }
+        if(node>8){
+            node = 8;
+        }
+        m_selectedNode = node;
+    }
+    public void addOneToSelectedNode(){
+        if(m_selectedNode<7){
+            m_selectedNode++;  
+        }
+    }
+
+    public void subtractOneToSelectedNode(){
+        if(m_selectedNode>-1){
+            m_selectedNode--;
+        }
+    }
+
+    public PathPoint getSelectedNode(){
+        if(DriverStation.getAlliance() == Alliance.Red){
+            if(m_selectedNode == 0){
+                return NodePoints.ZERO_RED;
+            }
+            else if(m_selectedNode == 1){
+                return NodePoints.ONE_RED;
+            }
+            else if(m_selectedNode == 2){
+                return NodePoints.TWO_RED;
+            }
+            else if(m_selectedNode == 3){
+                return NodePoints.THREE_RED;
+            }
+            else if(m_selectedNode == 4){
+                return NodePoints.FOUR_RED;
+            }
+            else if(m_selectedNode == 5){
+                return NodePoints.FIVE_RED;
+            }
+            else if(m_selectedNode == 6){
+                return NodePoints.SIX_RED;
+            }
+            else if(m_selectedNode == 7){
+                return NodePoints.SEVEN_RED;
+            }
+            else if(m_selectedNode == 8){
+                return NodePoints.EIGHT_RED;
+            }
+            else{
+                return null;
+            }
+        }
+        else if(DriverStation.getAlliance() == Alliance.Blue){
+            if(m_selectedNode == 0){
+                return NodePoints.ZERO_BLUE;
+            }
+            else if(m_selectedNode == 1){
+                return NodePoints.ONE_BLUE;
+            }
+            else if(m_selectedNode == 2){
+                return NodePoints.TWO_BLUE;
+            }
+            else if(m_selectedNode == 3){
+                return NodePoints.THREE_BLUE;
+            }
+            else if(m_selectedNode == 4){
+                return NodePoints.FOUR_BLUE;
+            }
+            else if(m_selectedNode == 5){
+                return NodePoints.FIVE_BLUE;
+            }
+            else if(m_selectedNode == 6){
+                return NodePoints.SIX_BLUE;
+            }
+            else if(m_selectedNode == 7){
+                return NodePoints.SEVEN_BLUE;
+            }
+            else if(m_selectedNode == 8){
+                return NodePoints.EIGHT_BLUE;
+            }
+            else{
+                return null;
+            }
+        }
+        else{
+            return null;
         }
     }
 

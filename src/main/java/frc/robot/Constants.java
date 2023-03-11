@@ -5,6 +5,7 @@
 package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.pathplanner.lib.PathPoint;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -218,6 +219,84 @@ public final class Constants {
 
     public static final double SNAP_TOLLERANCE = 2.0;
     public static final double BALANCE_TOLLERANCE = 0.001;
+  }
+  public static final class NodePoints{
+    //On red side zero is closest to the field border/furthest from the substation
+    //TODO: using pathplanner find these values
+    public static final PathPoint ZERO_RED = new PathPoint(
+                                         new Translation2d(0, null),
+                                         new Rotation2d(180.0),
+                                         new Rotation2d(0.0));
+    public static final PathPoint ONE_RED = new PathPoint(
+                                              new Translation2d(0, null),
+                                              new Rotation2d(180.0),
+                                              new Rotation2d(0.0));
+    public static final PathPoint TWO_RED = new PathPoint(
+                                              new Translation2d(0, null),
+                                              new Rotation2d(180.0),
+                                              new Rotation2d(0.0));
+    public static final PathPoint THREE_RED = new PathPoint(
+                                              new Translation2d(0, null),
+                                              new Rotation2d(180.0),
+                                              new Rotation2d(0.0));
+    public static final PathPoint FOUR_RED = new PathPoint(
+                                              new Translation2d(0, null),
+                                              new Rotation2d(180.0),
+                                              new Rotation2d(0.0));
+    public static final PathPoint FIVE_RED = new PathPoint(
+                                              new Translation2d(0, null),
+                                              new Rotation2d(180.0),
+                                              new Rotation2d(0.0));
+    public static final PathPoint SIX_RED = new PathPoint(
+                                              new Translation2d(0, null),
+                                              new Rotation2d(180.0),
+                                              new Rotation2d(0.0));
+    public static final PathPoint SEVEN_RED = new PathPoint(
+                                              new Translation2d(0, null),
+                                              new Rotation2d(180.0),
+                                              new Rotation2d(0.0));
+    public static final PathPoint EIGHT_RED = new PathPoint(
+                                              new Translation2d(0, null),
+                                              new Rotation2d(180.0),
+                                              new Rotation2d(0.0));
+                                              
+    public static final PathPoint ZERO_BLUE = new PathPoint(
+                                         new Translation2d(0, null),
+                                         new Rotation2d(180.0),
+                                         new Rotation2d(0.0));
+    public static final PathPoint ONE_BLUE = new PathPoint(
+                                              new Translation2d(0, null),
+                                              new Rotation2d(180.0),
+                                              new Rotation2d(0.0));
+    public static final PathPoint TWO_BLUE = new PathPoint(
+                                              new Translation2d(0, null),
+                                              new Rotation2d(180.0),
+                                              new Rotation2d(0.0));
+    public static final PathPoint THREE_BLUE = new PathPoint(
+                                              new Translation2d(0, null),
+                                              new Rotation2d(180.0),
+                                              new Rotation2d(0.0));
+    public static final PathPoint FOUR_BLUE = new PathPoint(
+                                              new Translation2d(0, null),
+                                              new Rotation2d(180.0),
+                                              new Rotation2d(0.0));
+    public static final PathPoint FIVE_BLUE = new PathPoint(
+                                              new Translation2d(0, null),
+                                              new Rotation2d(180.0),
+                                              new Rotation2d(0.0));
+    public static final PathPoint SIX_BLUE = new PathPoint(
+                                              new Translation2d(0, null),
+                                              new Rotation2d(180.0),
+                                              new Rotation2d(0.0));
+    public static final PathPoint SEVEN_BLUE = new PathPoint(
+                                              new Translation2d(0, null),
+                                              new Rotation2d(180.0),
+                                              new Rotation2d(0.0));
+    public static final PathPoint EIGHT_BLUE= new PathPoint(
+                                              new Translation2d(0, null),
+                                              new Rotation2d(180.0),
+                                              new Rotation2d(0.0));
+                                              
   }
 
   public static final class ArmConstants{

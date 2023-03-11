@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.claw.ClawDefault;
 import frc.robot.subsystems.claw.ClawSubsytem;
 import frc.robot.Constants.ArmSetpoints;
-import frc.robot.Constants.LimelightConstants;
 import frc.robot.auto.OneConeChargeWithMobility;
 import frc.robot.auto.OneConeClose;
 import frc.robot.auto.OneConeFar;
@@ -29,10 +28,10 @@ import frc.robot.subsystems.arm.GoToPositionWithIntermediate;
 import frc.robot.subsystems.arm.RetractToStowed;
 import frc.robot.subsystems.arm.ScoreAndRetract;
 import frc.robot.subsystems.drive.DriveSubsystem;
+import frc.robot.subsystems.drive.FollowPathToScore;
 import frc.robot.subsystems.drive.TeleopSwerve;
 import frc.robot.subsystems.led.LEDDefault;
 import frc.robot.subsystems.led.LEDSubsystem;
-import frc.robot.subsystems.limelight.AlignWithGridApril;
 import frc.robot.subsystems.limelight.LimelightSubsystem;
 import frc.robot.util.GamePiece;
 import frc.robot.util.GamePiece.GamePieceType;
@@ -125,12 +124,12 @@ public class RobotContainer {
     m_driverController.povUp().onTrue(new InstantCommand(m_drive::zeroGyro, m_drive));
     
     m_driverController.start().whileTrue(Commands.run(m_drive::AutoBalance, m_drive).andThen(m_drive::stopDrive, m_drive));
-    m_driverController.back().whileTrue(new AlignWithGridApril(m_limelight, m_drive));
+    m_driverController.back().whileTrue(new FollowPathToScore(m_drive));
     
     m_driverController.leftTrigger().onTrue(new ScoreAndRetract(m_arm));
 
-    m_driverController.povLeft().onTrue(Commands.runOnce(m_limelight::setVisionModeOn, m_limelight));
-    m_driverController.povRight().onTrue(Commands.runOnce(m_limelight::setVisionModeOff, m_limelight));
+    m_driverController.povLeft().onTrue(Commands.runOnce(m_drive::addOneToSelectedNode));
+    m_driverController.povRight().onTrue(Commands.runOnce(m_drive::subtractOneToSelectedNode));
     //Opperator Controls
     //Set game Piece type 
     m_operatorController.start().onTrue(Commands.runOnce(() -> GamePiece.toggleGamePiece()));
