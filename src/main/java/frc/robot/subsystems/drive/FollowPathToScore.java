@@ -11,7 +11,6 @@ import com.pathplanner.lib.PathPoint;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants.SwerveConstants;
 
@@ -52,7 +51,7 @@ public class FollowPathToScore extends InstantCommand {
       m_drive::setModuleStates,  // Module states consumer
       true, //Automatic mirroring
         m_drive // Requires this drive subsystem
-    );
+    ).andThen(m_drive::stopDrive, m_drive);
   }
 
   // Called once the command ends or is interrupted.
