@@ -28,7 +28,6 @@ import frc.robot.subsystems.arm.GoToPositionWithIntermediate;
 import frc.robot.subsystems.arm.RetractToStowed;
 import frc.robot.subsystems.arm.ScoreAndRetract;
 import frc.robot.subsystems.drive.DriveSubsystem;
-import frc.robot.subsystems.drive.FollowPathToScore;
 import frc.robot.subsystems.drive.TeleopSwerve;
 import frc.robot.subsystems.led.LEDDefault;
 import frc.robot.subsystems.led.LEDSubsystem;

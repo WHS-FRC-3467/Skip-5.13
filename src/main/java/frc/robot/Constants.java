@@ -64,7 +64,7 @@ public final class Constants {
     //Port 1 on the more board
     public static final int LOWER_ENCODER_ARM = 11;
     //Port 0
-    public static final int UPPER_ENCODER_ARM = 12;
+    public static final int UPPER_ENCODER_ARM = 10;
   }
 
   public static final class PHConstants{
@@ -308,9 +308,9 @@ public final class Constants {
     // public static final double VERTICAL_ANGLE_LOWER = 175.2;
     //Midnight
     //Measured against the hardstop when claw is over pdh
-    public static final double VERTICAL_ANGLE_UPPER = 14.7;
+    public static final double VERTICAL_ANGLE_UPPER = 71.6;
     //Measured when the lower angle is vertical using 1x1
-    public static final double VERTICAL_ANGLE_LOWER = 182.2;
+    public static final double VERTICAL_ANGLE_LOWER = 183.0;
     
     public static final double LOWER_ANGLE_OFFSET = 180 - VERTICAL_ANGLE_LOWER;
     public static final double UPPER_ANGLE_OFFSET = 12.4 - VERTICAL_ANGLE_UPPER;
@@ -321,12 +321,12 @@ public final class Constants {
     // public static final  Gains GAINS_LOWER_JOINT  = new Gains(0.02, 0.0, 0.0, 0.00, 50);
     //Gains
     public static final  Gains GAINS_UPPER_JOINT = new Gains(0.025, 0.0, 0.0, 0.0, 50);
-    public static final  Gains GAINS_LOWER_JOINT  = new Gains(0.035, 0.0, 0.0, 0.00, 50);
+    public static final  Gains GAINS_LOWER_JOINT  = new Gains(0.025, 0.0, 0.0, 0.00, 50);
     
     //PID Tollerance in Degrees
     public static final double TOLERANCE_POS = 4.0;
 
-    //Upper joint Config
+    //Upper joint Config=
     public static final double UPPER_LENGTH = 1.07;
     public static final double UPPER_MOI = 0.4;
     public static final double UPPER_CGRADIUS = 1.0;
@@ -377,15 +377,15 @@ public final class Constants {
 
     public static final Setpoint STOWED = new Setpoint(180, 13, false, ClawState.IN, 180, 13, false, ClawState.OUT, ArmState.STOWED);
 
-    public static final Setpoint FLOOR = new Setpoint(240, 40, true, ClawState.IN, 240, 40, true, ClawState.OUT, ArmState.FLOOR);
+    public static final Setpoint FLOOR = new Setpoint(235, 40, true, ClawState.IN, 235, 40, true, ClawState.OUT, ArmState.FLOOR);
     public static final Setpoint MID_NODE = new Setpoint(182, 97, false, ClawState.IN, 165, 57, false, ClawState.OUT, ArmState.MID_NODE);
     public static final Setpoint MID_NODE_PLACED = new Setpoint(188, 80, false, ClawState.IN, 192, 69, false, ClawState.OUT, ArmState.MID_NODE_PLACED);
     public static final Setpoint MID_NODE_PLACED_AND_OPEN = new Setpoint(188, 80, false, ClawState.IN, 192, 69, false, ClawState.OUT, ArmState.MID_NODE_PLACED);
     public static final Setpoint TOP_NODE = new Setpoint(219, 159, false, ClawState.IN, 198, 118, false, ClawState.OUT, ArmState.TOP_NODE);
     public static final Setpoint TOP_NODE_PLACED = new Setpoint(219, 140, false, ClawState.IN, 211, 118, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
     public static final Setpoint TOP_NODE_PLACED_AND_OPEN = new Setpoint(219, 140, false, ClawState.OUT, 213, 115, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
-    public static final Setpoint SUBSTATION = new Setpoint(160, 65, false, ClawState.IN, 160, 65, false, ClawState.OUT, ArmState.SUBSTATION);
-    public static final Setpoint FLOOR_HOVER = new Setpoint(190, 37, false, ClawState.IN, 191, 32, false, ClawState.OUT, ArmState.OTHER);
+    public static final Setpoint SUBSTATION = new Setpoint(160, 64.5, false, ClawState.IN, 160, 65, false, ClawState.OUT, ArmState.SUBSTATION);
+    public static final Setpoint FLOOR_HOVER = new Setpoint(190, 37, false, ClawState.IN, 191, 32, false, ClawState.OUT, ArmState.FLOOR);
     public static final Setpoint FLOOR_INTAKING = new Setpoint(216, 37, false, ClawState.IN, 221, 45, false, ClawState.OUT, ArmState.FLOOR);
     
     public static final double INTERMEDIATE_LOWER_POSITION_RETRACTING = 160;
