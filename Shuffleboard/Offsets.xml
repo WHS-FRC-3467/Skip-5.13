@@ -1,25 +1,25 @@
 <xml version="1.0">
 <dashboard>
 	<widget field="lower PID" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="140"/>
+		<location x="579" y="217"/>
 	</widget>
 	<widget field="lower ff" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="80"/>
+		<location x="586" y="188"/>
 	</widget>
 	<widget field="upper PID" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="20"/>
+		<location x="363" y="216"/>
 	</widget>
 	<widget field="upper ff" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="0"/>
+		<location x="368" y="188"/>
 	</widget>
 	<widget field="Auto" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
 		<location x="746" y="31"/>
 	</widget>
 	<widget field="Reset Modules" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="828" y="206"/>
+		<location x="846" y="275"/>
 	</widget>
 	<widget field="Speed Percent" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
-		<location x="746" y="210"/>
+		<location x="762" y="287"/>
 	</widget>
 	<widget field="gyro Yaw" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="282" y="326"/>
@@ -43,7 +43,7 @@
 		<location x="13" y="342"/>
 	</widget>
 	<widget field="Lower Setpoint" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="554" y="147"/>
+		<location x="554" y="130"/>
 	</widget>
 	<widget field="Alliance Color" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="0" y="400"/>
@@ -52,10 +52,10 @@
 		<location x="355" y="99"/>
 	</widget>
 	<widget field="Lower at Setpoint" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="544" y="192"/>
+		<location x="544" y="160"/>
 	</widget>
 	<widget field="Mod 3 Cancoder" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="499" y="267"/>
+		<location x="25" y="120"/>
 		<height>23</height>
 	</widget>
 	<widget field="Upper Angle Uncorrected" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
@@ -65,7 +65,7 @@
 		<location x="0" y="300"/>
 	</widget>
 	<widget field="Mod 2 Cancoder" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="494" y="237"/>
+		<location x="23" y="93"/>
 	</widget>
 	<widget field="limelight-front_PipelineName" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="0" y="260"/>
@@ -74,7 +74,7 @@
 		<location x="0" y="240"/>
 	</widget>
 	<widget field="Mod 1 Cancoder" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="320" y="263"/>
+		<location x="24" y="67"/>
 	</widget>
 	<widget field="limelight-rear_PipelineName" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="0" y="200"/>
@@ -83,25 +83,25 @@
 		<location x="0" y="180"/>
 	</widget>
 	<widget field="Upper at Setpoint" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="332" y="189"/>
+		<location x="328" y="155"/>
 	</widget>
 	<widget field="Lower Error" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="571" y="98"/>
 	</widget>
 	<widget field="Mod 0 Cancoder" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="322" y="233"/>
+		<location x="21" y="36"/>
 	</widget>
 	<widget field="Claw Current" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="100"/>
+		<location x="252" y="291"/>
 	</widget>
 	<widget field="Upper Setpoint" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="341" y="148"/>
+		<location x="342" y="130"/>
 	</widget>
 	<widget field="Game Peice" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="60"/>
+		<location x="628" y="309"/>
 	</widget>
 	<widget field="Pressure" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="40"/>
+		<location x="444" y="303"/>
 	</widget>
 	<widget field="Upper Angle" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="352" y="34"/>

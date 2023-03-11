@@ -23,6 +23,7 @@ import frc.robot.auto.OneConeWithCharge;
 import frc.robot.auto.TestAuto;
 import frc.robot.auto.ThreePieceAuto;
 import frc.robot.auto.TwoPieceAuto;
+import frc.robot.auto.TwoPieceConePickup;
 import frc.robot.auto.TwoPieceWithCharge;
 import frc.robot.subsystems.arm.ArmDefault;
 import frc.robot.subsystems.arm.ArmSubsystem;
@@ -84,6 +85,7 @@ public class RobotContainer {
     m_autoChooser.addOption("Charge Movility with pickup", new OneConeChargeWithCubePickup(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("Two piece with charge", new TwoPieceWithCharge(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("Three piece", new ThreePieceAuto(m_drive, m_arm, m_claw));
+    m_autoChooser.addOption("Two Piece with Cone pickup", new TwoPieceConePickup(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("No Auto", null);
     SmartDashboard.putData("Auto", m_autoChooser);
     

@@ -55,7 +55,8 @@ public class TwoPieceWithCharge extends SequentialCommandGroup {
         ),
         new GoToPositionWithIntermediate(arm, ArmSetpoints.TOP_NODE),
         new RetractToStowed(arm).raceWith(Commands.run(()-> claw.driveClaw(-0.5))),
-        drive.followTrajectoryCommand(path3, false)
+        drive.followTrajectoryCommand(path3, false),
+        Commands.run(drive::AutoBalance, drive)
     );
   }
 }
