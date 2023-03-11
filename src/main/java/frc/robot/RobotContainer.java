@@ -138,7 +138,6 @@ public class RobotContainer {
     m_driverController.povRight().onTrue(Commands.runOnce(m_limelight::setVisionModeOff, m_limelight));
     //Opperator Controls
     //Set game Piece type 
-    m_operatorController.start().onTrue(Commands.runOnce(() -> GamePiece.toggleGamePiece()));
     m_operatorController.back().onTrue(Commands.runOnce(() -> GamePiece.toggleGamePiece()));
 
     //Set arm positions
@@ -152,8 +151,7 @@ public class RobotContainer {
 
     m_operatorController.x().onTrue(Commands.runOnce(() -> m_arm.updateAllSetpoints(ArmSetpoints.SUBSTATION)));
 
-    m_operatorController.povUp().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.FLOOR_HOVER)));
-    m_operatorController.povDown().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.FLOOR_INTAKING)));
+    m_operatorController.start().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.FLOOR_HOVER)));
   }
 
  
