@@ -63,7 +63,7 @@ public final class Constants {
     //Port 1 on the more board
     public static final int LOWER_ENCODER_ARM = 11;
     //Port 0
-    public static final int UPPER_ENCODER_ARM = 10;
+    public static final int UPPER_ENCODER_ARM = 12;
   }
 
   public static final class PHConstants{
@@ -229,9 +229,9 @@ public final class Constants {
     // public static final double VERTICAL_ANGLE_LOWER = 175.2;
     //Midnight
     //Measured against the hardstop when claw is over pdh
-    public static final double VERTICAL_ANGLE_UPPER = 71.6;
+    public static final double VERTICAL_ANGLE_UPPER = 15.4;
     //Measured when the lower angle is vertical using 1x1
-    public static final double VERTICAL_ANGLE_LOWER = 183.0;
+    public static final double VERTICAL_ANGLE_LOWER = 182.2;
     
     public static final double LOWER_ANGLE_OFFSET = 180 - VERTICAL_ANGLE_LOWER;
     public static final double UPPER_ANGLE_OFFSET = 12.4 - VERTICAL_ANGLE_UPPER;
@@ -247,7 +247,7 @@ public final class Constants {
     //PID Tollerance in Degrees
     public static final double TOLERANCE_POS = 4.0;
 
-    //Upper joint Config=
+    //Upper joint Config
     public static final double UPPER_LENGTH = 1.07;
     public static final double UPPER_MOI = 0.4;
     public static final double UPPER_CGRADIUS = 1.0;
