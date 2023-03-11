@@ -95,7 +95,8 @@ public class RobotContainer {
                                               m_driverController.y(),
                                               m_driverController.b(),
                                               m_driverController.a(),
-                                              m_driverController.x()));
+                                              m_driverController.x(),
+                                              m_arm));
 
     m_arm.setDefaultCommand(new ArmDefault(m_arm,
                                           m_operatorController.leftBumper(),

@@ -1,6 +1,8 @@
 package frc.robot.subsystems.drive;
 
 import frc.robot.Constants.SwerveConstants;
+import frc.robot.subsystems.arm.ArmSubsystem;
+import frc.robot.subsystems.arm.Setpoint.ArmState;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
@@ -26,6 +28,7 @@ public class TeleopSwerve extends CommandBase {
     double m_angle = 0d;
     private PIDController m_thetaController;
     private SendableChooser<Double> m_speedChooser;
+    ArmSubsystem m_arm;
   
     /**
      * 
@@ -40,8 +43,9 @@ public class TeleopSwerve extends CommandBase {
     public TeleopSwerve(DriveSubsystem swerve, DoubleSupplier xSup, DoubleSupplier ySup, 
                         DoubleSupplier rotationSup, BooleanSupplier robotCentricSup, 
                         BooleanSupplier halfSpeed, BooleanSupplier quarterSpeed, 
-                        BooleanSupplier zero, BooleanSupplier ninety, BooleanSupplier oneEighty, BooleanSupplier twoSeventy){
+                        BooleanSupplier zero, BooleanSupplier ninety, BooleanSupplier oneEighty, BooleanSupplier twoSeventy, ArmSubsystem arm){
         m_Swerve = swerve;
+        m_arm = arm;
         this.ySup = ySup;
         this.xSup = xSup;
         this.rotationSup = rotationSup;
@@ -113,6 +117,13 @@ public class TeleopSwerve extends CommandBase {
             yVal =yVal*0.5;
             if(!rotateWithButton){
                 rotationVal = rotationVal *0.5;
+            }
+        }
+        else if(m_arm.getSetpoint().state != ArmState.OTHER || m_arm.getSetpoint().state != ArmState.STOWED){
+            xVal = xVal*0.25;
+            yVal =yVal*0.25;
+            if(!rotateWithButton){
+                rotationVal = rotationVal *0.25;
             }
         }
         else{
