@@ -15,13 +15,16 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.claw.ClawDefault;
 import frc.robot.subsystems.claw.ClawSubsytem;
 import frc.robot.Constants.ArmSetpoints;
-import frc.robot.Constants.LimelightConstants;
+import frc.robot.auto.OneConeChargeWithCubePickup;
 import frc.robot.auto.OneConeChargeWithMobility;
 import frc.robot.auto.OneConeClose;
 import frc.robot.auto.OneConeFar;
 import frc.robot.auto.OneConeWithCharge;
 import frc.robot.auto.TestAuto;
+import frc.robot.auto.ThreePieceAuto;
 import frc.robot.auto.TwoPieceAuto;
+import frc.robot.auto.TwoPieceConePickup;
+import frc.robot.auto.TwoPieceWithCharge;
 import frc.robot.subsystems.arm.ArmDefault;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.arm.GoToMidNode;
@@ -79,6 +82,10 @@ public class RobotContainer {
     m_autoChooser.addOption("OneConeWithCharge", new OneConeWithCharge(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("Two Game Piece", new TwoPieceAuto(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("Cone with Charge with mobility", new OneConeChargeWithMobility(m_drive, m_arm, m_claw));
+    m_autoChooser.addOption("Charge Movility with pickup", new OneConeChargeWithCubePickup(m_drive, m_arm, m_claw));
+    m_autoChooser.addOption("Two piece with charge", new TwoPieceWithCharge(m_drive, m_arm, m_claw));
+    m_autoChooser.addOption("Three piece", new ThreePieceAuto(m_drive, m_arm, m_claw));
+    m_autoChooser.addOption("Two Piece with Cone pickup", new TwoPieceConePickup(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("No Auto", null);
     SmartDashboard.putData("Auto", m_autoChooser);
     

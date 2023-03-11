@@ -189,45 +189,6 @@
               "Colors/Color when false": "#8B0000FF"
             }
           },
-          "6,7": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/limelight_PipelineName",
-              "_title": "limelight_PipelineName",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "10,7": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/limelight_Stream",
-              "_title": "limelight_Stream",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "8,7": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/limelight_Interface",
-              "_title": "limelight_Interface",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
           "2,2": {
             "size": [
               3,
@@ -241,44 +202,10 @@
               "_showGlyph": false
             }
           },
-          "8,0": {
-            "size": [
-              8,
-              7
-            ],
-            "content": {
-              "_type": "Camera Stream",
-              "_source0": "camera_server://limelight",
-              "_title": "limelight",
-              "_glyph": 148,
-              "_showGlyph": false,
-              "Crosshair/Show crosshair": true,
-              "Crosshair/Crosshair color": "#FFFFFFFF",
-              "Controls/Show controls": true,
-              "Controls/Rotation": "NONE",
-              "compression": -1.0,
-              "fps": -1,
-              "imageWidth": -1,
-              "imageHeight": -1
-            }
-          },
           "5,0": {
             "size": [
               3,
               2
-            ],
-            "content": {
-              "_type": "Command",
-              "_source0": "network_table:///SmartDashboard/InstantCommand",
-              "_title": "InstantCommand",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "16,0": {
-            "size": [
-              2,
-              1
             ],
             "content": {
               "_type": "Command",
@@ -611,6 +538,19 @@
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/lower PID",
               "_title": "lower PID",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "18,8": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Selected Node",
+              "_title": "Selected Node",
               "_glyph": 148,
               "_showGlyph": false
             }
