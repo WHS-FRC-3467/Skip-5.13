@@ -290,6 +290,8 @@ public final class Constants {
     //Duty cycle constants
     public static final double DUTY_CYCLE_MIN = 1.0/1025.0;
     public static final double DUTY_CYCLE_MAX = 1024.0/1025.0;
+
+    public static final Translation2d ORIGIN = new Translation2d(0.0, 0.0);
   }
 
   public static final class ArmSetpoints{

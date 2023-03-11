@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.claw.ClawDefault;
 import frc.robot.subsystems.claw.ClawSubsytem;
 import frc.robot.Constants.ArmSetpoints;
-import frc.robot.Constants.LimelightConstants;
 import frc.robot.auto.OneConeChargeWithMobility;
 import frc.robot.auto.OneConeClose;
 import frc.robot.auto.OneConeFar;

@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems.arm;
 
+import java.util.Optional;
+
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
@@ -24,6 +26,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.ArmSetpoints;
 import frc.robot.Constants.CanConstants;
 import frc.robot.Constants.DIOConstants;
 import frc.robot.Constants.PHConstants;
@@ -54,6 +57,8 @@ public class ArmSubsystem extends SubsystemBase {
       ArmConstants.LOWER_MOI, ArmConstants.LOWER_CGRADIUS, ArmConstants.LOWER_MOTOR);
 
   private DJArmFeedforward m_doubleJointedFeedForwards = new DJArmFeedforward(joint_Lower, joint_Upper);
+
+  private ArmKinematics m_kinematics = new ArmKinematics(joint_Lower, joint_Upper);
 
   private Setpoint m_setpoint;
   private double m_upperSetpoint;
@@ -131,12 +136,14 @@ public class ArmSubsystem extends SubsystemBase {
       m_upperJoint.neutralOutput();
       m_lowerJoint.neutralOutput();
     }
-    
+
     SmartDashboard.putBoolean("Game Peice", GamePiece.getGamePiece() == GamePieceType.Cone);
     SmartDashboard.putBoolean("Upper at Setpoint", getUpperAtSetpoint());
     SmartDashboard.putBoolean("Lower at Setpoint", getLowerAtSetpoint());
     SmartDashboard.putNumber("Lower Angle", getLowerJointDegrees());
     SmartDashboard.putNumber("Upper Angle", getUpperJointDegrees());
+    SmartDashboard.putNumber("Setpoint to End effector X", m_kinematics.forward(VecBuilder.fill(ArmSetpoints.STOWED.lowerCone, ArmSetpoints.STOWED.upperCone)).getX());
+    SmartDashboard.putNumber("Setpoint to End effector Y", m_kinematics.forward(VecBuilder.fill(ArmSetpoints.STOWED.lowerCone, ArmSetpoints.STOWED.upperCone)).getY());
 
     if (Constants.tuningMode) {
       SmartDashboard.putNumber("Lower Angle Uncorrected", dutyCycleToDegrees(getLowerJointPos()));
@@ -190,13 +197,15 @@ public class ArmSubsystem extends SubsystemBase {
   public void updateAllSetpoints(Setpoint setpoint) {
     m_setpoint = setpoint;
     if (GamePiece.getGamePiece() == GamePieceType.Cone) {
-      updateUpperSetpoint(setpoint.upperCone);
-      updateLowerSetpoint(setpoint.lowerCone);
+      Optional<Vector<N2>> angles = m_kinematics.inverse(setpoint.coneEndEffector);
+      updateUpperSetpoint(angles.get().get(1,0));
+      updateLowerSetpoint(angles.get().get(0,0));
       updateWristSetpoint(setpoint.wristCone);
       updateClawSetpoint(setpoint.clawCone);
     } else if (GamePiece.getGamePiece() == GamePieceType.Cube) {
-      updateUpperSetpoint(setpoint.upperCube);
-      updateLowerSetpoint(setpoint.lowerCube);
+      Optional<Vector<N2>> angles = m_kinematics.inverse(setpoint.cubeEndEffector);
+      updateUpperSetpoint(angles.get().get(1,0));
+      updateLowerSetpoint(angles.get().get(0,0));
       updateWristSetpoint(setpoint.wristCube);
       updateClawSetpoint(setpoint.clawCube);
     }
