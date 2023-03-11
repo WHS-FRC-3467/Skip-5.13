@@ -12,9 +12,10 @@ import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants.SwerveConstants;
 
-public class FollowPathToScore extends CommandBase {
+public class FollowPathToScore extends InstantCommand {
   /** Creates a new FollowPathToScore. */
   DriveSubsystem m_drive;
   PathPlannerTrajectory traj;
