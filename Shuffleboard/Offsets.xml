@@ -1,129 +1,109 @@
 <xml version="1.0">
 <dashboard>
-	<widget field="Has target" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
-		<location x="777" y="125"/>
-		<width>148</width>
-	</widget>
-	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
-		<location x="974" y="22"/>
-		<width>490</width>
-		<height>408</height>
-		<property name="Camera Choice" value=""/>
-	</static-widget>
-	<widget field="Y Error" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="144"/>
-	</widget>
-	<widget field="X Error" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="-1" y="8"/>
-	</widget>
-	<widget field="lower PID" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="579" y="217"/>
-	</widget>
-	<widget field="lower ff" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="586" y="188"/>
-	</widget>
-	<widget field="upper PID" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="363" y="216"/>
-	</widget>
-	<widget field="upper ff" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="368" y="188"/>
-	</widget>
 	<widget field="Auto" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
-		<location x="436" y="348"/>
+		<location x="125" y="672"/>
 	</widget>
 	<widget field="Reset Modules" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="562" y="258"/>
+		<location x="21" y="640"/>
 	</widget>
 	<widget field="Speed Percent" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
-		<location x="654" y="365"/>
+		<location x="0" y="640"/>
 	</widget>
 	<widget field="gyro Yaw" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="282" y="326"/>
+		<location x="0" y="620"/>
+	</widget>
+	<widget field="upper PID" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="600"/>
 	</widget>
 	<widget field="limelight-rear_Interface" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="192" y="371"/>
+		<location x="0" y="580"/>
 	</widget>
 	<widget field="X offset" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="801" y="92"/>
+		<location x="0" y="560"/>
 	</widget>
 	<widget field="Lower Angle Uncorrected" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="509" y="63"/>
+		<location x="0" y="540"/>
 	</widget>
 	<widget field="limelight-rear_Stream" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="212" y="406"/>
+		<location x="0" y="520"/>
 	</widget>
 	<widget field="Target Area" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="778" y="24"/>
+		<location x="0" y="500"/>
 	</widget>
 	<widget field="Y offset" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="799" y="53"/>
+		<location x="0" y="480"/>
 	</widget>
 	<widget field="Lower Setpoint" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="554" y="130"/>
-	</widget>
-	<widget field="Alliance Color" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="400"/>
+		<location x="0" y="460"/>
 	</widget>
 	<widget field="Upper Error" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="355" y="99"/>
+		<location x="0" y="440"/>
 	</widget>
 	<widget field="Lower at Setpoint" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="544" y="160"/>
+		<location x="0" y="420"/>
 	</widget>
 	<widget field="Mod 3 Cancoder" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="25" y="120"/>
-		<height>23</height>
+		<location x="0" y="400"/>
 	</widget>
 	<widget field="Upper Angle Uncorrected" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="295" y="64"/>
+		<location x="0" y="380"/>
+	</widget>
+	<widget field="Has target" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="360"/>
 	</widget>
 	<widget field="limelight-front_Stream" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="300"/>
+		<location x="0" y="340"/>
 	</widget>
 	<widget field="Mod 2 Cancoder" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="23" y="93"/>
-	</widget>
-	<widget field="limelight-front_PipelineName" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="260"/>
-	</widget>
-	<widget field="Is vision Mode" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="240"/>
-	</widget>
-	<widget field="Mod 1 Cancoder" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="24" y="67"/>
-	</widget>
-	<widget field="limelight-rear_PipelineName" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="200"/>
-	</widget>
-	<widget field="limelight-front_Interface" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="180"/>
-	</widget>
-	<widget field="Upper at Setpoint" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="328" y="155"/>
-	</widget>
-	<widget field="Lower Error" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="571" y="98"/>
-	</widget>
-	<widget field="Mod 0 Cancoder" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="21" y="36"/>
-	</widget>
-	<widget field="Claw Current" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="252" y="291"/>
-	</widget>
-	<widget field="Upper Setpoint" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="342" y="130"/>
-	</widget>
-	<widget field="Game Peice" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="628" y="309"/>
-	</widget>
-	<widget field="Pressure" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="444" y="303"/>
-	</widget>
-	<widget field="Upper Angle" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="352" y="34"/>
+		<location x="0" y="320"/>
 	</widget>
 	<widget field="Lower Angle" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="567" y="33"/>
+		<location x="0" y="300"/>
+	</widget>
+	<widget field="limelight-front_PipelineName" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="280"/>
+	</widget>
+	<widget field="Mod 1 Cancoder" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="260"/>
+	</widget>
+	<widget field="limelight-rear_PipelineName" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="240"/>
+	</widget>
+	<widget field="limelight-front_Interface" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="220"/>
+	</widget>
+	<widget field="upper ff" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="200"/>
+	</widget>
+	<widget field="Upper at Setpoint" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="180"/>
+	</widget>
+	<widget field="Lower Error" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="160"/>
+	</widget>
+	<widget field="Mod 0 Cancoder" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="140"/>
+	</widget>
+	<widget field="lower PID" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="120"/>
+	</widget>
+	<widget field="Upper Setpoint" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="100"/>
+	</widget>
+	<widget field="Game Peice" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="80"/>
+	</widget>
+	<widget field="lower ff" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="60"/>
+	</widget>
+	<widget field="Selected Node" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="321" y="78"/>
+	</widget>
+	<widget field="Pressure" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="20"/>
+	</widget>
+	<widget field="Upper Angle" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="0"/>
 	</widget>
 </dashboard>
 <live-window>
