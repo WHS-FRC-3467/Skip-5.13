@@ -6,6 +6,8 @@ package frc.robot.subsystems.drive;
 
 import java.io.IOException;
 
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.apriltag.AprilTagFieldLayout.OriginPosition;
@@ -87,25 +89,31 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
 
     if(DriverStation.getAlliance() == Alliance.Blue && limelightSubsystem.hasTargetRear()){
       poseEstimator.addVisionMeasurement(limelightSubsystem.getBotPoseBlue().toPose2d(), resultTimestamp);
+      Logger.getInstance().recordOutput("LimelightSubsystem BotPose", limelightSubsystem.getBotPoseBlue().toPose2d());
+
     }
     else if (DriverStation.getAlliance() == Alliance.Red && limelightSubsystem.hasTargetRear()){
       poseEstimator.addVisionMeasurement(limelightSubsystem.getBotPoseRed().toPose2d(), resultTimestamp);
+      Logger.getInstance().recordOutput("LimelightSubsystem BotPose", limelightSubsystem.getBotPoseRed().toPose2d());
+
     }
+
+    Logger.getInstance().recordOutput("Pose Estimator Odometry", poseEstimator.getEstimatedPosition());
             
     // Update pose estimator with drivetrain sensors
     poseEstimator.update(
       drivetrainSubsystem.getYaw(),
       drivetrainSubsystem.getModulePositions());
       field2d.setRobotPose(getCurrentPose());
-  }
+    }
 
-  private String getFomattedPose() {
-    var pose = getCurrentPose();
-    return String.format("(%.2f, %.2f) %.2f degrees", 
-        pose.getX(), 
-        pose.getY(),
-        pose.getRotation().getDegrees());
-  }
+    private String getFomattedPose() {
+      var pose = getCurrentPose();
+      return String.format("(%.2f, %.2f) %.2f degrees", 
+          pose.getX(), 
+          pose.getY(),
+          pose.getRotation().getDegrees());
+    }
 
   public Pose2d getCurrentPose() {
     return poseEstimator.getEstimatedPosition();
