@@ -54,8 +54,8 @@ public class TeleopSwerve extends CommandBase {
         addRequirements(m_Swerve);
         m_speedChooser = new SendableChooser<Double>();
         m_speedChooser.addOption("100%", 1.0);
-        m_speedChooser.addOption("90%", 0.9);
-        m_speedChooser.setDefaultOption("85%", 0.85);
+        m_speedChooser.setDefaultOption("90%", 0.9);
+        m_speedChooser.addOption("85%", 0.85);
         m_speedChooser.addOption("80%", 0.8);
         m_speedChooser.addOption("70%", 0.7);
         m_speedChooser.addOption("60%", 0.6);

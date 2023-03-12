@@ -86,13 +86,13 @@ public final class Constants {
 
     //MidNight
     // //Mod 0
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 289.9;
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 289.2;
     //Mod 1
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 76.0;
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 76.2;
     //Mod 2
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 287.0;
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 287.9;
     //Mod 3
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 210.1;
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 207.8;
 
     public static final boolean INVERT_GYRO = false; // Always ensure Gyro is CCW+ CW-
 
@@ -305,8 +305,8 @@ public final class Constants {
     public static final Setpoint TOP_NODE_OPEN = new Setpoint(218, 151, false, ClawState.OUT, 198, 118, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
     public static final Setpoint TOP_NODE_PLACED = new Setpoint(219, 140, false, ClawState.IN, 211, 118, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
     public static final Setpoint TOP_NODE_PLACED_AND_OPEN = new Setpoint(219, 140, false, ClawState.OUT, 213, 115, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
-    public static final Setpoint SUBSTATION = new Setpoint(160, 65, false, ClawState.IN, 160, 65, false, ClawState.OUT, ArmState.SUBSTATION);
-    public static final Setpoint FLOOR_HOVER = new Setpoint(190, 37, false, ClawState.IN, 191, 32, false, ClawState.OUT, ArmState.OTHER);
+    public static final Setpoint SUBSTATION = new Setpoint(160, 65, false, ClawState.IN, 160, 66, false, ClawState.OUT, ArmState.SUBSTATION);
+    public static final Setpoint FLOOR_HOVER = new Setpoint(188, 45, false, ClawState.IN, 188, 45, false, ClawState.OUT, ArmState.OTHER);
     public static final Setpoint FLOOR_INTAKING = new Setpoint(216, 37, false, ClawState.IN, 221, 45, false, ClawState.OUT, ArmState.FLOOR);
     
     public static final double INTERMEDIATE_LOWER_POSITION_RETRACTING = 160;
