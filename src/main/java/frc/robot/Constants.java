@@ -61,10 +61,8 @@ public final class Constants {
   }
   
   public static final class DIOConstants{
-    //Port 1 on the more board
-    public static final int LOWER_ENCODER_ARM = 11;
-    //Port 0
-    public static final int UPPER_ENCODER_ARM = 10;
+    public static final int LOWER_ENCODER_ARM = 2;
+    public static final int UPPER_ENCODER_ARM = 3;
   }
 
   public static final class PHConstants{
@@ -360,11 +358,11 @@ public final class Constants {
     public final static int TIMEOUT = 10;
 
     // Profiled PID Constants
-    public static final double LOWER_CRUISE = 160.0;
-    public static final double LOWER_ACCELERATION = 240.0;
+    public static final double LOWER_CRUISE = 180.0;
+    public static final double LOWER_ACCELERATION = 250.0;
 
-    public static final double UPPER_CRUISE = 160.0;
-    public static final double UPPER_ACCELERATION = 240.0;
+    public static final double UPPER_CRUISE = 180.0;
+    public static final double UPPER_ACCELERATION = 250.0;
 
     //Duty cycle constants
     public static final double DUTY_CYCLE_MIN = 1.0/1025.0;
@@ -377,11 +375,13 @@ public final class Constants {
 
     public static final Setpoint STOWED = new Setpoint(180, 13, false, ClawState.IN, 180, 13, false, ClawState.OUT, ArmState.STOWED);
 
-    public static final Setpoint FLOOR = new Setpoint(235, 40, true, ClawState.IN, 235, 40, true, ClawState.OUT, ArmState.FLOOR);
+    public static final Setpoint FLOOR = new Setpoint(240, 48, true, ClawState.IN, 240, 48, true, ClawState.OUT, ArmState.FLOOR);
     public static final Setpoint MID_NODE = new Setpoint(182, 97, false, ClawState.IN, 165, 57, false, ClawState.OUT, ArmState.MID_NODE);
+    public static final Setpoint MID_NODE_OPEN = new Setpoint(182, 97, false, ClawState.OUT, 165, 57, false, ClawState.OUT, ArmState.MID_NODE_PLACED);
     public static final Setpoint MID_NODE_PLACED = new Setpoint(188, 80, false, ClawState.IN, 192, 69, false, ClawState.OUT, ArmState.MID_NODE_PLACED);
     public static final Setpoint MID_NODE_PLACED_AND_OPEN = new Setpoint(188, 80, false, ClawState.IN, 192, 69, false, ClawState.OUT, ArmState.MID_NODE_PLACED);
     public static final Setpoint TOP_NODE = new Setpoint(219, 159, false, ClawState.IN, 198, 118, false, ClawState.OUT, ArmState.TOP_NODE);
+    public static final Setpoint TOP_NODE_OPEN = new Setpoint(218, 151, false, ClawState.OUT, 198, 118, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
     public static final Setpoint TOP_NODE_PLACED = new Setpoint(219, 140, false, ClawState.IN, 211, 118, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
     public static final Setpoint TOP_NODE_PLACED_AND_OPEN = new Setpoint(219, 140, false, ClawState.OUT, 213, 115, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
     public static final Setpoint SUBSTATION = new Setpoint(160, 64.5, false, ClawState.IN, 160, 65, false, ClawState.OUT, ArmState.SUBSTATION);
@@ -404,16 +404,22 @@ public final class Constants {
 
     public static final double VISION_POS_TOLLERANCE = 0.5;
     
-    public static final double ALIGNED_CONE_X = -13.3;
-    public static final double ALIGNED_GRID_APRIL_X = -18.3;
-    public static final double ALIGNED_SUBSTATION_APRIL_X = 0.0;
-    
-    public static final double ALIGNED_CONE_Y = -6.0;
-    public static final double ALIGNED_GRID_APRIL_Y = -16.3;
-    public static final double ALIGNED_SUBSTATION_APRIL_Y = 0.0;
+    public static final double ALIGNED_GRID_APRIL_X = -12.0;
+    public static final double ALIGNED_GRID_APRIL_Y = -3.0;
+    public static final double ALIGNED_GRID_APRIL_AREA = 3.7;
 
-    public static final double ALIGNED_GRID_APRIL_AREA = 6.0;
-    public static final double ALIGNED_CONE_AREA = 0.34;
+    public static final double ALIGNED_SUBSTATION_APRIL_X = -18.3;
+    public static final double ALIGNED_SUBSTATION_APRIL_Y = -16.3;
+    public static final double ALIGNED_SUBSTATION_APRIL_AREA = 6.0;
+
+    public static final double ALIGNED_LEFT_CONE_X = -18.3;
+    public static final double ALIGNED_LEFT_CONE_Y = -16.3;
+    public static final double ALIGNED_LEFT_CONE_AREA = 6.0;
+
+    public static final double ALIGNED_RIGHT_CONE_X = -18.3;
+    public static final double ALIGNED_RIGHT_CONE_Y = -16.3;
+    public static final double ALIGNED_RIGHT_CONE_AREA = 6.0;
+
     
 
     public static final double SETPOINT_DIS_FROM_MID_CONE = 24;

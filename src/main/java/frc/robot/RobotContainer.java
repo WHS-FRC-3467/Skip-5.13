@@ -16,6 +16,7 @@ import frc.robot.subsystems.claw.ClawDefault;
 import frc.robot.subsystems.claw.ClawSubsytem;
 import frc.robot.Constants.ArmSetpoints;
 import frc.robot.auto.OneConeChargeWithCubePickup;
+import frc.robot.auto.OneConeChargeWithCubePickup;
 import frc.robot.auto.OneConeChargeWithMobility;
 import frc.robot.auto.OneConeClose;
 import frc.robot.auto.OneConeFar;
@@ -64,6 +65,7 @@ public class RobotContainer {
   private SendableChooser<Command> m_autoChooser = new SendableChooser<>();
   
   // private final PoseEstimatorSubsystem m_EstimatorSubsystem = new PoseEstimatorSubsystem(m_limelight, m_drive);
+  // private final PoseEstimatorSubsystem m_EstimatorSubsystem = new PoseEstimatorSubsystem(m_limelight, m_drive);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     GamePiece.setGamePiece(GamePieceType.Cone);
@@ -83,6 +85,10 @@ public class RobotContainer {
     m_autoChooser.addOption("OneConeWithCharge", new OneConeWithCharge(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("Two Game Piece", new TwoPieceAuto(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("Cone with Charge with mobility", new OneConeChargeWithMobility(m_drive, m_arm, m_claw));
+    m_autoChooser.addOption("Charge Mobility with pickup", new OneConeChargeWithCubePickup(m_drive, m_arm, m_claw));
+    m_autoChooser.addOption("Two piece with charge", new TwoPieceWithCharge(m_drive, m_arm, m_claw));
+    m_autoChooser.addOption("Three piece", new ThreePieceAuto(m_drive, m_arm, m_claw));
+    m_autoChooser.addOption("Two Piece with Cone pickup", new TwoPieceConePickup(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("Charge Mobility with pickup", new OneConeChargeWithCubePickup(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("Two piece with charge", new TwoPieceWithCharge(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("Three piece", new ThreePieceAuto(m_drive, m_arm, m_claw));
