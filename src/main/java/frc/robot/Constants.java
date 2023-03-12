@@ -60,8 +60,8 @@ public final class Constants {
   }
   
   public static final class DIOConstants{
-    public static final int LOWER_ENCODER_ARM = 0;
-    public static final int UPPER_ENCODER_ARM = 1;
+    public static final int LOWER_ENCODER_ARM = 2;
+    public static final int UPPER_ENCODER_ARM = 3;
   }
 
   public static final class PHConstants{
@@ -280,10 +280,10 @@ public final class Constants {
 
     // Profiled PID Constants
     public static final double LOWER_CRUISE = 180.0;
-    public static final double LOWER_ACCELERATION = 240.0;
+    public static final double LOWER_ACCELERATION = 250.0;
 
     public static final double UPPER_CRUISE = 180.0;
-    public static final double UPPER_ACCELERATION = 240.0;
+    public static final double UPPER_ACCELERATION = 250.0;
 
     //Duty cycle constants
     public static final double DUTY_CYCLE_MIN = 1.0/1025.0;
@@ -301,7 +301,7 @@ public final class Constants {
     public static final Setpoint MID_NODE_OPEN = new Setpoint(182, 97, false, ClawState.OUT, 165, 57, false, ClawState.OUT, ArmState.MID_NODE_PLACED);
     public static final Setpoint MID_NODE_PLACED = new Setpoint(188, 80, false, ClawState.IN, 192, 69, false, ClawState.OUT, ArmState.MID_NODE_PLACED);
     public static final Setpoint MID_NODE_PLACED_AND_OPEN = new Setpoint(188, 80, false, ClawState.IN, 192, 69, false, ClawState.OUT, ArmState.MID_NODE_PLACED);
-    public static final Setpoint TOP_NODE = new Setpoint(218, 151, false, ClawState.IN, 198, 118, false, ClawState.OUT, ArmState.TOP_NODE);
+    public static final Setpoint TOP_NODE = new Setpoint(219, 159, false, ClawState.IN, 198, 118, false, ClawState.OUT, ArmState.TOP_NODE);
     public static final Setpoint TOP_NODE_OPEN = new Setpoint(218, 151, false, ClawState.OUT, 198, 118, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
     public static final Setpoint TOP_NODE_PLACED = new Setpoint(219, 140, false, ClawState.IN, 211, 118, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
     public static final Setpoint TOP_NODE_PLACED_AND_OPEN = new Setpoint(219, 140, false, ClawState.OUT, 213, 115, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
