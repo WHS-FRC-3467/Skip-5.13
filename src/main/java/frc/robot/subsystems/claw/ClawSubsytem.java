@@ -28,9 +28,7 @@ public class ClawSubsytem extends SubsystemBase {
   
   @Override
   public void periodic() {
-    if(Constants.tuningMode){
-      SmartDashboard.putNumber("Claw Current", getClawCurrent());
-    }
+    
     // This method will be called once per scheduler run
   }
   public void driveClaw(double speed){

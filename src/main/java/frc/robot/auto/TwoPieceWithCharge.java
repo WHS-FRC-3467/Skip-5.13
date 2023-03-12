@@ -26,11 +26,12 @@ import frc.robot.util.GamePiece.GamePieceType;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class TwoPieceAuto extends SequentialCommandGroup {
-  /** Creates a new TwoPieceAuto. */
-  public TwoPieceAuto(DriveSubsystem drive, ArmSubsystem arm, ClawSubsytem claw) {
-    PathPlannerTrajectory path1 = PathPlanner.loadPath("TwoPiecePart1", new PathConstraints(3.5, 4.0));
-    PathPlannerTrajectory path2 = PathPlanner.loadPath("TwoPiecePart3", new PathConstraints(3.5, 4.0));
+public class TwoPieceWithCharge extends SequentialCommandGroup {
+  /** Creates a new TwoPieceWithCharge. */
+  public TwoPieceWithCharge(DriveSubsystem drive, ArmSubsystem arm, ClawSubsytem claw) {
+    PathPlannerTrajectory path1 = PathPlanner.loadPath("TwoPiecePart1", new PathConstraints(3.5, 6.0));
+    PathPlannerTrajectory path2 = PathPlanner.loadPath("TwoPiecePart3", new PathConstraints(3.5, 6.0));
+    PathPlannerTrajectory path3 = PathPlanner.loadPath("TwoPiecewithChargePart4", new PathConstraints(4.0, 6.0));
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
@@ -52,7 +53,9 @@ public class TwoPieceAuto extends SequentialCommandGroup {
           new RetractToStowed(arm)
         ),
         new GoToPositionWithIntermediate(arm, ArmSetpoints.TOP_NODE),
-        new RetractToStowed(arm).raceWith(Commands.run(()-> claw.driveClaw(-0.5)))
+        new RetractToStowed(arm).raceWith(Commands.run(()-> claw.driveClaw(-0.5))),
+        drive.followTrajectoryCommand(path3, false),
+        Commands.run(drive::AutoBalance, drive)
     );
   }
 }

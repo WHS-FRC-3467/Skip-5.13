@@ -31,7 +31,6 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
   
   private final LimelightSubsystem limelightSubsystem;
   private final DriveSubsystem drivetrainSubsystem;
-  private final AprilTagFieldLayout aprilTagFieldLayout;
 
   // Kalman Filter Configuration. These can be "tuned-to-taste" based on how much
   // you trust your various sensors. Smaller numbers will cause the filter to
@@ -68,7 +67,6 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
       DriverStation.reportError("Failed to load AprilTagFieldLayout", e.getStackTrace());
       layout = null;
     }
-    this.aprilTagFieldLayout = layout;
 
     ShuffleboardTab tab = Shuffleboard.getTab("Vision");
 
@@ -89,12 +87,12 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
     double resultTimestamp = limelightSubsystem.getLastEntryTimeStamp();
     //int fiducialId = limelightSubsystem.getID();
 
-    if(DriverStation.getAlliance() == Alliance.Blue){
+    if(DriverStation.getAlliance() == Alliance.Blue && limelightSubsystem.hasTargetRear()){
       poseEstimator.addVisionMeasurement(limelightSubsystem.getBotPoseBlue().toPose2d(), resultTimestamp);
       Logger.getInstance().recordOutput("LimelightSubsystem BotPose", limelightSubsystem.getBotPoseBlue().toPose2d());
 
     }
-    else if (DriverStation.getAlliance() == Alliance.Red){
+    else if (DriverStation.getAlliance() == Alliance.Red && limelightSubsystem.hasTargetRear()){
       poseEstimator.addVisionMeasurement(limelightSubsystem.getBotPoseRed().toPose2d(), resultTimestamp);
       Logger.getInstance().recordOutput("LimelightSubsystem BotPose", limelightSubsystem.getBotPoseRed().toPose2d());
 

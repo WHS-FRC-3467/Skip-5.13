@@ -14,7 +14,7 @@ import frc.robot.Constants.LimelightConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.drive.DriveSubsystem;
 
-public class AlignWithConeNode extends CommandBase {
+public class AlignWithConeNodeRight extends CommandBase {
   /** Creates a new AlignWithVisionTape. */
   LimelightSubsystem m_limelight;
   DriveSubsystem m_drive;
@@ -31,7 +31,7 @@ public class AlignWithConeNode extends CommandBase {
    * @param drive DriveSubsystem
    * @param level Level of the node valid: "mid", "top"
    */
-  public AlignWithConeNode(LimelightSubsystem limelight, DriveSubsystem drive) {
+  public AlignWithConeNodeRight(LimelightSubsystem limelight, DriveSubsystem drive) {
     m_limelight = limelight; 
     m_drive = drive;
     addRequirements(m_limelight, m_drive);
@@ -51,18 +51,17 @@ public class AlignWithConeNode extends CommandBase {
     m_thetaController = new PIDController(SwerveConstants.GAINS_ANGLE_SNAP.kP*2, SwerveConstants.GAINS_ANGLE_SNAP.kI, SwerveConstants.GAINS_ANGLE_SNAP.kD);
         
     m_thetaController.enableContinuousInput(-180, 180);
-    if(Constants.tuningMode){
-      SmartDashboard.putNumber("X Error", m_pidControllerX.getPositionError());
-      SmartDashboard.putNumber("Y Error", m_pidControllerY.getPositionError());
-    }
+    // if(Constants.tuningMode){
+    //   SmartDashboard.putNumber("X Error", m_pidControllerX.getPositionError());
+    //   SmartDashboard.putNumber("Y Error", m_pidControllerY.getPositionError());
+    // }
     m_end = false;
-    m_limelight.setPipeline(LimelightConstants.RETRO_PIPELINE);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(!m_limelight.hasTarget()){
+    if(!m_limelight.hasTargetFront()){
       m_end = true;
       System.out.println("No target");
     }
@@ -72,8 +71,8 @@ public class AlignWithConeNode extends CommandBase {
     double rotationVal = m_thetaController.calculate((MathUtil.inputModulus(m_drive.getYaw().getDegrees(), -180, 180)), 180.0);
     rotationVal = MathUtil.clamp(rotationVal, -SwerveConstants.MAX_ANGULAR_VELOCITY * 0.4, SwerveConstants.MAX_ANGULAR_VELOCITY * 0.4);
 
-    m_pidControllerX.setSetpoint(LimelightConstants.ALIGNED_CONE_X);
-    xTrans = m_pidControllerX.calculate(m_limelight.getX());
+    m_pidControllerX.setSetpoint(LimelightConstants.ALIGNED_RIGHT_CONE_X);
+    xTrans = m_pidControllerX.calculate(m_limelight.getXFront());
     xTrans = MathUtil.clamp(xTrans, -0.5, 0.5);
 
     m_drive.drive(new Translation2d(0.0, -xTrans), rotationVal, true, true);
@@ -93,7 +92,6 @@ public class AlignWithConeNode extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_drive.stopDrive();
-    m_limelight.setPipeline(LimelightConstants.DRIVER_PIPELINE);
   }
 
   // Returns true when the command should end.
