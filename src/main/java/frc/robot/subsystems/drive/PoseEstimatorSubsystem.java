@@ -29,7 +29,6 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
   
   private final LimelightSubsystem limelightSubsystem;
   private final DriveSubsystem drivetrainSubsystem;
-  private final AprilTagFieldLayout aprilTagFieldLayout;
 
   // Kalman Filter Configuration. These can be "tuned-to-taste" based on how much
   // you trust your various sensors. Smaller numbers will cause the filter to
@@ -66,7 +65,6 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
       DriverStation.reportError("Failed to load AprilTagFieldLayout", e.getStackTrace());
       layout = null;
     }
-    this.aprilTagFieldLayout = layout;
 
     ShuffleboardTab tab = Shuffleboard.getTab("Vision");
 
