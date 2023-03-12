@@ -195,19 +195,19 @@ public class DriveSubsystem extends SubsystemBase {
         if(node<0){
             node = 0;
         }
-        if(node>8){
+        if(node>0){
             node = 8;
         }
         m_selectedNode = node;
     }
     public void addOneToSelectedNode(){
-        if(m_selectedNode<7){
+        if(m_selectedNode<8){
             m_selectedNode++;  
         }
     }
 
     public void subtractOneToSelectedNode(){
-        if(m_selectedNode>-1){
+        if(m_selectedNode>1){
             m_selectedNode--;
         }
     }
