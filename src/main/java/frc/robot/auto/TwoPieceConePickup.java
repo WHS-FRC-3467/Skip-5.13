@@ -30,7 +30,6 @@ public class TwoPieceConePickup extends SequentialCommandGroup {
   public TwoPieceConePickup(DriveSubsystem drive, ArmSubsystem arm, ClawSubsytem claw){
     PathPlannerTrajectory path1 = PathPlanner.loadPath("TwoPiecePart1", new PathConstraints(3.5, 4.0));
     PathPlannerTrajectory path2 = PathPlanner.loadPath("TwoPiecePart3", new PathConstraints(3.5, 4.0));
-    //TODO:Make path for this
     PathPlannerTrajectory path3 = PathPlanner.loadPath("ThreePiecePart3", new PathConstraints(3.5, 4.0));
     PathPlannerTrajectory path4 = PathPlanner.loadPath("ThreePiecePart4Cone", new PathConstraints(3.5, 4.0));
 

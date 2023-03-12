@@ -35,16 +35,15 @@ public class AlignWithSubstationApril extends CommandBase {
     m_pidControllerX = new PIDController(LimelightConstants.GAINS_VISION_X.kP, LimelightConstants.GAINS_VISION_X.kI, LimelightConstants.GAINS_VISION_X.kD);
     m_pidControllerX.setIntegratorRange(0.0, LimelightConstants.GAINS_VISION_X.kIzone);
     m_pidControllerX.setTolerance(LimelightConstants.VISION_POS_TOLLERANCE);
-
+    
     m_end = false;
-    m_limelight.setPipeline(1);
-
+    m_limelight.setVisionModeOn();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(!m_limelight.hasTarget()){
+    if(!m_limelight.hasTargetFront()){
       m_end = true;
       System.out.println("No target");
     }
@@ -52,10 +51,11 @@ public class AlignWithSubstationApril extends CommandBase {
 
     m_pidControllerY.setSetpoint(LimelightConstants.SETPOINT_DIS_FROM_SUBSTATION_APRIL);
     m_pidControllerX.setSetpoint(LimelightConstants.ALIGNED_SUBSTATION_APRIL_X);
-    xTrans = m_pidControllerX.calculate(m_limelight.getX());
+    xTrans = m_pidControllerX.calculate(m_limelight.getXFront());
     xTrans = Math.max(xTrans, 1.0);
     xTrans = Math.min(xTrans, -1.0);
 
+    yTrans = m_pidControllerY.calculate(m_limelight.getAreaFront());
     yTrans = Math.max(yTrans, 1.0);
     yTrans = Math.min(yTrans, -1.0);
     m_drive.drive(new Translation2d(xTrans, yTrans), 0.0, true, true);
@@ -73,6 +73,7 @@ public class AlignWithSubstationApril extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_drive.stopDrive();
+    m_limelight.setVisionModeOn();
   }
 
   // Returns true when the command should end.

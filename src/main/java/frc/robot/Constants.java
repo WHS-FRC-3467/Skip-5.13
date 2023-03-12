@@ -325,16 +325,22 @@ public final class Constants {
 
     public static final double VISION_POS_TOLLERANCE = 0.5;
     
-    public static final double ALIGNED_CONE_X = -13.3;
-    public static final double ALIGNED_GRID_APRIL_X = -18.3;
-    public static final double ALIGNED_SUBSTATION_APRIL_X = 0.0;
-    
-    public static final double ALIGNED_CONE_Y = -6.0;
-    public static final double ALIGNED_GRID_APRIL_Y = -16.3;
-    public static final double ALIGNED_SUBSTATION_APRIL_Y = 0.0;
+    public static final double ALIGNED_GRID_APRIL_X = -12.0;
+    public static final double ALIGNED_GRID_APRIL_Y = -3.0;
+    public static final double ALIGNED_GRID_APRIL_AREA = 3.7;
 
-    public static final double ALIGNED_GRID_APRIL_AREA = 6.0;
-    public static final double ALIGNED_CONE_AREA = 0.34;
+    public static final double ALIGNED_SUBSTATION_APRIL_X = -18.3;
+    public static final double ALIGNED_SUBSTATION_APRIL_Y = -16.3;
+    public static final double ALIGNED_SUBSTATION_APRIL_AREA = 6.0;
+
+    public static final double ALIGNED_LEFT_CONE_X = -18.3;
+    public static final double ALIGNED_LEFT_CONE_Y = -16.3;
+    public static final double ALIGNED_LEFT_CONE_AREA = 6.0;
+
+    public static final double ALIGNED_RIGHT_CONE_X = -18.3;
+    public static final double ALIGNED_RIGHT_CONE_Y = -16.3;
+    public static final double ALIGNED_RIGHT_CONE_AREA = 6.0;
+
     
 
     public static final double SETPOINT_DIS_FROM_MID_CONE = 24;

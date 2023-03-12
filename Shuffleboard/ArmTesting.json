@@ -39,7 +39,7 @@
           },
           "2,0": {
             "size": [
-              3,
+              4,
               2
             ],
             "content": {
@@ -79,9 +79,9 @@
               "Visuals/Show Outside Circles": false
             }
           },
-          "5,2": {
+          "6,0": {
             "size": [
-              3,
+              2,
               2
             ],
             "content": {
@@ -262,23 +262,10 @@
               "imageHeight": -1
             }
           },
-          "5,0": {
+          "5,2": {
             "size": [
               3,
               2
-            ],
-            "content": {
-              "_type": "Command",
-              "_source0": "network_table:///SmartDashboard/InstantCommand",
-              "_title": "InstantCommand",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "16,0": {
-            "size": [
-              2,
-              1
             ],
             "content": {
               "_type": "Command",

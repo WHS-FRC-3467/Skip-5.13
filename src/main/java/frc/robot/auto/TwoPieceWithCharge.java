@@ -31,7 +31,6 @@ public class TwoPieceWithCharge extends SequentialCommandGroup {
   public TwoPieceWithCharge(DriveSubsystem drive, ArmSubsystem arm, ClawSubsytem claw) {
     PathPlannerTrajectory path1 = PathPlanner.loadPath("TwoPiecePart1", new PathConstraints(3.5, 6.0));
     PathPlannerTrajectory path2 = PathPlanner.loadPath("TwoPiecePart3", new PathConstraints(3.5, 6.0));
-    //TODO: create this path
     PathPlannerTrajectory path3 = PathPlanner.loadPath("TwoPiecewithChargePart4", new PathConstraints(4.0, 6.0));
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());

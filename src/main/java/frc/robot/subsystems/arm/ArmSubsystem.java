@@ -209,8 +209,6 @@ public class ArmSubsystem extends SubsystemBase {
     double inputUpper = Math.toRadians(-m_upperSetpoint + 180);
     double inputLower = Math.toRadians(m_lowerSetpoint - 90);
     Vector<N2> angles = VecBuilder.fill(inputLower, inputUpper);
-    Vector<N2> velocity = VecBuilder.fill(m_controllerLower.getSetpoint().velocity, m_controllerLower.getSetpoint().velocity);
-
     Vector<N2> vectorFF = m_doubleJointedFeedForwards.feedforward(angles);
     return vectorFF;
   }

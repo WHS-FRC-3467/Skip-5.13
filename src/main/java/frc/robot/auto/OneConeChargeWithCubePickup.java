@@ -9,7 +9,6 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -33,25 +32,24 @@ public class OneConeChargeWithCubePickup extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     //
-    PathPlannerTrajectory path1 = PathPlanner.loadPath("ConeChargeMobilityPickupPart1", 2.5, 1.5);
-    PathPlannerTrajectory path2 = PathPlanner.loadPath("ConeChargeMobilityPickupPart2", 2.5, 1.5);
+    PathPlannerTrajectory path1 = PathPlanner.loadPath("ConeChargeMobilityPickupPart1", 2.0, 1.5);
+    PathPlannerTrajectory path2 = PathPlanner.loadPath("ConeChargeMobilityPickupPart2", 2.5, 2.0);
+    PathPlannerTrajectory path3 = PathPlanner.loadPath("ConeChargeMobilityPickupPart3", 2.5, 2.0);
 
     addCommands(
       Commands.runOnce(() -> GamePiece.setGamePiece(GamePieceType.Cone)),
+      new WaitCommand(0.03),
       new GoToPositionWithIntermediate(arm, ArmSetpoints.TOP_NODE),
-      new WaitCommand(0.1),
       new ScoreAndRetract(arm),
       Commands.runOnce(() -> GamePiece.setGamePiece(GamePieceType.Cube)),
-      new ParallelCommandGroup(
-        drive.followTrajectoryCommand(path1, true).raceWith(Commands.run(()-> claw.driveClaw(0.8), claw)),
-        new SequentialCommandGroup(
-          new WaitCommand(0.8),
-          Commands.runOnce(() -> arm.updateAllSetpoints(ArmSetpoints.FLOOR))
-        )
-      ),
+      drive.followTrajectoryCommand(path1, true),   
       new WaitCommand(0.03),
-      new ParallelDeadlineGroup(
-        drive.followTrajectoryCommand(path2, false),
+      new ParallelCommandGroup(
+        drive.followTrajectoryCommand(path2, false).raceWith(Commands.run(()-> claw.driveClaw(0.8), claw)),
+        Commands.runOnce(() -> arm.updateAllSetpoints(ArmSetpoints.FLOOR))
+      ), 
+      new ParallelCommandGroup(
+        drive.followTrajectoryCommand(path3, false),
         new RetractToStowed(arm)
       ),
       new RunCommand(drive::AutoBalance, drive).withTimeout(6)
