@@ -51,10 +51,10 @@ public class AlignWithConeNodeRight extends CommandBase {
     m_thetaController = new PIDController(SwerveConstants.GAINS_ANGLE_SNAP.kP*2, SwerveConstants.GAINS_ANGLE_SNAP.kI, SwerveConstants.GAINS_ANGLE_SNAP.kD);
         
     m_thetaController.enableContinuousInput(-180, 180);
-    if(Constants.tuningMode){
-      SmartDashboard.putNumber("X Error", m_pidControllerX.getPositionError());
-      SmartDashboard.putNumber("Y Error", m_pidControllerY.getPositionError());
-    }
+    // if(Constants.tuningMode){
+    //   SmartDashboard.putNumber("X Error", m_pidControllerX.getPositionError());
+    //   SmartDashboard.putNumber("Y Error", m_pidControllerY.getPositionError());
+    // }
     m_end = false;
   }
 

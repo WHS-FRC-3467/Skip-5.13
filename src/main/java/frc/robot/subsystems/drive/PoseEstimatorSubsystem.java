@@ -85,10 +85,10 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
     double resultTimestamp = limelightSubsystem.getLastEntryTimeStamp();
     //int fiducialId = limelightSubsystem.getID();
 
-    if(DriverStation.getAlliance() == Alliance.Blue){
+    if(DriverStation.getAlliance() == Alliance.Blue && limelightSubsystem.hasTargetRear()){
       poseEstimator.addVisionMeasurement(limelightSubsystem.getBotPoseBlue().toPose2d(), resultTimestamp);
     }
-    else if (DriverStation.getAlliance() == Alliance.Red){
+    else if (DriverStation.getAlliance() == Alliance.Red && limelightSubsystem.hasTargetRear()){
       poseEstimator.addVisionMeasurement(limelightSubsystem.getBotPoseRed().toPose2d(), resultTimestamp);
     }
             

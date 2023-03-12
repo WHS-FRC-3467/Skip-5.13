@@ -16,7 +16,6 @@ import frc.robot.subsystems.claw.ClawDefault;
 import frc.robot.subsystems.claw.ClawSubsytem;
 import frc.robot.Constants.ArmSetpoints;
 import frc.robot.auto.OneConeChargeWithCubePickup;
-import frc.robot.auto.OneConeChargeWithCubePickup;
 import frc.robot.auto.OneConeChargeWithMobility;
 import frc.robot.auto.OneConeClose;
 import frc.robot.auto.OneConeFar;
@@ -33,7 +32,7 @@ import frc.robot.subsystems.arm.GoToPositionWithIntermediate;
 import frc.robot.subsystems.arm.RetractToStowed;
 import frc.robot.subsystems.arm.ScoreAndRetract;
 import frc.robot.subsystems.drive.DriveSubsystem;
-import frc.robot.subsystems.drive.FollowPathToScore;
+import frc.robot.subsystems.drive.PoseEstimatorSubsystem;
 import frc.robot.subsystems.drive.TeleopSwerve;
 import frc.robot.subsystems.led.LEDDefault;
 import frc.robot.subsystems.led.LEDSubsystem;
@@ -64,8 +63,7 @@ public class RobotContainer {
 
   private SendableChooser<Command> m_autoChooser = new SendableChooser<>();
   
-  // private final PoseEstimatorSubsystem m_EstimatorSubsystem = new PoseEstimatorSubsystem(m_limelight, m_drive);
-  // private final PoseEstimatorSubsystem m_EstimatorSubsystem = new PoseEstimatorSubsystem(m_limelight, m_drive);
+  private final PoseEstimatorSubsystem m_EstimatorSubsystem = new PoseEstimatorSubsystem(m_limelight, m_drive);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     GamePiece.setGamePiece(GamePieceType.Cone);
