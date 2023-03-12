@@ -28,10 +28,10 @@ import frc.robot.util.GamePiece.GamePieceType;
 public class TwoPieceConePickup extends SequentialCommandGroup {
   /** Creates a new TwoPieceConePickup. */
   public TwoPieceConePickup(DriveSubsystem drive, ArmSubsystem arm, ClawSubsytem claw){
-    PathPlannerTrajectory path1 = PathPlanner.loadPath("TwoPiecePart1", new PathConstraints(3.5, 4.0));
-    PathPlannerTrajectory path2 = PathPlanner.loadPath("TwoPiecePart3", new PathConstraints(3.5, 4.0));
-    PathPlannerTrajectory path3 = PathPlanner.loadPath("ThreePiecePart3", new PathConstraints(3.5, 4.0));
-    PathPlannerTrajectory path4 = PathPlanner.loadPath("ThreePiecePart4Cone", new PathConstraints(3.5, 4.0));
+    PathPlannerTrajectory path1 = PathPlanner.loadPath("TwoPiecePart1", new PathConstraints(3.5, 6.0));
+    PathPlannerTrajectory path2 = PathPlanner.loadPath("TwoPiecePart3", new PathConstraints(4.0, 8.0));
+    PathPlannerTrajectory path3 = PathPlanner.loadPath("ThreePiecePart3", new PathConstraints(3.5, 6.0));
+    PathPlannerTrajectory path4 = PathPlanner.loadPath("ThreePiecePart4Cone", new PathConstraints(4.0, 8.0));
 
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
