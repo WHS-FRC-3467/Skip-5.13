@@ -15,13 +15,17 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.claw.ClawDefault;
 import frc.robot.subsystems.claw.ClawSubsytem;
 import frc.robot.Constants.ArmSetpoints;
-import frc.robot.Constants.LimelightConstants;
+import frc.robot.auto.OneConeChargeWithCubePickup;
 import frc.robot.auto.OneConeChargeWithMobility;
 import frc.robot.auto.OneConeClose;
 import frc.robot.auto.OneConeFar;
 import frc.robot.auto.OneConeWithCharge;
+import frc.robot.auto.OverBumpTwoPiece;
 import frc.robot.auto.TestAuto;
+import frc.robot.auto.ThreePieceAuto;
 import frc.robot.auto.TwoPieceAuto;
+import frc.robot.auto.TwoPieceConePickup;
+import frc.robot.auto.TwoPieceWithCharge;
 import frc.robot.subsystems.arm.ArmDefault;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.arm.GoToMidNode;
@@ -29,6 +33,7 @@ import frc.robot.subsystems.arm.GoToPositionWithIntermediate;
 import frc.robot.subsystems.arm.RetractToStowed;
 import frc.robot.subsystems.arm.ScoreAndRetract;
 import frc.robot.subsystems.drive.DriveSubsystem;
+import frc.robot.subsystems.drive.PoseEstimatorSubsystem;
 import frc.robot.subsystems.drive.TeleopSwerve;
 import frc.robot.subsystems.led.LEDDefault;
 import frc.robot.subsystems.led.LEDSubsystem;
@@ -60,6 +65,7 @@ public class RobotContainer {
 
   private SendableChooser<Command> m_autoChooser = new SendableChooser<>();
   
+  // private final PoseEstimatorSubsystem m_EstimatorSubsystem = new PoseEstimatorSubsystem(m_limelight, m_drive);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     GamePiece.setGamePiece(GamePieceType.Cone);
@@ -79,6 +85,11 @@ public class RobotContainer {
     m_autoChooser.addOption("OneConeWithCharge", new OneConeWithCharge(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("Two Game Piece", new TwoPieceAuto(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("Cone with Charge with mobility", new OneConeChargeWithMobility(m_drive, m_arm, m_claw));
+    m_autoChooser.addOption("Charge Mobility with pickup", new OneConeChargeWithCubePickup(m_drive, m_arm, m_claw));
+    m_autoChooser.addOption("Two piece with charge", new TwoPieceWithCharge(m_drive, m_arm, m_claw));
+    m_autoChooser.addOption("Three piece", new ThreePieceAuto(m_drive, m_arm, m_claw));
+    m_autoChooser.addOption("Two Piece with Cone pickup", new TwoPieceConePickup(m_drive, m_arm, m_claw));
+    m_autoChooser.addOption("Over bump two piece", new OverBumpTwoPiece(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("No Auto", null);
     SmartDashboard.putData("Auto", m_autoChooser);
     
@@ -134,7 +145,6 @@ public class RobotContainer {
     m_driverController.povRight().onTrue(Commands.runOnce(m_limelight::setVisionModeOff, m_limelight));
     //Opperator Controls
     //Set game Piece type 
-    m_operatorController.start().onTrue(Commands.runOnce(() -> GamePiece.toggleGamePiece()));
     m_operatorController.back().onTrue(Commands.runOnce(() -> GamePiece.toggleGamePiece()));
 
     //Set arm positions
@@ -148,8 +158,7 @@ public class RobotContainer {
 
     m_operatorController.x().onTrue(Commands.runOnce(() -> m_arm.updateAllSetpoints(ArmSetpoints.SUBSTATION)));
 
-    m_operatorController.povUp().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.FLOOR_HOVER)));
-    m_operatorController.povDown().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.FLOOR_INTAKING)));
+    m_operatorController.start().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.FLOOR_HOVER)));
   }
 
  

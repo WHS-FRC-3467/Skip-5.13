@@ -20,6 +20,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -64,6 +65,53 @@ public class ArmSubsystem extends SubsystemBase {
   private Solenoid m_claw = new Solenoid(PneumaticsModuleType.REVPH, PHConstants.CLAW_CHANNEL);
 
   public ArmSubsystem() {
+    // Config Duty Cycle Range for the encoders
+    m_lowerEncoder.setDutyCycleRange(ArmConstants.DUTY_CYCLE_MIN, ArmConstants.DUTY_CYCLE_MAX);
+    m_upperEncoder.setDutyCycleRange(ArmConstants.DUTY_CYCLE_MIN, ArmConstants.DUTY_CYCLE_MAX);
+    
+    // Default Motors
+    m_lowerJoint.configFactoryDefault(ArmConstants.TIMEOUT);
+    m_upperJoint.configFactoryDefault(ArmConstants.TIMEOUT);
+    
+    // Set Neutral Mode to Brake and NeutralDeadBand to prevent need for intentional
+    // stalling
+    m_lowerJoint.setNeutralMode(NeutralMode.Brake);
+    m_upperJoint.setNeutralMode(NeutralMode.Brake);
+    
+    m_lowerJoint.configNeutralDeadband(ArmConstants.NEUTRAL_DEADBAND);
+    m_upperJoint.configNeutralDeadband(ArmConstants.NEUTRAL_DEADBAND);
+    
+    m_lowerJoint.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 20, 30, 0.2));
+    m_upperJoint.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 20, 30, 0.2));
+    
+    m_lowerJoint.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition, 0, ArmConstants.TIMEOUT);
+    m_upperJoint.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition, 0, ArmConstants.TIMEOUT);
+    
+    m_upperJoint.setInverted(TalonFXInvertType.CounterClockwise);
+    m_lowerJoint.setInverted(TalonFXInvertType.CounterClockwise);
+    
+    m_lowerJoint.configNominalOutputForward(ArmConstants.NOMINAL_OUTPUT_FORWARD, ArmConstants.TIMEOUT);
+    m_lowerJoint.configNominalOutputReverse(ArmConstants.NOMINAL_OUTPUT_REVERSE, ArmConstants.TIMEOUT);
+    m_lowerJoint.configPeakOutputForward(ArmConstants.PEAK_OUTPUT_FORWARD, ArmConstants.TIMEOUT);
+    m_lowerJoint.configPeakOutputReverse(ArmConstants.PEAK_OUTPUT_REVERSE, ArmConstants.TIMEOUT);
+    
+    m_upperJoint.configNominalOutputForward(ArmConstants.NOMINAL_OUTPUT_FORWARD, ArmConstants.TIMEOUT);
+    m_upperJoint.configNominalOutputReverse(ArmConstants.NOMINAL_OUTPUT_REVERSE, ArmConstants.TIMEOUT);
+    m_upperJoint.configPeakOutputForward(ArmConstants.PEAK_OUTPUT_FORWARD, ArmConstants.TIMEOUT);
+    m_upperJoint.configPeakOutputReverse(ArmConstants.PEAK_OUTPUT_REVERSE, ArmConstants.TIMEOUT);
+    
+    m_lowerJoint.configVoltageCompSaturation(12, ArmConstants.TIMEOUT);
+    m_upperJoint.configVoltageCompSaturation(12, ArmConstants.TIMEOUT);
+    
+    m_lowerJoint.configFeedbackNotContinuous(true, ArmConstants.TIMEOUT);
+    m_upperJoint.configFeedbackNotContinuous(true, ArmConstants.TIMEOUT);
+    
+    m_upperJoint.configForwardSoftLimitThreshold(ArmConstants.FORWARD_SOFT_LIMIT_UPPER, ArmConstants.TIMEOUT);
+    m_upperJoint.configReverseSoftLimitThreshold(ArmConstants.REVERSE_SOFT_LIMIT_UPPER, ArmConstants.TIMEOUT);
+    m_lowerJoint.configForwardSoftLimitThreshold(ArmConstants.FORWARD_SOFT_LIMIT_LOWER, ArmConstants.TIMEOUT);
+    m_lowerJoint.configReverseSoftLimitThreshold(ArmConstants.REVERSE_SOFT_LIMIT_LOWER, ArmConstants.TIMEOUT);
+    
+    Timer.delay(1.5);
     lowerConstraints = new TrapezoidProfile.Constraints(ArmConstants.UPPER_CRUISE,
       ArmConstants.UPPER_ACCELERATION);
     m_controllerLower = new ProfiledPIDController(ArmConstants.GAINS_LOWER_JOINT.kP,
@@ -72,51 +120,6 @@ public class ArmSubsystem extends SubsystemBase {
       ArmConstants.LOWER_ACCELERATION);
     m_controllerUpper = new ProfiledPIDController(ArmConstants.GAINS_UPPER_JOINT.kP,
       ArmConstants.GAINS_UPPER_JOINT.kI, ArmConstants.GAINS_UPPER_JOINT.kD, upperConstraints);
-    // Config Duty Cycle Range for the encoders
-    m_lowerEncoder.setDutyCycleRange(ArmConstants.DUTY_CYCLE_MIN, ArmConstants.DUTY_CYCLE_MAX);
-    m_upperEncoder.setDutyCycleRange(ArmConstants.DUTY_CYCLE_MIN, ArmConstants.DUTY_CYCLE_MAX);
-
-    // Default Motors
-    m_lowerJoint.configFactoryDefault(ArmConstants.TIMEOUT);
-    m_upperJoint.configFactoryDefault(ArmConstants.TIMEOUT);
-
-    // Set Neutral Mode to Brake and NeutralDeadBand to prevent need for intentional
-    // stalling
-    m_lowerJoint.setNeutralMode(NeutralMode.Brake);
-    m_upperJoint.setNeutralMode(NeutralMode.Brake);
-
-    m_lowerJoint.configNeutralDeadband(ArmConstants.NEUTRAL_DEADBAND);
-    m_upperJoint.configNeutralDeadband(ArmConstants.NEUTRAL_DEADBAND);
-
-    m_lowerJoint.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 20, 30, 0.2));
-    m_upperJoint.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 20, 30, 0.2));
-
-    m_lowerJoint.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition, 0, ArmConstants.TIMEOUT);
-    m_upperJoint.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition, 0, ArmConstants.TIMEOUT);
-
-    m_upperJoint.setInverted(TalonFXInvertType.CounterClockwise);
-    m_lowerJoint.setInverted(TalonFXInvertType.CounterClockwise);
-
-    m_lowerJoint.configNominalOutputForward(ArmConstants.NOMINAL_OUTPUT_FORWARD, ArmConstants.TIMEOUT);
-    m_lowerJoint.configNominalOutputReverse(ArmConstants.NOMINAL_OUTPUT_REVERSE, ArmConstants.TIMEOUT);
-    m_lowerJoint.configPeakOutputForward(ArmConstants.PEAK_OUTPUT_FORWARD, ArmConstants.TIMEOUT);
-    m_lowerJoint.configPeakOutputReverse(ArmConstants.PEAK_OUTPUT_REVERSE, ArmConstants.TIMEOUT);
-
-    m_upperJoint.configNominalOutputForward(ArmConstants.NOMINAL_OUTPUT_FORWARD, ArmConstants.TIMEOUT);
-    m_upperJoint.configNominalOutputReverse(ArmConstants.NOMINAL_OUTPUT_REVERSE, ArmConstants.TIMEOUT);
-    m_upperJoint.configPeakOutputForward(ArmConstants.PEAK_OUTPUT_FORWARD, ArmConstants.TIMEOUT);
-    m_upperJoint.configPeakOutputReverse(ArmConstants.PEAK_OUTPUT_REVERSE, ArmConstants.TIMEOUT);
-
-    m_lowerJoint.configVoltageCompSaturation(12, ArmConstants.TIMEOUT);
-    m_upperJoint.configVoltageCompSaturation(12, ArmConstants.TIMEOUT);
-
-    m_lowerJoint.configFeedbackNotContinuous(true, ArmConstants.TIMEOUT);
-    m_upperJoint.configFeedbackNotContinuous(true, ArmConstants.TIMEOUT);
-
-    m_upperJoint.configForwardSoftLimitThreshold(ArmConstants.FORWARD_SOFT_LIMIT_UPPER, ArmConstants.TIMEOUT);
-    m_upperJoint.configReverseSoftLimitThreshold(ArmConstants.REVERSE_SOFT_LIMIT_UPPER, ArmConstants.TIMEOUT);
-    m_lowerJoint.configForwardSoftLimitThreshold(ArmConstants.FORWARD_SOFT_LIMIT_LOWER, ArmConstants.TIMEOUT);
-    m_lowerJoint.configReverseSoftLimitThreshold(ArmConstants.REVERSE_SOFT_LIMIT_LOWER, ArmConstants.TIMEOUT);
 
     reset();    
   }
@@ -206,7 +209,6 @@ public class ArmSubsystem extends SubsystemBase {
     double inputUpper = Math.toRadians(-m_upperSetpoint + 180);
     double inputLower = Math.toRadians(m_lowerSetpoint - 90);
     Vector<N2> angles = VecBuilder.fill(inputLower, inputUpper);
-
     Vector<N2> vectorFF = m_doubleJointedFeedForwards.feedforward(angles);
     return vectorFF;
   }

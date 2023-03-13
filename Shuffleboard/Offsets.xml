@@ -43,7 +43,7 @@
 		<location x="0" y="420"/>
 	</widget>
 	<widget field="Mod 3 Cancoder" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="524" y="271"/>
+		<location x="0" y="400"/>
 	</widget>
 	<widget field="Upper Angle Uncorrected" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="0" y="380"/>
@@ -55,7 +55,7 @@
 		<location x="0" y="340"/>
 	</widget>
 	<widget field="Mod 2 Cancoder" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="523" y="241"/>
+		<location x="0" y="320"/>
 	</widget>
 	<widget field="Lower Angle" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="0" y="300"/>
@@ -64,7 +64,7 @@
 		<location x="0" y="280"/>
 	</widget>
 	<widget field="Mod 1 Cancoder" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="524" y="208"/>
+		<location x="0" y="260"/>
 	</widget>
 	<widget field="limelight-rear_PipelineName" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="0" y="240"/>
@@ -82,7 +82,7 @@
 		<location x="0" y="160"/>
 	</widget>
 	<widget field="Mod 0 Cancoder" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="526" y="177"/>
+		<location x="0" y="140"/>
 	</widget>
 	<widget field="lower PID" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="0" y="120"/>
@@ -104,15 +104,6 @@
 	</widget>
 	<widget field="Upper Angle" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="0" y="0"/>
-	</widget>
-	<widget field="Is vision Mode" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="713"/>
-	</widget>
-	<widget field="Claw Current" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="693"/>
-	</widget>
-	<widget field="Alliance Color" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="40"/>
 	</widget>
 </dashboard>
 <live-window>
