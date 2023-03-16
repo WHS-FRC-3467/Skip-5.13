@@ -22,7 +22,7 @@
 		<location x="0" y="560"/>
 	</widget>
 	<widget field="Lower Angle Uncorrected" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="540"/>
+		<location x="681" y="139"/>
 	</widget>
 	<widget field="limelight-rear_Stream" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="0" y="520"/>
@@ -43,10 +43,10 @@
 		<location x="0" y="420"/>
 	</widget>
 	<widget field="Mod 3 Cancoder" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="400"/>
+		<location x="524" y="271"/>
 	</widget>
 	<widget field="Upper Angle Uncorrected" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="380"/>
+		<location x="683" y="86"/>
 	</widget>
 	<widget field="Has target" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="0" y="360"/>
@@ -55,16 +55,16 @@
 		<location x="0" y="340"/>
 	</widget>
 	<widget field="Mod 2 Cancoder" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="320"/>
+		<location x="523" y="241"/>
 	</widget>
 	<widget field="Lower Angle" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="300"/>
+		<location x="739" y="110"/>
 	</widget>
 	<widget field="limelight-front_PipelineName" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="0" y="280"/>
 	</widget>
 	<widget field="Mod 1 Cancoder" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="260"/>
+		<location x="524" y="208"/>
 	</widget>
 	<widget field="limelight-rear_PipelineName" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="0" y="240"/>
@@ -82,7 +82,7 @@
 		<location x="0" y="160"/>
 	</widget>
 	<widget field="Mod 0 Cancoder" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="140"/>
+		<location x="526" y="177"/>
 	</widget>
 	<widget field="lower PID" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="0" y="120"/>
@@ -103,7 +103,16 @@
 		<location x="0" y="20"/>
 	</widget>
 	<widget field="Upper Angle" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="0"/>
+		<location x="740" y="61"/>
+	</widget>
+	<widget field="Is vision Mode" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="713"/>
+	</widget>
+	<widget field="Claw Current" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="693"/>
+	</widget>
+	<widget field="Alliance Color" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="40"/>
 	</widget>
 </dashboard>
 <live-window>
