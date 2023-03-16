@@ -227,9 +227,9 @@ public final class Constants {
     // public static final double VERTICAL_ANGLE_LOWER = 175.2;
     //Midnight
     //Measured against the hardstop when claw is over pdh
-    public static final double VERTICAL_ANGLE_UPPER = 14.7;
+    public static final double VERTICAL_ANGLE_UPPER = 13.4;
     //Measured when the lower angle is vertical using 1x1
-    public static final double VERTICAL_ANGLE_LOWER = 182.2;
+    public static final double VERTICAL_ANGLE_LOWER = 184.7;
     
     public static final double LOWER_ANGLE_OFFSET = 180 - VERTICAL_ANGLE_LOWER;
     public static final double UPPER_ANGLE_OFFSET = 12.4 - VERTICAL_ANGLE_UPPER;
@@ -279,10 +279,10 @@ public final class Constants {
     public final static int TIMEOUT = 10;
 
     // Profiled PID Constants
-    public static final double LOWER_CRUISE = 180.0;
+    public static final double LOWER_CRUISE = 195.0;
     public static final double LOWER_ACCELERATION = 250.0;
 
-    public static final double UPPER_CRUISE = 180.0;
+    public static final double UPPER_CRUISE = 195.0;
     public static final double UPPER_ACCELERATION = 250.0;
 
     //Duty cycle constants
@@ -309,7 +309,7 @@ public final class Constants {
     public static final Setpoint FLOOR_HOVER = new Setpoint(188, 45, false, ClawState.IN, 188, 45, false, ClawState.OUT, ArmState.OTHER);
     public static final Setpoint FLOOR_INTAKING = new Setpoint(216, 37, false, ClawState.IN, 221, 45, false, ClawState.OUT, ArmState.FLOOR);
     
-    public static final double INTERMEDIATE_LOWER_POSITION_RETRACTING = 160;
+    public static final double INTERMEDIATE_LOWER_POSITION_RETRACTING = 158;
     public static final double INTERMEDIATE_LOWER_POSITION_SCORING = 150;
   }
   public static final class ClawConstants{

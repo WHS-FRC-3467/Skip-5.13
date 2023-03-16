@@ -133,6 +133,12 @@ public class DriveSubsystem extends SubsystemBase {
     public void resetOdometry(Pose2d pose) {
         swerveOdometry.resetPosition(getYaw(), getModulePositions(), pose);
     }
+    
+    public void reset(){
+        resetModulesToAbsolute();
+        zeroGyro();
+        resetOdometry(new Pose2d(new Translation2d(0.0, 0.0), new Rotation2d(0.0)));
+    }
 
     public SwerveModuleState[] getModuleStates(){
         SwerveModuleState[] states = new SwerveModuleState[4];

@@ -23,8 +23,10 @@ import frc.robot.auto.OneConeWithCharge;
 import frc.robot.auto.OverBumpTwoPiece;
 import frc.robot.auto.TestAuto;
 import frc.robot.auto.ThreePieceAuto;
+import frc.robot.auto.ThreePieceV2;
 import frc.robot.auto.TwoPieceAuto;
 import frc.robot.auto.TwoPieceConePickup;
+import frc.robot.auto.TwoPieceV2;
 import frc.robot.auto.TwoPieceWithCharge;
 import frc.robot.subsystems.arm.ArmDefault;
 import frc.robot.subsystems.arm.ArmSubsystem;
@@ -33,7 +35,6 @@ import frc.robot.subsystems.arm.GoToPositionWithIntermediate;
 import frc.robot.subsystems.arm.RetractToStowed;
 import frc.robot.subsystems.arm.ScoreAndRetract;
 import frc.robot.subsystems.drive.DriveSubsystem;
-import frc.robot.subsystems.drive.PoseEstimatorSubsystem;
 import frc.robot.subsystems.drive.TeleopSwerve;
 import frc.robot.subsystems.led.LEDDefault;
 import frc.robot.subsystems.led.LEDSubsystem;
@@ -90,6 +91,8 @@ public class RobotContainer {
     m_autoChooser.addOption("Three piece", new ThreePieceAuto(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("Two Piece with Cone pickup", new TwoPieceConePickup(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("Over bump two piece", new OverBumpTwoPiece(m_drive, m_arm, m_claw));
+    m_autoChooser.addOption("V2 Two Piece", new TwoPieceV2(m_drive, m_arm, m_claw));
+    m_autoChooser.addOption("V2 Three Piece", new ThreePieceV2(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("No Auto", null);
     SmartDashboard.putData("Auto", m_autoChooser);
     
@@ -133,8 +136,8 @@ public class RobotContainer {
   private void configureBindings() {
 
     //Driver Controls
-    m_driverController.povUp().onTrue(new InstantCommand(m_drive::zeroGyro, m_drive));
-    
+    m_driverController.povUp().onTrue(Commands.runOnce(m_drive::reset, m_drive));
+
     m_driverController.start().whileTrue(Commands.run(m_drive::AutoBalance, m_drive).andThen(m_drive::stopDrive, m_drive));
     m_driverController.back().whileTrue(new AlignWithGridApril(m_limelight, m_drive));
     
