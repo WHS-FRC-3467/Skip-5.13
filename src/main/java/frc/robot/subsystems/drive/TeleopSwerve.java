@@ -1,6 +1,8 @@
 package frc.robot.subsystems.drive;
 
 import frc.robot.Constants.SwerveConstants;
+import frc.robot.subsystems.arm.ArmSubsystem;
+import frc.robot.subsystems.arm.Setpoint.ArmState;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
@@ -26,6 +28,7 @@ public class TeleopSwerve extends CommandBase {
     double m_angle = 0d;
     private PIDController m_thetaController;
     private SendableChooser<Double> m_speedChooser;
+    ArmSubsystem m_arm;
   
     /**
      * 
@@ -40,8 +43,9 @@ public class TeleopSwerve extends CommandBase {
     public TeleopSwerve(DriveSubsystem swerve, DoubleSupplier xSup, DoubleSupplier ySup, 
                         DoubleSupplier rotationSup, BooleanSupplier robotCentricSup, 
                         BooleanSupplier halfSpeed, BooleanSupplier quarterSpeed, 
-                        BooleanSupplier zero, BooleanSupplier ninety, BooleanSupplier oneEighty, BooleanSupplier twoSeventy){
+                        BooleanSupplier zero, BooleanSupplier ninety, BooleanSupplier oneEighty, BooleanSupplier twoSeventy, ArmSubsystem arm){
         m_Swerve = swerve;
+        m_arm = arm;
         this.ySup = ySup;
         this.xSup = xSup;
         this.rotationSup = rotationSup;
@@ -54,6 +58,7 @@ public class TeleopSwerve extends CommandBase {
         addRequirements(m_Swerve);
         m_speedChooser = new SendableChooser<Double>();
         m_speedChooser.addOption("100%", 1.0);
+        m_speedChooser.addOption("95%", 0.95);
         m_speedChooser.setDefaultOption("90%", 0.9);
         m_speedChooser.addOption("85%", 0.85);
         m_speedChooser.addOption("80%", 0.8);
@@ -113,6 +118,18 @@ public class TeleopSwerve extends CommandBase {
             yVal =yVal*0.5;
             if(!rotateWithButton){
                 rotationVal = rotationVal *0.5;
+            }
+        }
+        else if(m_arm.getSetpoint().state == ArmState.MID_NODE || 
+                m_arm.getSetpoint().state == ArmState.TOP_NODE || 
+                m_arm.getSetpoint().state == ArmState.MID_NODE_PLACED ||
+                m_arm.getSetpoint().state == ArmState.TOP_NODE_PLACED ||
+                m_arm.getSetpoint().state == ArmState.SUBSTATION 
+                ){
+            xVal = xVal*0.4;
+            yVal =yVal*0.4;
+            if(!rotateWithButton){
+                rotationVal = rotationVal *0.4;
             }
         }
         else{
