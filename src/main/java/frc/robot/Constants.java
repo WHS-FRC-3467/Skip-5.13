@@ -229,9 +229,9 @@ public final class Constants {
     //Measured against the hardstop when claw is over pdh
     public static final double VERTICAL_ANGLE_UPPER = 13.4;
     //Measured when the lower angle is vertical using 1x1
-    public static final double VERTICAL_ANGLE_LOWER = 184.7;
+    public static final double VERTICAL_ANGLE_LOWER = 184.3;
     
-    public static final double LOWER_ANGLE_OFFSET = 180 - VERTICAL_ANGLE_LOWER;
+    public static final double LOWER_ANGLE_OFFSET = 179 - VERTICAL_ANGLE_LOWER;
     public static final double UPPER_ANGLE_OFFSET = 12.4 - VERTICAL_ANGLE_UPPER;
 
     //Midas
@@ -280,10 +280,10 @@ public final class Constants {
 
     // Profiled PID Constants
     public static final double LOWER_CRUISE = 195.0;
-    public static final double LOWER_ACCELERATION = 250.0;
+    public static final double LOWER_ACCELERATION = 255.0;
 
     public static final double UPPER_CRUISE = 195.0;
-    public static final double UPPER_ACCELERATION = 250.0;
+    public static final double UPPER_ACCELERATION = 255.0;
 
     //Duty cycle constants
     public static final double DUTY_CYCLE_MIN = 1.0/1025.0;

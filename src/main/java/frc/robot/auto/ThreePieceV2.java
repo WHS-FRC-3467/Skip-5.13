@@ -34,15 +34,15 @@ public class ThreePieceV2 extends SequentialCommandGroup {
     PathPlannerTrajectory path3 = PathPlanner.loadPath("TwoPiecePart3v2", new PathConstraints(4.0, 6.0));
     PathPlannerTrajectory path4 = PathPlanner.loadPath("TwoPiecePart4v2", new PathConstraints(2.5, 4.0));
     PathPlannerTrajectory path5 = PathPlanner.loadPath("ThreePiecePart5v2", new PathConstraints(2.5, 4.0));
-    PathPlannerTrajectory path6 = PathPlanner.loadPath("ThreePiecePart6v2", new PathConstraints(3.5, 6.0));
+    PathPlannerTrajectory path6 = PathPlanner.loadPath("ThreePiecePart6v2", new PathConstraints(4.0, 6.0));
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
         Commands.runOnce(() -> GamePiece.setGamePiece(GamePieceType.Cone)),
-        new WaitCommand(0.03),
+        new WaitCommand(0.02),
         new GoToPositionWithIntermediate(arm, ArmSetpoints.TOP_NODE),
         Commands.runOnce(() -> arm.updateAllSetpoints(ArmSetpoints.TOP_NODE_PLACED)),
-        new WaitCommand(0.03),
+        new WaitCommand(0.02),
         new WaitUntilCommand(arm::bothJointsAtSetpoint),
         Commands.runOnce(() -> arm.updateAllSetpoints(ArmSetpoints.TOP_NODE_PLACED_AND_OPEN)),
         Commands.runOnce(() -> GamePiece.setGamePiece(GamePieceType.Cube)),
@@ -55,7 +55,7 @@ public class ThreePieceV2 extends SequentialCommandGroup {
             Commands.runOnce(() -> arm.updateAllSetpoints(ArmSetpoints.FLOOR))
           )
         ),
-        new WaitCommand(0.03),
+        new WaitCommand(0.02),
         new ParallelDeadlineGroup(
           drive.followTrajectoryCommand(path3, false),
           new RetractToStowed(arm)
