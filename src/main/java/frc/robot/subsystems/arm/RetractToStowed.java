@@ -54,8 +54,6 @@ public class RetractToStowed extends CommandBase {
         ArmState.INTERMEDIATE);
 
       arm.updateAllSetpoints(intermediate);
-
-
     }
     // Retracting from floor
     else if (arm.getSetpoint().state.equals(ArmState.FLOOR)) {

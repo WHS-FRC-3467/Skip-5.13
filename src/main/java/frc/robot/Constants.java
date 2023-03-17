@@ -298,11 +298,9 @@ public final class Constants {
 
     public static final Setpoint FLOOR = new Setpoint(240, 48, true, ClawState.IN, 240, 48, true, ClawState.OUT, ArmState.FLOOR);
     public static final Setpoint MID_NODE = new Setpoint(182, 97, false, ClawState.IN, 165, 57, false, ClawState.OUT, ArmState.MID_NODE);
-    public static final Setpoint MID_NODE_OPEN = new Setpoint(182, 97, false, ClawState.OUT, 165, 57, false, ClawState.OUT, ArmState.MID_NODE_PLACED);
     public static final Setpoint MID_NODE_PLACED = new Setpoint(188, 80, false, ClawState.IN, 192, 69, false, ClawState.OUT, ArmState.MID_NODE_PLACED);
-    public static final Setpoint MID_NODE_PLACED_AND_OPEN = new Setpoint(188, 80, false, ClawState.IN, 192, 69, false, ClawState.OUT, ArmState.MID_NODE_PLACED);
+    public static final Setpoint MID_NODE_PLACED_AND_OPEN = new Setpoint(188, 80, false, ClawState.OUT, 192, 69, false, ClawState.OUT, ArmState.MID_NODE_PLACED);
     public static final Setpoint TOP_NODE = new Setpoint(219, 159, false, ClawState.IN, 198, 118, false, ClawState.OUT, ArmState.TOP_NODE);
-    public static final Setpoint TOP_NODE_OPEN = new Setpoint(218, 151, false, ClawState.OUT, 198, 118, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
     public static final Setpoint TOP_NODE_PLACED = new Setpoint(219, 140, false, ClawState.IN, 211, 118, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
     public static final Setpoint TOP_NODE_PLACED_AND_OPEN = new Setpoint(219, 140, false, ClawState.OUT, 213, 115, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
     public static final Setpoint SUBSTATION = new Setpoint(160, 65, false, ClawState.IN, 160, 66, false, ClawState.OUT, ArmState.SUBSTATION);

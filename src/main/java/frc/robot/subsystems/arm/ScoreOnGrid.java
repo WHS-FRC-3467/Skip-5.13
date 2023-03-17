@@ -66,6 +66,7 @@ public class ScoreOnGrid extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_arm.updateClawSetpoint(ClawState.OUT);
+    
   }
 
   // Returns true when the command should end.
