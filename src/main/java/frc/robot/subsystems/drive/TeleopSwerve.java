@@ -58,8 +58,10 @@ public class TeleopSwerve extends CommandBase {
         addRequirements(m_Swerve);
         m_speedChooser = new SendableChooser<Double>();
         m_speedChooser.addOption("100%", 1.0);
-        m_speedChooser.addOption("95%", 0.95);
-        m_speedChooser.setDefaultOption("90%", 0.9);
+        m_speedChooser.addOption("97%", 0.97);
+        m_speedChooser.setDefaultOption("95%", 0.95);
+        m_speedChooser.addOption("92%", 0.92);
+        m_speedChooser.addOption("90%", 0.9);
         m_speedChooser.addOption("85%", 0.85);
         m_speedChooser.addOption("80%", 0.8);
         m_speedChooser.addOption("70%", 0.7);
@@ -126,10 +128,10 @@ public class TeleopSwerve extends CommandBase {
                 m_arm.getSetpoint().state == ArmState.TOP_NODE_PLACED ||
                 m_arm.getSetpoint().state == ArmState.SUBSTATION 
                 ){
-            xVal = xVal*0.4;
-            yVal =yVal*0.4;
+            xVal = xVal*0.45;
+            yVal =yVal*0.45;
             if(!rotateWithButton){
-                rotationVal = rotationVal *0.4;
+                rotationVal = rotationVal *0.45;
             }
         }
         else{

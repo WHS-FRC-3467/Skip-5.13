@@ -71,7 +71,7 @@ public class ThreePieceV2 extends SequentialCommandGroup {
         ),
         Commands.runOnce(() -> GamePiece.setGamePiece(GamePieceType.Cone)),
         new ParallelDeadlineGroup(
-          drive.followTrajectoryCommand(path6, false).raceWith(Commands.run(()-> claw.driveClaw(0.8), claw)),
+          drive.followTrajectoryCommand(path6, false).raceWith(Commands.run(()-> claw.driveClaw(1.0), claw)),
           new SequentialCommandGroup(
             new WaitCommand(0.5),
             Commands.runOnce(() -> arm.updateAllSetpoints(ArmSetpoints.FLOOR))

@@ -303,7 +303,7 @@ public final class Constants {
     public static final Setpoint TOP_NODE = new Setpoint(219, 159, false, ClawState.IN, 198, 118, false, ClawState.OUT, ArmState.TOP_NODE);
     public static final Setpoint TOP_NODE_PLACED = new Setpoint(219, 140, false, ClawState.IN, 211, 118, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
     public static final Setpoint TOP_NODE_PLACED_AND_OPEN = new Setpoint(219, 140, false, ClawState.OUT, 213, 115, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
-    public static final Setpoint SUBSTATION = new Setpoint(160, 65, false, ClawState.IN, 160, 66, false, ClawState.OUT, ArmState.SUBSTATION);
+    public static final Setpoint SUBSTATION = new Setpoint(160.5, 65, false, ClawState.IN, 160, 66, false, ClawState.OUT, ArmState.SUBSTATION);
     public static final Setpoint FLOOR_HOVER = new Setpoint(188, 45, false, ClawState.IN, 188, 45, false, ClawState.OUT, ArmState.OTHER);
     public static final Setpoint FLOOR_INTAKING = new Setpoint(216, 37, false, ClawState.IN, 221, 45, false, ClawState.OUT, ArmState.FLOOR);
     
