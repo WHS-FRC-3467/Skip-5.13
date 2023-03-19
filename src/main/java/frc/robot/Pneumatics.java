@@ -15,13 +15,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Pneumatics extends SubsystemBase{
   /** Creates a new Pneumactics. */
   Compressor phCompressor = new Compressor(PneumaticsModuleType.REVPH);
-  PowerDistribution pdh = new PowerDistribution(1, ModuleType.kRev);
 
   public Pneumatics() {}
   
   @Override
   public void periodic() {
-    pdh.clearStickyFaults();
     phCompressor.enableAnalog(116, 118);
     SmartDashboard.putNumber("Pressure", phCompressor.getPressure());
   }

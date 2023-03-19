@@ -41,9 +41,9 @@ public class LEDDefault extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(Constants.tuningMode){
-      SmartDashboard.putBoolean("Is vision Mode", m_limelight.inVisionMode());
-    }
+    // if(Constants.tuningMode){
+    //   SmartDashboard.putBoolean("Is vision Mode", m_limelight.inVisionMode());
+    // }
     if(DriverStation.isDisabled()){
       m_led.setRainbow();
     }

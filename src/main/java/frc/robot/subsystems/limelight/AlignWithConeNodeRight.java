@@ -14,8 +14,8 @@ import frc.robot.Constants.LimelightConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.drive.DriveSubsystem;
 
-public class AlignWithGridApril extends CommandBase {
-  /** Creates a new AlignWithNodeApril. */
+public class AlignWithConeNodeRight extends CommandBase {
+  /** Creates a new AlignWithVisionTape. */
   LimelightSubsystem m_limelight;
   DriveSubsystem m_drive;
   PIDController m_pidControllerY, m_pidControllerX;
@@ -25,17 +25,21 @@ public class AlignWithGridApril extends CommandBase {
   double count = 0;
   private PIDController m_thetaController;
 
-
-  public AlignWithGridApril(LimelightSubsystem limelight, DriveSubsystem drive) {
+  /**
+   * 
+   * @param limelight Limelight Subsystem
+   * @param drive DriveSubsystem
+   * @param level Level of the node valid: "mid", "top"
+   */
+  public AlignWithConeNodeRight(LimelightSubsystem limelight, DriveSubsystem drive) {
+    m_limelight = limelight; 
     m_drive = drive;
-    m_limelight = limelight;
-    addRequirements(m_drive, m_limelight);
+    addRequirements(m_limelight, m_drive);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
     m_pidControllerY = new PIDController(LimelightConstants.GAINS_VISION_Y.kP, LimelightConstants.GAINS_VISION_Y.kI, LimelightConstants.GAINS_VISION_Y.kD);
     m_pidControllerY.setIntegratorRange(0.0, LimelightConstants.GAINS_VISION_Y.kIzone);
     m_pidControllerY.setTolerance(LimelightConstants.VISION_POS_TOLLERANCE);
@@ -47,11 +51,12 @@ public class AlignWithGridApril extends CommandBase {
     m_thetaController = new PIDController(SwerveConstants.GAINS_ANGLE_SNAP.kP*2, SwerveConstants.GAINS_ANGLE_SNAP.kI, SwerveConstants.GAINS_ANGLE_SNAP.kD);
         
     m_thetaController.enableContinuousInput(-180, 180);
-
+    // if(Constants.tuningMode){
+    //   SmartDashboard.putNumber("X Error", m_pidControllerX.getPositionError());
+    //   SmartDashboard.putNumber("Y Error", m_pidControllerY.getPositionError());
+    // }
     m_end = false;
-
-    m_limelight.setVisionModeOn();
-  } 
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -66,22 +71,13 @@ public class AlignWithGridApril extends CommandBase {
     double rotationVal = m_thetaController.calculate((MathUtil.inputModulus(m_drive.getYaw().getDegrees(), -180, 180)), 180.0);
     rotationVal = MathUtil.clamp(rotationVal, -SwerveConstants.MAX_ANGULAR_VELOCITY * 0.4, SwerveConstants.MAX_ANGULAR_VELOCITY * 0.4);
 
-    m_pidControllerX.setSetpoint(LimelightConstants.ALIGNED_GRID_APRIL_X);
+    m_pidControllerX.setSetpoint(LimelightConstants.ALIGNED_RIGHT_CONE_X);
     xTrans = m_pidControllerX.calculate(m_limelight.getXFront());
     xTrans = MathUtil.clamp(xTrans, -0.5, 0.5);
 
-    m_pidControllerY.setSetpoint(LimelightConstants.ALIGNED_GRID_APRIL_AREA);
-    yTrans = m_pidControllerY.calculate(m_limelight.getAreaFront());
-    yTrans = MathUtil.clamp(yTrans, -0.5, 0.5);
+    m_drive.drive(new Translation2d(0.0, -xTrans), rotationVal, true, true);
 
-    m_drive.drive(new Translation2d(-yTrans, -xTrans), rotationVal, true, true);
-
-    // if(Constants.tuningMode){
-    //   SmartDashboard.putNumber("X Error", m_pidControllerX.getPositionError());
-    //   SmartDashboard.putNumber("Y Error", m_pidControllerY.getPositionError());
-    // }
-
-    if(m_pidControllerX.atSetpoint() && m_pidControllerY.atSetpoint() && count>50){
+    if(m_pidControllerX.atSetpoint() && count>50){
       m_end = true;
     }
     else{
@@ -89,13 +85,13 @@ public class AlignWithGridApril extends CommandBase {
     }
 
     count++;
+      
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     m_drive.stopDrive();
-    m_limelight.setVisionModeOff();
   }
 
   // Returns true when the command should end.

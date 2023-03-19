@@ -2,14 +2,20 @@ package frc.robot.subsystems.drive;
 
 import frc.robot.Constants;
 import frc.robot.Constants.CanConstants;
+import frc.robot.Constants.NodePoints;
 import frc.robot.Constants.SwerveConstants;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
+import org.littletonrobotics.junction.Logger;
+
 import com.ctre.phoenix.sensors.Pigeon2;
+import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.PathPoint;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 
@@ -21,6 +27,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -35,6 +42,8 @@ public class DriveSubsystem extends SubsystemBase {
     public Field2d m_field;
     private PIDController m_balancePID = new PIDController(SwerveConstants.GAINS_BALANCE.kP, SwerveConstants.GAINS_BALANCE.kI, SwerveConstants.GAINS_BALANCE.kD);
     public SwerveAutoBuilder m_autoBuilder;
+    private int m_selectedNode;
+
     public DriveSubsystem() {
         m_gyro = new Pigeon2(CanConstants.PIGEON2, "drive");
         m_gyro.configFactoryDefault();
@@ -54,6 +63,7 @@ public class DriveSubsystem extends SubsystemBase {
         resetModulesToAbsolute();
 
         swerveOdometry = new SwerveDriveOdometry(SwerveConstants.SWERVE_DRIVE_KINEMATICS, getYaw(), getModulePositions());
+        m_selectedNode = 0;
     }
 
     @Override
@@ -71,11 +81,14 @@ public class DriveSubsystem extends SubsystemBase {
         // SmartDashboard.putNumber("Robot Pitch", getPitch());
         // SmartDashboard.putNumber("Robot Roll", getRoll());
 
-        SmartDashboard.putString("Alliance Color", DriverStation.getAlliance().name());
-
+        //SmartDashboard.putString("Alliance Color", DriverStation.getAlliance().name());
+        Logger.getInstance().recordOutput("Swerve Odometry", swerveOdometry.getPoseMeters());
+            
         swerveOdometry.update(getYaw(), getModulePositions()); 
 
         m_field.setRobotPose(swerveOdometry.getPoseMeters());
+
+        SmartDashboard.putNumber("Selected Node", m_selectedNode);
 
         SmartDashboard.putData("Feild", m_field);
         if(Constants.tuningMode){
@@ -106,6 +119,9 @@ public class DriveSubsystem extends SubsystemBase {
         for(SwerveModule mod : mSwerveMods){
             mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
         }
+
+        Logger.getInstance().recordOutput("Swerve Module States", swerveModuleStates);
+
 
         // SmartDashboard.putNumber("X Translation", translation.getX());
         // SmartDashboard.putNumber("Y Translation", translation.getY());
@@ -177,14 +193,137 @@ public class DriveSubsystem extends SubsystemBase {
             mod.resetToAbsolute();
         }
     }
+    public int getSelectedNodeInt(){
+        return m_selectedNode;
+    }
+
+    public void setSelectedNode(int node){
+        if(node<0){
+            node = 0;
+        }
+        if(node>0){
+            node = 8;
+        }
+        m_selectedNode = node;
+    }
+    public void addOneToSelectedNode(){
+        if(m_selectedNode<8){
+            m_selectedNode++;  
+        }
+    }
+
+    public void subtractOneToSelectedNode(){
+        if(m_selectedNode>1){
+            m_selectedNode--;
+        }
+    }
+    public PathPlannerTrajectory pathToScore(){
+        return  PathPlanner.generatePath(new PathConstraints(1.0, 1.0), 
+        new PathPoint(swerveOdometry.getPoseMeters().getTranslation(), 
+                      swerveOdometry.getPoseMeters().getRotation(),
+                      swerveOdometry.getPoseMeters().getRotation()),
+                      getSelectedNode());
+    }
+    public SequentialCommandGroup followPathToScoreGroup() {
+        PIDController thetaController = new PIDController(2.0, 0, 0);
+        PIDController xController = new PIDController(1.3, 0, 0);
+        PIDController yController = new PIDController(1.2, 0, 0);
+
+        thetaController.enableContinuousInput(-Math.PI, Math.PI);
+
+        return new SequentialCommandGroup(
+             
+             new PPSwerveControllerCommand(
+                 pathToScore(), 
+                 this::getPose, // Pose supplier
+                 SwerveConstants.SWERVE_DRIVE_KINEMATICS, // SwerveDriveKinematics
+                 xController, // X controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
+                 yController, // Y controller (usually the same values as X controller)
+                 thetaController, // Rotation controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
+                 this::setModuleStates,  // Module states consumer
+                 true, //Automatic mirroring
+                 this // Requires this drive subsystem
+             ) 
+             .andThen(() -> stopDrive())
+         );
+     }
+    public PathPoint getSelectedNode(){
+        if(DriverStation.getAlliance() == Alliance.Red){
+            if(m_selectedNode == 0){
+                return NodePoints.ZERO_RED;
+            }
+            else if(m_selectedNode == 1){
+                return NodePoints.ONE_RED;
+            }
+            else if(m_selectedNode == 2){
+                return NodePoints.TWO_RED;
+            }
+            else if(m_selectedNode == 3){
+                return NodePoints.THREE_RED;
+            }
+            else if(m_selectedNode == 4){
+                return NodePoints.FOUR_RED;
+            }
+            else if(m_selectedNode == 5){
+                return NodePoints.FIVE_RED;
+            }
+            else if(m_selectedNode == 6){
+                return NodePoints.SIX_RED;
+            }
+            else if(m_selectedNode == 7){
+                return NodePoints.SEVEN_RED;
+            }
+            else if(m_selectedNode == 8){
+                return NodePoints.EIGHT_RED;
+            }
+            else{
+                return null;
+            }
+        }
+        else if(DriverStation.getAlliance() == Alliance.Blue){
+            if(m_selectedNode == 0){
+                return NodePoints.ZERO_BLUE;
+            }
+            else if(m_selectedNode == 1){
+                return NodePoints.ONE_BLUE;
+            }
+            else if(m_selectedNode == 2){
+                return NodePoints.TWO_BLUE;
+            }
+            else if(m_selectedNode == 3){
+                return NodePoints.THREE_BLUE;
+            }
+            else if(m_selectedNode == 4){
+                return NodePoints.FOUR_BLUE;
+            }
+            else if(m_selectedNode == 5){
+                return NodePoints.FIVE_BLUE;
+            }
+            else if(m_selectedNode == 6){
+                return NodePoints.SIX_BLUE;
+            }
+            else if(m_selectedNode == 7){
+                return NodePoints.SEVEN_BLUE;
+            }
+            else if(m_selectedNode == 8){
+                return NodePoints.EIGHT_BLUE;
+            }
+            else{
+                return null;
+            }
+        }
+        else{
+            return null;
+        }
+    }
 
     public void AutoBalance(){
         m_balancePID.setTolerance(SwerveConstants.BALANCE_TOLLERANCE);
         double pidOutput;
         pidOutput = MathUtil.clamp(m_balancePID.calculate(getRoll(), 0), -1.0, 1.0);
-        if(Constants.tuningMode){
-            SmartDashboard.putNumber("Balance PID", pidOutput);
-        }
+        // if(Constants.tuningMode){
+        //     SmartDashboard.putNumber("Balance PID", pidOutput);
+        // }
         drive(new Translation2d(-pidOutput, 0), 0.0, false, true);
     }
 
