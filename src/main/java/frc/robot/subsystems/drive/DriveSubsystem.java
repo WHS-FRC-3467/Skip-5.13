@@ -181,7 +181,10 @@ public class DriveSubsystem extends SubsystemBase {
    
     public void resetModulesToAbsolute(){
         for(SwerveModule mod : mSwerveMods){
+            for (int i = 0; i < 10; i++) { 
+                
             mod.resetToAbsolute();
+            }
         }
     }
 
