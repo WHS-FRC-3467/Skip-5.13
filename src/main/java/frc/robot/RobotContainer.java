@@ -16,7 +16,6 @@ import frc.robot.subsystems.claw.ClawDefault;
 import frc.robot.subsystems.claw.ClawSubsytem;
 import frc.robot.subsystems.cubeShooter.CubeShooterSubsystem;
 import frc.robot.Constants.ArmSetpoints;
-import frc.robot.auto.OneConeChargeWithCubePickup;
 import frc.robot.auto.OneConeChargeWithMobility;
 import frc.robot.auto.OneConeClose;
 import frc.robot.auto.OneConeFar;
@@ -81,21 +80,14 @@ public class RobotContainer {
     }
     // Configure the trigger bindings
     
-    m_autoChooser.addOption("Test Auto", new TestAuto(m_drive, m_arm, m_claw));
-    m_autoChooser.addOption("OneConeFar", new OneConeFar(m_drive, m_arm, m_claw));
-    m_autoChooser.addOption("OneConeClose", new OneConeClose(m_drive, m_arm, m_claw));
-    m_autoChooser.addOption("OneConeWithCharge", new OneConeWithCharge(m_drive, m_arm, m_claw));
-    m_autoChooser.addOption("Two Game Piece", new TwoPieceAuto(m_drive, m_arm, m_claw));
-    m_autoChooser.addOption("Cone with Charge with mobility", new OneConeChargeWithMobility(m_drive, m_arm, m_claw));
-    m_autoChooser.addOption("Charge Mobility with pickup", new OneConeChargeWithCubePickup(m_drive, m_arm, m_claw));
-    m_autoChooser.addOption("Two piece with charge", new TwoPieceWithCharge(m_drive, m_arm, m_claw));
-    m_autoChooser.addOption("Three piece", new ThreePieceAuto(m_drive, m_arm, m_claw));
-    m_autoChooser.addOption("Two Piece with Cone pickup", new TwoPieceConePickup(m_drive, m_arm, m_claw));
-    m_autoChooser.addOption("Over bump two piece", new OverBumpTwoPiece(m_drive, m_arm, m_claw));
-    m_autoChooser.addOption("V2 Two Piece", new TwoPieceV2(m_drive, m_arm, m_claw));
-    m_autoChooser.addOption("V2 Three Piece", new ThreePieceV2(m_drive, m_arm, m_claw));
-    m_autoChooser.addOption("No Auto", null);
-    SmartDashboard.putData("Auto", m_autoChooser);
+    // m_autoChooser.addOption("Test Auto", new TestAuto(m_drive, m_arm, m_claw));
+    // m_autoChooser.addOption("OneConeFar", new OneConeFar(m_drive, m_arm, m_claw));
+    // m_autoChooser.addOption("OneConeClose", new OneConeClose(m_drive, m_arm, m_claw));
+    // m_autoChooser.addOption("OneConeWithCharge", new OneConeWithCharge(m_drive, m_arm, m_claw));
+    // m_autoChooser.addOption("Two Game Piece", new TwoPieceAuto(m_drive, m_arm, m_claw));
+    // m_autoChooser.addOption("Cone with Charge with mobility", new OneConeChargeWithMobility(m_drive, m_arm, m_claw));
+    // m_autoChooser.addOption("No Auto", null);
+    // SmartDashboard.putData("Auto", m_autoChooser);
     
     //new Pneumatics();
     configureBindings();

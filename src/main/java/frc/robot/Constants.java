@@ -227,7 +227,7 @@ public final class Constants {
     //Arm offsets
     //Midas
     //Measured against the hardstop when claw is over pdh
-    public static final double VERTICAL_ANGLE_UPPER = 47.1;
+    public static final double VERTICAL_ANGLE_UPPER = 47.6;
     //Measured when the lower angle is vertical using 1x1
     public static final double VERTICAL_ANGLE_LOWER = 175.2;
     // //Midnight
