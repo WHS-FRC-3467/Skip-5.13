@@ -7,8 +7,6 @@ import frc.robot.Constants;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.shuffleboard.SendableCameraWrapper;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.HttpCamera;
@@ -46,13 +44,12 @@ public class LimelightSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     //read values periodically
-    SmartDashboard.putData(SendableCameraWrapper.wrap(m_limelightRear));
-    SmartDashboard.putData(SendableCameraWrapper.wrap(m_limelightFront));
+    // SmartDashboard.putData(SendableCameraWrapper.wrap(m_limelightRear));
+    // SmartDashboard.putData(SendableCameraWrapper.wrap(m_limelightFront));
     if(Constants.tuningMode){
-      SmartDashboard.putNumber("X offset", getXFront());
-      SmartDashboard.putNumber("Y offset", getYFront());
-      SmartDashboard.putNumber("Target Area", getAreaFront()); 
-      SmartDashboard.putBoolean("Has target", hasTargetFront());
+      // SmartDashboard.putNumber("X offset", getXFront());
+      // SmartDashboard.putNumber("Y offset", getYFront());
+      // SmartDashboard.putNumber("Target Area", getAreaFront()); 
     }
     
   }

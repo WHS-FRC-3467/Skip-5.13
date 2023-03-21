@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.claw.ClawDefault;
 import frc.robot.subsystems.claw.ClawSubsytem;
+import frc.robot.subsystems.cubeShooter.CubeShooterSubsystem;
 import frc.robot.Constants.ArmSetpoints;
 import frc.robot.auto.OneConeChargeWithCubePickup;
 import frc.robot.auto.OneConeChargeWithMobility;
@@ -63,7 +64,7 @@ public class RobotContainer {
   private final ClawSubsytem m_claw = new ClawSubsytem();
   private final LimelightSubsystem m_limelight = new LimelightSubsystem();
   private final LEDSubsystem m_led = new LEDSubsystem();
-
+  private final CubeShooterSubsystem m_shooter = new CubeShooterSubsystem();
   private SendableChooser<Command> m_autoChooser = new SendableChooser<>();
   
   // private final PoseEstimatorSubsystem m_EstimatorSubsystem = new PoseEstimatorSubsystem(m_limelight, m_drive);
@@ -161,7 +162,9 @@ public class RobotContainer {
 
     m_operatorController.x().onTrue(Commands.runOnce(() -> m_arm.updateAllSetpoints(ArmSetpoints.SUBSTATION)));
 
-    m_operatorController.start().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.FLOOR_HOVER)));
+    m_operatorController.povRight().onTrue(Commands.runOnce(m_shooter::togglePiston));
+    m_operatorController.povDown().whileTrue(Commands.run(()-> m_shooter.shoot(-0.5)).andThen(Commands.run(()-> m_shooter.shoot(0.0))));
+    m_operatorController.povUp().whileTrue(Commands.run(()-> m_shooter.shoot(0.5)).andThen(Commands.run(()-> m_shooter.shoot(0.0))));
   }
 
  

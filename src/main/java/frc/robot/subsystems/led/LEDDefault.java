@@ -42,7 +42,7 @@ public class LEDDefault extends CommandBase {
   @Override
   public void execute() {
     if(Constants.tuningMode){
-      SmartDashboard.putBoolean("Is vision Mode", m_limelight.inVisionMode());
+      // SmartDashboard.putBoolean("Is vision Mode", m_limelight.inVisionMode());
     }
     if(DriverStation.isDisabled()){
       m_led.setRainbow();
