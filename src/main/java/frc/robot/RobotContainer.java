@@ -163,9 +163,10 @@ public class RobotContainer {
 
     m_operatorController.x().onTrue(Commands.runOnce(() -> m_arm.updateAllSetpoints(ArmSetpoints.SUBSTATION)));
 
-    m_operatorController.povRight().onTrue(Commands.runOnce(m_shooter::togglePiston));
-    m_operatorController.povDown().whileTrue(Commands.run(()-> m_shooter.shoot(-0.5)).andThen(Commands.run(()-> m_shooter.shoot(0.0))));
-    m_operatorController.povUp().whileTrue(Commands.run(()-> m_shooter.shoot(0.5)).andThen(Commands.run(()-> m_shooter.shoot(0.0))));
+    m_operatorController.povRight().onTrue(Commands.runOnce(m_shooter::deployShooter));
+    m_operatorController.povLeft().onTrue(Commands.runOnce(m_shooter::retractShooter));
+    m_operatorController.povDown().onTrue(Commands.run(()-> m_shooter.shoot(-0.5)).andThen(Commands.run(()-> m_shooter.shoot(0.0))));
+    m_operatorController.povUp().onTrue(Commands.run(()-> m_shooter.shoot(0.5)).andThen(Commands.run(()-> m_shooter.shoot(0.0))));
   }
 
  
