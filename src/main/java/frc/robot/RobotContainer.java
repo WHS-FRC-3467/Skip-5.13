@@ -14,8 +14,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.claw.ClawDefault;
 import frc.robot.subsystems.claw.ClawSubsytem;
+import frc.robot.subsystems.cubeShooter.CubeShooterSubsystem;
 import frc.robot.Constants.ArmSetpoints;
-import frc.robot.Constants.LimelightConstants;
 import frc.robot.auto.OneConeChargeWithMobility;
 import frc.robot.auto.OneConeClose;
 import frc.robot.auto.OneConeFar;
@@ -57,7 +57,7 @@ public class RobotContainer {
   private final ClawSubsytem m_claw = new ClawSubsytem();
   private final LimelightSubsystem m_limelight = new LimelightSubsystem();
   private final LEDSubsystem m_led = new LEDSubsystem();
-
+  private final CubeShooterSubsystem m_shooter = new CubeShooterSubsystem();
   private SendableChooser<Command> m_autoChooser = new SendableChooser<>();
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -73,14 +73,14 @@ public class RobotContainer {
     }
     // Configure the trigger bindings
     
-    m_autoChooser.addOption("Test Auto", new TestAuto(m_drive, m_arm, m_claw));
-    m_autoChooser.addOption("OneConeFar", new OneConeFar(m_drive, m_arm, m_claw));
-    m_autoChooser.addOption("OneConeClose", new OneConeClose(m_drive, m_arm, m_claw));
-    m_autoChooser.addOption("OneConeWithCharge", new OneConeWithCharge(m_drive, m_arm, m_claw));
-    m_autoChooser.addOption("Two Game Piece", new TwoPieceAuto(m_drive, m_arm, m_claw));
-    m_autoChooser.addOption("Cone with Charge with mobility", new OneConeChargeWithMobility(m_drive, m_arm, m_claw));
-    m_autoChooser.addOption("No Auto", null);
-    SmartDashboard.putData("Auto", m_autoChooser);
+    // m_autoChooser.addOption("Test Auto", new TestAuto(m_drive, m_arm, m_claw));
+    // m_autoChooser.addOption("OneConeFar", new OneConeFar(m_drive, m_arm, m_claw));
+    // m_autoChooser.addOption("OneConeClose", new OneConeClose(m_drive, m_arm, m_claw));
+    // m_autoChooser.addOption("OneConeWithCharge", new OneConeWithCharge(m_drive, m_arm, m_claw));
+    // m_autoChooser.addOption("Two Game Piece", new TwoPieceAuto(m_drive, m_arm, m_claw));
+    // m_autoChooser.addOption("Cone with Charge with mobility", new OneConeChargeWithMobility(m_drive, m_arm, m_claw));
+    // m_autoChooser.addOption("No Auto", null);
+    // SmartDashboard.putData("Auto", m_autoChooser);
     
     //new Pneumatics();
     configureBindings();
@@ -147,8 +147,9 @@ public class RobotContainer {
 
     m_operatorController.x().onTrue(Commands.runOnce(() -> m_arm.updateAllSetpoints(ArmSetpoints.SUBSTATION)));
 
-    m_operatorController.povUp().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.FLOOR_HOVER)));
-    m_operatorController.povDown().onTrue(Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.FLOOR_INTAKING)));
+    m_operatorController.povRight().onTrue(Commands.runOnce(m_shooter::togglePiston));
+    m_operatorController.povDown().whileTrue(Commands.run(()-> m_shooter.shoot(-0.5)).andThen(Commands.run(()-> m_shooter.shoot(0.0))));
+    m_operatorController.povUp().whileTrue(Commands.run(()-> m_shooter.shoot(0.5)).andThen(Commands.run(()-> m_shooter.shoot(0.0))));
   }
 
  
