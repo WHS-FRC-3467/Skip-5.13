@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.claw.ClawDefault;
 import frc.robot.subsystems.claw.ClawSubsytem;
 import frc.robot.subsystems.cubeShooter.CubeShooterSubsystem;
+import frc.robot.subsystems.cubeShooter.Shoot;
 import frc.robot.Constants.ArmSetpoints;
 import frc.robot.auto.OneConeChargeWithCubePickup;
 import frc.robot.auto.OneConeChargeWithMobility;
@@ -124,6 +125,9 @@ public class RobotContainer {
 
     m_led.setDefaultCommand(new LEDDefault(m_led, m_claw, m_limelight));
 
+    m_shooter.setDefaultCommand(new Shoot(m_shooter, 
+                                          ()-> m_driverController.getRightTriggerAxis()));
+
     SmartDashboard.putData("Reset Modules", new InstantCommand(m_drive::resetModulesToAbsolute));
   }
 
@@ -148,6 +152,8 @@ public class RobotContainer {
 
     m_driverController.povLeft().onTrue(Commands.runOnce(m_limelight::setVisionModeOn, m_limelight));
     m_driverController.povRight().onTrue(Commands.runOnce(m_limelight::setVisionModeOff, m_limelight));
+    m_driverController.rightTrigger().onTrue(Commands.runOnce(m_shooter::togglePiston));
+
     //Opperator Controls
     //Set game Piece type 
     m_operatorController.back().onTrue(Commands.runOnce(() -> GamePiece.toggleGamePiece()));
@@ -163,10 +169,10 @@ public class RobotContainer {
 
     m_operatorController.x().onTrue(Commands.runOnce(() -> m_arm.updateAllSetpoints(ArmSetpoints.SUBSTATION)));
 
-    m_operatorController.povRight().onTrue(Commands.runOnce(m_shooter::deployShooter));
-    m_operatorController.povLeft().onTrue(Commands.runOnce(m_shooter::retractShooter));
-    m_operatorController.povDown().onTrue(Commands.run(()-> m_shooter.shoot(-0.5)).andThen(Commands.run(()-> m_shooter.shoot(0.0))));
-    m_operatorController.povUp().onTrue(Commands.run(()-> m_shooter.shoot(0.5)).andThen(Commands.run(()-> m_shooter.shoot(0.0))));
+    m_operatorController.povRight().whileTrue(Commands.run(()-> m_shooter.shoot(-0.5), m_shooter));
+    m_operatorController.povLeft().whileTrue(Commands.run(()-> m_shooter.shoot(-0.75), m_shooter));
+    m_operatorController.povUp().whileTrue(Commands.run(()-> m_shooter.shoot(-1.0), m_shooter));
+    m_operatorController.povDown().whileTrue(Commands.run(()-> m_shooter.shoot(-0.25), m_shooter));
   }
 
  

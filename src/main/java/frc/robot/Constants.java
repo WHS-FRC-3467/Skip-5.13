@@ -70,7 +70,7 @@ public final class Constants {
   public static final class PHConstants{
     public static final int WRIST_CHANNEL = 0;
     public static final int CLAW_CHANNEL = 1;
-    public static final int SHOOTER_CHANNEL = 2;
+    public static final int SHOOTER_CHANNEL = 7;
   }
 
 
@@ -80,13 +80,13 @@ public final class Constants {
 
     // //Midas
     //Mod 0
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 222.1875;
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 222.0;
     //Mod 1
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 186.9433;
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 188.1;
     //Mod 2
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 83.408;
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 83.0;
     //Mod 3
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 178.769;
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 179.1;
 
     // //Mod 2
     //MidNight

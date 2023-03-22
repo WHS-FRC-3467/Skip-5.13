@@ -30,7 +30,7 @@ public class CubeShooterSubsystem extends SubsystemBase {
     m_rightShooter.setNeutralMode(NeutralMode.Brake);
 
     m_rightShooter.follow(m_leftShooter);
-    m_rightShooter.setInverted(TalonFXInvertType.OpposeMaster);
+    m_rightShooter.setInverted(TalonFXInvertType.FollowMaster);
 
     m_rightShooter.configVoltageCompSaturation(13.0);
     m_leftShooter.configVoltageCompSaturation(13.0);
@@ -46,7 +46,9 @@ public class CubeShooterSubsystem extends SubsystemBase {
   public void shoot(double speed){
     m_leftShooter.set(TalonFXControlMode.PercentOutput, speed);
   }
-
+  public void stopShooter(){
+    m_leftShooter.neutralOutput();
+  }
   public void deployShooter(){
     m_shooterPiston.set(true);
   }
