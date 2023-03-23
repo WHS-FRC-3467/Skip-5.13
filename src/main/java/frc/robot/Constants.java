@@ -64,7 +64,7 @@ public final class Constants {
   
   public static final class DIOConstants{
     public static final int LOWER_ENCODER_ARM = 2;
-    public static final int UPPER_ENCODER_ARM = 1;
+    public static final int UPPER_ENCODER_ARM = 3;
   }
 
   public static final class PHConstants{
@@ -79,25 +79,25 @@ public final class Constants {
     public static final double DRIVE_DEADBAND = 0.2;
 
     // //Midas
-    //Mod 0
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 222.0;
-    //Mod 1
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 188.1;
-    //Mod 2
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 83.0;
-    //Mod 3
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 179.1;
+    // //Mod 0
+    // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 222.0;
+    // //Mod 1
+    // public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 188.1;
+    // //Mod 2
+    // public static final double BACK_LEFT_MODULE_STEER_OFFSET = 83.0;
+    // //Mod 3
+    // public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 179.1;
 
     // //Mod 2
     //MidNight
     // //Mod 0
-    //public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 289.2;
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 289.2;
     //Mod 1
-    //public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 76.2;
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 76.2;
     //Mod 2
-    //public static final double BACK_LEFT_MODULE_STEER_OFFSET = 287.9;
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 287.9;
     //Mod 3
-    //public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 207.8;
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 207.8;
 
     public static final boolean INVERT_GYRO = false; // Always ensure Gyro is CCW+ CW-
 
@@ -227,14 +227,14 @@ public final class Constants {
     //Arm offsets
     //Midas
     //Measured against the hardstop when claw is over pdh
-    public static final double VERTICAL_ANGLE_UPPER = 46.8;
-    //Measured when the lower angle is vertical using 1x1
-    public static final double VERTICAL_ANGLE_LOWER = 174.9;
-    // //Midnight
-    // //Measured against the hardstop when claw is over pdh
-    // public static final double VERTICAL_ANGLE_UPPER = 13.4;
+    // public static final double VERTICAL_ANGLE_UPPER = 46.8;
     // //Measured when the lower angle is vertical using 1x1
-    // public static final double VERTICAL_ANGLE_LOWER = 184.3;
+    // public static final double VERTICAL_ANGLE_LOWER = 174.9;
+    // //Midnight
+    //Measured against the hardstop when claw is over pdh
+    public static final double VERTICAL_ANGLE_UPPER = 13.4;
+    //Measured when the lower angle is vertical using 1x1
+    public static final double VERTICAL_ANGLE_LOWER = 184.3;
     
     public static final double LOWER_ANGLE_OFFSET = 179 - VERTICAL_ANGLE_LOWER;
     public static final double UPPER_ANGLE_OFFSET = 12.4 - VERTICAL_ANGLE_UPPER;
