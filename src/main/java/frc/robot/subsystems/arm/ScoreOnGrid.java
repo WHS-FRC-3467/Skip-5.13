@@ -8,17 +8,21 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmSetpoints;
 import frc.robot.subsystems.arm.Setpoint.ArmState;
 import frc.robot.subsystems.arm.Setpoint.ClawState;
+import frc.robot.subsystems.claw.ClawSubsytem;
 import frc.robot.util.GamePiece;
 import frc.robot.util.GamePiece.GamePieceType;
 
 public class ScoreOnGrid extends CommandBase {
   /** Creates a new ScoreOnGrid. */
   ArmSubsystem m_arm;
+  ClawSubsytem m_claw;
   boolean m_end;
   double count;
   boolean upper;
-  public ScoreOnGrid(ArmSubsystem arm) {
+  public ScoreOnGrid(ArmSubsystem arm, ClawSubsytem claw) {
     m_arm = arm;
+    m_claw = claw;
+    addRequirements(m_claw);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -26,7 +30,8 @@ public class ScoreOnGrid extends CommandBase {
   @Override
   public void initialize() {
     if(GamePiece.getGamePiece() == GamePieceType.Cube){
-      m_end = true;
+      m_end = false;
+      m_claw.driveClaw(-0.4);
     }
     else if (m_arm.getSetpoint().state.equals(ArmState.TOP_NODE)){
       m_arm.updateAllSetpoints(ArmSetpoints.TOP_NODE_PLACED);
@@ -47,18 +52,30 @@ public class ScoreOnGrid extends CommandBase {
   public void execute() {
     System.out.println("both at setpoint" + m_arm.bothJointsAtSetpoint());
     System.out.println("end" + m_end);
-    if((m_arm.bothJointsAtSetpoint() && count > 10) || count>200){
-      if(m_arm.getSetpoint().state.equals(ArmState.TOP_NODE_PLACED)){
-        m_arm.updateAllSetpoints(ArmSetpoints.TOP_NODE_PLACED_AND_OPEN);
+    if(GamePiece.getGamePiece() == GamePieceType.Cube){
+      if(count>30){
+        m_end = true;
       }
-      else if (m_arm.getSetpoint().state.equals(ArmState.MID_NODE_PLACED)){
-        m_arm.updateAllSetpoints(ArmSetpoints.MID_NODE_PLACED_AND_OPEN);
+      else{
+        m_claw.driveClaw(-0.6);
+        m_end = false;
       }
-      m_end = true;
     }
-    else{
-      m_end = false;
+    if(GamePiece.getGamePiece() == GamePieceType.Cone){
+      if((m_arm.bothJointsAtSetpoint() && count > 10) || count>200){
+        if(m_arm.getSetpoint().state.equals(ArmState.TOP_NODE_PLACED)){
+          m_arm.updateAllSetpoints(ArmSetpoints.TOP_NODE_PLACED_AND_OPEN);
+        }
+        else if (m_arm.getSetpoint().state.equals(ArmState.MID_NODE_PLACED)){
+          m_arm.updateAllSetpoints(ArmSetpoints.MID_NODE_PLACED_AND_OPEN);
+        }
+        m_end = true;
+      }
+      else{
+        m_end = false;
+      }
     }
+    
     count++;
   }
 
@@ -66,7 +83,6 @@ public class ScoreOnGrid extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_arm.updateClawSetpoint(ClawState.OUT);
-    
   }
 
   // Returns true when the command should end.

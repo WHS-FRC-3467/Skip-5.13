@@ -40,7 +40,7 @@ public class OneConeChargeWithCubePickup extends SequentialCommandGroup {
       Commands.runOnce(() -> GamePiece.setGamePiece(GamePieceType.Cone)),
       new WaitCommand(0.03),
       new GoToPositionWithIntermediate(arm, ArmSetpoints.TOP_NODE),
-      new ScoreAndRetract(arm),
+      new ScoreAndRetract(arm, claw),
       Commands.runOnce(() -> GamePiece.setGamePiece(GamePieceType.Cube)),
       drive.followTrajectoryCommand(path1, true),   
       new WaitCommand(0.03),

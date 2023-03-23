@@ -38,7 +38,7 @@ public class OneConeChargeWithMobility extends SequentialCommandGroup {
           Commands.runOnce(() -> GamePiece.setGamePiece(GamePieceType.Cone)),
           new GoToPositionWithIntermediate(arm, ArmSetpoints.TOP_NODE),
           new WaitCommand(0.1),
-          new ScoreAndRetract(arm),
+          new ScoreAndRetract(arm, claw),
           drive.followTrajectoryCommand(path1, true),
           new RunCommand(drive::AutoBalance, drive).withTimeout(6)
         ),

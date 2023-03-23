@@ -123,7 +123,7 @@ public class RobotContainer {
     m_claw.setDefaultCommand(new ClawDefault(m_claw, ()-> m_operatorController.getLeftTriggerAxis(), 
                                             () -> m_operatorController.getRightTriggerAxis()));
 
-    m_led.setDefaultCommand(new LEDDefault(m_led, m_claw, m_limelight));
+    m_led.setDefaultCommand(new LEDDefault(m_led, m_claw, m_limelight, m_shooter));
 
     m_shooter.setDefaultCommand(new Shoot(m_shooter, 
                                           ()-> m_driverController.getRightTriggerAxis()));
@@ -148,7 +148,7 @@ public class RobotContainer {
     m_driverController.start().whileTrue(Commands.run(m_drive::AutoBalance, m_drive).andThen(m_drive::stopDrive, m_drive));
     m_driverController.back().whileTrue(new AlignWithGridApril(m_limelight, m_drive));
     
-    m_driverController.leftTrigger().onTrue(new ScoreAndRetract(m_arm));
+    m_driverController.leftTrigger().onTrue(new ScoreAndRetract(m_arm, m_claw));
 
     m_driverController.povLeft().onTrue(Commands.runOnce(m_limelight::setVisionModeOn, m_limelight));
     m_driverController.povRight().onTrue(Commands.runOnce(m_limelight::setVisionModeOff, m_limelight));

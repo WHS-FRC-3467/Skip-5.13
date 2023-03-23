@@ -12,7 +12,9 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.CanConstants;
 import frc.robot.Constants.PHConstants;
 
@@ -40,6 +42,9 @@ public class CubeShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    if(Constants.tuningMode){
+      SmartDashboard.putNumber("Shooter Current", shooterCurrent());
+    }
     // This method will be called once per scheduler run
   }
   
@@ -59,5 +64,9 @@ public class CubeShooterSubsystem extends SubsystemBase {
 
   public void togglePiston(){
     m_shooterPiston.toggle();
+  }
+
+  public double shooterCurrent(){
+    return (m_rightShooter.getSupplyCurrent() + m_leftShooter.getSupplyCurrent())/2;
   }
 }

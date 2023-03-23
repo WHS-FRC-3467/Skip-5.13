@@ -6,18 +6,19 @@ package frc.robot.subsystems.arm;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.subsystems.claw.ClawSubsytem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ScoreAndRetract extends SequentialCommandGroup {
   /** Creates a new ScoreOnCode. */
-  public ScoreAndRetract(ArmSubsystem arm) {
+  public ScoreAndRetract(ArmSubsystem arm, ClawSubsytem claw) {
 
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ScoreOnGrid(arm),
+      new ScoreOnGrid(arm, claw),
       new InstantCommand(arm::actuateClawOut),
       new RetractToStowed(arm)
     );

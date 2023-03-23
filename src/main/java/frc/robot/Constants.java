@@ -64,7 +64,7 @@ public final class Constants {
   
   public static final class DIOConstants{
     public static final int LOWER_ENCODER_ARM = 2;
-    public static final int UPPER_ENCODER_ARM = 3;
+    public static final int UPPER_ENCODER_ARM = 1;
   }
 
   public static final class PHConstants{
@@ -227,9 +227,9 @@ public final class Constants {
     //Arm offsets
     //Midas
     //Measured against the hardstop when claw is over pdh
-    public static final double VERTICAL_ANGLE_UPPER = 47.6;
+    public static final double VERTICAL_ANGLE_UPPER = 46.8;
     //Measured when the lower angle is vertical using 1x1
-    public static final double VERTICAL_ANGLE_LOWER = 175.2;
+    public static final double VERTICAL_ANGLE_LOWER = 174.9;
     // //Midnight
     // //Measured against the hardstop when claw is over pdh
     // public static final double VERTICAL_ANGLE_UPPER = 13.4;

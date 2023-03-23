@@ -37,7 +37,7 @@ public class OverBumpTwoPiece extends SequentialCommandGroup {
         Commands.runOnce(() -> GamePiece.setGamePiece(GamePieceType.Cone)),
         new WaitCommand(0.03),
         new GoToPositionWithIntermediate(arm, ArmSetpoints.TOP_NODE),
-        new ScoreAndRetract(arm),
+        new ScoreAndRetract(arm, claw),
         Commands.runOnce(() -> GamePiece.setGamePiece(GamePieceType.Cube)),
         new ParallelCommandGroup(
           drive.followTrajectoryCommand(path1, true).raceWith(Commands.run(()-> claw.driveClaw(0.8), claw)),
