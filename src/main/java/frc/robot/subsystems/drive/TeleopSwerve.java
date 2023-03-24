@@ -3,12 +3,15 @@ package frc.robot.subsystems.drive;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.arm.Setpoint.ArmState;
+import frc.robot.util.GeomUtil;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -24,7 +27,7 @@ public class TeleopSwerve extends CommandBase {
     private BooleanSupplier m_quarterSpeed;
     private BooleanSupplier m_90, m_180, m_270, m_0;
 
-    private double rotationVal, xVal, yVal;
+    private double rotationVal;
     double m_angle = 0d;
     private PIDController m_thetaController;
     private SendableChooser<Double> m_speedChooser;
@@ -81,8 +84,16 @@ public class TeleopSwerve extends CommandBase {
 
         /* Get Values, Deadband*/
         boolean rotateWithButton = m_0.getAsBoolean() || m_90.getAsBoolean() || m_180.getAsBoolean() || m_270.getAsBoolean();
-        xVal = MathUtil.applyDeadband(xSup.getAsDouble() * m_speedChooser.getSelected() , SwerveConstants.DRIVE_DEADBAND);
-        yVal = MathUtil.applyDeadband(ySup.getAsDouble() * m_speedChooser.getSelected(), SwerveConstants.DRIVE_DEADBAND);
+        double x = xSup.getAsDouble();
+        double y = ySup.getAsDouble();    
+                
+        double linearMagnitude = Math.hypot(x, y);
+        Rotation2d linearDirection = new Rotation2d(x, y);
+        linearMagnitude = MathUtil.applyDeadband(linearMagnitude, SwerveConstants.DRIVE_DEADBAND);
+
+        linearMagnitude = Math.copySign(linearMagnitude * linearMagnitude, linearMagnitude);
+        linearMagnitude *= m_speedChooser.getSelected();
+        
         // SmartDashboard.putBoolean("rotate with button", rotateWithButton);
         
         if(rotateWithButton){
@@ -105,19 +116,18 @@ public class TeleopSwerve extends CommandBase {
         }
         else if (!rotateWithButton){
             rotationVal = (MathUtil.applyDeadband(rotationSup.getAsDouble() * m_speedChooser.getSelected(), SwerveConstants.DRIVE_DEADBAND))*0.75;
+            rotationVal = Math.copySign(rotationVal * rotationVal, rotationVal);
         }
-
-
+        
+        
         if(m_quarterSpeed.getAsBoolean()){
-            xVal = xVal*0.25;
-            yVal =yVal*0.25;
+            linearMagnitude *= 0.25;
             if(!rotateWithButton){
                 rotationVal = rotationVal *0.25;
             }
         }
         else if(m_halfSpeed.getAsBoolean()){
-            xVal = xVal*0.5;
-            yVal =yVal*0.5;
+            linearMagnitude *=0.5;
             if(!rotateWithButton){
                 rotationVal = rotationVal *0.5;
             }
@@ -126,25 +136,28 @@ public class TeleopSwerve extends CommandBase {
                 m_arm.getSetpoint().state == ArmState.TOP_NODE || 
                 m_arm.getSetpoint().state == ArmState.MID_NODE_PLACED ||
                 m_arm.getSetpoint().state == ArmState.TOP_NODE_PLACED ||
-                m_arm.getSetpoint().state == ArmState.SUBSTATION 
-                ){
-            xVal = xVal*0.45;
-            yVal =yVal*0.45;
+                m_arm.getSetpoint().state == ArmState.SUBSTATION ){
+            linearMagnitude *= 0.45;
             if(!rotateWithButton){
                 rotationVal = rotationVal *0.45;
             }
         }
         else{
-            xVal = xVal*1.0;
-            yVal =yVal*1.0;
+            linearMagnitude *= 1.0;
             if(!rotateWithButton){
                 rotationVal = rotationVal *1.0;
             } 
         }
         
-
+        
+        // Calcaulate new linear components
+        Translation2d linearVelocity =
+        new Pose2d(new Translation2d(), linearDirection)
+            .transformBy(GeomUtil.translationToTransform(linearMagnitude, 0.0))
+            .getTranslation();
+        
         m_Swerve.drive(
-            new Translation2d(xVal, yVal).times(SwerveConstants.MAX_SPEED), 
+            linearVelocity.times(SwerveConstants.MAX_SPEED), 
             rotationVal * SwerveConstants.MAX_ANGULAR_VELOCITY * 0.9, 
             true,
             false);

@@ -63,10 +63,10 @@
               "_showGlyph": false
             }
           },
-          "2,4": {
+          "4,0": {
             "size": [
-              4,
-              3
+              12,
+              5
             ],
             "content": {
               "_type": "Field",
@@ -79,10 +79,10 @@
               "Visuals/Show Outside Circles": false
             }
           },
-          "4,2": {
+          "2,4": {
             "size": [
               2,
-              2
+              1
             ],
             "content": {
               "_type": "Boolean Box",
@@ -202,7 +202,7 @@
               "_showGlyph": false
             }
           },
-          "18,8": {
+          "12,8": {
             "size": [
               2,
               1
@@ -217,46 +217,7 @@
               "Colors/Color when false": "#8B0000FF"
             }
           },
-          "10,7": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/limelight-front_Interface",
-              "_title": "limelight-front_Interface",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "8,7": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/limelight-front_PipelineName",
-              "_title": "limelight-front_PipelineName",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "12,7": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/limelight-front_Stream",
-              "_title": "limelight-front_Stream",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "4,0": {
+          "2,5": {
             "size": [
               2,
               2
@@ -269,7 +230,7 @@
               "_showGlyph": false
             }
           },
-          "6,6": {
+          "16,0": {
             "size": [
               2,
               1
@@ -282,7 +243,7 @@
               "_showGlyph": false
             }
           },
-          "8,6": {
+          "16,1": {
             "size": [
               2,
               1
@@ -295,7 +256,7 @@
               "_showGlyph": false
             }
           },
-          "10,6": {
+          "16,2": {
             "size": [
               2,
               1
@@ -308,7 +269,7 @@
               "_showGlyph": false
             }
           },
-          "12,6": {
+          "16,3": {
             "size": [
               2,
               1
@@ -321,9 +282,9 @@
               "_showGlyph": false
             }
           },
-          "18,4": {
+          "4,6": {
             "size": [
-              2,
+              3,
               1
             ],
             "content": {
@@ -334,9 +295,9 @@
               "_showGlyph": false
             }
           },
-          "18,5": {
+          "4,5": {
             "size": [
-              2,
+              3,
               1
             ],
             "content": {
@@ -347,7 +308,7 @@
               "_showGlyph": false
             }
           },
-          "16,6": {
+          "9,6": {
             "size": [
               2,
               1
@@ -360,7 +321,7 @@
               "_showGlyph": false
             }
           },
-          "18,6": {
+          "9,5": {
             "size": [
               2,
               1
@@ -373,7 +334,7 @@
               "_showGlyph": false
             }
           },
-          "14,6": {
+          "7,6": {
             "size": [
               2,
               1
@@ -386,7 +347,7 @@
               "_showGlyph": false
             }
           },
-          "14,7": {
+          "7,5": {
             "size": [
               2,
               1
@@ -399,7 +360,7 @@
               "_showGlyph": false
             }
           },
-          "16,7": {
+          "4,8": {
             "size": [
               2,
               1
@@ -412,7 +373,7 @@
               "_showGlyph": false
             }
           },
-          "18,7": {
+          "6,8": {
             "size": [
               2,
               1
@@ -451,7 +412,7 @@
               "_showGlyph": false
             }
           },
-          "4,8": {
+          "13,5": {
             "size": [
               2,
               1
@@ -464,7 +425,7 @@
               "_showGlyph": false
             }
           },
-          "6,8": {
+          "11,5": {
             "size": [
               2,
               1
@@ -477,7 +438,7 @@
               "_showGlyph": false
             }
           },
-          "8,8": {
+          "13,6": {
             "size": [
               2,
               1
@@ -490,7 +451,7 @@
               "_showGlyph": false
             }
           },
-          "10,8": {
+          "11,6": {
             "size": [
               2,
               1
@@ -503,20 +464,7 @@
               "_showGlyph": false
             }
           },
-          "12,8": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/limelight-rear_PipelineName",
-              "_title": "limelight-rear_PipelineName",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "14,8": {
+          "8,8": {
             "size": [
               2,
               1
@@ -529,7 +477,7 @@
               "_showGlyph": false
             }
           },
-          "16,8": {
+          "10,8": {
             "size": [
               2,
               1
@@ -542,46 +490,34 @@
               "_showGlyph": false
             }
           },
-          "6,0": {
+          "14,8": {
             "size": [
-              6,
-              6
+              2,
+              1
             ],
             "content": {
-              "_type": "Camera Stream",
-              "_source0": "camera_server://limelight-front",
-              "_title": "limelight-front",
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/Has target",
+              "_title": "Has target",
               "_glyph": 148,
               "_showGlyph": false,
-              "Crosshair/Show crosshair": true,
-              "Crosshair/Crosshair color": "#FFFFFFFF",
-              "Controls/Show controls": true,
-              "Controls/Rotation": "NONE",
-              "compression": -1.0,
-              "fps": -1,
-              "imageWidth": 0,
-              "imageHeight": 0
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
             }
           },
-          "12,0": {
+          "20,0": {
             "size": [
-              6,
-              6
+              2,
+              2
             ],
             "content": {
-              "_type": "Camera Stream",
-              "_source0": "camera_server://limelight-rear",
-              "_title": "limelight-rear",
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/Is vision Mode",
+              "_title": "Is vision Mode",
               "_glyph": 148,
               "_showGlyph": false,
-              "Crosshair/Show crosshair": true,
-              "Crosshair/Crosshair color": "#FFFFFFFF",
-              "Controls/Show controls": true,
-              "Controls/Rotation": "NONE",
-              "compression": -1.0,
-              "fps": -1,
-              "imageWidth": 0,
-              "imageHeight": 0
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
             }
           }
         }

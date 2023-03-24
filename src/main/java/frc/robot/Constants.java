@@ -232,7 +232,7 @@ public final class Constants {
     // public static final double VERTICAL_ANGLE_LOWER = 174.9;
     // //Midnight
     //Measured against the hardstop when claw is over pdh
-    public static final double VERTICAL_ANGLE_UPPER = 13.4;
+    public static final double VERTICAL_ANGLE_UPPER = 20.0;
     //Measured when the lower angle is vertical using 1x1
     public static final double VERTICAL_ANGLE_LOWER = 184.3;
     
@@ -299,7 +299,7 @@ public final class Constants {
     public static final Setpoint TEST_SETPOINT_HIGHER = new Setpoint(191, 35, true, ClawState.IN, 191, 35, true, ClawState.OUT, ArmState.OTHER);
     public static final Setpoint TEST_SETPOINT_LOWER = new Setpoint(164, 65, true, ClawState.IN, 164, 65, true, ClawState.OUT, ArmState.OTHER);
 
-    public static final Setpoint STOWED = new Setpoint(180, 13, false, ClawState.IN, 180, 13, false, ClawState.OUT, ArmState.STOWED);
+    public static final Setpoint STOWED = new Setpoint(180, 15, false, ClawState.IN, 180, 13, false, ClawState.OUT, ArmState.STOWED);
 
     public static final Setpoint FLOOR = new Setpoint(240, 48, true, ClawState.IN, 240, 48, true, ClawState.OUT, ArmState.FLOOR);
     public static final Setpoint MID_NODE = new Setpoint(182, 97, false, ClawState.IN, 165, 57, false, ClawState.OUT, ArmState.MID_NODE);
