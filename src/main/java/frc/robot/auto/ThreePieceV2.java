@@ -30,11 +30,11 @@ public class ThreePieceV2 extends SequentialCommandGroup {
   /** Creates a new ThreePieceAuto. */
   public ThreePieceV2(DriveSubsystem drive, ArmSubsystem arm, ClawSubsytem claw) {
     PathPlannerTrajectory path1 = PathPlanner.loadPath("TwoPiecePart1v2", new PathConstraints(2.5, 4.0));
-    PathPlannerTrajectory path2 = PathPlanner.loadPath("TwoPiecePart2v2", new PathConstraints(3.5, 6.0));
+    PathPlannerTrajectory path2 = PathPlanner.loadPath("TwoPiecePart2v2", new PathConstraints(3.5, 4.0));
     PathPlannerTrajectory path3 = PathPlanner.loadPath("TwoPiecePart3v2", new PathConstraints(4.0, 6.0));
     PathPlannerTrajectory path4 = PathPlanner.loadPath("TwoPiecePart4v2", new PathConstraints(2.5, 4.0));
     PathPlannerTrajectory path5 = PathPlanner.loadPath("ThreePiecePart5v2", new PathConstraints(2.5, 4.0));
-    PathPlannerTrajectory path6 = PathPlanner.loadPath("ThreePiecePart6v2", new PathConstraints(4.0, 6.0));
+    PathPlannerTrajectory path6 = PathPlanner.loadPath("ThreePiecePart6v2", new PathConstraints(4.0, 4.0));
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
@@ -73,7 +73,7 @@ public class ThreePieceV2 extends SequentialCommandGroup {
         new ParallelDeadlineGroup(
           drive.followTrajectoryCommand(path6, false).raceWith(Commands.run(()-> claw.driveClaw(1.0), claw)),
           new SequentialCommandGroup(
-            new WaitCommand(0.5),
+            new WaitCommand(0.25),
             Commands.runOnce(() -> arm.updateAllSetpoints(ArmSetpoints.FLOOR))
           )
         ),

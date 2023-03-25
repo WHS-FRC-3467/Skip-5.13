@@ -137,9 +137,9 @@ public class TeleopSwerve extends CommandBase {
                 m_arm.getSetpoint().state == ArmState.MID_NODE_PLACED ||
                 m_arm.getSetpoint().state == ArmState.TOP_NODE_PLACED ||
                 m_arm.getSetpoint().state == ArmState.SUBSTATION ){
-            linearMagnitude *= 0.45;
+            linearMagnitude *= 0.5;
             if(!rotateWithButton){
-                rotationVal = rotationVal *0.45;
+                rotationVal = rotationVal *0.5;
             }
         }
         else{

@@ -232,9 +232,9 @@ public final class Constants {
     // public static final double VERTICAL_ANGLE_LOWER = 174.9;
     // //Midnight
     //Measured against the hardstop when claw is over pdh
-    public static final double VERTICAL_ANGLE_UPPER = 20.0;
+    public static final double VERTICAL_ANGLE_UPPER = 20.7;
     //Measured when the lower angle is vertical using 1x1
-    public static final double VERTICAL_ANGLE_LOWER = 184.3;
+    public static final double VERTICAL_ANGLE_LOWER = 182.6;
     
     public static final double LOWER_ANGLE_OFFSET = 179 - VERTICAL_ANGLE_LOWER;
     public static final double UPPER_ANGLE_OFFSET = 12.4 - VERTICAL_ANGLE_UPPER;
@@ -245,10 +245,10 @@ public final class Constants {
     // public static final  Gains GAINS_LOWER_JOINT  = new Gains(0.02, 0.0, 0.0, 0.00, 50);
     //Gains
     public static final  Gains GAINS_UPPER_JOINT = new Gains(0.025, 0.0, 0.0, 0.0, 50);
-    public static final  Gains GAINS_LOWER_JOINT  = new Gains(0.035, 0.0, 0.0, 0.00, 50);
+    public static final  Gains GAINS_LOWER_JOINT  = new Gains(0.025, 0.0, 0.0, 0.00, 50);
     
     //PID Tollerance in Degrees
-    public static final double TOLERANCE_POS = 4.0;
+    public static final double TOLERANCE_POS = 10.0;
 
     //Upper joint Config
     public static final double UPPER_LENGTH = 1.07;
@@ -284,10 +284,10 @@ public final class Constants {
     public final static int TIMEOUT = 10;
 
     // Profiled PID Constants
-    public static final double LOWER_CRUISE = 195.0;
-    public static final double LOWER_ACCELERATION = 255.0;
+    public static final double LOWER_CRUISE = 300.0;
+    public static final double LOWER_ACCELERATION = 220.0;
 
-    public static final double UPPER_CRUISE = 195.0;
+    public static final double UPPER_CRUISE = 300.0;
     public static final double UPPER_ACCELERATION = 255.0;
 
     //Duty cycle constants
@@ -301,16 +301,16 @@ public final class Constants {
 
     public static final Setpoint STOWED = new Setpoint(180, 15, false, ClawState.IN, 180, 13, false, ClawState.OUT, ArmState.STOWED);
 
-    public static final Setpoint FLOOR = new Setpoint(240, 48, true, ClawState.IN, 240, 48, true, ClawState.OUT, ArmState.FLOOR);
+    public static final Setpoint FLOOR = new Setpoint(238.5, 48, true, ClawState.IN, 240, 48, true, ClawState.OUT, ArmState.FLOOR);
     public static final Setpoint MID_NODE = new Setpoint(182, 97, false, ClawState.IN, 165, 57, false, ClawState.OUT, ArmState.MID_NODE);
     public static final Setpoint MID_NODE_PLACED = new Setpoint(188, 80, false, ClawState.IN, 192, 69, false, ClawState.OUT, ArmState.MID_NODE_PLACED);
     public static final Setpoint MID_NODE_PLACED_AND_OPEN = new Setpoint(188, 80, false, ClawState.OUT, 192, 69, false, ClawState.OUT, ArmState.MID_NODE_PLACED);
     public static final Setpoint TOP_NODE = new Setpoint(219, 159, false, ClawState.IN, 198, 118, false, ClawState.OUT, ArmState.TOP_NODE);
     public static final Setpoint TOP_NODE_PLACED = new Setpoint(219, 140, false, ClawState.IN, 211, 118, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
     public static final Setpoint TOP_NODE_PLACED_AND_OPEN = new Setpoint(219, 140, false, ClawState.OUT, 213, 115, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
-    public static final Setpoint SUBSTATION = new Setpoint(160.5, 65, false, ClawState.IN, 160, 66, false, ClawState.OUT, ArmState.SUBSTATION);
+    public static final Setpoint SUBSTATION = new Setpoint(160, 68, false, ClawState.IN, 160, 68, false, ClawState.OUT, ArmState.SUBSTATION);
     public static final Setpoint FLOOR_HOVER = new Setpoint(188, 45, false, ClawState.IN, 188, 45, false, ClawState.OUT, ArmState.OTHER);
-    public static final Setpoint FLOOR_INTAKING = new Setpoint(216, 37, false, ClawState.IN, 221, 45, false, ClawState.OUT, ArmState.FLOOR);
+    public static final Setpoint FLOOR_INTAKING = new Setpoint(216, 37, false, ClawState.IN, 218, 45, false, ClawState.OUT, ArmState.FLOOR);
     
     public static final double INTERMEDIATE_LOWER_POSITION_RETRACTING = 158;
     public static final double INTERMEDIATE_LOWER_POSITION_SCORING = 150;

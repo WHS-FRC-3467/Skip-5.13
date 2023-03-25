@@ -49,8 +49,8 @@ public class LEDDefault extends CommandBase {
     if(DriverStation.isDisabled()){
       m_led.setRainbow();
     }
-    else if(m_claw.getClawCurrent()>=ClawConstants.CLAW_SPIKE_CURRENT || m_shooter.shooterCurrent()>1.0){
-      m_led.setColor(122, 249, 240);
+    else if(m_claw.getClawCurrent()>=ClawConstants.CLAW_SPIKE_CURRENT || m_shooter.shooterCurrent()>5.0){
+      m_led.setColor(255, 0, 0);
     }
     else if(m_limelight.inVisionMode()){
       m_led.setColor(0, 0, 0);

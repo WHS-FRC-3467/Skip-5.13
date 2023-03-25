@@ -24,11 +24,8 @@ import frc.robot.auto.OneConeFar;
 import frc.robot.auto.OneConeWithCharge;
 import frc.robot.auto.OverBumpTwoPiece;
 import frc.robot.auto.TestAuto;
-import frc.robot.auto.ThreePieceAuto;
 import frc.robot.auto.ThreePieceV2;
 import frc.robot.auto.TwoPieceAuto;
-import frc.robot.auto.TwoPieceConePickup;
-import frc.robot.auto.TwoPieceV2;
 import frc.robot.auto.TwoPieceWithCharge;
 import frc.robot.subsystems.arm.ArmDefault;
 import frc.robot.subsystems.arm.ArmSubsystem;
@@ -85,18 +82,17 @@ public class RobotContainer {
     m_autoChooser.addOption("Test Auto", new TestAuto(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("OneConeFar", new OneConeFar(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("OneConeClose", new OneConeClose(m_drive, m_arm, m_claw));
-    m_autoChooser.addOption("OneConeWithCharge", new OneConeWithCharge(m_drive, m_arm, m_claw));
+    m_autoChooser.addOption("Cone and Just charge", new OneConeWithCharge(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("Two Game Piece", new TwoPieceAuto(m_drive, m_arm, m_claw));
-    m_autoChooser.addOption("Cone with Charge with mobility", new OneConeChargeWithMobility(m_drive, m_arm, m_claw));
-    m_autoChooser.addOption("Charge Mobility with pickup", new OneConeChargeWithCubePickup(m_drive, m_arm, m_claw));
+    m_autoChooser.addOption("Charge and mobility", new OneConeChargeWithMobility(m_drive, m_arm, m_claw));
+    m_autoChooser.addOption("Charge with cube pickup", new OneConeChargeWithCubePickup(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("Two piece with charge", new TwoPieceWithCharge(m_drive, m_arm, m_claw));
-    m_autoChooser.addOption("Three piece", new ThreePieceAuto(m_drive, m_arm, m_claw));
-    m_autoChooser.addOption("Two Piece with Cone pickup", new TwoPieceConePickup(m_drive, m_arm, m_claw));
+    //m_autoChooser.addOption("Three piece", new ThreePieceAuto(m_drive, m_arm, m_claw));
+    //m_autoChooser.addOption("Two Piece with Cone pickup", new TwoPieceConePickup(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("Over bump two piece", new OverBumpTwoPiece(m_drive, m_arm, m_claw));
-    m_autoChooser.addOption("V2 Two Piece", new TwoPieceV2(m_drive, m_arm, m_claw));
-    m_autoChooser.addOption("V2 Three Piece", new ThreePieceV2(m_drive, m_arm, m_claw));
+    //m_autoChooser.addOption("V2 Two Piece", new TwoPieceV2(m_drive, m_arm, m_claw));
+    m_autoChooser.addOption("Three Piece", new ThreePieceV2(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("No Auto", null);
-    SmartDashboard.putData("Auto", m_autoChooser);
     SmartDashboard.putData("Auto", m_autoChooser);
     
     //new Pneumatics();
@@ -152,11 +148,11 @@ public class RobotContainer {
 
     m_driverController.povLeft().onTrue(Commands.runOnce(m_limelight::setVisionModeOn, m_limelight));
     m_driverController.povRight().onTrue(Commands.runOnce(m_limelight::setVisionModeOff, m_limelight));
-    m_driverController.rightTrigger().onTrue(Commands.runOnce(m_shooter::togglePiston));
 
     //Opperator Controls
     //Set game Piece type 
-    m_operatorController.back().onTrue(Commands.runOnce(() -> GamePiece.toggleGamePiece()));
+    m_operatorController.back().onTrue (Commands.runOnce(() -> GamePiece.toggleGamePiece()));
+    m_operatorController.start().onTrue (Commands.runOnce( () -> m_arm.updateAllSetpoints(ArmSetpoints.FLOOR_HOVER)));
 
     //Set arm positions
     m_operatorController.rightBumper().onTrue(new RetractToStowed(m_arm));
@@ -170,9 +166,9 @@ public class RobotContainer {
     m_operatorController.x().onTrue(Commands.runOnce(() -> m_arm.updateAllSetpoints(ArmSetpoints.SUBSTATION)));
 
     m_operatorController.povRight().whileTrue(Commands.run(()-> m_shooter.shoot(-0.5), m_shooter));
-    m_operatorController.povLeft().whileTrue(Commands.run(()-> m_shooter.shoot(-0.75), m_shooter));
+    m_operatorController.povLeft().whileTrue(Commands.run(()-> m_shooter.shoot(0.3), m_shooter));
     m_operatorController.povUp().whileTrue(Commands.run(()-> m_shooter.shoot(-1.0), m_shooter));
-    m_operatorController.povDown().whileTrue(Commands.run(()-> m_shooter.shoot(-0.25), m_shooter));
+    m_operatorController.povDown().whileTrue(Commands.run(()-> m_shooter.shoot(-0.15), m_shooter));
   }
 
  
