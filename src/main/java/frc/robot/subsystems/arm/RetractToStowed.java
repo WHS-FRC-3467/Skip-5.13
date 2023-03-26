@@ -11,7 +11,16 @@ import frc.robot.subsystems.arm.Setpoint.ClawState;
 
 public class RetractToStowed extends CommandBase {
   ArmSubsystem arm;
-  Setpoint intermediate;
+  Setpoint intermediate = new Setpoint(
+    ArmSetpoints.STOWED.lowerCone,
+    ArmSetpoints.STOWED.upperCone,
+    true,
+    ClawState.IN,
+    ArmSetpoints.STOWED.lowerCube,
+    ArmSetpoints.STOWED.upperCube,
+    true,
+    ClawState.OUT,
+    ArmState.INTERMEDIATE);
   boolean m_end = false;
   double count;
   /** Creates a new RetractToStow. */

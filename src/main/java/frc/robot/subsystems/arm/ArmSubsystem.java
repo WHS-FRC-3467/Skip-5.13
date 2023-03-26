@@ -192,6 +192,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void updateAllSetpoints(Setpoint setpoint) {
     m_setpoint = setpoint;
+    try{
     if (GamePiece.getGamePiece() == GamePieceType.Cone) {
       updateUpperSetpoint(setpoint.upperCone);
       updateLowerSetpoint(setpoint.lowerCone);
@@ -203,6 +204,9 @@ public class ArmSubsystem extends SubsystemBase {
       updateWristSetpoint(setpoint.wristCube);
       updateClawSetpoint(setpoint.clawCube);
     }
+  } catch (NullPointerException npe){
+     System.out.println(npe);
+  }
   }
 
   public Vector<N2> calculateFeedforwards() {
