@@ -10,6 +10,7 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -32,6 +33,7 @@ public class TeleopSwerve extends CommandBase {
     private PIDController m_thetaController;
     private SendableChooser<Double> m_speedChooser;
     ArmSubsystem m_arm;
+    private SlewRateLimiter m_limiter = new SlewRateLimiter(0.25);
   
     /**
      * 
@@ -84,8 +86,8 @@ public class TeleopSwerve extends CommandBase {
 
         /* Get Values, Deadband*/
         boolean rotateWithButton = m_0.getAsBoolean() || m_90.getAsBoolean() || m_180.getAsBoolean() || m_270.getAsBoolean();
-        double x = xSup.getAsDouble();
-        double y = ySup.getAsDouble();    
+        double x = m_limiter.calculate(xSup.getAsDouble());
+        double y = m_limiter.calculate(ySup.getAsDouble());
                 
         double linearMagnitude = Math.hypot(x, y);
         Rotation2d linearDirection = new Rotation2d(x, y);

@@ -1,5 +1,6 @@
 package frc.robot.subsystems.drive;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -10,7 +11,6 @@ import frc.robot.util.Conversions;
 import frc.robot.util.SwerveModuleConstants;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
 
@@ -24,6 +24,7 @@ public class SwerveModule {
     private TalonFX mDriveMotor;
     private CANCoder angleEncoder;
 
+    PIDController m_speedController = new PIDController(SwerveConstants.GAINS_DRIVE_MOTOR.kP, SwerveConstants.GAINS_DRIVE_MOTOR.kI, SwerveConstants.GAINS_DRIVE_MOTOR.kD, SwerveConstants.GAINS_DRIVE_MOTOR.kF);
     SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(SwerveConstants.DRIVE_KS, SwerveConstants.DRIVE_KV, SwerveConstants.DRIVE_KA);
 
     public SwerveModule(int moduleNumber, SwerveModuleConstants moduleConstants){
@@ -64,7 +65,8 @@ public class SwerveModule {
         }
         else{
             double velocity = Conversions.MPSToFalcon(desiredState.speedMetersPerSecond, SwerveConstants.WHEEL_CIRCUMFRENCE, SwerveConstants.DRIVE_GEAR_RATIO);
-            mDriveMotor.set(ControlMode.Velocity, velocity, DemandType.ArbitraryFeedForward, feedforward.calculate(desiredState.speedMetersPerSecond));
+            double speed = m_speedController.calculate(mDriveMotor.getSelectedSensorVelocity(), velocity);
+            mDriveMotor.set(ControlMode.PercentOutput, speed/6380.0);
         }
     }
 
