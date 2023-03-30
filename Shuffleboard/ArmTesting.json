@@ -545,6 +545,32 @@
               "_glyph": 148,
               "_showGlyph": false
             }
+          },
+          "18,2": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/X Error",
+              "_title": "X Error",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "18,3": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Y Error",
+              "_title": "Y Error",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
           }
         }
       }
