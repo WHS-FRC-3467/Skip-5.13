@@ -35,8 +35,8 @@ public class GoToMidNode extends CommandBase {
       useIntermediete = false;
     }
     
-    intermediateSetpoint = new Setpoint(ArmSetpoints.INTERMEDIATE_LOWER_POSITION_SCORING, ArmSetpoints.MID_NODE.upperCone * 0.55, ArmSetpoints.MID_NODE.wristCone, ClawState.IN,
-                                        ArmSetpoints.INTERMEDIATE_LOWER_POSITION_SCORING, (ArmSetpoints.MID_NODE.upperCube) * 0.55, ArmSetpoints.MID_NODE.wristCube, ClawState.OUT,
+    intermediateSetpoint = new Setpoint(ArmSetpoints.INTERMEDIATE_LOWER_POSITION_MID_CONE, ArmSetpoints.MID_NODE.upperCone, ArmSetpoints.MID_NODE.wristCone, ClawState.IN,
+                                        ArmSetpoints.INTERMEDIATE_LOWER_POSITION_MID_CONE, (ArmSetpoints.MID_NODE.upperCube), ArmSetpoints.MID_NODE.wristCube, ClawState.OUT,
                                         ArmState.INTERMEDIATE);
     if(useIntermediete){
       m_arm.updateAllSetpoints(intermediateSetpoint);
@@ -53,8 +53,8 @@ public class GoToMidNode extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intermediateSetpoint = new Setpoint(ArmSetpoints.INTERMEDIATE_LOWER_POSITION_SCORING, ArmSetpoints.MID_NODE.upperCone * 0.55, ArmSetpoints.MID_NODE.wristCone, ClawState.IN,
-                                        ArmSetpoints.INTERMEDIATE_LOWER_POSITION_SCORING, (ArmSetpoints.MID_NODE.upperCube) * 0.55, ArmSetpoints.MID_NODE.wristCube, ClawState.OUT,
+    intermediateSetpoint = new Setpoint(ArmSetpoints.INTERMEDIATE_LOWER_POSITION_MID_CONE, ArmSetpoints.MID_NODE.upperCone, ArmSetpoints.MID_NODE.wristCone, ClawState.IN,
+                                        ArmSetpoints.INTERMEDIATE_LOWER_POSITION_MID_CONE, (ArmSetpoints.MID_NODE.upperCube), ArmSetpoints.MID_NODE.wristCube, ClawState.OUT,
                                         ArmState.INTERMEDIATE);
 
     if(useIntermediete && count>10){
