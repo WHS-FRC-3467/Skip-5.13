@@ -13,11 +13,11 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Constants.ArmSetpoints;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.arm.GoToPositionWithIntermediate;
 import frc.robot.subsystems.arm.RetractToStowed;
-import frc.robot.subsystems.arm.ScoreAndRetract;
 import frc.robot.subsystems.claw.ClawSubsytem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.util.GamePiece;
@@ -29,33 +29,44 @@ import frc.robot.util.GamePiece.GamePieceType;
 public class TwoPieceWithCharge extends SequentialCommandGroup {
   /** Creates a new TwoPieceWithCharge. */
   public TwoPieceWithCharge(DriveSubsystem drive, ArmSubsystem arm, ClawSubsytem claw) {
-    PathPlannerTrajectory path1 = PathPlanner.loadPath("TwoPiecePart1", new PathConstraints(3.5, 6.0));
-    PathPlannerTrajectory path2 = PathPlanner.loadPath("TwoPiecePart3", new PathConstraints(3.5, 6.0));
-    PathPlannerTrajectory path3 = PathPlanner.loadPath("TwoPiecewithChargePart4", new PathConstraints(4.0, 6.0));
+    PathPlannerTrajectory path1 = PathPlanner.loadPath("TwoPiecePart1", new PathConstraints(2.0, 1.0));
+    PathPlannerTrajectory path2 = PathPlanner.loadPath("TwoPiecePart2", new PathConstraints(3.5, 6.0));
+    PathPlannerTrajectory path3 = PathPlanner.loadPath("TwoPiecePart3", new PathConstraints(3.5, 6.0));
+    PathPlannerTrajectory path4 = PathPlanner.loadPath("TwoPiecePart4", new PathConstraints(2.0, 2.0));
+    PathPlannerTrajectory path5 = PathPlanner.loadPath("TwoPiecewithChargePart4", new PathConstraints(4.0, 6.0));
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-        Commands.runOnce(() -> GamePiece.setGamePiece(GamePieceType.Cone)),
-        new WaitCommand(0.03),
-        new GoToPositionWithIntermediate(arm, ArmSetpoints.TOP_NODE),
-        new ScoreAndRetract(arm, claw),
-        Commands.runOnce(() -> GamePiece.setGamePiece(GamePieceType.Cube)),
-        new ParallelCommandGroup(
-          drive.followTrajectoryCommand(path1, true).raceWith(Commands.run(()-> claw.driveClaw(0.8), claw)),
-          new SequentialCommandGroup(
-            new WaitCommand(0.8),
-            Commands.runOnce(() -> arm.updateAllSetpoints(ArmSetpoints.FLOOR))
-          )
-        ),
-        new WaitCommand(0.03),
-        new ParallelDeadlineGroup(
-          drive.followTrajectoryCommand(path2, false),
-          new RetractToStowed(arm)
-        ),
-        new GoToPositionWithIntermediate(arm, ArmSetpoints.TOP_NODE),
-        new RetractToStowed(arm).raceWith(Commands.run(()-> claw.driveClaw(-0.5))),
+      Commands.runOnce(() -> GamePiece.setGamePiece(GamePieceType.Cone)),
+      new WaitCommand(0.02),
+      new GoToPositionWithIntermediate(arm, ArmSetpoints.TOP_NODE),
+      Commands.runOnce(() -> arm.updateAllSetpoints(ArmSetpoints.TOP_NODE_PLACED)),
+      new WaitCommand(0.02),
+      new WaitUntilCommand(arm::bothJointsAtSetpoint),
+      Commands.runOnce(() -> arm.updateAllSetpoints(ArmSetpoints.TOP_NODE_PLACED_AND_OPEN)),
+      Commands.runOnce(() -> GamePiece.setGamePiece(GamePieceType.Cube)),
+      new WaitUntilCommand(arm::bothJointsAtSetpoint),
+      drive.followTrajectoryCommand(path1, true).alongWith(new RetractToStowed(arm)),
+      new ParallelCommandGroup(
+        drive.followTrajectoryCommand(path2, false).raceWith(Commands.run(()-> claw.driveClaw(0.8), claw)),
+        new SequentialCommandGroup(
+          new WaitCommand(0.5),
+          Commands.runOnce(() -> arm.updateAllSetpoints(ArmSetpoints.FLOOR))
+        )
+      ),
+      new WaitCommand(0.02),
+      new ParallelDeadlineGroup(
         drive.followTrajectoryCommand(path3, false),
-        Commands.run(drive::AutoBalance, drive)
+        new RetractToStowed(arm)
+      ),
+      new ParallelDeadlineGroup(
+        drive.followTrajectoryCommand(path4, false),
+        new GoToPositionWithIntermediate(arm, ArmSetpoints.TOP_NODE)
+      ),
+      Commands.run(()-> claw.driveClaw(-0.5)).withTimeout(0.1),
+      new RetractToStowed(arm).raceWith(Commands.run(()-> claw.driveClaw(-0.5))),
+      drive.followTrajectoryCommand(path5, false),
+      Commands.run(drive::AutoBalance, drive)
     );
   }
 }

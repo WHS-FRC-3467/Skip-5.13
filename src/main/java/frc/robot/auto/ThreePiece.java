@@ -26,21 +26,25 @@ import frc.robot.util.GamePiece.GamePieceType;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class TwoPieceV2 extends SequentialCommandGroup {
-  /** Creates a new TwoPieceV2. */
-  public TwoPieceV2(DriveSubsystem drive, ArmSubsystem arm, ClawSubsytem claw) {
-    PathPlannerTrajectory path1 = PathPlanner.loadPath("TwoPiecePart1v2", new PathConstraints(2.0, 1.0));
-    PathPlannerTrajectory path2 = PathPlanner.loadPath("TwoPiecePart2v2", new PathConstraints(3.5, 6.0));
-    PathPlannerTrajectory path3 = PathPlanner.loadPath("TwoPiecePart3v2", new PathConstraints(3.5, 6.0));
-    PathPlannerTrajectory path4 = PathPlanner.loadPath("TwoPiecePart4v2", new PathConstraints(2.0, 2.0));
+public class ThreePiece extends SequentialCommandGroup {
+  /** Creates a new ThreePieceAuto. */
+  public ThreePiece(DriveSubsystem drive, ArmSubsystem arm, ClawSubsytem claw) {
+    PathPlannerTrajectory path1 = PathPlanner.loadPath("TwoPiecePart1", new PathConstraints(2.5, 4.0));
+    PathPlannerTrajectory path2 = PathPlanner.loadPath("TwoPiecePart2", new PathConstraints(3.5, 4.0));
+    PathPlannerTrajectory path3 = PathPlanner.loadPath("TwoPiecePart3", new PathConstraints(4.0, 6.0));
+    PathPlannerTrajectory path4 = PathPlanner.loadPath("TwoPiecePart4", new PathConstraints(2.5, 4.0));
+    PathPlannerTrajectory path5 = PathPlanner.loadPath("ThreePiecePart5", new PathConstraints(2.5, 4.0));
+    PathPlannerTrajectory path6 = PathPlanner.loadPath("ThreePiecePart6", new PathConstraints(4.0, 4.0));
+    PathPlannerTrajectory path7 = PathPlanner.loadPath("ThreePiecePart7", new PathConstraints(4.0, 4.0));
+
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
         Commands.runOnce(() -> GamePiece.setGamePiece(GamePieceType.Cone)),
-        new WaitCommand(0.03),
+        new WaitCommand(0.02),
         new GoToPositionWithIntermediate(arm, ArmSetpoints.TOP_NODE),
         Commands.runOnce(() -> arm.updateAllSetpoints(ArmSetpoints.TOP_NODE_PLACED)),
-        new WaitCommand(0.03),
+        new WaitCommand(0.02),
         new WaitUntilCommand(arm::bothJointsAtSetpoint),
         Commands.runOnce(() -> arm.updateAllSetpoints(ArmSetpoints.TOP_NODE_PLACED_AND_OPEN)),
         Commands.runOnce(() -> GamePiece.setGamePiece(GamePieceType.Cube)),
@@ -53,7 +57,7 @@ public class TwoPieceV2 extends SequentialCommandGroup {
             Commands.runOnce(() -> arm.updateAllSetpoints(ArmSetpoints.FLOOR))
           )
         ),
-        new WaitCommand(0.03),
+        new WaitCommand(0.02),
         new ParallelDeadlineGroup(
           drive.followTrajectoryCommand(path3, false),
           new RetractToStowed(arm)
@@ -62,8 +66,25 @@ public class TwoPieceV2 extends SequentialCommandGroup {
           drive.followTrajectoryCommand(path4, false),
           new GoToPositionWithIntermediate(arm, ArmSetpoints.TOP_NODE)
         ),
-        new RetractToStowed(arm).raceWith(Commands.run(()-> claw.driveClaw(-0.5)))
-    );
+        Commands.run(()-> claw.driveClaw(-0.5)).withTimeout(0.1),
+        new ParallelDeadlineGroup(
+          drive.followTrajectoryCommand(path5, false),
+          new RetractToStowed(arm).raceWith(Commands.run(()-> claw.driveClaw(-0.5)))
+        ),
+        Commands.runOnce(() -> GamePiece.setGamePiece(GamePieceType.Cube)),
+        new ParallelDeadlineGroup(
+          drive.followTrajectoryCommand(path6, false).raceWith(Commands.run(()-> claw.driveClaw(1.0), claw)),
+          new SequentialCommandGroup(
+            new WaitCommand(0.25),
+            Commands.runOnce(() -> arm.updateAllSetpoints(ArmSetpoints.FLOOR))
+          )
+        ),
+        new RetractToStowed(arm).raceWith(Commands.run(()-> claw.driveClaw(0.2), claw)),
+        new ParallelDeadlineGroup(
+          drive.followTrajectoryCommand(path7, false),
+          new RetractToStowed(arm).raceWith(Commands.run(()-> claw.driveClaw(0.5), claw))
+        )
+
+      );
   }
 }
-

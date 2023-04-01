@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.arm;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmSetpoints;
 import frc.robot.subsystems.arm.Setpoint.ArmState;
@@ -66,7 +67,8 @@ public class ScoreOnGrid extends CommandBase {
         if(m_arm.getSetpoint().state.equals(ArmState.TOP_NODE_PLACED)){
           m_arm.updateAllSetpoints(ArmSetpoints.TOP_NODE_PLACED_AND_OPEN);
         }
-        else if (m_arm.getSetpoint().state.equals(ArmState.MID_NODE_PLACED)){
+        else if ((m_arm.getSetpoint().state.equals(ArmState.MID_NODE_PLACED)) || count>200){
+          Timer.delay(0.5);
           m_arm.updateAllSetpoints(ArmSetpoints.MID_NODE_PLACED_AND_OPEN);
         }
         m_end = true;
