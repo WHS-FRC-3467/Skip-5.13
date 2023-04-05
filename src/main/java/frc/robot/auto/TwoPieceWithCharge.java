@@ -29,7 +29,7 @@ import frc.robot.util.GamePiece.GamePieceType;
 public class TwoPieceWithCharge extends SequentialCommandGroup {
   /** Creates a new TwoPieceWithCharge. */
   public TwoPieceWithCharge(DriveSubsystem drive, ArmSubsystem arm, ClawSubsytem claw) {
-    PathPlannerTrajectory path1 = PathPlanner.loadPath("TwoPiecePart1", new PathConstraints(2.0, 1.0));
+    PathPlannerTrajectory path1 = PathPlanner.loadPath("TwoPiecePart1", new PathConstraints(2.5, 4.0));
     PathPlannerTrajectory path2 = PathPlanner.loadPath("TwoPiecePart2", new PathConstraints(3.5, 6.0));
     PathPlannerTrajectory path3 = PathPlanner.loadPath("TwoPiecePart3", new PathConstraints(3.5, 6.0));
     PathPlannerTrajectory path4 = PathPlanner.loadPath("TwoPiecePart4", new PathConstraints(2.0, 2.0));
