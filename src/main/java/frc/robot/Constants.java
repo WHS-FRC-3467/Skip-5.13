@@ -93,11 +93,11 @@ public final class Constants {
     // //Mod 0
     public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 289.2;
     //Mod 1
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 76.2;
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 73.3;
     //Mod 2
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 287.9;
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 285.9;
     //Mod 3
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 207.8;
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 208.2;
 
     public static final boolean INVERT_GYRO = false; // Always ensure Gyro is CCW+ CW-
 
@@ -217,7 +217,7 @@ public final class Constants {
 
     public static final Gains GAINS_ANGLE_SNAP = new Gains(0.02, 0.0, 0.0, 0.0, 50);
     
-    public static final Gains GAINS_BALANCE = new Gains(0.045, 0.0, 0.0, 0.0, 50);
+    public static final Gains GAINS_BALANCE = new Gains(0.05, 0.0, 0.0, 0.0, 50);
 
     public static final double SNAP_TOLLERANCE = 2.0;
     public static final double BALANCE_TOLLERANCE = 0.001;
@@ -308,7 +308,7 @@ public final class Constants {
     public static final Setpoint TOP_NODE = new Setpoint(219, 159, false, ClawState.IN, 198, 118, false, ClawState.OUT, ArmState.TOP_NODE);
     public static final Setpoint TOP_NODE_PLACED = new Setpoint(219, 140, false, ClawState.IN, 211, 118, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
     public static final Setpoint TOP_NODE_PLACED_AND_OPEN = new Setpoint(219, 140, false, ClawState.OUT, 213, 115, false, ClawState.OUT, ArmState.TOP_NODE_PLACED);
-    public static final Setpoint SUBSTATION = new Setpoint(160, 65, false, ClawState.IN, 160, 65, false, ClawState.OUT, ArmState.SUBSTATION);
+    public static final Setpoint SUBSTATION = new Setpoint(160, 63.5, false, ClawState.IN, 160, 63.5, false, ClawState.OUT, ArmState.SUBSTATION);
     public static final Setpoint FLOOR_HOVER = new Setpoint(190, 45, false, ClawState.IN, 188, 45, false, ClawState.OUT, ArmState.OTHER);
     public static final Setpoint FLOOR_INTAKING = new Setpoint(216, 37, false, ClawState.IN, 218, 45, false, ClawState.OUT, ArmState.FLOOR);
     

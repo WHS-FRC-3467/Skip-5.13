@@ -17,14 +17,14 @@ import frc.robot.subsystems.claw.ClawSubsytem;
 import frc.robot.subsystems.cubeShooter.CubeShooterSubsystem;
 import frc.robot.subsystems.cubeShooter.Shoot;
 import frc.robot.Constants.ArmSetpoints;
-import frc.robot.auto.MidLink;
 import frc.robot.auto.OneConeChargeWithCubePickup;
 import frc.robot.auto.OneConeChargeWithMobility;
 import frc.robot.auto.OverBumpTwoPiece;
 import frc.robot.auto.ThreePiece;
-import frc.robot.auto.TwoHalfWithBalance;
+import frc.robot.auto.ThreePieceRed;
 import frc.robot.auto.TwoPiece;
 import frc.robot.auto.TwoPieceWithCharge;
+import frc.robot.auto.TwoPieceWithChargeRed;
 import frc.robot.subsystems.arm.ArmDefault;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.arm.GoToMidNode;
@@ -83,8 +83,8 @@ public class RobotContainer {
     m_autoChooser.addOption("Two piece with charge", new TwoPieceWithCharge(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("Over bump two piece", new OverBumpTwoPiece(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("Three Piece", new ThreePiece(m_drive, m_arm, m_claw));
-    m_autoChooser.addOption("Mid Link 3 Piece", new MidLink(m_drive, m_arm, m_claw));
-    m_autoChooser.addOption("Two Half With Balance", new TwoHalfWithBalance(m_drive, m_arm, m_claw));
+    m_autoChooser.addOption("RED Three Piece", new ThreePieceRed(m_drive, m_arm, m_claw));
+    m_autoChooser.addOption("RED Two with charge", new TwoPieceWithChargeRed(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("No Auto", null);
     SmartDashboard.putData("Auto", m_autoChooser);
     

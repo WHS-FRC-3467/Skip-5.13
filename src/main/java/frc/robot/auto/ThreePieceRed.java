@@ -26,16 +26,16 @@ import frc.robot.util.GamePiece.GamePieceType;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ThreePiece extends SequentialCommandGroup {
+public class ThreePieceRed extends SequentialCommandGroup {
   /** Creates a new ThreePieceAuto. */
-  public ThreePiece(DriveSubsystem drive, ArmSubsystem arm, ClawSubsytem claw) {
-    PathPlannerTrajectory path1 = PathPlanner.loadPath("TwoPiecePart1", new PathConstraints(2.5, 4.0));
-    PathPlannerTrajectory path2 = PathPlanner.loadPath("TwoPiecePart2", new PathConstraints(3.5, 4.0));
-    PathPlannerTrajectory path3 = PathPlanner.loadPath("TwoPiecePart3", new PathConstraints(4.0, 6.0));
-    PathPlannerTrajectory path4 = PathPlanner.loadPath("TwoPiecePart4", new PathConstraints(2.5, 4.0));
-    PathPlannerTrajectory path5 = PathPlanner.loadPath("ThreePiecePart5", new PathConstraints(2.5, 4.0));
-    PathPlannerTrajectory path6 = PathPlanner.loadPath("ThreePiecePart6", new PathConstraints(4.0, 4.0));
-    PathPlannerTrajectory path7 = PathPlanner.loadPath("ThreePiecePart7", new PathConstraints(4.0, 4.0));
+  public ThreePieceRed(DriveSubsystem drive, ArmSubsystem arm, ClawSubsytem claw) {
+    PathPlannerTrajectory path1 = PathPlanner.loadPath("TwoPiecePart1Red", new PathConstraints(2.5, 4.0));
+    PathPlannerTrajectory path2 = PathPlanner.loadPath("TwoPiecePart2Red", new PathConstraints(3.5, 4.0));
+    PathPlannerTrajectory path3 = PathPlanner.loadPath("TwoPiecePart3Red", new PathConstraints(4.0, 6.0));
+    PathPlannerTrajectory path4 = PathPlanner.loadPath("TwoPiecePart4Red", new PathConstraints(2.5, 4.0));
+    PathPlannerTrajectory path5 = PathPlanner.loadPath("ThreePiecePart5Red", new PathConstraints(2.5, 4.0));
+    PathPlannerTrajectory path6 = PathPlanner.loadPath("ThreePiecePart6Red", new PathConstraints(4.0, 4.0));
+    PathPlannerTrajectory path7 = PathPlanner.loadPath("ThreePiecePart7Red", new PathConstraints(4.0, 4.0));
 
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
@@ -66,10 +66,10 @@ public class ThreePiece extends SequentialCommandGroup {
           drive.followTrajectoryCommand(path4, false),
           new GoToPositionWithIntermediate(arm, ArmSetpoints.TOP_NODE)
         ),
-        Commands.run(()-> claw.driveClaw(-0.4)).withTimeout(0.1),
+        Commands.run(()-> claw.driveClaw(-0.5)).withTimeout(0.1),
         new ParallelDeadlineGroup(
           drive.followTrajectoryCommand(path5, false),
-          new RetractToStowed(arm).raceWith(Commands.run(()-> claw.driveClaw(-0.4)))
+          new RetractToStowed(arm).raceWith(Commands.run(()-> claw.driveClaw(-0.5)))
         ),
         Commands.runOnce(() -> GamePiece.setGamePiece(GamePieceType.Cube)),
         new ParallelDeadlineGroup(
