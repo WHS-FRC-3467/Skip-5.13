@@ -4,21 +4,27 @@
 
 package frc.robot.auto;
 
+import java.util.HashMap;
+
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.commands.FollowPathWithEvents;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.ArmSetpoints;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.arm.GoToPositionWithIntermediate;
 import frc.robot.subsystems.arm.RetractToStowed;
 import frc.robot.subsystems.arm.ScoreAndRetract;
+import frc.robot.subsystems.arm.ScoreOnGrid;
 import frc.robot.subsystems.claw.ClawSubsytem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.util.GamePiece;
@@ -34,35 +40,28 @@ public class TwoPiece extends SequentialCommandGroup {
     PathPlannerTrajectory path2 = PathPlanner.loadPath("TwoPiecePart2", new PathConstraints(3.5, 4.0));
     PathPlannerTrajectory path3 = PathPlanner.loadPath("TwoPiecePart3", new PathConstraints(4.0, 6.0));
     PathPlannerTrajectory path4 = PathPlanner.loadPath("TwoPiecePart4", new PathConstraints(2.0, 2.0));
+
+    PathPlannerTrajectory twoPiecePath = PathPlanner.loadPath("TwoPiece", new PathConstraints(4.0, 6.0));
+
+    HashMap<String, Command> eventMap = new HashMap<>();
+    eventMap.put("Retract", new RetractToStowed(arm));
+    eventMap.put("Wait till retracted", new WaitUntilCommand(arm::bothJointsAtSetpoint));
+    eventMap.put("Floor position", Commands.runOnce(()-> arm.updateAllSetpoints(ArmSetpoints.FLOOR)));
+    eventMap.put("Run intake", Commands.run(()->claw.driveClaw(1.0)));
+    eventMap.put("Retract 2", new RetractToStowed(arm));
+    eventMap.put("go to scoring position", new GoToPositionWithIntermediate(arm, ArmSetpoints.TOP_NODE));
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       Commands.runOnce(() -> GamePiece.setGamePiece(GamePieceType.Cone)),
       new WaitCommand(0.02),
       new GoToPositionWithIntermediate(arm, ArmSetpoints.TOP_NODE),
-      Commands.runOnce(() -> arm.updateAllSetpoints(ArmSetpoints.TOP_NODE_PLACED)),
-      new WaitCommand(0.02),
-      new WaitUntilCommand(arm::bothJointsAtSetpoint),
-      Commands.runOnce(() -> arm.updateAllSetpoints(ArmSetpoints.TOP_NODE_PLACED_AND_OPEN)),
+      new ScoreOnGrid(arm, claw),      
       Commands.runOnce(() -> GamePiece.setGamePiece(GamePieceType.Cube)),
       new WaitUntilCommand(arm::bothJointsAtSetpoint),
-      drive.followTrajectoryCommand(path1, true).alongWith(new RetractToStowed(arm)),
-      new ParallelCommandGroup(
-        drive.followTrajectoryCommand(path2, false).raceWith(Commands.run(()-> claw.driveClaw(0.8), claw)),
-        new SequentialCommandGroup(
-          new WaitCommand(0.5),
-          Commands.runOnce(() -> arm.updateAllSetpoints(ArmSetpoints.FLOOR))
-        )
-      ),
-      new WaitCommand(0.02),
-      new ParallelDeadlineGroup(
-        drive.followTrajectoryCommand(path3, false),
-        new RetractToStowed(arm)
-      ),
-      new ParallelDeadlineGroup(
-        drive.followTrajectoryCommand(path4, false),
-        new GoToPositionWithIntermediate(arm, ArmSetpoints.TOP_NODE)
-      ),
+      new FollowPathWithEvents(drive.followTrajectoryCommand(twoPiecePath, true), 
+                              twoPiecePath.getMarkers(), 
+                              eventMap),      
       new ScoreAndRetract(arm, claw)
     );
   }
