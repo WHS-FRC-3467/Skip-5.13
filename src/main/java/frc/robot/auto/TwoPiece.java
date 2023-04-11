@@ -47,7 +47,7 @@ public class TwoPiece extends SequentialCommandGroup {
     eventMap.put("Retract", new RetractToStowed(arm));
     eventMap.put("Floor position", Commands.runOnce(()-> arm.updateAllSetpoints(ArmSetpoints.FLOOR)));
     eventMap.put("Run intake", Commands.run(()->claw.driveClaw(1.0)));
-    eventMap.put("Claw quarter", Commands.run(()->claw.driveClaw(1.0)));
+    eventMap.put("Claw quarter", Commands.run(()->claw.driveClaw(0.25)));
     eventMap.put("Retract 2", new RetractToStowed(arm));
     eventMap.put("go to scoring position", new GoToPositionWithIntermediate(arm, ArmSetpoints.TOP_NODE));
     // Add your commands in the addCommands() call, e.g.
@@ -58,7 +58,6 @@ public class TwoPiece extends SequentialCommandGroup {
       new GoToPositionWithIntermediate(arm, ArmSetpoints.TOP_NODE),
       new ScoreOnGrid(arm, claw),      
       Commands.runOnce(() -> GamePiece.setGamePiece(GamePieceType.Cube)),
-      new WaitUntilCommand(arm::bothJointsAtSetpoint),
       new FollowPathWithEvents(drive.followTrajectoryCommand(twoPiecePath, true), 
                               twoPiecePath.getMarkers(), 
                               eventMap),      
