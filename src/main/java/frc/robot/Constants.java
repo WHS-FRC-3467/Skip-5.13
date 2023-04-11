@@ -79,25 +79,25 @@ public final class Constants {
     public static final double DRIVE_DEADBAND = 0.2;
 
     // //Midas
-    // //Mod 0
-    // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 222.0;
-    // //Mod 1
-    // public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 188.1;
-    // //Mod 2
-    // public static final double BACK_LEFT_MODULE_STEER_OFFSET = 83.0;
-    // //Mod 3
-    // public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 179.1;
+    //Mod 0
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 222.0;
+    //Mod 1
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 188.1;
+    //Mod 2
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 83.0;
+    //Mod 3
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 179.1;
 
     // //Mod 2
     //MidNight
     // //Mod 0
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 289.2;
-    //Mod 1
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 73.3;
-    //Mod 2
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 285.9;
-    //Mod 3
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 208.2;
+    // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 289.2;
+    // //Mod 1
+    // public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 73.3;
+    // //Mod 2
+    // public static final double BACK_LEFT_MODULE_STEER_OFFSET = 285.9;
+    // //Mod 3
+    // public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 208.2;
 
     public static final boolean INVERT_GYRO = false; // Always ensure Gyro is CCW+ CW-
 

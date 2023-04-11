@@ -45,9 +45,9 @@ public class TwoPiece extends SequentialCommandGroup {
     HashMap<String, Command> eventMap = new HashMap<>();
 
     eventMap.put("Retract", new RetractToStowed(arm));
-    eventMap.put("Wait till retracted", new WaitUntilCommand(arm::bothJointsAtSetpoint));
     eventMap.put("Floor position", Commands.runOnce(()-> arm.updateAllSetpoints(ArmSetpoints.FLOOR)));
     eventMap.put("Run intake", Commands.run(()->claw.driveClaw(1.0)));
+    eventMap.put("Claw quarter", Commands.run(()->claw.driveClaw(1.0)));
     eventMap.put("Retract 2", new RetractToStowed(arm));
     eventMap.put("go to scoring position", new GoToPositionWithIntermediate(arm, ArmSetpoints.TOP_NODE));
     // Add your commands in the addCommands() call, e.g.
