@@ -93,11 +93,34 @@
       "isReversal": true,
       "velOverride": null,
       "isLocked": false,
+      "isStopPoint": true,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "after",
+        "waitTime": 0.5
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 6.214806275766398,
+        "y": 4.339283892242999
+      },
+      "prevControl": {
+        "x": 7.203259119425966,
+        "y": 4.3243073340057325
+      },
+      "nextControl": {
+        "x": 5.461141178692614,
+        "y": 4.35070306038048
+      },
+      "holonomicAngle": 0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [
-          "Retract 2"
-        ],
+        "names": [],
         "executionBehavior": "parallel",
         "waitBehavior": "none",
         "waitTime": 0
@@ -161,16 +184,16 @@
       ]
     },
     {
-      "position": 3.0,
+      "position": 3.5,
       "names": [
-        "Retract 2",
+        "Retract ",
         "Claw quarter"
       ]
     },
     {
       "position": 0.0,
       "names": [
-        "event"
+        "Retract"
       ]
     },
     {
@@ -180,9 +203,15 @@
       ]
     },
     {
-      "position": 4.0,
+      "position": 5.0,
       "names": [
         "go to scoring position"
+      ]
+    },
+    {
+      "position": 0.1,
+      "names": [
+        "Retract"
       ]
     }
   ]

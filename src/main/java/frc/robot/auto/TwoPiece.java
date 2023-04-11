@@ -25,6 +25,9 @@ import frc.robot.subsystems.arm.GoToPositionWithIntermediate;
 import frc.robot.subsystems.arm.RetractToStowed;
 import frc.robot.subsystems.arm.ScoreAndRetract;
 import frc.robot.subsystems.arm.ScoreOnGrid;
+import frc.robot.subsystems.arm.Setpoint;
+import frc.robot.subsystems.arm.Setpoint.ArmState;
+import frc.robot.subsystems.arm.Setpoint.ClawState;
 import frc.robot.subsystems.claw.ClawSubsytem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.util.GamePiece;
@@ -36,19 +39,13 @@ import frc.robot.util.GamePiece.GamePieceType;
 public class TwoPiece extends SequentialCommandGroup {
   /** Creates a new TwoPieceV2. */
   public TwoPiece(DriveSubsystem drive, ArmSubsystem arm, ClawSubsytem claw) {
-    PathPlannerTrajectory path1 = PathPlanner.loadPath("TwoPiecePart1", new PathConstraints(2.5, 4.0));
-    PathPlannerTrajectory path2 = PathPlanner.loadPath("TwoPiecePart2", new PathConstraints(3.5, 4.0));
-    PathPlannerTrajectory path3 = PathPlanner.loadPath("TwoPiecePart3", new PathConstraints(4.0, 6.0));
-    PathPlannerTrajectory path4 = PathPlanner.loadPath("TwoPiecePart4", new PathConstraints(2.0, 2.0));
-
-    PathPlannerTrajectory twoPiecePath = PathPlanner.loadPath("TwoPiece", new PathConstraints(2.0, 2.0));
+    PathPlannerTrajectory twoPiecePath = PathPlanner.loadPath("TwoPiece", new PathConstraints(4.0, 4.0));
     HashMap<String, Command> eventMap = new HashMap<>();
-
+ 
     eventMap.put("Retract", new RetractToStowed(arm));
     eventMap.put("Floor position", Commands.runOnce(()-> arm.updateAllSetpoints(ArmSetpoints.FLOOR)));
     eventMap.put("Run intake", Commands.run(()->claw.driveClaw(1.0)));
     eventMap.put("Claw quarter", Commands.run(()->claw.driveClaw(0.25)));
-    eventMap.put("Retract 2", new RetractToStowed(arm));
     eventMap.put("go to scoring position", new GoToPositionWithIntermediate(arm, ArmSetpoints.TOP_NODE));
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
