@@ -41,9 +41,9 @@ public class TwoPiece extends SequentialCommandGroup {
     PathPlannerTrajectory path3 = PathPlanner.loadPath("TwoPiecePart3", new PathConstraints(4.0, 6.0));
     PathPlannerTrajectory path4 = PathPlanner.loadPath("TwoPiecePart4", new PathConstraints(2.0, 2.0));
 
-    PathPlannerTrajectory twoPiecePath = PathPlanner.loadPath("TwoPiece", new PathConstraints(4.0, 6.0));
-
+    PathPlannerTrajectory twoPiecePath = PathPlanner.loadPath("TwoPiece", new PathConstraints(2.0, 2.0));
     HashMap<String, Command> eventMap = new HashMap<>();
+
     eventMap.put("Retract", new RetractToStowed(arm));
     eventMap.put("Wait till retracted", new WaitUntilCommand(arm::bothJointsAtSetpoint));
     eventMap.put("Floor position", Commands.runOnce(()-> arm.updateAllSetpoints(ArmSetpoints.FLOOR)));
