@@ -68,12 +68,12 @@
       "isReversal": false,
       "velOverride": 2.0,
       "isLocked": false,
-      "isStopPoint": false,
+      "isStopPoint": true,
       "stopEvent": {
         "names": [],
         "executionBehavior": "parallel",
-        "waitBehavior": "none",
-        "waitTime": 0
+        "waitBehavior": "after",
+        "waitTime": 0.75
       }
     },
     {
@@ -93,7 +93,7 @@
       "isReversal": true,
       "velOverride": null,
       "isLocked": false,
-      "isStopPoint": true,
+      "isStopPoint": false,
       "stopEvent": {
         "names": [],
         "executionBehavior": "parallel",
@@ -103,16 +103,16 @@
     },
     {
       "anchorPoint": {
-        "x": 6.214806275766398,
-        "y": 4.339283892242999
+        "x": 6.249063780178842,
+        "y": 4.305026387830553
       },
       "prevControl": {
-        "x": 7.203259119425966,
-        "y": 4.3243073340057325
+        "x": 7.23751662383841,
+        "y": 4.290049829593287
       },
       "nextControl": {
-        "x": 5.461141178692614,
-        "y": 4.35070306038048
+        "x": 5.495398683105058,
+        "y": 4.316445555968035
       },
       "holonomicAngle": 0,
       "isReversal": false,
@@ -184,22 +184,15 @@
       ]
     },
     {
-      "position": 3.5,
+      "position": 4.014545454545486,
       "names": [
-        "Retract ",
-        "Claw quarter"
+        "Retract floor"
       ]
     },
     {
-      "position": 0.0,
+      "position": 0.1,
       "names": [
         "Retract"
-      ]
-    },
-    {
-      "position": 0.0,
-      "names": [
-        "event"
       ]
     },
     {
@@ -209,9 +202,9 @@
       ]
     },
     {
-      "position": 0.1,
+      "position": 3.2,
       "names": [
-        "Retract"
+        "Claw quarter"
       ]
     }
   ]
