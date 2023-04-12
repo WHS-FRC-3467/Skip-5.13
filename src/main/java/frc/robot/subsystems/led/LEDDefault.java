@@ -47,7 +47,7 @@ public class LEDDefault extends CommandBase {
       // SmartDashboard.putBoolean("Is vision Mode", m_limelight.inVisionMode());
     }
     if(DriverStation.isDisabled()){
-      m_led.setRainbow();
+      m_led.setTexasMode();
     }
     else if(m_claw.getClawCurrent()>=ClawConstants.CLAW_SPIKE_CURRENT || m_shooter.shooterCurrent()>5.0){
       m_led.setColor(255, 0, 0);

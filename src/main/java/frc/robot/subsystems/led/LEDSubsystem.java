@@ -32,4 +32,32 @@ public class LEDSubsystem extends SubsystemBase {
   public void setRainbow(){
     m_candle.animate(new RainbowAnimation(0.5,0.1,20));
   }
+  //Texas mode inspired by 6328
+  public void setTexasMode(){
+    m_candle.clearAnimation(0);
+    //yellow
+    m_candle.setLEDs(252, 244, 52, 255, 0, 1);
+    //white
+    m_candle.setLEDs(255, 255, 255, 255, 1, 1);
+    //purple
+    m_candle.setLEDs(156, 89, 209, 255, 2, 1);
+    //black
+    m_candle.setLEDs(0, 0, 0, 0, 3, 2);
+    //Purple
+    m_candle.setLEDs(156, 89, 209, 255, 5, 1);
+    //white 
+    m_candle.setLEDs(255, 255, 255, 255, 6, 1);
+    //yellow
+    m_candle.setLEDs(252, 244, 52, 255, 7, 1);
+    //Blue
+    m_candle.setLEDs(91, 206, 250, 255, 8, 3);
+    //pink
+    m_candle.setLEDs(245, 169, 184, 255, 11, 2);
+    //white
+    m_candle.setLEDs(255, 255, 255, 255, 13, 3);
+    //pink
+    m_candle.setLEDs(245, 169, 184, 255, 16, 2);
+    //blue
+    m_candle.setLEDs(91, 206, 250, 255, 18, 3);
+  }
 }
