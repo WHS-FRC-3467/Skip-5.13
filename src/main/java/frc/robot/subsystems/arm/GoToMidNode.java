@@ -5,6 +5,7 @@
 package frc.robot.subsystems.arm;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.ArmSetpoints;
 import frc.robot.subsystems.arm.Setpoint.ArmState;
 import frc.robot.subsystems.arm.Setpoint.ClawState;
@@ -35,11 +36,11 @@ public class GoToMidNode extends CommandBase {
       useIntermediete = false;
     }
     
-    intermediateSetpoint = new Setpoint(ArmSetpoints.INTERMEDIATE_LOWER_POSITION_MID_CONE, ArmSetpoints.MID_NODE.upperCone, ArmSetpoints.MID_NODE.wristCone, ClawState.IN,
-                                        ArmSetpoints.INTERMEDIATE_LOWER_POSITION_MID_CONE, (ArmSetpoints.MID_NODE.upperCube), ArmSetpoints.MID_NODE.wristCube, ClawState.OUT,
-                                        ArmState.INTERMEDIATE);
+    // intermediateSetpoint = new Setpoint(ArmSetpoints.INTERMEDIATE_LOWER_POSITION_MID_CONE, ArmSetpoints.MID_NODE.upperCone, ArmSetpoints.MID_NODE.wristCone, ClawState.IN,
+    //                                     ArmSetpoints.INTERMEDIATE_LOWER_POSITION_MID_CONE, (ArmSetpoints.MID_NODE.upperCube), ArmSetpoints.MID_NODE.wristCube, ClawState.OUT,
+    //                                     ArmState.INTERMEDIATE);
     if(useIntermediete){
-      m_arm.updateAllSetpoints(intermediateSetpoint);
+      m_arm.updateAllSetpoints(ArmSetpoints.INTERMEDIATE_SETPOINT_MID_CONE);
       intermediete = true;
     }
     else{
@@ -53,9 +54,9 @@ public class GoToMidNode extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intermediateSetpoint = new Setpoint(ArmSetpoints.INTERMEDIATE_LOWER_POSITION_MID_CONE, ArmSetpoints.MID_NODE.upperCone, ArmSetpoints.MID_NODE.wristCone, ClawState.IN,
-                                        ArmSetpoints.INTERMEDIATE_LOWER_POSITION_MID_CONE, (ArmSetpoints.MID_NODE.upperCube), ArmSetpoints.MID_NODE.wristCube, ClawState.OUT,
-                                        ArmState.INTERMEDIATE);
+    // intermediateSetpoint = new Setpoint(ArmSetpoints.INTERMEDIATE_LOWER_POSITION_MID_CONE, ArmSetpoints.MID_NODE.upperCone, ArmSetpoints.MID_NODE.wristCone, ClawState.IN,
+    //                                     ArmSetpoints.INTERMEDIATE_LOWER_POSITION_MID_CONE, (ArmSetpoints.MID_NODE.upperCube), ArmSetpoints.MID_NODE.wristCube, ClawState.OUT,
+    //                                     ArmState.INTERMEDIATE);
 
     if(useIntermediete && count>10){
       if(intermediete  && count>10){
@@ -67,7 +68,7 @@ public class GoToMidNode extends CommandBase {
         }
         else{
           intermediete = true;
-          m_arm.updateAllSetpoints(intermediateSetpoint);
+          m_arm.updateAllSetpoints(ArmSetpoints.INTERMEDIATE_SETPOINT_MID_CONE);
           m_end = false;
           System.out.println("Case B");
         }

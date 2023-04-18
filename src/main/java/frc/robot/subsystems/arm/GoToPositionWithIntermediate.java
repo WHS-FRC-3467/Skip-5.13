@@ -20,9 +20,9 @@ public class GoToPositionWithIntermediate extends SequentialCommandGroup {
   /** Creates a new GoToPositionWithIntermediate. */
   public GoToPositionWithIntermediate(ArmSubsystem arm, Setpoint setpoint) {
 
-    Setpoint intermediateSetpoint = new Setpoint(ArmSetpoints.INTERMEDIATE_LOWER_POSITION_SCORING, setpoint.upperCone * 0.55, setpoint.wristCone, ClawState.IN,
-                                                ArmSetpoints.INTERMEDIATE_LOWER_POSITION_SCORING, (setpoint.upperCube) * 0.55, setpoint.wristCube, ClawState.OUT,
-                                                ArmState.INTERMEDIATE);
+    // Setpoint intermediateSetpoint = new Setpoint(ArmSetpoints.INTERMEDIATE_LOWER_POSITION_SCORING, setpoint.upperCone * 0.55, setpoint.wristCone, ClawState.IN,
+    //                                             ArmSetpoints.INTERMEDIATE_LOWER_POSITION_SCORING, (setpoint.upperCube) * 0.55, setpoint.wristCube, ClawState.OUT,
+    //                                             ArmState.INTERMEDIATE);
 
     if(GamePiece.getGamePiece().equals(GamePieceType.Cube))
     {
@@ -33,7 +33,7 @@ public class GoToPositionWithIntermediate extends SequentialCommandGroup {
     }
     else{
     addCommands(  
-        new InstantCommand(()-> arm.updateAllSetpoints(intermediateSetpoint)),
+        new InstantCommand(()-> arm.updateAllSetpoints(ArmSetpoints.INTERMEDIATE_SETPOINT_SCORING)),
         new WaitUntilCommand(()-> arm.bothJointsAtSetpoint()).withTimeout(1.0),
         new InstantCommand( ()-> arm.updateAllSetpoints(setpoint)),
         new WaitUntilCommand(()-> arm.bothJointsAtSetpoint()).withTimeout(1.2)

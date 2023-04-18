@@ -315,7 +315,14 @@ public final class Constants {
     public static final double INTERMEDIATE_LOWER_POSITION_RETRACTING = 158;
     public static final double INTERMEDIATE_LOWER_POSITION_SCORING = 150;
     public static final double INTERMEDIATE_LOWER_POSITION_MID_CONE = 170;
+
+    public static final Setpoint INTERMEDIATE_SETPOINT_SCORING = new Setpoint(150, 70, false, ClawState.IN, 150, 65, false, ClawState.OUT, ArmState.INTERMEDIATE);
+    public static final Setpoint INTERMEDIATE_SETPOINT_RETRACTING = new Setpoint(150, 70, false, ClawState.IN, 150, 65, false, ClawState.OUT, ArmState.INTERMEDIATE);
+    public static final Setpoint INTERMEDIATE_SETPOINT_RETRACTING_FROM_GRID = new Setpoint(150, 70, false, ClawState.OUT, 150, 65, false, ClawState.OUT, ArmState.INTERMEDIATE);
+    public static final Setpoint INTERMEDIATE_SETPOINT_MID_CONE = new Setpoint(170, 63, true, ClawState.IN, 170, 63, false, ClawState.OUT, ArmState.INTERMEDIATE);
+    public static final Setpoint INTERMEDIATE_STOWED = new Setpoint(180, 15, true, ClawState.IN, 180, 13, true, ClawState.OUT, ArmState.STOWED);
   }
+
   public static final class ClawConstants{
     public static final double CLAW_BASE_CURRENT = 2.0;
     public static final double CLAW_SPIKE_CURRENT = 15.0;
