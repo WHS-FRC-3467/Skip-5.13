@@ -135,13 +135,10 @@ public class RobotContainer {
     m_driverController.povUp().onTrue(Commands.runOnce(m_drive::reset, m_drive));
 
     m_driverController.start().whileTrue(Commands.run(m_drive::AutoBalance, m_drive).andThen(m_drive::stopDrive, m_drive));
-    m_driverController.back().whileTrue(new AlignWithGridApril(m_limelight, m_drive));
     
     m_driverController.leftTrigger().onTrue(new ScoreAndRetract(m_arm, m_claw));
-
-    m_driverController.povLeft().onTrue(Commands.runOnce(m_limelight::setVisionModeOn, m_limelight));
-    m_driverController.povRight().onTrue(Commands.runOnce(m_limelight::setVisionModeOff, m_limelight));
     
+    m_driverController.povRight().onTrue(Commands.runOnce(() -> m_arm.updateAllSetpoints(ArmSetpoints.SUBSTATION)));
 
     //Opperator Controls
     //Set game Piece type 
@@ -157,7 +154,7 @@ public class RobotContainer {
 
     m_operatorController.y().onTrue(new GoToPositionWithIntermediate(m_arm, ArmSetpoints.TOP_NODE));
 
-    m_operatorController.x().onTrue(Commands.runOnce(() -> m_arm.updateAllSetpoints(ArmSetpoints.SUBSTATION)));
+    m_operatorController.x().onTrue(Commands.runOnce(() -> m_arm.updateAllSetpoints(ArmSetpoints.INTERMEDIATE_SETPOINT_SCORING)));
 
     m_operatorController.povRight().whileTrue(Commands.run(()-> m_shooter.shoot(-0.5), m_shooter));
     m_operatorController.povLeft().whileTrue(Commands.run(()-> m_shooter.shoot(0.3), m_shooter));
