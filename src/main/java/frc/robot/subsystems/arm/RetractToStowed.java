@@ -35,50 +35,50 @@ public class RetractToStowed extends CommandBase {
     if (arm.getSetpoint().state.equals(ArmState.MID_NODE) || 
         arm.getSetpoint().state.equals(ArmState.TOP_NODE)) {
 
-      intermediate = new Setpoint(
-          ArmSetpoints.INTERMEDIATE_LOWER_POSITION_RETRACTING,
-          arm.getSetpoint().upperCone * 0.5,
-          arm.getSetpoint().wristCone,
-          ClawState.IN,
-          ArmSetpoints.INTERMEDIATE_LOWER_POSITION_RETRACTING,
-          arm.getSetpoint().upperCube * 0.5,
-          arm.getSetpoint().wristCube,
-          ClawState.OUT,
-          ArmState.INTERMEDIATE);
+      // intermediate = new Setpoint(
+      //     ArmSetpoints.INTERMEDIATE_LOWER_POSITION_RETRACTING,
+      //     arm.getSetpoint().upperCone * 0.5,
+      //     arm.getSetpoint().wristCone,
+      //     ClawState.IN,
+      //     ArmSetpoints.INTERMEDIATE_LOWER_POSITION_RETRACTING,
+      //     arm.getSetpoint().upperCube * 0.5,
+      //     arm.getSetpoint().wristCube,
+      //     ClawState.OUT,
+      //     ArmState.INTERMEDIATE);
 
-      arm.updateAllSetpoints(intermediate);
+      arm.updateAllSetpoints(ArmSetpoints.INTERMEDIATE_SETPOINT_RETRACTING);
     }
     else if (arm.getSetpoint().state.equals(ArmState.MID_NODE_PLACED) || 
              arm.getSetpoint().state.equals(ArmState.TOP_NODE_PLACED)) {
               
-      intermediate = new Setpoint(
-        ArmSetpoints.INTERMEDIATE_LOWER_POSITION_RETRACTING,
-        arm.getSetpoint().upperCone * 0.5,
-        arm.getSetpoint().wristCone,
-        ClawState.OUT,
-        ArmSetpoints.INTERMEDIATE_LOWER_POSITION_RETRACTING,
-        arm.getSetpoint().upperCube * 0.5,
-        arm.getSetpoint().wristCube,
-        ClawState.OUT,
-        ArmState.INTERMEDIATE);
+      // intermediate = new Setpoint(
+      //   ArmSetpoints.INTERMEDIATE_LOWER_POSITION_RETRACTING,
+      //   arm.getSetpoint().upperCone * 0.5,
+      //   arm.getSetpoint().wristCone,
+      //   ClawState.OUT,
+      //   ArmSetpoints.INTERMEDIATE_LOWER_POSITION_RETRACTING,
+      //   arm.getSetpoint().upperCube * 0.5,
+      //   arm.getSetpoint().wristCube,
+      //   ClawState.OUT,
+      //   ArmState.INTERMEDIATE);
 
-      arm.updateAllSetpoints(intermediate);
+      arm.updateAllSetpoints(ArmSetpoints.INTERMEDIATE_SETPOINT_RETRACTING_FROM_GRID);
     }
     // Retracting from floor
     else if (arm.getSetpoint().state.equals(ArmState.FLOOR)) {
 
-      intermediate = new Setpoint(
-          ArmSetpoints.STOWED.lowerCone,
-          ArmSetpoints.STOWED.upperCone,
-          true,
-          ClawState.IN,
-          ArmSetpoints.STOWED.lowerCube,
-          ArmSetpoints.STOWED.upperCube,
-          true,
-          ClawState.OUT,
-          ArmState.INTERMEDIATE);
+      // intermediate = new Setpoint(
+      //     ArmSetpoints.STOWED.lowerCone,
+      //     ArmSetpoints.STOWED.upperCone,
+      //     true,
+      //     ClawState.IN,
+      //     ArmSetpoints.STOWED.lowerCube,
+      //     ArmSetpoints.STOWED.upperCube,
+      //     true,
+      //     ClawState.OUT,
+      //     ArmState.INTERMEDIATE);
 
-      arm.updateAllSetpoints(intermediate);
+      arm.updateAllSetpoints(ArmSetpoints.INTERMEDIATE_STOWED);
     }
     // No Intermediate - go directly to stow
     else {
@@ -94,7 +94,7 @@ public class RetractToStowed extends CommandBase {
     
     if (arm.getSetpoint().state.equals(ArmState.INTERMEDIATE) && !arm.bothJointsAtSetpoint() && count>10) 
     { 
-        arm.updateAllSetpoints(intermediate);
+        //arm.updateAllSetpoints(intermediate);
         m_end = false;
     }     
     else if ((arm.bothJointsAtSetpoint() || count>200)&& !arm.getSetpoint().state.equals(ArmState.STOWED) && count>10) {
