@@ -35,7 +35,6 @@ import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.TeleopSwerve;
 import frc.robot.subsystems.led.LEDDefault;
 import frc.robot.subsystems.led.LEDSubsystem;
-import frc.robot.subsystems.limelight.AlignWithGridApril;
 import frc.robot.subsystems.limelight.LimelightSubsystem;
 import frc.robot.util.GamePiece;
 import frc.robot.util.GamePiece.GamePieceType;
@@ -95,9 +94,9 @@ public class RobotContainer {
                                               () -> -m_driverController.getLeftY(), 
                                               () -> -m_driverController.getLeftX(), 
                                               () -> -m_driverController.getRightX(), 
-                                              m_driverController.leftStick(),
+                                              m_driverController.back(),
                                               m_driverController.leftBumper(),
-                                              m_driverController.rightBumper(),
+                                              m_driverController.rightStick(),
                                               m_driverController.y(),
                                               m_driverController.b(),
                                               m_driverController.a(),
@@ -138,7 +137,7 @@ public class RobotContainer {
     
     m_driverController.leftTrigger().onTrue(new ScoreAndRetract(m_arm, m_claw));
     
-    m_driverController.povRight().onTrue(Commands.runOnce(() -> m_arm.updateAllSetpoints(ArmSetpoints.SUBSTATION)));
+    m_driverController.rightBumper().onTrue(Commands.runOnce(() -> m_arm.updateAllSetpoints(ArmSetpoints.SUBSTATION)));
 
     //Opperator Controls
     //Set game Piece type 

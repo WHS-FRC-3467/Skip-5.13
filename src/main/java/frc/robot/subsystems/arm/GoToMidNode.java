@@ -5,10 +5,7 @@
 package frc.robot.subsystems.arm;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.ArmSetpoints;
-import frc.robot.subsystems.arm.Setpoint.ArmState;
-import frc.robot.subsystems.arm.Setpoint.ClawState;
 import frc.robot.util.GamePiece;
 import frc.robot.util.GamePiece.GamePieceType;
 

@@ -7,22 +7,12 @@ package frc.robot.subsystems.arm;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmSetpoints;
 import frc.robot.subsystems.arm.Setpoint.ArmState;
-import frc.robot.subsystems.arm.Setpoint.ClawState;
 
 public class RetractToStowed extends CommandBase {
   ArmSubsystem arm;
-  Setpoint intermediate = new Setpoint(
-    ArmSetpoints.STOWED.lowerCone,
-    ArmSetpoints.STOWED.upperCone,
-    true,
-    ClawState.IN,
-    ArmSetpoints.STOWED.lowerCube,
-    ArmSetpoints.STOWED.upperCube,
-    true,
-    ClawState.OUT,
-    ArmState.INTERMEDIATE);
   boolean m_end = false;
   double count;
+  boolean m_coneMidNode;
   /** Creates a new RetractToStow. */
   public RetractToStowed(ArmSubsystem arm) {
     this.arm = arm;
@@ -32,56 +22,31 @@ public class RetractToStowed extends CommandBase {
   @Override
   public void initialize() {
     // Retracting from grid
-    if (arm.getSetpoint().state.equals(ArmState.MID_NODE) || 
-        arm.getSetpoint().state.equals(ArmState.TOP_NODE)) {
-
-      // intermediate = new Setpoint(
-      //     ArmSetpoints.INTERMEDIATE_LOWER_POSITION_RETRACTING,
-      //     arm.getSetpoint().upperCone * 0.5,
-      //     arm.getSetpoint().wristCone,
-      //     ClawState.IN,
-      //     ArmSetpoints.INTERMEDIATE_LOWER_POSITION_RETRACTING,
-      //     arm.getSetpoint().upperCube * 0.5,
-      //     arm.getSetpoint().wristCube,
-      //     ClawState.OUT,
-      //     ArmState.INTERMEDIATE);
-
-      arm.updateAllSetpoints(ArmSetpoints.INTERMEDIATE_SETPOINT_RETRACTING);
+    if (arm.getSetpoint().state.equals(ArmState.MID_NODE)){
+      arm.updateAllSetpoints(ArmSetpoints.INTERMEDIATE_SETPOINT_RETRACTING_FROM_GRID);
+      m_coneMidNode = true;
+    } 
+    else if (arm.getSetpoint().state.equals(ArmState.TOP_NODE)) {
+      m_coneMidNode = false;
+      arm.updateAllSetpoints(ArmSetpoints.INTERMEDIATE_SETPOINT_RETRACTING_FROM_GRID);
     }
-    else if (arm.getSetpoint().state.equals(ArmState.MID_NODE_PLACED) || 
-             arm.getSetpoint().state.equals(ArmState.TOP_NODE_PLACED)) {
-              
-      // intermediate = new Setpoint(
-      //   ArmSetpoints.INTERMEDIATE_LOWER_POSITION_RETRACTING,
-      //   arm.getSetpoint().upperCone * 0.5,
-      //   arm.getSetpoint().wristCone,
-      //   ClawState.OUT,
-      //   ArmSetpoints.INTERMEDIATE_LOWER_POSITION_RETRACTING,
-      //   arm.getSetpoint().upperCube * 0.5,
-      //   arm.getSetpoint().wristCube,
-      //   ClawState.OUT,
-      //   ArmState.INTERMEDIATE);
+    else if (arm.getSetpoint().state.equals(ArmState.MID_NODE_PLACED)){
+      m_coneMidNode = true;
+      arm.updateAllSetpoints(ArmSetpoints.INTERMEDIATE_SETPOINT_RETRACTING_FROM_GRID);
 
+    }
+    else if(arm.getSetpoint().state.equals(ArmState.TOP_NODE_PLACED)) {
+      m_coneMidNode = false;
       arm.updateAllSetpoints(ArmSetpoints.INTERMEDIATE_SETPOINT_RETRACTING_FROM_GRID);
     }
     // Retracting from floor
     else if (arm.getSetpoint().state.equals(ArmState.FLOOR)) {
-
-      // intermediate = new Setpoint(
-      //     ArmSetpoints.STOWED.lowerCone,
-      //     ArmSetpoints.STOWED.upperCone,
-      //     true,
-      //     ClawState.IN,
-      //     ArmSetpoints.STOWED.lowerCube,
-      //     ArmSetpoints.STOWED.upperCube,
-      //     true,
-      //     ClawState.OUT,
-      //     ArmState.INTERMEDIATE);
-
+      m_coneMidNode = false;
       arm.updateAllSetpoints(ArmSetpoints.INTERMEDIATE_STOWED);
     }
     // No Intermediate - go directly to stow
     else {
+      m_coneMidNode = false;
       arm.updateAllSetpoints(ArmSetpoints.STOWED);
       m_end = false;
     }
@@ -96,15 +61,27 @@ public class RetractToStowed extends CommandBase {
     { 
         //arm.updateAllSetpoints(intermediate);
         m_end = false;
-    }     
-    else if ((arm.bothJointsAtSetpoint() || count>200)&& !arm.getSetpoint().state.equals(ArmState.STOWED) && count>10) {
+    }
+    else if (m_coneMidNode){
+      if ((arm.bothJointsAtSetpoint() || count>200)&& !arm.getSetpoint().state.equals(ArmState.STOWED) && count>10) {
+          arm.updateAllSetpoints(ArmSetpoints.STOWED_FROM_MID_CONE);
+          m_end = true;
+      }
+      else if((arm.bothJointsAtSetpoint() && count>10) || count>200){
         arm.updateAllSetpoints(ArmSetpoints.STOWED);
         m_end = true;
-    }
-    else if((arm.bothJointsAtSetpoint() && count>10) || count>200){
-      arm.updateAllSetpoints(ArmSetpoints.STOWED);
-      m_end = true;
-    }
+      }
+    }  
+    else if (m_coneMidNode = false){
+      if ((arm.bothJointsAtSetpoint() || count>200)&& !arm.getSetpoint().state.equals(ArmState.STOWED) && count>10) {
+        arm.updateAllSetpoints(ArmSetpoints.STOWED);
+        m_end = true;
+      }
+      else if((arm.bothJointsAtSetpoint() && count>10) || count>200){
+        arm.updateAllSetpoints(ArmSetpoints.STOWED);
+        m_end = true;
+      }
+    }   
     else{
       m_end = false;
     }

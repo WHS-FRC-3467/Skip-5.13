@@ -232,9 +232,9 @@ public final class Constants {
     //public static final double VERTICAL_ANGLE_LOWER = 174.9;
     // //Midnight
     //Measured against the hardstop when claw is over pdh
-    public static final double VERTICAL_ANGLE_UPPER = 64.0;
+    public static final double VERTICAL_ANGLE_UPPER = 59.2;
     //Measured when the lower angle is vertical using 1x1
-    public static final double VERTICAL_ANGLE_LOWER = 170.0;
+    public static final double VERTICAL_ANGLE_LOWER = 167.5;
     
     public static final double LOWER_ANGLE_OFFSET = 179 - VERTICAL_ANGLE_LOWER;
     public static final double UPPER_ANGLE_OFFSET = 12.4 - VERTICAL_ANGLE_UPPER;
@@ -300,6 +300,7 @@ public final class Constants {
     public static final Setpoint TEST_SETPOINT_LOWER = new Setpoint(164, 65, true, ClawState.IN, 164, 65, true, ClawState.OUT, ArmState.OTHER);
 
     public static final Setpoint STOWED = new Setpoint(180, 15, false, ClawState.IN, 180, 13, false, ClawState.OUT, ArmState.STOWED);
+    public static final Setpoint STOWED_FROM_MID_CONE = new Setpoint(180, 15, false, ClawState.OUT, 180, 13, false, ClawState.OUT, ArmState.STOWED);
 
     public static final Setpoint FLOOR = new Setpoint(242, 48, true, ClawState.IN, 242.5, 48, true, ClawState.OUT, ArmState.FLOOR);
     public static final Setpoint MID_NODE = new Setpoint(189, 63, true, ClawState.IN, 165, 57, false, ClawState.OUT, ArmState.MID_NODE);
@@ -318,7 +319,7 @@ public final class Constants {
 
     public static final Setpoint INTERMEDIATE_SETPOINT_SCORING = new Setpoint(150, 70, false, ClawState.IN, 150, 65, false, ClawState.OUT, ArmState.INTERMEDIATE);
     public static final Setpoint INTERMEDIATE_SETPOINT_RETRACTING = new Setpoint(150, 70, false, ClawState.IN, 150, 65, false, ClawState.OUT, ArmState.INTERMEDIATE);
-    public static final Setpoint INTERMEDIATE_SETPOINT_RETRACTING_FROM_GRID = new Setpoint(150, 70, false, ClawState.OUT, 150, 65, false, ClawState.OUT, ArmState.INTERMEDIATE);
+    public static final Setpoint INTERMEDIATE_SETPOINT_RETRACTING_FROM_GRID = new Setpoint(170, 70, false, ClawState.OUT, 150, 65, false, ClawState.OUT, ArmState.INTERMEDIATE);
     public static final Setpoint INTERMEDIATE_SETPOINT_MID_CONE = new Setpoint(170, 63, true, ClawState.IN, 170, 63, false, ClawState.OUT, ArmState.INTERMEDIATE);
     public static final Setpoint INTERMEDIATE_STOWED = new Setpoint(180, 15, true, ClawState.IN, 180, 13, true, ClawState.OUT, ArmState.STOWED);
   }
