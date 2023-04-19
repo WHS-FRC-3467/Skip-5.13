@@ -36,28 +36,28 @@ public class LEDSubsystem extends SubsystemBase {
   public void setTexasMode(){
     m_candle.clearAnimation(0);
     //yellow
-    m_candle.setLEDs(252, 244, 52, 255, 0, 1);
+    m_candle.setLEDs(252, 244, 52, 0, 0, 1);
     //white
     m_candle.setLEDs(255, 255, 255, 255, 1, 1);
     //purple
-    m_candle.setLEDs(156, 89, 209, 255, 2, 1);
+    m_candle.setLEDs(156, 89, 209, 0, 2, 1);
     //black
     m_candle.setLEDs(0, 0, 0, 0, 3, 2);
     //Purple
-    m_candle.setLEDs(156, 89, 209, 255, 5, 1);
+    m_candle.setLEDs(156, 89, 209, 0, 5, 1);
     //white 
     m_candle.setLEDs(255, 255, 255, 255, 6, 1);
     //yellow
-    m_candle.setLEDs(252, 244, 52, 255, 7, 1);
+    m_candle.setLEDs(252, 244, 52, 100, 7, 1);
     //Blue
-    m_candle.setLEDs(91, 206, 250, 255, 8, 3);
+    m_candle.setLEDs(91, 206, 250, 0, 8, 2);
     //pink
-    m_candle.setLEDs(245, 169, 184, 255, 11, 2);
+    m_candle.setLEDs(245, 169, 184, 0, 10, 2);
     //white
-    m_candle.setLEDs(255, 255, 255, 255, 13, 3);
+    m_candle.setLEDs(255, 255, 255, 255, 12, 1);
     //pink
-    m_candle.setLEDs(245, 169, 184, 255, 16, 2);
+    m_candle.setLEDs(245, 169, 184, 0, 13, 1);
     //blue
-    m_candle.setLEDs(91, 206, 250, 255, 18, 3);
+    m_candle.setLEDs(91, 206, 250, 0, 14, 2);
   }
 }

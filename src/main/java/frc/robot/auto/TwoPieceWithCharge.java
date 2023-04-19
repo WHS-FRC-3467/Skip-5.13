@@ -33,7 +33,7 @@ public class TwoPieceWithCharge extends SequentialCommandGroup {
     PathPlannerTrajectory path2 = PathPlanner.loadPath("TwoPiecePart2", new PathConstraints(3.5, 6.0));
     PathPlannerTrajectory path3 = PathPlanner.loadPath("TwoPiecePart3", new PathConstraints(3.5, 6.0));
     PathPlannerTrajectory path4 = PathPlanner.loadPath("TwoPiecePart4", new PathConstraints(2.0, 2.0));
-    PathPlannerTrajectory path5 = PathPlanner.loadPath("TwoPiecewithChargePart4", new PathConstraints(4.0, 6.0));
+    PathPlannerTrajectory path5 = PathPlanner.loadPath("TwoPiecewithChargePart5", new PathConstraints(4.0, 6.0));
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
