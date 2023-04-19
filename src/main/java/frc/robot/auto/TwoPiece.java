@@ -18,7 +18,6 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ArmSetpoints;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.arm.GoToPositionWithIntermediate;
-import frc.robot.subsystems.arm.RetractFromFloor;
 import frc.robot.subsystems.arm.RetractToStowed;
 import frc.robot.subsystems.arm.ScoreAndRetract;
 import frc.robot.subsystems.arm.ScoreOnGrid;
@@ -41,7 +40,7 @@ public class TwoPiece extends SequentialCommandGroup {
                               new RetractToStowed(arm)));
     eventMap.put("Retract floor", new SequentialCommandGroup(
                               new WaitCommand(0.25),
-                              new RetractFromFloor(arm)));
+                              new RetractToStowed(arm)));
     eventMap.put("Floor position", Commands.runOnce(()-> arm.updateAllSetpoints(ArmSetpoints.FLOOR)));
     eventMap.put("Run intake", Commands.run(()->claw.driveClaw(1.0)));
     eventMap.put("Claw quarter", Commands.run(()->claw.driveClaw(0.25)));

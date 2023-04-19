@@ -27,7 +27,6 @@ public class LEDSubsystem extends SubsystemBase {
   }
   public void setColor(int r, int g, int b){
     m_candle.clearAnimation(0);
-    m_candle.configBrightnessScalar(0.75);
     m_candle.setLEDs(r, g, b, 255, 0, 20);
   }
   public void setRainbow(){
@@ -36,7 +35,6 @@ public class LEDSubsystem extends SubsystemBase {
   //Texas mode inspired by 6328
   public void setTexasMode(){
     m_candle.clearAnimation(0);
-    m_candle.configBrightnessScalar(0.5);
     //yellow
     m_candle.setLEDs(230, 230, 0, 0, 0, 1);
     //white
