@@ -232,9 +232,9 @@ public final class Constants {
     //public static final double VERTICAL_ANGLE_LOWER = 174.9;
     // //Midnight
     //Measured against the hardstop when claw is over pdh
-    public static final double VERTICAL_ANGLE_UPPER = 64.0;
+    public static final double VERTICAL_ANGLE_UPPER = 59.8;
     //Measured when the lower angle is vertical using 1x1
-    public static final double VERTICAL_ANGLE_LOWER = 170.0;
+    public static final double VERTICAL_ANGLE_LOWER = 167.5;
     
     public static final double LOWER_ANGLE_OFFSET = 179 - VERTICAL_ANGLE_LOWER;
     public static final double UPPER_ANGLE_OFFSET = 12.4 - VERTICAL_ANGLE_UPPER;

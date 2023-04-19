@@ -35,8 +35,6 @@ import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.TeleopSwerve;
 import frc.robot.subsystems.led.LEDDefault;
 import frc.robot.subsystems.led.LEDSubsystem;
-import frc.robot.subsystems.limelight.AlignWithGridApril;
-import frc.robot.subsystems.limelight.LimelightSubsystem;
 import frc.robot.util.GamePiece;
 import frc.robot.util.GamePiece.GamePieceType;
 
@@ -58,7 +56,7 @@ public class RobotContainer {
   private final DriveSubsystem m_drive = new DriveSubsystem();
   private final ArmSubsystem m_arm = new ArmSubsystem();
   private final ClawSubsytem m_claw = new ClawSubsytem();
-  private final LimelightSubsystem m_limelight = new LimelightSubsystem();
+  //private final LimelightSubsystem m_limelight = new LimelightSubsystem();
   private final LEDSubsystem m_led = new LEDSubsystem();
   private final CubeShooterSubsystem m_shooter = new CubeShooterSubsystem();
   private SendableChooser<Command> m_autoChooser = new SendableChooser<>();
@@ -97,7 +95,7 @@ public class RobotContainer {
                                               () -> -m_driverController.getRightX(), 
                                               m_driverController.leftStick(),
                                               m_driverController.leftBumper(),
-                                              m_driverController.rightBumper(),
+                                              m_driverController.rightStick(),
                                               m_driverController.y(),
                                               m_driverController.b(),
                                               m_driverController.a(),
@@ -112,7 +110,7 @@ public class RobotContainer {
     m_claw.setDefaultCommand(new ClawDefault(m_claw, ()-> m_operatorController.getLeftTriggerAxis(), 
                                             () -> m_operatorController.getRightTriggerAxis()));
 
-    m_led.setDefaultCommand(new LEDDefault(m_led, m_claw, m_limelight, m_shooter));
+    m_led.setDefaultCommand(new LEDDefault(m_led, m_claw, m_shooter));
 
     m_shooter.setDefaultCommand(new Shoot(m_shooter, 
                                           ()-> m_driverController.getRightTriggerAxis()));
@@ -135,12 +133,10 @@ public class RobotContainer {
     m_driverController.povUp().onTrue(Commands.runOnce(m_drive::reset, m_drive));
 
     m_driverController.start().whileTrue(Commands.run(m_drive::AutoBalance, m_drive).andThen(m_drive::stopDrive, m_drive));
-    m_driverController.back().whileTrue(new AlignWithGridApril(m_limelight, m_drive));
     
     m_driverController.leftTrigger().onTrue(new ScoreAndRetract(m_arm, m_claw));
 
-    m_driverController.povLeft().onTrue(Commands.runOnce(m_limelight::setVisionModeOn, m_limelight));
-    m_driverController.povRight().onTrue(Commands.runOnce(m_limelight::setVisionModeOff, m_limelight));
+    m_driverController.rightBumper().onTrue(Commands.runOnce(() -> m_arm.updateAllSetpoints(ArmSetpoints.SUBSTATION)));
     
 
     //Opperator Controls

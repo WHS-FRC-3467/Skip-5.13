@@ -10,7 +10,6 @@ import frc.robot.Constants;
 import frc.robot.Constants.ClawConstants;
 import frc.robot.subsystems.claw.ClawSubsytem;
 import frc.robot.subsystems.cubeShooter.CubeShooterSubsystem;
-import frc.robot.subsystems.limelight.LimelightSubsystem;
 import frc.robot.util.GamePiece;
 import frc.robot.util.GamePiece.GamePieceType;
 
@@ -18,12 +17,10 @@ public class LEDDefault extends CommandBase {
   /** Creates a new LEDDefault. */
   LEDSubsystem m_led;
   ClawSubsytem m_claw;
-  LimelightSubsystem m_limelight;
   CubeShooterSubsystem m_shooter;
-  public LEDDefault(LEDSubsystem led, ClawSubsytem claw, LimelightSubsystem limelight, CubeShooterSubsystem shooter) {
+  public LEDDefault(LEDSubsystem led, ClawSubsytem claw, CubeShooterSubsystem shooter) {
     m_led = led;
     m_claw = claw;
-    m_limelight = limelight;
     m_shooter = shooter;
     addRequirements(m_led);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -52,9 +49,7 @@ public class LEDDefault extends CommandBase {
     else if(m_claw.getClawCurrent()>=ClawConstants.CLAW_SPIKE_CURRENT || m_shooter.shooterCurrent()>5.0){
       m_led.setColor(255, 0, 0);
     }
-    else if(m_limelight.inVisionMode()){
-      m_led.setColor(0, 0, 0);
-    }
+    
     else if(GamePiece.getGamePiece() == GamePieceType.Cube){
       //Set color to purple
       m_led.setColor(186, 0, 255);
