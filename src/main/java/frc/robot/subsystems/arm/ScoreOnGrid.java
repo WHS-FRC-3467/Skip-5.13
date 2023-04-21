@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems.arm;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmSetpoints;
 import frc.robot.subsystems.arm.Setpoint.ArmState;
@@ -20,6 +19,7 @@ public class ScoreOnGrid extends CommandBase {
   boolean m_end;
   double count;
   boolean upper;
+  double count2;
   public ScoreOnGrid(ArmSubsystem arm, ClawSubsytem claw) {
     m_arm = arm;
     m_claw = claw;
@@ -45,7 +45,7 @@ public class ScoreOnGrid extends CommandBase {
     else{
       m_end = true;
     }
-
+    count2 = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -63,15 +63,20 @@ public class ScoreOnGrid extends CommandBase {
       }
     }
     if(GamePiece.getGamePiece() == GamePieceType.Cone){
-      if((m_arm.bothJointsAtSetpoint() && count > 10) || count>200){
-        if(m_arm.getSetpoint().state.equals(ArmState.TOP_NODE_PLACED)){
+      if((m_arm.bothJointsAtSetpoint() && count > 30) || count>200){
+        if((m_arm.getSetpoint().state.equals(ArmState.TOP_NODE_PLACED) && count2> 10) || count>25 ){
           m_arm.updateAllSetpoints(ArmSetpoints.TOP_NODE_PLACED_AND_OPEN);
+          m_end = true;
+          count2++;
         }
-        else if ((m_arm.getSetpoint().state.equals(ArmState.MID_NODE_PLACED)) || count>200){
-          Timer.delay(0.5);
+        else if ((m_arm.getSetpoint().state.equals(ArmState.MID_NODE_PLACED) && count2>25) || count>25){
           m_arm.updateAllSetpoints(ArmSetpoints.MID_NODE_PLACED_AND_OPEN);
+          m_end = true;
+          count2++;
         }
-        m_end = true;
+        else{
+          m_end = false;
+        }
       }
       else{
         m_end = false;

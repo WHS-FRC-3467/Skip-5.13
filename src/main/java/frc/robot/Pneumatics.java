@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
@@ -16,11 +17,13 @@ public class Pneumatics extends SubsystemBase{
   /** Creates a new Pneumactics. */
   Compressor phCompressor = new Compressor(PneumaticsModuleType.REVPH);
   PowerDistribution pdh = new PowerDistribution(1, ModuleType.kRev);
-
-  public Pneumatics() {}
+  PneumaticHub ph = new PneumaticHub();
+  public Pneumatics() {
+  }
   
   @Override
   public void periodic() {
+    
     pdh.clearStickyFaults();
     phCompressor.enableAnalog(116, 118);
     SmartDashboard.putNumber("Pressure", phCompressor.getPressure());

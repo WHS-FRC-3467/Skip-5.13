@@ -19,12 +19,13 @@ import frc.robot.subsystems.cubeShooter.Shoot;
 import frc.robot.Constants.ArmSetpoints;
 import frc.robot.auto.OneConeChargeWithCubePickup;
 import frc.robot.auto.OneConeChargeWithMobility;
+import frc.robot.auto.OneConeWithCharge;
 import frc.robot.auto.OverBumpTwoPiece;
+import frc.robot.auto.RealThreePiece;
 import frc.robot.auto.ThreePiece;
-import frc.robot.auto.ThreePieceRed;
+import frc.robot.auto.ThreePieceTryThree;
 import frc.robot.auto.TwoPiece;
 import frc.robot.auto.TwoPieceWithCharge;
-import frc.robot.auto.TwoPieceWithChargeRed;
 import frc.robot.subsystems.arm.ArmDefault;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.arm.GoToMidNode;
@@ -75,14 +76,15 @@ public class RobotContainer {
     }
     // Configure the trigger bindings
     
+    m_autoChooser.addOption("Charge and no mobility", new OneConeWithCharge(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("Charge and mobility", new OneConeChargeWithMobility(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("Charge with cube pickup", new OneConeChargeWithCubePickup(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("Two Game Piece", new TwoPiece(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("Two piece with charge", new TwoPieceWithCharge(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("Over bump two piece", new OverBumpTwoPiece(m_drive, m_arm, m_claw));
     m_autoChooser.addOption("Three Piece", new ThreePiece(m_drive, m_arm, m_claw));
-    m_autoChooser.addOption("RED Three Piece", new ThreePieceRed(m_drive, m_arm, m_claw));
-    m_autoChooser.addOption("RED Two with charge", new TwoPieceWithChargeRed(m_drive, m_arm, m_claw));
+    m_autoChooser.addOption("Real Three Piece", new RealThreePiece(m_drive, m_arm, m_claw));
+    m_autoChooser.addOption("Cuby Three Piece", new ThreePieceTryThree(m_arm, m_drive, m_claw, m_shooter));
     m_autoChooser.addOption("No Auto", null);
     SmartDashboard.putData("Auto", m_autoChooser);
     
@@ -155,9 +157,9 @@ public class RobotContainer {
 
     m_operatorController.x().onTrue(Commands.runOnce(() -> m_arm.updateAllSetpoints(ArmSetpoints.SUBSTATION)));
 
-    m_operatorController.povRight().whileTrue(Commands.run(()-> m_shooter.shoot(-0.5), m_shooter));
+    m_operatorController.povRight().whileTrue(Commands.run(()-> m_shooter.shoot(-0.4), m_shooter));
     m_operatorController.povLeft().whileTrue(Commands.run(()-> m_shooter.shoot(0.3), m_shooter));
-    m_operatorController.povUp().whileTrue(Commands.run(()-> m_shooter.shoot(-1.0), m_shooter));
+    m_operatorController.povUp().whileTrue(Commands.run(()-> m_shooter.shoot(-0.9), m_shooter));
     m_operatorController.povDown().whileTrue(Commands.run(()-> m_shooter.shoot(-0.15), m_shooter));
   }
 

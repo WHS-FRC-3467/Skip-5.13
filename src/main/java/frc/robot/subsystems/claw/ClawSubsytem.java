@@ -24,7 +24,7 @@ public class ClawSubsytem extends SubsystemBase {
   //private CANSparkMax m_clawMotor = new CANSparkMax(CanConstants.CLAW_MOTOR, MotorType.kBrushless);
   public ClawSubsytem() {
     m_clawMotor.configFactoryDefault();
-    m_clawMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 10, 15, 0.5));
+    m_clawMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 10, 15, 0.01));
     m_clawMotor.configVoltageCompSaturation(12.0);
     m_clawMotor.setNeutralMode(NeutralMode.Coast);
     m_clawMotor.configOpenloopRamp(0.2);

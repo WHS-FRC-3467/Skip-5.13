@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Constants.ArmSetpoints;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.arm.GoToPositionWithIntermediate;
@@ -31,6 +32,7 @@ public class OverBumpTwoPiece extends SequentialCommandGroup {
   public OverBumpTwoPiece(DriveSubsystem drive, ArmSubsystem arm, ClawSubsytem claw) {
     PathPlannerTrajectory path1 = PathPlanner.loadPath("OverBumpTwoPiecePart1", new PathConstraints(3.0, 4.0));
     PathPlannerTrajectory path2 = PathPlanner.loadPath("OverBumpTwoPiecePart2", new PathConstraints(3.0, 4.0));
+    PathPlannerTrajectory path3 = PathPlanner.loadPath("OverBumpTwoPiecePart2", new PathConstraints(1.0, 1.0));
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
@@ -52,7 +54,9 @@ public class OverBumpTwoPiece extends SequentialCommandGroup {
           new RetractToStowed(arm)
         ),
         new GoToPositionWithIntermediate(arm, ArmSetpoints.TOP_NODE),
-        new RetractToStowed(arm).raceWith(Commands.run(()-> claw.driveClaw(-0.5)))
+        new RetractToStowed(arm).raceWith(Commands.run(()-> claw.driveClaw(-0.5))),
+        new WaitUntilCommand(()-> arm.bothJointsAtSetpoint()),
+        drive.followTrajectoryCommand(path3, false)
     );
   }
 }

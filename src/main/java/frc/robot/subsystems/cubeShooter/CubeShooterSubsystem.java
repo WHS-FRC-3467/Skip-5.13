@@ -66,6 +66,14 @@ public class CubeShooterSubsystem extends SubsystemBase {
     m_shooterPiston.toggle();
   }
 
+  public void conditionalRun(double speed){
+    if(shooterCurrent()>7.0){
+     shoot(0.0);
+    }
+    else{
+      shoot(speed);
+    }
+  }
   public double shooterCurrent(){
     return (m_rightShooter.getSupplyCurrent() + m_leftShooter.getSupplyCurrent())/2;
   }
