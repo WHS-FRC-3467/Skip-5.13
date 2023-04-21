@@ -187,7 +187,7 @@
       ]
     },
     {
-      "position": 4.014545454545486,
+      "position": 3.927272727272842,
       "names": [
         "Retract floor"
       ]
@@ -201,7 +201,13 @@
     {
       "position": 5.0,
       "names": [
-        "Prep score"
+        "go to scoring position"
+      ]
+    },
+    {
+      "position": 3.2,
+      "names": [
+        "Claw quarter"
       ]
     }
   ]

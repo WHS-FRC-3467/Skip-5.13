@@ -64,9 +64,10 @@ public class TwoPiece extends SequentialCommandGroup {
       new GoToPositionWithIntermediate(arm, ArmSetpoints.TOP_NODE),
       new ScoreOnGrid(arm, claw),      
       Commands.runOnce(() -> GamePiece.setGamePiece(GamePieceType.Cube)),
+      Commands.print(eventMap.toString()),
       new FollowPathWithEvents(drive.followTrajectoryCommand(twoPiecePath, true), 
                               twoPiecePath.getMarkers(), 
-                              eventMap),      
+                              eventMap),     
       new ScoreAndRetract(arm, claw)
     );
   }
